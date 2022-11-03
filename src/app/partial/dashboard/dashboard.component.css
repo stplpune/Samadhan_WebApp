@@ -1,0 +1,11 @@
+.dashboard-icon-card img{
+    height: 50px;
+    margin-top: 25px;
+}
+.dashboard-icon-card{
+    border: 1px solid lightgray;
+    border-bottom: 3px solid #B83058;
+}
+.dashboard-chard-card{
+    margin-top: 40px;
+}
