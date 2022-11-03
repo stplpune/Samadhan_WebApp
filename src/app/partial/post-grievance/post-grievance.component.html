@@ -129,7 +129,26 @@
                 <div class="card-header">
                     Post Grievance
                 </div>
+                <div class="d-block text-end me-2">
+                    <mat-radio-group aria-label="Select an option">
+                        <mat-radio-button value="1" class="me-3">Block 1</mat-radio-button>
+                        <mat-radio-button value="2">Block 2</mat-radio-button>
+                    </mat-radio-group>
+
+                </div>
                 <div class="card-body">
+                    <div class="mb-2">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Name</mat-label>
+                            <input matInput placeholder="Enter name">
+                          </mat-form-field>
+                    </div>
+                    <div class="mb-2">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Mobile Number</mat-label>
+                            <input matInput placeholder="Enter mobile number">
+                          </mat-form-field>
+                    </div>
                     <div class="mb-2">
                         <mat-form-field appearance="outline" class="w-100">
                             <mat-label>District</mat-label>
@@ -188,6 +207,12 @@
                                 <mat-option>Option 2</mat-option>
                                 <mat-option>Option 3</mat-option>
                             </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="mb-2">
+                        <mat-form-field class="w-100" appearance="legacy">
+                            <mat-label>Grievance Details</mat-label>
+                            <textarea matInput placeholder="Type here" rows="4"></textarea>
                         </mat-form-field>
                     </div>
                     <div class="mb-2">
