@@ -125,12 +125,15 @@ body {
     color: #fff;
 }
 .dashboard-table th{
-    background-color:#CBCBCB;
+    background-color:#F2F2F2;
     text-transform: uppercase;
     font-size: 0.85rem;
 }
 .dashboard-table .srno{
     width: 90px;
+}
+.dashboard-table .checkbox{
+    width: 40px;
 }
 .dashboard-table a{
     color: var(--main-color);
