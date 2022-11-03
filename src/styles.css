@@ -132,6 +132,13 @@ body {
 .dashboard-table .srno{
     width: 90px;
 }
+.dashboard-table a{
+    color: var(--main-color);
+    text-decoration: none;
+}
+.dashboard-table a:hover{
+    color: var(--main-dark-color);
+}
 .dashboard-table tr.mat-row,
 .dashboard-table tr.mat-header-row{
   height: 40px;
