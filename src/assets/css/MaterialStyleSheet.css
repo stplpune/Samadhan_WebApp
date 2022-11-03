@@ -2,6 +2,9 @@ mat-label,
 input.mat-input-element,
 button.mat-menu-item,
 .mat-input-element,
+.mat-select-value-text,
+.mat-option-text,
+textarea.mat-input-element,
 .mat-tab-label-content{
   font-family: 'Rubik', sans-serif !important;
   font-size: 0.85rem;
@@ -36,5 +39,8 @@ transform: translateY(-1em) scale(.75);
     margin:0 !important;
 }
 .mat-form-field-appearance-outline .mat-select-arrow-wrapper {
-    transform: translateY(-100%) !important;
+    transform: translateY(0%) !important;
+}
+.mat-select-trigger{
+    top: -15px;
 }

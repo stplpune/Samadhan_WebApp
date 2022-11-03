@@ -135,3 +135,9 @@ body {
 .dashboard-table tr.mat-header-row{
   height: 40px;
 }
+.form-control:active,
+.form-control:focus,
+.form-control{
+    box-shadow: none;
+    font-size: 0.85rem;
+}
