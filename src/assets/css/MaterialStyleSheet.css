@@ -29,3 +29,9 @@ transform: translateY(-1.1em) scale(.75);
     top: -0.7em !important;
     right: -0.5em !important;
 }
+.mat-form-field-wrapper {
+    padding-bottom: 0em;
+}
+.mat-form-field-appearance-outline .mat-form-field-wrapper{
+    margin:0 !important;
+}
