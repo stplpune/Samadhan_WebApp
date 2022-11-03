@@ -100,3 +100,38 @@ body {
     border-radius: 3px;
     visibility: hidden;
 }
+.form-card{
+    border:solid 1px var(--main-color);
+}
+.form-card .card-header{
+    background-color:transparent;
+    font-size: 0.85rem;
+    color: var(--main-color);
+    font-weight: 500;
+    border-bottom: none;
+}
+.btn-main,
+.dashboard-table{
+    font-family: "Rubik", sans-serif !important;
+}
+.btn-main{
+    background-color:transparent;
+    color: var(--main-color);
+    border: solid 1px var(--main-color) !important;
+}
+.btn-main:hover{
+    background-color:var(--main-color);
+    color: #fff;
+}
+.dashboard-table th{
+    background-color:#CBCBCB;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+.dashboard-table .srno{
+    width: 90px;
+}
+.dashboard-table tr.mat-row,
+.dashboard-table tr.mat-header-row{
+  height: 40px;
+}
