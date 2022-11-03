@@ -12,7 +12,7 @@ export class PostGrievanceComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  displayedColumns: string[] = [ 'srno','taluka', 'village', 'department', 'office', 'status', 'action','select'];
+  displayedColumns: string[] = [ 'srno','grievanceid', 'name', 'taluka', 'department', 'status', 'action','select'];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   selection = new SelectionModel<PeriodicElement>(true, []);
 
@@ -41,15 +41,15 @@ export class PostGrievanceComponent implements OnInit {
 
 export interface PeriodicElement {
   srno: number;
+  grievanceid: string;
+  name: string;
   taluka: string;
-  village: string;
   department: string;
-  office: string;
-  status: number;
+  status: string;
   action: any;
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
-  {srno: 1, taluka:'Rushikesh',  village: 'Zilla Parishad',department:'Osmanabad ZP', office: 'HoD',status: 8669264767, action: ''},
+  {srno: 1, grievanceid:'Rushikesh',  name: 'Zilla Parishad',taluka:'Osmanabad ZP', department: 'HoD',status: 'Open', action: ''},
  
 ];
