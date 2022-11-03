@@ -103,6 +103,7 @@ body {
 .form-card{
     border:solid 1px var(--main-color);
 }
+.plain-card .card-header,
 .form-card .card-header{
     background-color:transparent;
     font-size: 0.85rem;

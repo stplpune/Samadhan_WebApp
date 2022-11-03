@@ -3,9 +3,9 @@
     margin-top: 25px;
 }
 .dashboard-icon-card{
-    border: 1px solid lightgray;
-    border-bottom: 3px solid #B83058;
+    border-bottom: 4px solid #B83058;
 }
-.dashboard-chard-card{
-    margin-top: 40px;
+.dashboard-icon-card h2{
+    margin-top:0.5rem;
+    margin-bottom:0;
 }
