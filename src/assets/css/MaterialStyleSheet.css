@@ -1,0 +1,31 @@
+mat-label,
+input.mat-input-element,
+button.mat-menu-item,
+.mat-input-element,
+.mat-tab-label-content{
+  font-family: 'Rubik', sans-serif !important;
+  font-size: 0.85rem;
+}
+.mat-form-field-flex{
+    height:40px;
+}
+.mat-form-field-appearance-outline .mat-form-field-label{
+    margin-top: -1rem;
+}
+input.mat-input-element {
+    margin-top: -6.142857em;
+    height: 50px;
+    line-height: 25px;
+    margin-top: -83px;
+}
+.mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label, .mat-form-field-appearance-outline.mat-form-field-can-float .mat-input-server:focus+.mat-form-field-label-wrapper .mat-form-field-label{
+transform: translateY(-1.1em) scale(.75);
+    width: 133.3333533333%;
+}
+.mat-form-field-appearance-outline .mat-form-field-infix {
+    padding: 1em 0 0em 0;
+}
+.mat-form-field-appearance-outline .mat-form-field-prefix, .mat-form-field-appearance-outline .mat-form-field-suffix {
+    top: -0.7em !important;
+    right: -0.5em !important;
+}
