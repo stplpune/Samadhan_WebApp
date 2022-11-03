@@ -35,3 +35,6 @@ transform: translateY(-1em) scale(.75);
 .mat-form-field-appearance-outline .mat-form-field-wrapper{
     margin:0 !important;
 }
+.mat-form-field-appearance-outline .mat-select-arrow-wrapper {
+    transform: translateY(-100%) !important;
+}
