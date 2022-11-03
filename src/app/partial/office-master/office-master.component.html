@@ -1,101 +1,97 @@
-
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-8">
-            <table mat-table [dataSource]="dataSource" class=" w-100">  
+            <table mat-table [dataSource]="dataSource" class=" w-100 dashboard-table">
                 <ng-container matColumnDef="position">
-                  <th mat-header-cell *matHeaderCellDef> SR.No. </th>
-                  <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                    <th mat-header-cell *matHeaderCellDef class="srno"> SR.No. </th>
+                    <td mat-cell *matCellDef="let element"> {{element.position}} </td>
                 </ng-container>
-              
-               
+
+
                 <ng-container matColumnDef="name">
-                  <th mat-header-cell *matHeaderCellDef>Department</th>
-                  <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                    <th mat-header-cell *matHeaderCellDef>Department</th>
+                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
                 </ng-container>
-              
+
                 <ng-container matColumnDef="office">
                     <th mat-header-cell *matHeaderCellDef>Office</th>
                     <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-                  </ng-container>
+                </ng-container>
 
                 <ng-container matColumnDef="weight">
-                  <th mat-header-cell *matHeaderCellDef>Action </th>
-                  <td mat-cell *matCellDef="let element">
-                    <button mat-icon-button color="">
-                        <span class="material-symbols-outlined">
-                            edit_square
+                    <th mat-header-cell *matHeaderCellDef class="srno">Action </th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-icon-button color="">
+                            <span class="material-symbols-outlined">
+                                edit_square
                             </span>
-                </button> </td>
+                        </button>
+                    </td>
                 </ng-container>
-              
-               
+
+
                 <ng-container matColumnDef="symbol">
-                  <th mat-header-cell *matHeaderCellDef> Symbol </th>
-                  <td mat-cell *matCellDef="let element"> 
-                     </td>
+                    <th mat-header-cell *matHeaderCellDef> Symbol </th>
+                    <td mat-cell *matCellDef="let element">
+                    </td>
                 </ng-container>
                 <ng-container matColumnDef="select">
-                    <th mat-header-cell *matHeaderCellDef>
-                      <mat-checkbox (change)="$event ? toggleAllRows() : null"
-                                    [checked]="selection.hasValue() && isAllSelected()"
-                                    [indeterminate]="selection.hasValue() && !isAllSelected()"
-                                    [aria-label]="checkboxLabel()">
-                      </mat-checkbox>
+                    <th mat-header-cell *matHeaderCellDef class="srno">
+                        <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                            [checked]="selection.hasValue() && isAllSelected()"
+                            [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+                        </mat-checkbox>
                     </th>
                     <td mat-cell *matCellDef="let row">
-                      <mat-checkbox (click)="$event.stopPropagation()"
-                                    (change)="$event ? selection.toggle(row) : null"
-                                    [checked]="selection.isSelected(row)"
-                                    [aria-label]="checkboxLabel(row)">
-                      </mat-checkbox>
+                        <mat-checkbox (click)="$event.stopPropagation()"
+                            (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)"
+                            [aria-label]="checkboxLabel(row)">
+                        </mat-checkbox>
                     </td>
-                  </ng-container>
+                </ng-container>
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"
-                    (click)="selection.toggle(row)">
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
                 </tr>
-              </table>
-              
+            </table>
+
         </div>
         <div class="col-sm-4">
-            <div class="card">
-             
-                    <div class="card-header mb-3">
-                        <p class="mb-0">Add Department</p>
-                    </div>
-                    <div class="card-body">
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Select Department</mat-label>
-                            <mat-select>
-                              <mat-option value="one">First option</mat-option>
-                              <mat-option value="two">Second option</mat-option>
-                            </mat-select>
-                          </mat-form-field>
-                          <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Office Name</mat-label>
-                            <input matInput>
-                          </mat-form-field>
-                          <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Office Address</mat-label>
-                            <input matInput>
-                          </mat-form-field>
-                          <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Office Email ID</mat-label>
-                            <input matInput>
-                          </mat-form-field>
-                          <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Contact Person Name</mat-label>
-                            <input matInput>
-                          </mat-form-field>
-                          <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Contact Person Mobile No.</mat-label>
-                            <input matInput>
-                          </mat-form-field>
-                      <div class="text-end">
-                        <button mat-stroked-button color="warn">Submit</button>
+            <div class="card form-card">
+                <div class="card-header mb-3">
+                    <p class="mb-0">Add Department</p>
+                </div>
+                <div class="card-body">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Select Department</mat-label>
+                        <mat-select>
+                            <mat-option value="one">First option</mat-option>
+                            <mat-option value="two">Second option</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Office Name</mat-label>
+                        <input matInput>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Office Address</mat-label>
+                        <input matInput>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Office Email ID</mat-label>
+                        <input matInput>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Contact Person Name</mat-label>
+                        <input matInput>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Contact Person Mobile No.</mat-label>
+                        <input matInput>
+                    </mat-form-field>
+                    <div class="text-end">
+                        <button mat-stroked-button class="btn-main">Submit</button>
 
-                      </div>
+                    </div>
                 </div>
             </div>
         </div>

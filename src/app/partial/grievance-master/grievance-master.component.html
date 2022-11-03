@@ -4,10 +4,10 @@
         <div class="row">
             <div class="col-sm-8">
                 <div class="">
-                    <table mat-table [dataSource]="dataSource" class="w-100">
+                    <table mat-table [dataSource]="dataSource" class="w-100 dashboard-table">
 
                         <ng-container matColumnDef="select">
-                            <th mat-header-cell *matHeaderCellDef>
+                            <th mat-header-cell *matHeaderCellDef class="srno">
                                 <mat-checkbox (change)="$event ? toggleAllRows() : null"
                                     [checked]="selection.hasValue() && isAllSelected()"
                                     [indeterminate]="selection.hasValue() && !isAllSelected()"
@@ -23,7 +23,7 @@
                         </ng-container>
 
                         <ng-container matColumnDef="srno">
-                            <th mat-header-cell *matHeaderCellDef> Sr.No. </th>
+                            <th mat-header-cell *matHeaderCellDef class="srno"> Sr.No. </th>
                             <td mat-cell *matCellDef="let element"> {{element.srno}} </td>
                         </ng-container>
 
@@ -38,7 +38,7 @@
                         </ng-container>
 
                         <ng-container matColumnDef="action">
-                            <th mat-header-cell *matHeaderCellDef> ACTION </th>
+                            <th mat-header-cell *matHeaderCellDef class="srno"> ACTION </th>
                             <td mat-cell *matCellDef="let element">
                                 <button mat-icon-button>
                                     <span class="material-symbols-outlined">
@@ -58,7 +58,7 @@
 
             </div>
             <div class="col-sm-4">
-                <div class="card">
+                <div class="card form-card">
                     <div class="card-header pb-0">
                         <h5>Add Department</h5>
                     </div>
@@ -80,7 +80,7 @@
                               </mat-form-field>
                         </div>
                         <div class="text-end">
-                            <button mat-raised-button color="primary">Submit</button>
+                            <button mat-raised-button class="btn-main">Submit</button>
                         </div>
                     </div>
                 </div>
