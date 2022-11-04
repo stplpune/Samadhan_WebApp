@@ -12,21 +12,53 @@
     transform: translate(-50%, -50%);
     box-shadow: 3px 3px 30px #00000017;
 }
-.logos{
+
+.logos {
     background-color: var(--main-color);
     padding: 20px;
     border-top-left-radius: 30px;
     border-bottom-left-radius: 30px;
 }
-.login-box{
+
+.login-box {
     border-top-right-radius: 30px;
     border-bottom-right-radius: 30px;
     background-color: #fff;
     padding: 4rem;
 }
-.form-label{
+
+.form-label {
     font-size: 0.85rem;
 }
+
+.mobile-logo {
+    background-color: var(--main-color);
+    width: 100%;
+    padding: 20px;
+    margin-bottom: 15px;
+}
+
 @media only screen and (max-width: 767px) {
-    
+    .logos {
+        display: none;
+    }
+
+    .login-box {
+        width: 100%;
+    }
+
+    .login-box {
+        border-top-right-radius: 30px;
+        border-bottom-right-radius: 30px;
+        background-color: #fff;
+        padding: 4rem;
+        /* padding: 44px; */
+        padding-top: 0px;
+    }
+
+    .login-body {
+        background-image: linear-gradient(360deg, #FFFFFF 63%, #E9E9E9 63%);
+        height: 100vh;
+    }
+
 }
