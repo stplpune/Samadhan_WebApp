@@ -16,6 +16,14 @@ import { MaterialModule } from './shared/AngularMaterialModule/material.module';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { HttpClientModule } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { ChangePasswordComponent } from './partial/dialogs/change-password/change-password.component';
+import { ConfirmationComponent } from './partial/dialogs/confirmation/confirmation.component';
+import { LogoutComponent } from './partial/dialogs/logout/logout.component';
+import { SuccessComponent } from './partial/dialogs/success/success.component';
+import { ProfileComponent } from './partial/dialogs/profile/profile.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -26,7 +34,12 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     PartialLayoutComponent,
     FooterComponent,
     HeaderComponent,
-    SidebarComponent
+    SidebarComponent,
+    ChangePasswordComponent,
+    ConfirmationComponent,
+    LogoutComponent,
+    SuccessComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -36,13 +49,16 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     FormsModule,
     MatNativeDateModule,
     ReactiveFormsModule,
-    PerfectScrollbarModule
+    PerfectScrollbarModule,
+    HttpClientModule,
+    NgxSpinnerModule,
   ],
   providers: [ Title,
+       { provide: MAT_DATE_LOCALE, useValue: 'en-GB'},
     {
-    provide: PERFECT_SCROLLBAR_CONFIG,
-    useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
-  }],
+      provide: PERFECT_SCROLLBAR_CONFIG,
+      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
+    },DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
