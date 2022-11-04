@@ -44,7 +44,7 @@ export class PostGrievanceComponent implements OnInit {
 
   getState() {
     this.stateArray = [];
-    this.commonApi.getState().subscribe({
+    this.commonApi.getAllState().subscribe({
       next: (response: any) => {
        this.stateArray.push({ 'value': 0, 'text': 'Select State' }, ...response);
        console.log( this.stateArray);
