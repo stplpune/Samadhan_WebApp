@@ -35,12 +35,26 @@
     background-color: var(--main-color);
     width: 100%;
     padding: 20px;
-    margin-bottom: 15px;
 }
 
 @media only screen and (max-width: 767px) {
+    .center-screen{
+        width: 100%;
+    }
+    .login-width{
+        width: 90%;
+        margin:0 auto
+    }
     .logos {
         display: none;
+    }
+
+    .mobile-logo {
+        border-top-right-radius: 30px;
+        border-top-left-radius: 30px;
+    }
+    .mobile-logo img{
+        height: 80px;
     }
 
     .login-box {
@@ -48,16 +62,15 @@
     }
 
     .login-box {
-        border-top-right-radius: 30px;
+        border-bottom-left-radius: 30px;
         border-bottom-right-radius: 30px;
+        border-top-right-radius: 0px;
         background-color: #fff;
-        padding: 4rem;
-        /* padding: 44px; */
-        padding-top: 0px;
+        padding: 2rem;
     }
 
     .login-body {
-        background-image: linear-gradient(360deg, #FFFFFF 63%, #E9E9E9 63%);
+        background-image: linear-gradient(360deg, #E9E9E9 64.7%, #ffffff 64.7%);
         height: 100vh;
     }
 
