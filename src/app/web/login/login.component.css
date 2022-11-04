@@ -27,64 +27,6 @@
 .form-label{
     font-size: 0.85rem;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.login-card {
-    position: absolute;
-    background-image: linear-gradient(90deg, #B83058 36%, #FFFFFF 34%);
-    top: 180px;
-    left: 265.5px;
-    width: 842px;
-    border-radius: 33px;
-}
-
-.login-label {
-    padding: 30px 70px;
-}
-
 @media only screen and (max-width: 767px) {
-    .login-card {
-        position: absolute;
-        background-image: linear-gradient(180deg, #B83058 32%, #FFFFFF 0%);
-        left: -25.5px;
-        width: 452px;
-        top: 100px;
-        height: 74vh;
-        border-radius: 62px;
-    }
-
-    .login-logo {
-
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        height: 211px;
-        padding-bottom: 55px;
-
-    }
-
-    .login-body {
-        width: 0px;
-        height: 787px;
-        margin-bottom: 80px;
-    }
-
-    .login-logo img {
-        height: 70px;
-    }
+    
 }
