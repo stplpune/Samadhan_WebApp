@@ -21,14 +21,17 @@ body {
 .bg-main {
     background-color: var(--main-color);
     color: #fff;
+    font-family: "Rubik", sans-serif !important;
 }
 
 .bg-main-light {
     background-color: var(--main-light-color);
+    font-family: "Rubik", sans-serif !important;
 }
 
 .bg-main-dark {
     background-color: var(--main-dark-color);
+    font-family: "Rubik", sans-serif !important;
 }
 
 .text-main {
@@ -152,3 +155,15 @@ body {
     box-shadow: none;
     font-size: 0.85rem;
 }
+.upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+  }
+  .upload-btn-wrapper input[type=file] {
+    font-size: 0.85rem;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+  }

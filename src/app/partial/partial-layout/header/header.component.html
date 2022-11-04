@@ -5,12 +5,12 @@
         </a>
         <div class="d-flex align-content-end w-100 align-items-center" id="navbarSupportedContent">
             <div class="ms-auto d-flex align-items-center" role="search">
-                <!-- <a class="btn btn-light me-1" (click)="toggleSidebar()">
+                <a class="btn btn-light me-1" (click)="toggleSidebar()">
                     <i class="fa-solid fa-bars"></i>
-                </a> -->
-                <a class="btn btn-light" (click)="toggleBackgroundImage()">
-                    <i class="fa-solid fa-circle-half-stroke"></i>
                 </a>
+                <!-- <a class="btn btn-light" (click)="toggleBackgroundImage()">
+                    <i class="fa-solid fa-circle-half-stroke"></i>
+                </a> -->
                 <select class="form-select">
                     <option value="English">English</option>
                     <option value="Marathi">Marathi</option>
@@ -20,9 +20,9 @@
                       <img src="/assets/images/user.jpg" class="avatar">
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdownMenuButton1">
-                      <li><a class="dropdown-item" href="#">Action</a></li>
-                      <li><a class="dropdown-item" href="#">Another action</a></li>
-                      <li><a class="dropdown-item" href="#">Something else here</a></li>
+                      <li><a class="dropdown-item" (click)="openProfileModal()">My Profile</a></li>
+                      <li><a class="dropdown-item" (click)="openChangePasswordModal()">Change Password</a></li>
+                      <li><a class="dropdown-item"  (click)="logOut()">LogOut</a></li>
                     </ul>
                   </div>
             </div>

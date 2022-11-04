@@ -1,0 +1,56 @@
+<div class="dialog-header">
+    <span>My Profile</span>
+    <button mat-icon-button>
+        <span class="material-symbols-outlined">
+            close
+        </span>
+    </button>
+</div>
+<div class="dialog-body">
+    <div class="row g-3">
+        <div class="col-sm-12 text-center">
+            <div class="position-relative upload-btn-wrapper">
+                <img src="assets/images/user.jpg" class="vehicle-image">
+                <input type="file" name="myfile"/>
+                <div class="vehicle-buttons d-flex flex-column">
+                    <button type="button" class="btn bg-light text-primary">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                    <button type="button" class="border border-0 btn bg-light text-danger">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <mat-form-field appearance="outline" class="w-100">
+                <mat-label>First Name</mat-label>
+                <input matInput placeholder="First Name">
+            </mat-form-field>
+        </div>
+        <div class="col-sm-6">
+            <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Last Name</mat-label>
+                <input matInput placeholder="Last Name">
+            </mat-form-field>
+        </div>
+        <div class="col-sm-6">
+            <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Mobile No.</mat-label>
+                <input matInput placeholder="Mobile No.">
+            </mat-form-field>
+        </div>
+        <div class="col-sm-6">
+            <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Email ID</mat-label>
+                <input matInput placeholder="Email ID">
+            </mat-form-field>
+        </div>
+        <div class="col-sm-12">
+            <div class="mb-0 text-end">
+                <button mat-stroked-button class="bg-main-light text-main me-2">Cancel</button>
+                <button mat-stroked-button class="bg-main">Update Profile</button>
+            </div>
+        </div>
+    </div>
+</div>
