@@ -1,6 +1,16 @@
 
         <div class="row">
             <div class="col-sm-8">
+                <div class="row">
+                    <div class="col-sm-auto">
+                      <div class="mb-2">
+                        <mat-form-field class="w-100" appearance="outline">
+                          <mat-label>Search</mat-label>
+                          <input matInput placeholder="Search">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
                 <div class="">
                     <table mat-table [dataSource]="dataSource" class="w-100 dashboard-table">
 

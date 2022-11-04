@@ -1,0 +1,57 @@
+
+.about-us-banner img{
+    width: 100%;
+}
+.about-us-banner .process-flow{
+    top: 50px;
+    left: 90px;
+    font-size: 25px;
+    font-weight: 700;
+}
+.about-us-banner .process-flow span:nth-child(1){
+    top: 50px;
+    left: 90px;
+    font-size: 30px;
+    color: #B83058;
+    font-weight: 700;
+}
+.about-us-banner .redirection-authority span{
+    right: 0px;
+}
+#about-us .ias_osmanabad{
+    bottom: 0px;
+    text-align: center;
+    left: 80px;
+    background-color: #B83058;
+    width: 252px;
+    overflow: hidden;
+    color: #fff;
+    padding: 10px;
+}
+
+#about-us  img{
+    width: 250px;
+}
+.about-us-banner .lodge-grievance{
+    bottom: 50px;
+    left: 90px;
+    font-size: 18px;
+    font-weight: 700;
+}
+.about-us-banner .lodge-grievance span:last-child{
+    bottom: 20px;
+    left: 90px;
+    font-size: 20px;
+    color: #B83058;
+    font-weight: 700;
+}
+.view_more button{
+    background-color: #E4E4E4;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 20px;
+}
+.view_more button a{
+    text-decoration: none;
+    color: #B83058;
+}
