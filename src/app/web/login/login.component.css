@@ -1,0 +1,17 @@
+.login-body{
+  background-image: linear-gradient(90deg, #FFFFFF 40%, #E9E9E9 40%);
+  width: 1422px;
+  height: 787px;
+  margin-bottom: 80px;
+}
+.login-card{
+    position: absolute;
+    background-image: linear-gradient(90deg, #B83058 36%, #FFFFFF 34%);
+    top: 180px;
+    left: 265.5px;
+    width: 842px;
+    border-radius: 33px;
+}
+.login-label{
+    padding: 30px 70px;
+}
