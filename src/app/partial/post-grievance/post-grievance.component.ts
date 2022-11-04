@@ -1,16 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatTableDataSource} from '@angular/material/table';
+import { CommonApiService } from 'src/app/core/service/common-api.service';
+import { ErrorHandlerService } from 'src/app/core/service/error-handler.service';
 @Component({
   selector: 'app-post-grievance',
   templateUrl: './post-grievance.component.html',
   styleUrls: ['./post-grievance.component.css']
 })
 export class PostGrievanceComponent implements OnInit {
-
-  constructor() { }
+  stateArray:any[]=[];
+  constructor(private commonApi:CommonApiService,private error:ErrorHandlerService) { }
 
   ngOnInit(): void {
+    this.getState();
   }
   displayedColumns: string[] = [ 'srno','grievanceid', 'name', 'taluka', 'department', 'status', 'action','select'];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
@@ -36,6 +39,18 @@ export class PostGrievanceComponent implements OnInit {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.srno + 1}`;
+  }
+
+
+  getState() {
+    this.stateArray = [];
+    this.commonApi.getState().subscribe({
+      next: (response: any) => {
+       this.stateArray.push({ 'value': 0, 'text': 'Select State' }, ...response);
+       console.log( this.stateArray);
+      },
+      error: ((error: any) => { this.error.handelError(error.status) })
+    })
   }
 }
 
