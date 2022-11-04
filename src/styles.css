@@ -21,14 +21,17 @@ body {
 .bg-main {
     background-color: var(--main-color);
     color: #fff;
+    font-family: "Rubik", sans-serif !important;
 }
 
 .bg-main-light {
     background-color: var(--main-light-color);
+    font-family: "Rubik", sans-serif !important;
 }
 
 .bg-main-dark {
     background-color: var(--main-dark-color);
+    font-family: "Rubik", sans-serif !important;
 }
 
 .text-main {
