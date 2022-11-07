@@ -47,7 +47,7 @@
     margin-inline: 5px;
     padding: 10px;
 }
-.right-logo .btn button{
+.right-logo button{
     background-color:#D8D6D4;
     color: #000;
     font-weight: 700;
@@ -62,9 +62,11 @@
 }
 .navbar .nav-item a{
     color: #fff;
+    font-size: 14px;
 }
 .navbar .nav-item a.active{
     background-color: #F5A837;
     color: #000;
-    padding: 8px 25px;
+    padding: 10px 25px;
+    font-size: 14px;
 }
