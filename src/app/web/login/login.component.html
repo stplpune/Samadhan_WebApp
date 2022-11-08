@@ -39,11 +39,12 @@
                             </label>
                             <mat-form-field class="w-100 mb-3" appearance="outline">
                                 <input matInput placeholder="Password" formControlName="password" required
-                                [ngClass]="{ 'is-invalid':f['captcha'].errors}">
+                                [ngClass]="{ 'is-invalid':f['captcha'].errors}"
+                                (keypress)="this.validation.noSpaces($event)" minlength="8" maxlength="20">
                                 <button type="button" mat-icon-button matSuffix type="button" class="text-muted" (click)="hide = !hide"
-                                [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-                                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                            </button>
+                                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                </button>
                                 <mat-error class="mt-2" *ngIf="f['password'].hasError('required')">
                                     Password is required
                                 </mat-error>

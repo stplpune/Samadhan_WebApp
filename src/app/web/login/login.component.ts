@@ -4,6 +4,7 @@ import { ApiService } from 'src/app/core/service/api.service';
 import { ErrorHandlerService } from 'src/app/core/service/error-handler.service'
 import { CommonMethodService } from 'src/app/core/service/common-method.service'
 import { Router } from '@angular/router';
+import { FormsValidationService } from 'src/app/core/service/forms-validation.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -12,13 +13,14 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   submitted = false;
-  hide = true;
+  hide: boolean = true;
   loginData: any;
   constructor(private fb: FormBuilder,
     private apiService: ApiService,
     private error: ErrorHandlerService,
     private common: CommonMethodService,
-    private router:Router
+    private router: Router,
+    public validation: FormsValidationService
   ) { }
 
   ngOnInit(): void {
@@ -28,7 +30,7 @@ export class LoginComponent implements OnInit {
       captcha: ['', [Validators.required]]
     })
     this.captcha();
-    this.onSubmit()
+    // this.onSubmit()
   }
 
   get f() {
@@ -36,11 +38,15 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log(this.common.checkvalidateCaptcha());
+
     this.submitted = true;
     if (this.loginForm.valid) {
+      this.loginForm.value.captcha != this.common.checkvalidateCaptcha()
+      this.common.matSnackBar("Invalid Captcha", 1)
       this.loginData = this.loginForm.value;
       console.log(this.loginForm.value);
-      this.apiService.setHttp('get', 'samadhan/user-registration/' + this.loginData.username.trim()+'/'+this.loginData.password.trim(), false, false, false, 'samadhanMiningService');
+      this.apiService.setHttp('get', 'samadhan/user-registration/' + this.loginData.username.trim() + '/' + this.loginData.password.trim(), false, false, false, 'samadhanMiningService');
       this.apiService.getHttp().subscribe((res: any) => {
         if (res.statusCode == "200") {
           alert(res.statusMessage)
@@ -55,20 +61,22 @@ export class LoginComponent implements OnInit {
       }, (error: any) => {
         this.error.handelError(error.status);
       })
-    }else if (this.loginForm.value.captcha !=  this.common.checkvalidateCaptcha()){
-      // this.common.snackBar("Invalid Captcha", 1)
-      }
+    }//else{  (this.loginForm.value.captcha !=  this.common.checkvalidateCaptcha())
+    //   this.common.matSnackBar("Invalid Captcha", 1)
+    //   }
 
   }
 
   captcha() {
     this.loginForm.controls['captcha'].reset();
     this.common.createCaptchaCarrerPage();
-    sessionStorage.clear();
+    console.log(this.common.createCaptchaCarrerPage());
+
+    // sessionStorage.clear();
   }
 
-  togglePasswordVisibility(){
-    this.hide=!this.hide;
+  togglePasswordVisibility() {
+    this.hide = !this.hide;
   }
 
 
