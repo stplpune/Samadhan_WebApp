@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { MatNativeDateModule,  MAT_DATE_LOCALE } from '@angular/material/core';
 import { PartialLayoutComponent } from './partial/partial-layout/partial-layout.component';
 import { FooterComponent } from './partial/partial-layout/footer/footer.component';
@@ -24,7 +24,8 @@ import { ConfirmationComponent } from './partial/dialogs/confirmation/confirmati
 import { LogoutComponent } from './partial/dialogs/logout/logout.component';
 import { SuccessComponent } from './partial/dialogs/success/success.component';
 import { ProfileComponent } from './partial/dialogs/profile/profile.component';
-
+import { ReactiveFormsModule } from '@angular/forms';
+import {MatIconModule} from '@angular/material/icon';
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
 };
@@ -52,6 +53,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     PerfectScrollbarModule,
     HttpClientModule,
     NgxSpinnerModule,
+    MatIconModule
   ],
   providers: [ Title,
        { provide: MAT_DATE_LOCALE, useValue: 'en-GB'},
