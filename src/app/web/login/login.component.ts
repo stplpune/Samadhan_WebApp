@@ -30,7 +30,6 @@ export class LoginComponent implements OnInit {
       captcha: ['', [Validators.required]]
     })
     this.captcha();
-    // this.onSubmit()
   }
 
   get f() {
@@ -38,41 +37,36 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.common.checkvalidateCaptcha());
-
+    // console.log(this.common.checkvalidateCaptcha());
     this.submitted = true;
-    if (this.loginForm.valid) {
-      this.loginForm.value.captcha != this.common.checkvalidateCaptcha()
+    if (this.loginForm.value.captcha != this.common.checkvalidateCaptcha()) {
       this.common.matSnackBar("Invalid Captcha", 1)
+    }else if (this.loginForm.valid) {
       this.loginData = this.loginForm.value;
-      console.log(this.loginForm.value);
+      // console.log(this.loginForm.value);
       this.apiService.setHttp('get', 'samadhan/user-registration/' + this.loginData.username.trim() + '/' + this.loginData.password.trim(), false, false, false, 'samadhanMiningService');
       this.apiService.getHttp().subscribe((res: any) => {
         if (res.statusCode == "200") {
-          alert(res.statusMessage)
-          console.log(res);
+          this.common.matSnackBar(res.statusMessage,1)
+          // console.log(res);
           sessionStorage.setItem('loggedIn', 'true');
           localStorage.setItem('loggedInData', JSON.stringify(res));
           this.router.navigate(['../dashboard'])
         }
         else {
-          alert(res.statusMessage)
+          this.common.matSnackBar(res.statusMessage,1)
         }
       }, (error: any) => {
         this.error.handelError(error.status);
       })
-    }//else{  (this.loginForm.value.captcha !=  this.common.checkvalidateCaptcha())
-    //   this.common.matSnackBar("Invalid Captcha", 1)
-    //   }
+    }
 
   }
 
   captcha() {
     this.loginForm.controls['captcha'].reset();
     this.common.createCaptchaCarrerPage();
-    console.log(this.common.createCaptchaCarrerPage());
-
-    // sessionStorage.clear();
+    // console.log(this.common.createCaptchaCarrerPage());
   }
 
   togglePasswordVisibility() {
