@@ -6,14 +6,13 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { CheckLoggedInGuard } from './core/guards/check-logged-in.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   {
     path: '',
     component: WebLayoutComponent,
+    canActivate: [CheckLoggedInGuard],
     children: [
-      { path: '', loadChildren: () => import('./web/web-layout/web-layout.module').then(m => m.WebLayoutModule) },
-      // {path:'home',loadChildren: () => import('./web/home/home.module').then(m => m.HomeModule) ,canActivate:[CheckLoggedInGuard]},
-      { path: 'login', loadChildren: () => import('./web/login/login.module').then(m => m.LoginModule) ,canActivate:[CheckLoggedInGuard]},  
+      { path: '', loadChildren: () => import('./web/web-layout/web-layout.module').then(m => m.WebLayoutModule) }
     ]
   },
   {
