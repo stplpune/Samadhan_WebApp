@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-logout',
@@ -7,14 +8,20 @@ import { Router } from '@angular/router';
 })
 export class LogoutComponent implements OnInit {
 
-  constructor(private router:Router) { }
+  constructor(private router:Router,
+    public dialogRef: MatDialogRef<LogoutComponent>,) { }
 
   ngOnInit(): void {
   }
 
   logOut(){
     sessionStorage.clear();
-    this.router.navigate(['login'])
+    this.router.navigate(['login']);
+    this.dialogRef.close();
+  }
+
+  closeModal(flag?: any) {
+    this.dialogRef.close(flag);
   }
 
 }
