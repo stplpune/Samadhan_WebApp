@@ -45,3 +45,20 @@ transform: translateY(-1em) scale(.75);
 .mat-select-trigger{
     top: -15px;
 }
+.mat-dialog-container{
+    padding:0 !important;
+}
+.mat-dialog-container .dialog-header{
+    padding:15px 25px !important;
+    display:flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    font-weight: 600;
+}
+.mat-dialog-container .dialog-body{
+    padding:5px 25px 25px 25px !important;
+}
+.mat-form-field button{
+    top: -5px;
+}

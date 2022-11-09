@@ -1,1 +1,20 @@
-<p>logout works!</p>
+<div class="dialog-header">
+    <span>Logout</span>
+    <button mat-icon-button>
+        <span class="material-symbols-outlined">
+            close
+        </span>
+    </button>
+</div>
+<div class="dialog-body">
+    <div class="text-center">
+        <i class="fa-solid fa-arrow-right-from-bracket fa-3x mb-3"></i>
+
+        <h5 class="text-main mb-3">Are You Sure?</h5>
+        <p>Lorem ipsum dolor sit am Restore</p>
+        <div class="mb-0">
+            <button mat-stroked-button class="bg-main-light text-main me-2">Cancel</button>
+            <button mat-stroked-button class="bg-main" (click)="logOut()">Logout</button>
+        </div>
+    </div>
+</div>

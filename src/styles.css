@@ -155,3 +155,15 @@ body {
     box-shadow: none;
     font-size: 0.85rem;
 }
+.upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+  }
+  .upload-btn-wrapper input[type=file] {
+    font-size: 0.85rem;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+  }
