@@ -7,14 +7,15 @@ import { ApiService } from './api.service';
   providedIn: 'root'
 })
 export class CommonApiService {
-  stateArray: any[] = [];
-  districtArray: any[] = [];
-  divisionArray:any[]=[];
-  talukaArray:any[]=[];
-  villageArray:any[]=[];
-  statusArray:any[]=[];
-  officeArray:any[]=[];
-  departmentArray:any[]=[];
+  stateArray=new Array();
+  districtArray=new Array();
+  divisionArray=new Array();
+  talukaArray=new Array();
+  villageArray=new Array();
+  statusArray=new Array();
+  officeArray=new Array();
+  departmentArray=new Array();
+  officeByDept=new Array();
   otp:any;
   verify:any;
   constructor(
@@ -101,6 +102,20 @@ export class CommonApiService {
       })
     })
   }
+
+
+  GetOfficeByDeptId(deptId: number) {
+    return new Observable((obj) => {
+      this.apiService.setHttp('get', "samadhan/commondropdown/GetOfficeByDeptId?DeptId=" + deptId, false, false, false, 'samadhanMiningService');
+      this.apiService.getHttp().subscribe({
+        next: (res: any) => { if (res.statusCode === "200") { this.officeByDept = res.responseData; obj.next(this.officeByDept); } else { obj.error(res); } },
+        error: (e: any) => { obj.error(e) }
+      })
+
+    })
+  }
+
+
 
 
 
