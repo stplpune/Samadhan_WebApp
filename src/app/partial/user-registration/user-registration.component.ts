@@ -54,6 +54,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     public commonService: CommonApiService,
     public localStrorageData: WebStorageService,
     private fb: FormBuilder,
+    private webStorage:WebStorageService,
     private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
@@ -113,8 +114,9 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
 //#region  clear filter  fn Start here
   clearFilter(flag: any) {
     switch (flag) {
-      case 'office':
+      case 'department':
         this.filterFrm.controls['officeId'].setValue(0);
+        // this.filterFrm.controls['textSearch'].setValue('');
         break;
       default:
     }
@@ -129,7 +131,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.commonService.getAllDepartment().subscribe({
       next: (response: any) => {
         this.departmentArray.push(...response);
-        this.isEdit ? (this.userFrm.controls['deptId'].setValue(this.updatedObj?.deptId), this.getOffice()) : '';
+        this.isEdit ? (this.userFrm.controls['deptId'].setValue(this.updatedObj?.deptId), this.getOffice(this.updatedObj?.deptId)) : '';
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
@@ -137,9 +139,9 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
 //#endregiondrop down department bind fn end here
 
  //#region  drop down office bind  fn Start here
-  getOffice() {
+  getOffice(deptNo:number) {
     this.officeArray = [];
-    this.commonService.getAllOffice().subscribe({
+    this.commonService.GetOfficeByDeptId(deptNo).subscribe({
       next: (response: any) => {
         this.officeArray.push(...response);
         this.isEdit ? (this.userFrm.controls['officeId'].setValue(this.updatedObj.officeId)) : '';
@@ -188,17 +190,17 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
 
   //#region  submit and update formadata  fn Start here
   onSubmit() {
-    this.spinner.show();
+    // this.spinner.show();
     if (this.userFrm.invalid) {
       return;
     }
     let formData = this.userFrm.value;
     console.log(formData);
     let obj = {
-      "createdBy": 0,
-      "modifiedBy": 0,
-      "createdDate": "2022-11-07T04:21:28.654Z",
-      "modifiedDate": "2022-11-07T04:21:28.654Z",
+      "createdBy": this.webStorage.getUserId(),
+      "modifiedBy": this.webStorage.getUserId(),
+      "createdDate": new Date(),
+      "modifiedDate": new Date(),
       "isDeleted": true,
       "id": this.isEdit == true ? this.updatedObj.id : 0,
       "name": formData.name,
@@ -215,7 +217,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
       "deptId": formData.deptId,
       "officeId": formData.officeId,
       "isBlock": false,
-      "blockDate": "2022-11-07T04:21:28.654Z",
+      "blockDate": new Date(),
       "blockBy": 0,
       "keyExpireDate": "2022-11-07T04:21:28.654Z",
       "deviceTypeId": 0,
@@ -230,14 +232,14 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
       next: (res: any) => {
         if (res.statusCode == 200) {
           this.highlightedRow = 0;
-          this.spinner.hide();
+          // this.spinner.hide();
           this.getData();
           this.onCancelRecord();
           this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 0);
         } else {
           this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
         }
-        this.spinner.hide();
+        // this.spinner.hide();
       },
       error: ((error: any) => { this.error.handelError(error.status); this.spinner.hide(); })
     })
@@ -270,7 +272,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
       "id": element?.id,
       "isBlock": event == true ? true : false,
       "blockDate": new Date(),
-      "blockBy": 0,
+      "blockBy": this.webStorage.getUserId(),
     }
     this.apiService.setHttp('PUT', "samadhan/user-registration/BlockUnblockUser", false, obj, false, 'samadhanMiningService');
     this.subscription = this.apiService.getHttp().subscribe({
@@ -358,7 +360,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
       selDelArray.find((ele: any) => {
         let obj = {
           "id": ele.id,
-          "deletedBy": 0,
+          "deletedBy": this.webStorage.getUserId(),
           "modifiedDate": new Date()
         }
         delArray.push(obj)
@@ -371,6 +373,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
           this.highlightedRow = 0;
           this.getData();
           this.commonMethod.matSnackBar(res.statusMessage, 0);
+          this.selection.clear();
         } else {
           if (res.statusCode != "404") {   
             this.error.handelError(res.statusMessage)

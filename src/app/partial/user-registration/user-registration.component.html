@@ -1,29 +1,31 @@
 <div class="row">
     <div class="col-sm-8">
         <form [formGroup]="filterFrm" class="">
-        <div class="row">
-            <div class="col-sm">
-                <mat-form-field  appearance="outline">
-                    <mat-label>Select Department</mat-label>
-                    <mat-select formControlName="deptId" (selectionChange)="filterData();getOffice();clearFilter('office')">
+        <div class="row gx-2">
+            <div class="col-sm-4">
+                <mat-form-field  appearance="outline" class="w-100">
+                    <mat-label>All Department</mat-label>
+                    <mat-select formControlName="deptId" (selectionChange)="clearFilter('department');filterData();getOffice(filterFrm.value.deptId)">
+                        <mat-option  value="0">All Department</mat-option>
                         <mat-option *ngFor="let department of departmentArray" [value]="department.id">
                             {{department.departmentName}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
-            <div class="col-sm">
-                <mat-form-field  appearance="outline">
-                    <mat-label>Select Office</mat-label>
-                    <mat-select formControlName="officeId" (selectionChange)="filterData();" [disabled]='!filterFrm.value.deptId'>
+            <div class="col-sm-4">
+                <mat-form-field  appearance="outline" class="w-100">
+                    <mat-label>All Office</mat-label>
+                    <mat-select formControlName="officeId" (selectionChange)="filterData()" [disabled]='!filterFrm.value.deptId'>
+                        <mat-option  value="0">All Office</mat-option>
                         <mat-option *ngFor="let office of officeArray" [value]="office.id">
                             {{office.name}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
-            <div class="col-sm">
-                <mat-form-field  appearance="outline">
+            <div class="col-sm-4">
+                <mat-form-field  appearance="outline" class="w-100">
                     <mat-label>Name / Mobile No</mat-label>
                     <input matInput placeholder="name / mobile no" formControlName="textSearch">
                 </mat-form-field>
@@ -42,7 +44,7 @@
 
                 <ng-container matColumnDef="name">
                     <th mat-header-cell *matHeaderCellDef> Name </th>
-                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.name | titlecase}} </td>
                 </ng-container>
                 <ng-container matColumnDef="departmentName">
                     <th mat-header-cell *matHeaderCellDef> DEPARTMENT </th>
@@ -86,8 +88,8 @@
                 </ng-container>
 
                 <ng-container matColumnDef="button">
-                    <th mat-header-cell *matHeaderCellDef>  <button mat-icon-button (click)="deleteUserData()"
-                      *ngIf="this.selection.selected.length !=0">
+                    <th mat-header-cell *matHeaderCellDef>  <button [disabled]="this.selection.selected.length ==0" mat-icon-button (click)="deleteUserData()"
+                      >
                         <span class="material-symbols-outlined">
                            delete
                         </span>
@@ -134,7 +136,7 @@
             </div>
             <div class="card-body">
                <form [formGroup]="userFrm" #formDirective="ngForm" (ngSubmit)="onSubmit()">
-                <div class="mb-2">
+                <div class="mb-3">
                     <mat-form-field class="w-100" appearance="outline">
                         <mat-label>User Type</mat-label>
                         <mat-select formControlName="userTypeId" >
@@ -149,10 +151,10 @@
 
                     </mat-form-field>
                 </div>
-                <div class="mb-2">
+                <div class="mb-3">
                     <mat-form-field class="w-100" appearance="outline">
                         <mat-label>Department</mat-label>
-                        <mat-select formControlName="deptId" [disabled]="!userFrm.value.userTypeId" (selectionChange)="getOffice()">
+                        <mat-select formControlName="deptId" [disabled]="!userFrm.value.userTypeId" (selectionChange)="getOffice(userFrm.value.deptId)">
                             <mat-option *ngFor="let department of departmentArray" [value]="department.id">
                                 {{department.departmentName}}
                             </mat-option>
@@ -162,7 +164,7 @@
                         </mat-error>
                     </mat-form-field>
                 </div>
-                <div class="mb-2">
+                <div class="mb-3">
                     <mat-form-field class="w-100" appearance="outline">
                         <mat-label>Office</mat-label>
                         <mat-select formControlName="officeId" [disabled]="!userFrm.value.deptId">
@@ -175,7 +177,7 @@
                         </mat-error>
                     </mat-form-field>
                 </div>
-                <div class="mb-2">
+                <div class="mb-3">
                     <mat-form-field class="w-100" appearance="outline">
                         <mat-label>Name</mat-label>
                         <input matInput placeholder="Enter name" formControlName="name" (keyup)="validation.removeSpaceAtBegining($event)"
@@ -188,7 +190,7 @@
                         </mat-error>
                     </mat-form-field>
                 </div>
-                <div class="mb-2">
+                <div class="mb-3">
                     <mat-form-field class="w-100" appearance="outline">
                         <mat-label>Mobile No.</mat-label>
                         <input matInput placeholder="Enter your mobile no." formControlName="mobileNo" maxlength="10"
@@ -201,7 +203,7 @@
                         </mat-error>
                     </mat-form-field>
                 </div>
-                <div class="mb-2">
+                <div class="mb-3">
                     <mat-form-field class="w-100" appearance="outline">
                         <mat-label>Email ID</mat-label>
                         <input matInput placeholder="Enter email id" formControlName="emailId"  maxlength="100"
