@@ -1,0 +1,27 @@
+{
+    "Home": {
+        "home": "Home",
+        "about": "About",
+        "policy": "Policy",
+        "help": "Help",
+        "contact": "Contact",
+        "screen_reader_access": "Screen Reader Access",
+        "skip_to_main_content": "Skip to Main Content",
+        "login": "Login",
+        "citizen": "Citizen",
+        "grievance": "Grievance",
+        "collector_&_DM_osmanabad": "Collector & DM Osmanabad",
+        "dr_sachin_ombase": "Dr. Sachin Ombase",
+        "view_more": "View More",
+        "grievance_status": "Grievance Status",
+        "received_grievances": "Received Grievances",
+        "resolved_grievances": "Resolved Grievances",
+        "registered_grievances": "Registered Grievances",
+        "satisfied_citizen": "Satisfied Citizen",
+        "copyright": "Copyright © 2022 Samadhan All Rights Reserved.",
+        "website_policies": "Website Policies",
+        "feedback": "Feedback",
+        "content_owned": "Content Owned By District Administration",
+        "powered_by": "Powered By"
+    }
+}

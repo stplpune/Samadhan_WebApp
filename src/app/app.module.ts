@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { MatNativeDateModule,  MAT_DATE_LOCALE } from '@angular/material/core';
 import { PartialLayoutComponent } from './partial/partial-layout/partial-layout.component';
 import { FooterComponent } from './partial/partial-layout/footer/footer.component';
@@ -16,7 +16,7 @@ import { MaterialModule } from './shared/AngularMaterialModule/material.module';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ChangePasswordComponent } from './partial/dialogs/change-password/change-password.component';
@@ -24,6 +24,13 @@ import { ConfirmationComponent } from './partial/dialogs/confirmation/confirmati
 import { LogoutComponent } from './partial/dialogs/logout/logout.component';
 import { SuccessComponent } from './partial/dialogs/success/success.component';
 import { ProfileComponent } from './partial/dialogs/profile/profile.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import {MatIconModule} from '@angular/material/icon';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+export function httpTranslateLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -52,6 +59,14 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     PerfectScrollbarModule,
     HttpClientModule,
     NgxSpinnerModule,
+    MatIconModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: httpTranslateLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [ Title,
        { provide: MAT_DATE_LOCALE, useValue: 'en-GB'},

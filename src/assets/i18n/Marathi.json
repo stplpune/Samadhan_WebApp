@@ -1,0 +1,27 @@
+{
+    "Home": {
+        "home": "मुख्यपृष्ठ",
+        "about": "आमच्याबद्दल",
+        "policy": "धोरण",
+        "help": "मदत",
+        "contact": "संपर्क",
+        "screen_reader_access": "स्क्रीन रीडर ऍक्सेस",
+        "skip_to_main_content": "मुख्य सामग्रीवर जा",
+        "login":"लॉगिन",
+        "citizen": "नागरिक",
+        "grievance": "तक्रार",
+        "collector_&_DM_osmanabad": "जिल्हाधिकारी आणि डीएम उस्मानाबाद",
+        "dr_sachin_ombase": "डॉ. सचिन ओंबासे",
+        "view_more": "अधिक पहा",
+        "grievance_status": "तक्रारीची स्थिती",
+        "received_grievances": "प्राप्त तक्रारी",
+        "resolved_grievances": "तक्रारींचे निराकरण केले",
+        "registered_grievances": "नोंदवलेल्या तक्रारी",
+        "satisfied_citizen": "समाधानी नागरिक",
+        "copyright": "कॉपीराइट © २०२२ समाधान, सर्व हक्क राखीव.",
+        "website_policies": "वेबसाइट धोरणे",
+        "feedback": "अभिप्राय",
+        "content_owned": "जिल्हा प्रशासनाच्या मालकीची सामग्री",
+        "powered_by": "संचालित द्वारा"
+    }
+}

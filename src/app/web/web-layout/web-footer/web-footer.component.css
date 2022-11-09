@@ -1,0 +1,19 @@
+#web-footer {
+    background-color: #000;
+    color: #fff;
+    padding: 50px 50px 20px 50px;
+}
+
+#web-footer .stpl-footer-logo img{
+    width: 100px;
+}
+#web-footer .stpl-footer-logo {
+    font-size: 0.8rem;
+}
+#web-footer .policies p{
+    font-size: 0.7rem;
+}
+#web-footer .copyright
+{
+    font-size: 0.8rem;
+}

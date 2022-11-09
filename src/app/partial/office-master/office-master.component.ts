@@ -9,7 +9,7 @@ import { FormsValidationService } from 'src/app/core/service/forms-validation.se
 import { CommonMethodService } from 'src/app/core/service/common-method.service';
 import { ConfirmationComponent } from './../dialogs/confirmation/confirmation.component';
 import { ConfigService } from 'src/app/configs/config.service';
-import { WebStorageService } from 'src/app/core/service/web-storage.service';
+// import { WebStorageService } from 'src/app/core/service/web-storage.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { Subscription } from 'rxjs';
@@ -42,7 +42,7 @@ export class OfficeMasterComponent implements OnInit ,AfterViewInit, OnDestroy{
     private spinner: NgxSpinnerService,
     public configService: ConfigService,
     public validation: FormsValidationService,
-    private webStorageService:WebStorageService,
+    // private webStorageService:WebStorageService,
     public dialog: MatDialog,
     public commonMethod: CommonMethodService) { }
   ngAfterViewInit(): void {

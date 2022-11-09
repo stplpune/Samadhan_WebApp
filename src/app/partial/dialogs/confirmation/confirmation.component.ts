@@ -36,4 +36,13 @@ export class ConfirmationComponent implements OnInit {
 
   }
 
+  // onNoClick(flag: any): void {
+  //   if (flag == "Yes") {
+  //       let obj = {
+  //         flag: flag,
+  //       }
+  //       this.dialogRef.close(obj)
+  //     }
+  //     this.dialogRef.close(flag);
+  //  }
 }

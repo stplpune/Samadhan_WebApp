@@ -13,30 +13,80 @@
             </div>
 
             <div class="login-width">
-                <div class="d-flex justify-content-between d-lg-none mobile-logo">
-                    <img src="../../../assets/Login/Login-Samadhan-Logo.svg" alt="Samadhan logo" >
-                    <img src="../../../assets/Login/Osmanabad-District.svg" alt="osmanabad district">
-                </div>
-                <div class="login-box">
-                    <h5 class="text-center mb-5">LOG IN</h5>
-                    <div class="mb-2">
-                        <label class="form-label">
-                            Email address
-                        </label>
-                        <mat-form-field class="w-100" appearance="outline">
-                            <input matInput placeholder="User Name">
-                        </mat-form-field>
+                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                    <div class="d-flex justify-content-between d-lg-none mobile-logo">
+                        <img src="../../../assets/Login/Login-Samadhan-Logo.svg" alt="Samadhan logo">
+                        <img src="../../../assets/Login/Osmanabad-District.svg" alt="osmanabad district">
                     </div>
-                    <div class="mb-2">
-                        <label class="form-label">
-                            Password
-                        </label>
-                        <mat-form-field class="w-100 mb-3" appearance="outline">
-                            <input matInput placeholder="Password">
-                        </mat-form-field>
+
+                    <div class="login-box">
+                        <h5 class="text-center mb-5">LOG IN</h5>
+                        <div class="mb-2">
+                            <label class="form-label">
+                                Username
+                            </label>
+                            <mat-form-field class="w-100" appearance="outline">
+                                <input matInput placeholder="User Name" formControlName="username" maxlength="10"
+                                (keyup)="validation.onlyDigits($event)">                        
+                                <mat-error *ngIf="f['username'].errors">
+                                    <span *ngIf="f['username'].hasError('required')"> Please Enter
+                                        UserName</span>
+                                    <span *ngIf="f['username'].hasError('pattern')"> Invalid
+                                        UserName</span>
+                                </mat-error>
+                                <mat-error class="mt-2" *ngIf="f['username'].hasError('pattern')">
+                                    Please Enter Valid Username
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label">
+                                Password
+                            </label>
+                            <mat-form-field class="w-100 mb-3" appearance="outline">
+                                <input matInput [type]="hide ? 'password' : 'text'" placeholder="Password"
+                                    formControlName="password" autocomplete="off" required>
+
+
+                                <button type="button" mat-icon-button matSuffix (click)="togglePasswordVisibility()">
+                                    <span class="material-symbols-outlined">
+                                       {{hide==false ?  'visibility':'visibility_off'}} </span>
+                                </button>
+
+                                <mat-error class="mt-2" *ngIf="f['password'].hasError('required')">
+                                    Password is required
+                                </mat-error>
+                                <mat-error class="mt-2" *ngIf="f['password'].hasError('pattern')">
+                                    Please Enter Valid Password
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="mb-0">
+                            <div class="row gx-1 align-items-center">
+                                <div class="col-sm-4">
+                                    <div id="captcha">
+                                    </div>
+                                </div>
+                                <div class="col-sm-1 mr-5">
+                                    <button class="btn btn-light p-2 mb-3" type="button" (click)="captcha()"><i
+                                            class="fa fa-sync"></i></button>
+                                </div>
+                                <div class="col-sm-7">
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Enter Captcha</mat-label>
+                                        <input matInput placeholder="Enter Captcha" formControlName="captcha" maxlength="4"
+                                            autocomplete="off">
+                                        <mat-error class="mt-2" *ngIf="f['password'].hasError('required')">
+                                            Captcha is required
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <button mat-raised-button class="bg-main w-100">LOGIN</button>
                     </div>
-                    <button mat-raised-button class="bg-main w-100">LOGIN</button>
-                </div>
+                </form>
             </div>
         </div>
     </div>

@@ -11,7 +11,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { ConfirmationComponent } from './../dialogs/confirmation/confirmation.component';
 import { ConfigService } from 'src/app/configs/config.service';
 import { MatDialog } from '@angular/material/dialog';
-import { WebStorageService } from 'src/app/core/service/web-storage.service';
+// import { WebStorageService } from 'src/app/core/service/web-storage.service';
 import { Subscription } from 'rxjs';
 import { MatSort } from '@angular/material/sort';
 
@@ -45,7 +45,7 @@ export class DepartmentMasterComponent implements OnInit,AfterViewInit, OnDestro
 
   constructor(private fb: FormBuilder,
     public configService: ConfigService,
-    private webStorageService:WebStorageService,
+    // private webStorageService:WebStorageService,
     public dialog: MatDialog,
     private apiService:ApiService,
     public error: ErrorHandlerService,
@@ -133,7 +133,6 @@ dataDispaly(){
 
     let method = this.isEdit ? 'PUT' : 'POST';
     let url = this.isEdit ? "UpdateDepartment" : "AddDepartment";
-    //http://samadhan-api.mahamining.com/samdhan/Department/AddDepartmen
     this.apiService.setHttp(method, "samdhan/Department/" + url, false, obj, false, 'samadhanMiningService');
     this.subscription = this.apiService.getHttp().subscribe({
       next: (res: any) => {
