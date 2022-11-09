@@ -34,26 +34,31 @@
                                     <span *ngIf="f['username'].hasError('pattern')"> Invalid
                                         UserName</span>
                                 </mat-error>
+                                <mat-error class="mt-2" *ngIf="f['username'].hasError('pattern')">
+                                    Please Enter Valid Username
+                                </mat-error>
                             </mat-form-field>
                         </div>
                         <div class="mb-2">
                             <label class="form-label">
                                 Password
                             </label>
-                            <mat-form-field appearance="outline" class="w-100">
-                                <mat-label>Password</mat-label>
-                                <input matInput [type]="hide ? 'password' : 'text'" maxlength="20"
-                                    formControlName="password" (keypress)="validation.noSpaces($event)">
-                                    <mat-error *ngIf="f['password'].errors">
-                                        <span *ngIf="f['password'].hasError('required')"> Please Enter
-                                            Password</span>
-                                        <span class="text-danger"
-                                            *ngIf="f['password'].hasError('pattern')">Invalid Password</span>
-                                    </mat-error>
-                                <button mat-icon-button matSuffix (click)="hide = !hide" type="button"
-                                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-                                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                            <mat-form-field class="w-100 mb-3" appearance="outline">
+                                <input matInput [type]="hide ? 'password' : 'text'" placeholder="Password"
+                                    formControlName="password" autocomplete="off" required>
+
+
+                                <button type="button" mat-icon-button matSuffix (click)="togglePasswordVisibility()">
+                                    <span class="material-symbols-outlined">
+                                       {{hide==false ?  'visibility':'visibility_off'}} </span>
                                 </button>
+
+                                <mat-error class="mt-2" *ngIf="f['password'].hasError('required')">
+                                    Password is required
+                                </mat-error>
+                                <mat-error class="mt-2" *ngIf="f['password'].hasError('pattern')">
+                                    Please Enter Valid Password
+                                </mat-error>
                             </mat-form-field>
                         </div>
 
@@ -63,14 +68,15 @@
                                     <div id="captcha">
                                     </div>
                                 </div>
-                                <div class="col-sm-1">
+                                <div class="col-sm-1 mr-5">
                                     <button class="btn btn-light p-2 mb-3" type="button" (click)="captcha()"><i
                                             class="fa fa-sync"></i></button>
                                 </div>
                                 <div class="col-sm-7">
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Enter Captcha</mat-label>
-                                        <input matInput placeholder="Enter Captcha" formControlName="captcha">
+                                        <input matInput placeholder="Enter Captcha" formControlName="captcha" maxlength="4"
+                                            autocomplete="off">
                                         <mat-error class="mt-2" *ngIf="f['password'].hasError('required')">
                                             Captcha is required
                                         </mat-error>
