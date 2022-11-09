@@ -127,6 +127,9 @@ body {
     background-color:var(--main-color);
     color: #fff;
 }
+.dashboard-table{
+    border: solid 1px rgba(0,0,0,.12);
+}
 .dashboard-table th{
     background-color:#F2F2F2;
     text-transform: uppercase;
@@ -167,3 +170,13 @@ body {
     top: 0;
     opacity: 0;
   }
+  .mat-error {
+    display: block;
+    line-height: 1.8rem !important;
+    font-size: 0.7rem !important;
+}
+
+.highlightedRow{
+    background: #eeeeee !important;
+  }
+  
