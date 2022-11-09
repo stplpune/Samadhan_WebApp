@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { UserRegistrationRoutingModule } from './user-registration-routing.module';
 import { UserRegistrationComponent } from './user-registration.component';
 import { MaterialModule } from 'src/app/shared/AngularMaterialModule/material.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -13,7 +14,9 @@ import { MaterialModule } from 'src/app/shared/AngularMaterialModule/material.mo
   imports: [
     CommonModule,
     UserRegistrationRoutingModule,
-    MaterialModule
+    MaterialModule,
+    ReactiveFormsModule,
+    FormsModule
   ]
 })
 export class UserRegistrationModule { }
