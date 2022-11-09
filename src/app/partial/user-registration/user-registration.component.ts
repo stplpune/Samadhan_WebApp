@@ -144,7 +144,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
  //#region  drop down office bind  fn Start here
   getOffice(deptNo:number) {
     this.officeArray = [];
-    this.commonService.GetOfficeByDeptId(deptNo).subscribe({
+    this.commonService.getOfficeByDeptId(deptNo).subscribe({
       next: (response: any) => {
         this.officeArray.push(...response);
         this.isEdit ? (this.userFrm.controls['officeId'].setValue(this.updatedObj.officeId)) : '';

@@ -16,6 +16,9 @@ export class CommonApiService {
   officeArray=new Array();
   departmentArray=new Array();
   officeByDept=new Array();
+  villageByTaluka=new Array();
+  talukaByDistrict=new Array();
+  natureGrievance=new Array();
   otp:any;
   verify:any;
   constructor(
@@ -104,22 +107,50 @@ export class CommonApiService {
   }
 
 
-  GetOfficeByDeptId(deptId: number) {
+  getOfficeByDeptId(deptId: number) {
     return new Observable((obj) => {
       this.apiService.setHttp('get', "samadhan/commondropdown/GetOfficeByDeptId?DeptId=" + deptId, false, false, false, 'samadhanMiningService');
       this.apiService.getHttp().subscribe({
-        next: (res: any) => { if (res.statusCode === "200") { this.officeByDept = res.responseData; obj.next(this.officeByDept); } else { obj.error(res); } },
+        next: (res: any) => { if (res.statusCode == "200") { this.officeByDept = res.responseData; obj.next(this.officeByDept); } else { obj.error(res); } },
         error: (e: any) => { obj.error(e) }
       })
 
     })
   }
 
+  getVillageByTalukaId(talukaId:number){
+    return new Observable((obj) => {
+      this.apiService.setHttp('get', "samadhan/commondropdown/GetVillageByTalukaId?TalukaId=" + talukaId, false, false, false, 'samadhanMiningService');
+      this.apiService.getHttp().subscribe({
+        next: (res: any) => { if (res.statusCode == "200") { this.villageByTaluka = res.responseData; obj.next(this.villageByTaluka); } else { obj.error(res); } },
+        error: (e: any) => { obj.error(e) }
+      })
 
+    })
+  }
 
+  getTalukabyDistId(districtId:number){
+    return new Observable((obj) => {
+      this.apiService.setHttp('get', "samadhan/commondropdown/GetTalukabyDistId?DistrictId=" + districtId, false, false, false, 'samadhanMiningService');
+      this.apiService.getHttp().subscribe({
+        next: (res: any) => { if (res.statusCode == "200") { this.talukaByDistrict = res.responseData; obj.next(this.talukaByDistrict); } else { obj.error(res); } },
+        error: (e: any) => { obj.error(e) }
+      })
 
+    })
 
+  }
 
+  getAllNatureOfGrievance(){
+    return new Observable((obj) => {
+      this.apiService.setHttp('get', "samadhan/commondropdown/GetAllNatureOfGrievance", false, false, false, 'samadhanMiningService');
+      this.apiService.getHttp().subscribe({
+        next: (res: any) => { if (res.statusCode == "200") { this.natureGrievance = res.responseData; obj.next(this.natureGrievance); } else { obj.error(res); } },
+        error: (e: any) => { obj.error(e) }
+      })
 
+    })
+
+  }
   
 }
