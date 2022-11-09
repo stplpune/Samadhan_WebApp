@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { ApiService } from 'src/app/core/service/api.service';
 import { ErrorHandlerService } from 'src/app/core/service/error-handler.service'
 import { CommonMethodService } from 'src/app/core/service/common-method.service'

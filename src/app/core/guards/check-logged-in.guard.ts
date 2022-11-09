@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import {  CanActivate, Router, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { WebStorageService } from '../service/web-storage.service';
 
@@ -10,9 +10,8 @@ export class CheckLoggedInGuard implements CanActivate {
   constructor(private WebStorageService: WebStorageService, private router: Router){
 
   }
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree|any {
+ 
+  canActivate(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree|any {
       if (this.WebStorageService.checkUserIsLoggedIn()) {
         this.router.navigate(['/dashboard']);
       } else {
