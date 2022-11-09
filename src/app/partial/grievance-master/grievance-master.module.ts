@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { GrievanceMasterRoutingModule } from './grievance-master-routing.module';
 import { GrievanceMasterComponent } from './grievance-master.component';
 import { MaterialModule} from '../../shared/AngularMaterialModule/material.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import { MaterialModule} from '../../shared/AngularMaterialModule/material.modul
   imports: [
     CommonModule,
     GrievanceMasterRoutingModule,
-    MaterialModule
+    MaterialModule,
+    ReactiveFormsModule
   ]
 })
 export class GrievanceMasterModule { }

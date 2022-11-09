@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { OfficeMasterRoutingModule } from './office-master-routing.module';
 import { OfficeMasterComponent } from './office-master.component';
 import { MaterialModule } from 'src/app/shared/AngularMaterialModule/material.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import { MaterialModule } from 'src/app/shared/AngularMaterialModule/material.mo
   imports: [
     CommonModule,
     OfficeMasterRoutingModule,
-    MaterialModule
+    MaterialModule,
+    ReactiveFormsModule
   ]
 })
 export class OfficeMasterModule { }
