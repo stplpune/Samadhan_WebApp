@@ -39,7 +39,7 @@ export class HeaderComponent implements OnInit {
       width: '650px',
       data: '',
     });
-    dialogRef.afterClosed().subscribe((result: any) => {
+    dialogRef.afterClosed().subscribe((_result: any) => {
     });
   }
 
@@ -48,7 +48,7 @@ export class HeaderComponent implements OnInit {
       width: '650px',
       data: '',
     });
-    dialogRef.afterClosed().subscribe((result: any) => {
+    dialogRef.afterClosed().subscribe((_result: any) => {
     });
   }
 
