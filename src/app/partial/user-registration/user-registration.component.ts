@@ -390,7 +390,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   //#endregiondrop single or multiple user delete fn end here
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.subscription?.unsubscribe();
   }
 }
 
