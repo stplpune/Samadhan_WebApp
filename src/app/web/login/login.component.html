@@ -27,10 +27,12 @@
                             </label>
                             <mat-form-field class="w-100" appearance="outline">
                                 <input matInput placeholder="User Name" formControlName="username" maxlength="10"
-                                    autocomplete="off">
-
-                                <mat-error class="mt-2" *ngIf="f['username'].hasError('required')">
-                                    Username is required
+                                (keyup)="validation.onlyDigits($event)">                        
+                                <mat-error *ngIf="f['username'].errors">
+                                    <span *ngIf="f['username'].hasError('required')"> Please Enter
+                                        UserName</span>
+                                    <span *ngIf="f['username'].hasError('pattern')"> Invalid
+                                        UserName</span>
                                 </mat-error>
                                 <mat-error class="mt-2" *ngIf="f['username'].hasError('pattern')">
                                     Please Enter Valid Username

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from './api.service';
-import { CommonMethodService } from './common-method.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,7 @@ export class CommonApiService {
   verify:any;
   constructor(
     private apiService:ApiService,
-    private commonMethod:CommonMethodService
+    
   ) { }
 
   getAllState() {

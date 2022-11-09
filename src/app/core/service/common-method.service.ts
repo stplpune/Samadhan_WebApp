@@ -2,7 +2,6 @@ import { DatePipe, Location, } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
 import { interval, map, Observable } from 'rxjs';
 import { SuccessComponent } from 'src/app/partial/dialogs/success/success.component';
 
@@ -13,7 +12,7 @@ export class CommonMethodService {
   codecareerPage!: string;
   geocoder: any;
   private clock: Observable<Date>;
-  constructor(private snackBar: MatSnackBar, public location: Location, private datePipe: DatePipe, private router: Router, private dialog:MatDialog) 
+  constructor(private snackBar: MatSnackBar, public location: Location, private datePipe: DatePipe, private dialog:MatDialog) 
   { 
     this.clock = interval(1000).pipe(map(() => new Date()));
   }
@@ -145,9 +144,9 @@ export class CommonMethodService {
       disableClose: true,
       data: obj ? obj : '',
     });
-    // dialogRef.afterClosed().subscribe((result: any) => {
-    //   result == 'u' ? this.getData() : result == 'i' ? this.searchData() : '';
-    // });
+    dialogRef.afterClosed().subscribe((_result: any) => {
+      // result == 'u' ? this.getData() : result == 'i' ? this.searchData() : '';
+    });
   }
 
   getCurrentTime() {
