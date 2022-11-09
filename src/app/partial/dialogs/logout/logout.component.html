@@ -12,10 +12,9 @@
         <i class="fa-solid fa-arrow-right-from-bracket fa-3x mb-3"></i>
 
         <h5 class="text-main mb-3">Are You Sure?</h5>
-        <p>Lorem ipsum dolor sit am Restore</p>
         <div class="mb-0">
-            <button mat-stroked-button class="bg-main-light text-main me-2" (click)="closeModal()">Cancel</button>
-            <button mat-stroked-button class="bg-main" (click)="logOut()">Logout</button>
+            <button mat-stroked-button class="bg-main-light text-main me-2" (click)=" dialogRef.close('No')">Cancel</button>
+            <button mat-stroked-button class="bg-main" (click)=" dialogRef.close('Yes')">Logout</button>
         </div>
     </div>
 </div>
