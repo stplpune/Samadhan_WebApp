@@ -62,3 +62,14 @@ transform: translateY(-1em) scale(.75);
 .mat-form-field button{
     top: -5px;
 }
+.mat-icon {
+    height: inherit !important;
+    width: inherit !important;
+}
+.mat-row:nth-child(even){
+    background-color:#F2F2F2 ;
+}
+        
+.mat-row:nth-child(odd){
+    background-color:#fff ;
+}

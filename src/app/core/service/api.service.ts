@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
+// import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,8 @@ export class ApiService {
 
   getBaseurl(url: string) {
     switch (url) {
-      case 'samadhanMiningService': return 'https://samadhan-api.mahamining.com/'; break;
+      case 'samadhanMiningService': return 'http://samadhan-api.mahamining.com/'; break;
+
       default: return ''; break;
     }
   }

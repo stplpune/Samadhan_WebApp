@@ -7,14 +7,19 @@ import { ApiService } from './api.service';
   providedIn: 'root'
 })
 export class CommonApiService {
-  stateArray: any[] = [];
-  districtArray: any[] = [];
-  divisionArray:any[]=[];
-  talukaArray:any[]=[];
-  villageArray:any[]=[];
-  statusArray:any[]=[];
-  officeArray:any[]=[];
-  departmentArray:any[]=[];
+  usersArray=new Array();
+  stateArray=new Array();
+  districtArray=new Array();
+  divisionArray=new Array();
+  talukaArray=new Array();
+  villageArray=new Array();
+  statusArray=new Array();
+  officeArray=new Array();
+  departmentArray=new Array();
+  officeByDept=new Array();
+  villageByTaluka=new Array();
+  talukaByDistrict=new Array();
+  natureGrievance=new Array();
   otp:any;
   verify:any;
   constructor(
@@ -103,8 +108,60 @@ export class CommonApiService {
   }
 
 
+  getOfficeByDeptId(deptId: number) {
+    return new Observable((obj) => {
+      this.apiService.setHttp('get', "samadhan/commondropdown/GetOfficeByDeptId?DeptId=" + deptId, false, false, false, 'samadhanMiningService');
+      this.apiService.getHttp().subscribe({
+        next: (res: any) => { if (res.statusCode == "200") { this.officeByDept = res.responseData; obj.next(this.officeByDept); } else { obj.error(res); } },
+        error: (e: any) => { obj.error(e) }
+      })
 
+    })
+  }
 
+  getVillageByTalukaId(talukaId:number){
+    return new Observable((obj) => {
+      this.apiService.setHttp('get', "samadhan/commondropdown/GetVillageByTalukaId?TalukaId=" + talukaId, false, false, false, 'samadhanMiningService');
+      this.apiService.getHttp().subscribe({
+        next: (res: any) => { if (res.statusCode == "200") { this.villageByTaluka = res.responseData; obj.next(this.villageByTaluka); } else { obj.error(res); } },
+        error: (e: any) => { obj.error(e) }
+      })
 
+    })
+  }
+
+  getTalukabyDistId(districtId:number){
+    return new Observable((obj) => {
+      this.apiService.setHttp('get', "samadhan/commondropdown/GetTalukabyDistId?DistrictId=" + districtId, false, false, false, 'samadhanMiningService');
+      this.apiService.getHttp().subscribe({
+        next: (res: any) => { if (res.statusCode == "200") { this.talukaByDistrict = res.responseData; obj.next(this.talukaByDistrict); } else { obj.error(res); } },
+        error: (e: any) => { obj.error(e) }
+      })
+
+    })
+
+  }
+
+  getAllNatureOfGrievance(){
+    return new Observable((obj) => {
+      this.apiService.setHttp('get', "samadhan/commondropdown/GetAllNatureOfGrievance", false, false, false, 'samadhanMiningService');
+      this.apiService.getHttp().subscribe({
+        next: (res: any) => { if (res.statusCode == "200") { this.natureGrievance = res.responseData; obj.next(this.natureGrievance); } else { obj.error(res); } },
+        error: (e: any) => { obj.error(e) }
+      })
+
+    })
+
+  }
+
+  getAllUser() {
+    return new Observable((obj) => {
+      this.apiService.setHttp('get', "samadhan/commondropdown/GetAllUserType", false, false, false, 'samadhanMiningService');
+      this.apiService.getHttp().subscribe({
+        next: (res: any) => { if (res.statusCode == 200) { this.usersArray = res.responseData; obj.next(this.usersArray); } else { obj.error(res); } },
+        error: (e: any) => { obj.error(e) }
+      })
+    })
+  }
   
 }
