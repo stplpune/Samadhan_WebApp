@@ -7,6 +7,7 @@ import { ApiService } from './api.service';
   providedIn: 'root'
 })
 export class CommonApiService {
+  usersArray=new Array();
   stateArray=new Array();
   districtArray=new Array();
   divisionArray=new Array();
@@ -151,6 +152,16 @@ export class CommonApiService {
 
     })
 
+  }
+
+  getAllUser() {
+    return new Observable((obj) => {
+      this.apiService.setHttp('get', "samadhan/commondropdown/GetAllUserType", false, false, false, 'samadhanMiningService');
+      this.apiService.getHttp().subscribe({
+        next: (res: any) => { if (res.statusCode == 200) { this.usersArray = res.responseData; obj.next(this.usersArray); } else { obj.error(res); } },
+        error: (e: any) => { obj.error(e) }
+      })
+    })
   }
   
 }
