@@ -14,6 +14,7 @@ import { MatDialog } from '@angular/material/dialog';
 // import { WebStorageService } from 'src/app/core/service/web-storage.service';
 import { Subscription } from 'rxjs';
 import { MatSort } from '@angular/material/sort';
+import { WebStorageService } from 'src/app/core/service/web-storage.service';
 
 @Component({
   selector: 'app-department-master',
@@ -40,7 +41,8 @@ export class DepartmentMasterComponent implements OnInit,AfterViewInit, OnDestro
 
   constructor(private fb: FormBuilder,
     public configService: ConfigService,
-    // private webStorageService:WebStorageService,
+    public localStrorageData: WebStorageService,
+    private webStorage:WebStorageService,
     public dialog: MatDialog,
     private apiService:ApiService,
     public error: ErrorHandlerService,
@@ -48,10 +50,6 @@ export class DepartmentMasterComponent implements OnInit,AfterViewInit, OnDestro
     public validation: FormsValidationService,
     public commonMethod: CommonMethodService,
     ) { }
-
-  ngAfterViewInit(): void {
-
-  }
 
   ngOnInit(): void {
     this.createDepartmentForm();
@@ -67,7 +65,10 @@ export class DepartmentMasterComponent implements OnInit,AfterViewInit, OnDestro
 
     })
   }
+//------------------------------------------------------------------------------FilterForm--------------------------------------------------------------------------
+ngAfterViewInit(): void {
 
+}
   filterMethod() {
     this.filterForm = this.fb.group({
       deptName: [''],
@@ -118,15 +119,15 @@ dataDispaly(){
     let formData = this.frmDepartment.value;
     console.log(formData);
     let obj = {
-      "createdBy": 0,
-      "modifiedBy": 0,
+      "createdBy":  this.webStorage.getUserId(),
+      "modifiedBy":  this.webStorage.getUserId(),
       "createdDate": new Date(),
       "modifiedDate": new Date(),
       "isDeleted": true,
-      "id":this.isEdit == true ? this.updatedObj.id : 0,
+      "id": 0,
       "departmentName": formData.departmentName,
     }
-
+    this.isEdit ? obj.id = this.updatedObj.id : obj.id =0;
     let method = this.isEdit ? 'PUT' : 'POST';
     let url = this.isEdit ? "UpdateDepartment" : "AddDepartment";
     this.apiService.setHttp(method, "samdhan/Department/" + url, false, obj, false, 'samadhanMiningService');
@@ -146,7 +147,16 @@ dataDispaly(){
       error: ((error: any) => { this.error.handelError(error.status); this.spinner.hide(); })
     })
   }
-
+//------------------------------------------------------------------Update--------------------------------------------------------------------------------
+editRecord(data: any) {
+  this.highlightedRow = data.id;
+  this.isEdit = true;
+  this.updatedObj = data;
+  console.log(this.updatedObj);
+  this.frmDepartment.patchValue({
+  departmentName: this.updatedObj.departmentName,
+  });
+}
   //--------------------------------------------------------------------Pagination-----------------------------------------------------------------------------
   pageChanged(event:any){
     this.pageNo = event.pageIndex;
@@ -187,17 +197,7 @@ filterRecord() {
   this.dataDispaly()
 }
 
-//------------------------------------------------------------------Update--------------------------------------------------------------------------------
-editRecord(ele: any) {
-  this.highlightedRow = ele.id;
-  this.isEdit = true;
-  this.updatedObj = ele;
-  console.log(this.updatedObj);
-  this.frmDepartment.patchValue({
-  departmentName: this.updatedObj.departmentName,
 
-  });
-}
 //---------------------------------------------------------------------------Delete---------------------------------------------------------------------------------------
 isAllSelected() {
   const numSelected = this.selection.selected.length;
@@ -232,11 +232,11 @@ deleteUser() {
   let selDelArray = this.selection.selected;
   let delArray = new Array();
   if (selDelArray.length > 0) {
-    selDelArray.find((ele: any) => {
+    selDelArray.find((data: any) => {
       let obj = {
-        "id": ele.id,
-        "deletedBy": 0,
-        "modifiedDate": new Date()
+        id: data.id,
+        deletedBy: 0,
+        modifiedDate: new Date()
       }
       delArray.push(obj)
     })
@@ -248,6 +248,7 @@ deleteUser() {
         this.highlightedRow = 0;
         this.dataDispaly();
         this.commonMethod.matSnackBar(res.statusMessage, 0);
+        this.selection.clear();
       } else {
         if (res.statusCode != "404") {
           this.error.handelError(res.statusMessage)

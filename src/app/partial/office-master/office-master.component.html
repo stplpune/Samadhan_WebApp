@@ -1,5 +1,6 @@
 <div class="row">
   <div class="col-sm-8">
+    <form>
     <div class="row">
       <div class="col-sm-6">
         <mat-form-field  appearance="outline" class="w-100">
@@ -18,6 +19,7 @@
       </mat-form-field>
   </div>
     </div>
+  </form>
     <table mat-table [dataSource]="dataSource" class="dashboard-table w-100">
       <ng-container matColumnDef="srNo">
         <th mat-header-cell *matHeaderCellDef class="srno"> SR.No. </th>
@@ -31,16 +33,18 @@
         <th mat-header-cell *matHeaderCellDef>OFFICE</th>
         <td mat-cell *matCellDef="let element"> {{element.officeName }} </td>
       </ng-container>
+
       <ng-container matColumnDef="weight">
         <th mat-header-cell *matHeaderCellDef class="srno">Action </th>
-        <td mat-cell *matCellDef="let element" class="srno">
-          <button mat-icon-button color="" (click)="editRecord(element)">
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button (click)="editRecord(element)">
             <span class="material-symbols-outlined">
               edit_square
             </span>
           </button>
         </td>
       </ng-container>
+
       <ng-container matColumnDef="delete">
         <th mat-header-cell *matHeaderCellDef class="srno"> <button [disabled]="this.selection.selected.length ==0" mat-icon-button (click)="deleteUserData()" style="margin-left: 2rem;">
           <span class="material-symbols-outlined">
@@ -50,7 +54,6 @@
       </th>
         <td mat-cell *matCellDef="let element">
         </td>
-
       </ng-container>
       <ng-container matColumnDef="select">
         <th *matHeaderCellDef class="mxw-80">
@@ -60,7 +63,6 @@
           </mat-checkbox>
       </th>
       <td *matCellDef="let element let i=index" class="mxw-80">
-
           <mat-checkbox (click)="$event.stopPropagation()"
               (change)="$event ? selection.toggle(element) : null"
               [checked]="selection.isSelected(element)">
@@ -71,7 +73,7 @@
         <td class="alert alert-danger text-center m-2 mt-2" colspan="9">No data found </td>
     </tr>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'highlightedRow ':highlightedRow == row.id}">
       </tr>
     </table>
     <ng-container *ngIf="dataSource?.length!=0">
@@ -84,7 +86,7 @@
   <div class="col-sm-4">
       <div class="card form-card">
           <div class="card-header">
-            {{isEdit?'Update' : 'Add'}} Add Office
+            {{isEdit?'Update' : 'Add'}} Office
           </div>
           <form [formGroup]="frmOffice" #formDirective="ngForm" (ngSubmit)="onSubmitOffice()" autocomplete="off">
           <div class="card-body">
@@ -94,15 +96,23 @@
                       <mat-select formControlName="deptId">
                           <mat-option *ngFor="let dept of departmentArr" [value]="dept.id">{{dept.departmentName}}</mat-option>
                       </mat-select>
+                      <mat-error *ngIf="f['deptId']?.errors">
+                        <span *ngIf="f['deptId']?.hasError('required')"> Please Select Department</span>
+                        <span
+                        *ngIf="f['deptId']?.hasError('pattern') || f['deptId']?.hasError('minlength')">
+                        Please Select Department</span>
+                    </mat-error>
                   </mat-form-field>
               </div>
               <div class="mb-2">
                   <mat-form-field appearance="outline" class="w-100 ">
                       <mat-label>Office Name</mat-label>
-                      <input matInput formControlName="name" maxlength="200">
-                      <mat-error *ngIf="f['name'].errors">
-                        <span class="text-danger" *ngIf="f['name'].errors?.['pattern']">Please enter
-                            valid office Name</span>
+                      <input matInput formControlName="name" maxlength="50" (keyup)="validation.removeSpaceAtBegining($event)"
+                      (keypress)="validation.alphabetsWithSpaces($event)">
+                      <mat-error *ngIf="f['name']?.errors">
+                        <span *ngIf="f['name']?.hasError('required')"> Office Name is required</span>
+                        <span  *ngIf="f['name'].hasError('pattern')">
+                           Pelase enter valid office name</span>
                     </mat-error>
                   </mat-form-field>
               </div>
@@ -110,10 +120,11 @@
 
                   <mat-form-field appearance="outline" class="w-100 ">
                       <mat-label>Office Address</mat-label>
-                      <input matInput formControlName="address">
-                      <mat-error *ngIf="f['address'].errors">
-                        <span class="text-danger" *ngIf="f['address'].errors?.['pattern']">Please enter
-                            valid address</span>
+                      <input matInput formControlName="address" maxlength="50">
+                      <mat-error *ngIf="f['address']?.errors">
+                        <span *ngIf="f['address']?.hasError('required')">Address is required</span>
+                        <span  *ngIf="f['address'].hasError('pattern')">
+                           Pelase enter address</span>
                     </mat-error>
                   </mat-form-field>
               </div>
@@ -121,10 +132,11 @@
 
                   <mat-form-field appearance="outline" class="w-100 ">
                       <mat-label>Office Email ID</mat-label>
-                      <input matInput formControlName="emailId">
-                      <mat-error *ngIf="f['emailId'].errors">
-                        <span class="text-danger" *ngIf="f['emailId'].errors?.['pattern']">Please enter
-                            valid email Id</span>
+                      <input matInput formControlName="emailId" (keyup)="validation.removeSpaceAtBegining($event)">
+                      <mat-error *ngIf="f['emailId']?.errors">
+                        <span *ngIf="f['emailId']?.hasError('required')">Email Id is required</span>
+                        <span  *ngIf="f['emailId'].hasError('pattern')">
+                           Pelase enter valid email id</span>
                     </mat-error>
                   </mat-form-field>
               </div>
@@ -132,10 +144,12 @@
 
                   <mat-form-field appearance="outline" class="w-100">
                       <mat-label>Contact Person Name</mat-label>
-                      <input matInput formControlName="contactPersonName" maxlength="200">
-                      <mat-error *ngIf="f['contactPersonName'].errors">
-                        <span class="text-danger" *ngIf="f['contactPersonName'].errors?.['pattern']">Please enter
-                            valid contact Person Name</span>
+                      <input matInput formControlName="contactPersonName" maxlength="200" (keyup)="validation.removeSpaceAtBegining($event)"
+                      (keypress)="validation.alphabetsWithSpaces($event)">
+                      <mat-error *ngIf="f['contactPersonName']?.errors">
+                        <span *ngIf="f['contactPersonName']?.hasError('required')">Contact Person Name is required</span>
+                        <span  *ngIf="f['contactPersonName'].hasError('pattern')">
+                           Pelase enter valid contact person name</span>
                     </mat-error>
                   </mat-form-field>
               </div>
@@ -143,10 +157,12 @@
 
                   <mat-form-field appearance="outline" class="w-100 ">
                       <mat-label>Contact Person Mobile No.</mat-label>
-                      <input matInput formControlName="mobileNo" maxlength="10">
-                      <mat-error *ngIf="f['mobileNo'].errors">
-                        <span class="text-danger" *ngIf="f['mobileNo'].errors?.['pattern']">Please enter
-                            valid mobile No</span>
+                      <input matInput formControlName="mobileNo" maxlength="10" (keyup)="validation.removeSpaceAtBegining($event)">
+                      <mat-error *ngIf="f['mobileNo']?.errors">
+                        <span *ngIf="f['mobileNo']?.hasError('required')"> Mobile No is required</span>
+                        <span
+                        *ngIf="f['mobileNo']?.hasError('pattern') || f['mobileNo']?.hasError('minlength')">
+                        Please enter valid Mobile no </span>
                     </mat-error>
                   </mat-form-field>
               </div>

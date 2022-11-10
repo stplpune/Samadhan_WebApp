@@ -64,9 +64,7 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
     this.getOfficeName();
     this.dataDispaly();
   }
-  get f() {
-    return this.frmOffice.controls;
-  }
+
 
 //---------------------------------------------------------------------------Office Form----------------------------------------------------------------
   createOfficeForm() {
@@ -79,26 +77,30 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
       mobileNo: ['',[Validators.required,Validators.pattern(this.validation.valMobileNo),Validators.minLength(10),Validators.maxLength(10),],],
     });
   }
+
+  get f() {
+    return this.frmOffice.controls;
+  }
   //--------------------------------------------------------FilterFOrm--------------------------------------------------------------------------------------
   ngAfterViewInit(): void {}
   selection = new SelectionModel<any>(true, []);
 
-  toggleAllRows() {
-    if (this.isAllSelected()) {
-      this.selection.clear();
-      return;
-    }
+  // toggleAllRows() {
+  //   if (this.isAllSelected()) {
+  //     this.selection.clear();
+  //     return;
+  //   }
 
-    this.selection.select(...this.dataSource);
-  }
-  checkboxLabel(row?: any): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
-      row.srNo + 1
-    }`;
-  }
+  //   this.selection.select(...this.dataSource);
+  // }
+  // checkboxLabel(row?: any): string {
+  //   if (!row) {
+  //     return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
+  //   }
+  //   return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
+  //     row.srNo + 1
+  //   }`;
+  // }
     //--------------------------------------------------------Department-------------------------------------------------------------------------------------------
     getDepartmentName() {
       this.apiService.setHttp(
@@ -163,7 +165,7 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   //-------------------------------------------------------Submit----------------------------------------------------------------------------------------------------
   onSubmitOffice() {
-    this.spinner.show();
+    // this.spinner.show();
     if (this.frmOffice.invalid) {
       return;
     }
@@ -198,18 +200,14 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
       next: (res: any) => {
         if (res.statusCode == 200) {
           this.highlightedRow = 0;
-          this.spinner.hide();
+          // this.spinner.hide();
           this.dataDispaly();
           this.onCancelRecord();
-          this.commonMethod.checkDataType(res.statusMessage) == false
-            ? this.error.handelError(res.statusCode)
-            : this.commonMethod.matSnackBar(res.statusMessage, 0);
+          this.commonMethod.checkDataType(res.statusMessage) == false? this.error.handelError(res.statusCode): this.commonMethod.matSnackBar(res.statusMessage, 0);
         } else {
-          this.commonMethod.checkDataType(res.statusMessage) == false
-            ? this.error.handelError(res.statusCode)
-            : this.commonMethod.matSnackBar(res.statusMessage, 1);
+          this.commonMethod.checkDataType(res.statusMessage) == false? this.error.handelError(res.statusCode): this.commonMethod.matSnackBar(res.statusMessage, 1);
         }
-        this.spinner.hide();
+        // this.spinner.hide();
       },
       error: (error: any) => {
         this.error.handelError(error.status);
@@ -306,7 +304,7 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
             this.highlightedRow = 0;
             this.dataDispaly();
             this.commonMethod.matSnackBar(res.statusMessage, 0);
-            this.selection.clear();
+
           } else {
             if (res.statusCode != '404') {
               this.error.handelError(res.statusMessage);
