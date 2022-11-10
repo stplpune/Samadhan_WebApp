@@ -116,7 +116,10 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     switch (flag) {
       case 'department':
         this.filterFrm.controls['officeId'].setValue(0);
-        // this.filterFrm.controls['textSearch'].setValue('');
+        this.filterFrm.controls['textSearch'].setValue('');
+        break;
+        case 'office':
+        this.filterFrm.controls['textSearch'].setValue('');
         break;
       default:
     }
@@ -141,7 +144,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
  //#region  drop down office bind  fn Start here
   getOffice(deptNo:number) {
     this.officeArray = [];
-    this.commonService.GetOfficeByDeptId(deptNo).subscribe({
+    this.commonService.getOfficeByDeptId(deptNo).subscribe({
       next: (response: any) => {
         this.officeArray.push(...response);
         this.isEdit ? (this.userFrm.controls['officeId'].setValue(this.updatedObj.officeId)) : '';
@@ -259,7 +262,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     });
     dialogRef.afterClosed().subscribe((res: any) => {
       this.highlightedRow = 0;
-      res == 'Yes' ? this.userBlockUnBlock(element, event.checked) : element.isBlock === "False" ? event.source.checked = false : event.source.checked = true;
+      res == 'Yes' ? this.userBlockUnBlock(element, event.checked) : element.isBlock === "False" || element.isBlock==null ? event.source.checked = false : event.source.checked = true;
     });
   }
 
@@ -312,7 +315,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   pageChanged(event: any) {
     this.pageNumber = event.pageIndex + 1;
     this.getData();
-    this.onCancelRecord();
+    // this.onCancelRecord();
   }
 
     //#region reset form value fn Start here
