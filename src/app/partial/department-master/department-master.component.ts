@@ -29,14 +29,9 @@ export class DepartmentMasterComponent implements OnInit,AfterViewInit, OnDestro
   totalRows:any;
   filterForm!:FormGroup;
   isEdit: boolean = false;
-  // editFlag: boolean = false;
-  snack: any;
   totalPages: any;
   pageNo = 0;
   pageSize = 10;
-  length: any;
-  editData:any;
-  editObj: any;
   deptType : string = '';
   subscription!: Subscription;
   updatedObj: any;
@@ -60,11 +55,12 @@ export class DepartmentMasterComponent implements OnInit,AfterViewInit, OnDestro
 
   ngOnInit(): void {
     this.createDepartmentForm();
+    this.filterMethod();
     this.dataDispaly();
   }
 
   get f() { return this.frmDepartment.controls };
-
+//-------------------------------------------------------------------------Start Form-----------------------------------------------------------------------------------------
   createDepartmentForm(){
     this.frmDepartment = this.fb.group({
       departmentName: ['', [Validators.required, Validators.pattern(this.validation.valName)]],
@@ -97,7 +93,7 @@ export class DepartmentMasterComponent implements OnInit,AfterViewInit, OnDestro
 
   //-----------------------------------------------------------------------Display Table --------------------------------------------------------------------------------
 dataDispaly(){
-  this.apiService.setHttp('get', "samdhan/Department/GetAllDepartments?pageno=" + (this.pageNo + 1) +'&pagesize='+ this.pageSize, false, false, false, 'samadhanMiningService');
+  this.apiService.setHttp('get', "samdhan/Department/GetAllDepartments?&pageno="+ (this.pageNo + 1) +'&pagesize='+ this.pageSize, false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {
@@ -267,7 +263,7 @@ deleteUser() {
 
 
 ngOnDestroy() {
-  this.subscription.unsubscribe();
+  this.subscription?.unsubscribe();
 }
 }
 // export interface PeriodicElement {

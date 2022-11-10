@@ -180,7 +180,7 @@ onSubmitGrievance(){
     "modifiedDate": new Date().toISOString(),
 
       }
-  this.apiService.setHttp('DELETE', "api/Department/DeleteDepartment", false, req, false, 'samadhanMiningService');
+  this.apiService.setHttp('DELETE', "api/Grievance/DeleteGrievance", false, req, false, 'samadhanMiningService');
   this.apiService.getHttp().subscribe({
     next: (res: any) => {
       if (res.statusCode == "200") {
