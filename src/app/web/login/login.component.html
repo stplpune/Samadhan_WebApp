@@ -28,10 +28,8 @@
                             <mat-form-field class="w-100" appearance="outline">
                                 <input matInput placeholder="User Name" formControlName="username" maxlength="10"
                                 (keyup)="validation.onlyDigits($event)">                        
-                                <mat-error *ngIf="f['username'].errors">
+                                <mat-error class="mt-2" *ngIf="f['username'].errors">
                                     <span *ngIf="f['username'].hasError('required')"> Please Enter
-                                        UserName</span>
-                                    <span *ngIf="f['username'].hasError('pattern')"> Invalid
                                         UserName</span>
                                 </mat-error>
                                 <mat-error class="mt-2" *ngIf="f['username'].hasError('pattern')">
@@ -54,7 +52,7 @@
                                 </button>
 
                                 <mat-error class="mt-2" *ngIf="f['password'].hasError('required')">
-                                    Password is required
+                                    Please Enter Password
                                 </mat-error>
                                 <mat-error class="mt-2" *ngIf="f['password'].hasError('pattern')">
                                     Please Enter Valid Password

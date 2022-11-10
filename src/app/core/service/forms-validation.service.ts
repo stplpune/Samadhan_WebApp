@@ -21,8 +21,8 @@ export class FormsValidationService {
    
    valUserName = '^[^\\s\\[\\[`&-._@#%*!-+"\'\/\\]\\]{}][a-zA-Z@0-9.\\s]+$';
     
-   valPassword = '^(?=.*[a-z0-9])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z0-9\d@$!%*?&]{4,20}$';
-
+   valPassword = '^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z0-9\d@$!%*?&]{8,20}$';
+   
    
    valMobileNo = '[6-9]\\d{9}';
    valOtp = '[0-9]\\d{6}';
