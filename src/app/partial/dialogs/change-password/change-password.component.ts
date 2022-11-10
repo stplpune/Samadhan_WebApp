@@ -42,7 +42,7 @@ export class ChangePasswordComponent implements OnInit {
     return this.changePasswordFrm.controls;
   }
   onSubmit() {
-    debugger
+    // debugger
     let formData = this.changePasswordFrm.value;
     if (this.changePasswordFrm.invalid) {
       return;
@@ -60,8 +60,8 @@ export class ChangePasswordComponent implements OnInit {
       "Password": formData.newPassword,
       "MobileNo": this.localstorageData.responseData.mobileNo,
     }
-    console.log(this.changePasswordFrm.value);
-    this.apiService.setHttp('put', 'samadhan/user-registration/UpdatePassward?OldPassword=' + obj.OldPassword + '&UserName=' + obj.UserName + '&Password=' + obj.UserName + '&MobileNo=' + obj.MobileNo, false, obj, false, 'samadhanMiningService');
+    // console.log(this.changePasswordFrm.value);
+    this.apiService.setHttp('put', 'samadhan/user-registration/UpdatePassward?OldPassword=' + obj.OldPassword + '&UserName=' + obj.UserName + '&Password=' + obj.Password + '&MobileNo=' + obj.MobileNo, false, obj, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         // console.log(res);

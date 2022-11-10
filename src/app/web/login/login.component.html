@@ -28,11 +28,11 @@
                             <mat-form-field class="w-100" appearance="outline">
                                 <input matInput placeholder="User Name" formControlName="username" maxlength="10"
                                 (keyup)="validation.onlyDigits($event)">                        
-                                <mat-error class="mt-2" *ngIf="f['username'].errors">
+                                <mat-error *ngIf="f['username'].errors">
                                     <span *ngIf="f['username'].hasError('required')"> Please Enter
                                         UserName</span>
                                 </mat-error>
-                                <mat-error class="mt-2" *ngIf="f['username'].hasError('pattern')">
+                                <mat-error *ngIf="f['username'].hasError('pattern')">
                                     Please Enter Valid Username
                                 </mat-error>
                             </mat-form-field>
@@ -51,10 +51,10 @@
                                        {{hide==false ?  'visibility':'visibility_off'}} </span>
                                 </button>
 
-                                <mat-error class="mt-2" *ngIf="f['password'].hasError('required')">
+                                <mat-error *ngIf="f['password'].hasError('required')">
                                     Please Enter Password
                                 </mat-error>
-                                <mat-error class="mt-2" *ngIf="f['password'].hasError('pattern')">
+                                <mat-error  *ngIf="f['password'].hasError('pattern')">
                                     Please Enter Valid Password
                                 </mat-error>
                             </mat-form-field>
@@ -75,7 +75,7 @@
                                         <mat-label>Enter Captcha</mat-label>
                                         <input matInput placeholder="Enter Captcha" formControlName="captcha" maxlength="4"
                                             autocomplete="off">
-                                        <mat-error class="mt-2" *ngIf="f['password'].hasError('required')">
+                                        <mat-error *ngIf="f['password'].hasError('required')">
                                             Captcha is required
                                         </mat-error>
                                     </mat-form-field>
