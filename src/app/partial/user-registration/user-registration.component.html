@@ -4,7 +4,7 @@
         <div class="row gx-2">
             <div class="col-sm-4">
                 <mat-form-field  appearance="outline" class="w-100">
-                    <mat-label>All Department</mat-label>
+                    <mat-label>Select Department</mat-label>
                     <mat-select formControlName="deptId" (selectionChange)="clearFilter('department');filterData();getOffice(filterFrm.value.deptId)">
                         <mat-option  value="0">All Department</mat-option>
                         <mat-option *ngFor="let department of departmentArray" [value]="department.id">
@@ -15,7 +15,7 @@
             </div>
             <div class="col-sm-4">
                 <mat-form-field  appearance="outline" class="w-100">
-                    <mat-label>All Office</mat-label>
+                    <mat-label>Select Office</mat-label>
                     <mat-select formControlName="officeId" (selectionChange)="clearFilter('office');filterData()" [disabled]='!filterFrm.value.deptId'>
                         <mat-option  value="0">All Office</mat-option>
                         <mat-option *ngFor="let office of officeArray" [value]="office.id">
@@ -140,7 +140,7 @@
                     <mat-form-field class="w-100" appearance="outline">
                         <mat-label>User Type</mat-label>
                         <mat-select formControlName="userTypeId" >
-                            <mat-option *ngFor="let user of userTypeArray" [value]="user.userTypeId">
+                            <mat-option *ngFor="let user of usersArray" [value]="user.userTypeId">
                                 {{user.userType}}
                             </mat-option>
                         </mat-select>

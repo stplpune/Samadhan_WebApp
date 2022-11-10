@@ -33,6 +33,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   totalRows: number = 0;
   pageNumber: number = 1;
   stateArray=new Array();
+  usersArray=new Array();
   departmentArray= new Array();
   officeArray= new Array();
   highlightedRow!: number;
@@ -61,6 +62,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.defaultForm();
     this.filterForm();
     this.getData();
+    this.getUsers();
     this.getDepartment();
   }
 
@@ -127,6 +129,18 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   }
   //#endregion clear filter  fn end here
 
+  getUsers() {
+    this.usersArray = [];
+    this.commonService.getAllUser().subscribe({
+      next: (response: any) => {
+        this.usersArray.push(...response);
+        // this.isEdit ? (this.userFrm.controls['userTypeId'].setValue(this.updatedObj?.userTypeId)) : '';
+      },
+      error: ((error: any) => { this.error.handelError(error.status) })
+    })
+  }
+
+
 
   //#region  drop down department bind  fn Start here
   getDepartment() {
@@ -143,6 +157,9 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
 
  //#region  drop down office bind  fn Start here
   getOffice(deptNo:number) {
+   if(deptNo==0){
+    return;
+   }
     this.officeArray = [];
     this.commonService.getOfficeByDeptId(deptNo).subscribe({
       next: (response: any) => {
@@ -168,6 +185,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.apiService.setHttp('get', "samadhan/user-registration/GetAll" + paramList, false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
+        // debugger
         if (res.statusCode == 200) {
           this.users = res.responseData.responseData1;
           this.dataSource = new MatTableDataSource(this.users);
@@ -176,6 +194,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
           this.pageNumber == 1 ? this.paginator?.firstPage() : '';
           this.spinner.hide();
         } else {
+        
           this.spinner.hide();
           this.dataSource = []
           this.totalRows = 0;
