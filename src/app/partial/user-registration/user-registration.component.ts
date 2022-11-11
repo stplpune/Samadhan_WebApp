@@ -217,7 +217,6 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
       return;
     }
     let formData = this.userFrm.value;
-    console.log(formData);
     let obj = {
       "createdBy": this.webStorage.getUserId(),
       "modifiedBy": this.webStorage.getUserId(),
@@ -319,7 +318,6 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.highlightedRow = ele.id;
     this.isEdit = true;
     this.updatedObj = ele;
-    console.log(this.updatedObj);
     this.userFrm.patchValue({
       userTypeId: this.updatedObj.userTypeId,
       name: this.updatedObj.name,
