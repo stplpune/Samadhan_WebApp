@@ -15,7 +15,7 @@ export class FileUploadService {
     private error:ErrorHandlerService,
     private spinner:NgxSpinnerService) { }
 
-  uploadDocuments(event: any, folderName?: any, allowedDocTypes?: any, _minsize?: any, maxsize?: any) {
+  uploadDocuments(event: any, folderName?: any, allowedDocTypes?: any, _minsize?: any, _maxsize?: any) {
     return new Observable(obj => {
       const selResult = event.target.value.split('.');
       const docExt = selResult.pop();
@@ -23,8 +23,8 @@ export class FileUploadService {
       if (allowedDocTypes.match(docExt)) {
         if (event.target.files && event.target.files[0]) {
           const file = event.target.files[0];
-          if ((file.size / 1048576) > maxsize) {
-            obj.error("Required file size should be less than " + maxsize + " MB.");
+          if (file.size > 10485760) {
+            obj.error("Required file size should be less than " + 10 + " MB.");
           }
           else {
             const reader: any = new FileReader();
