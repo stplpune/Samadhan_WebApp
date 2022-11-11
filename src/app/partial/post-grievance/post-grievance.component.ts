@@ -15,6 +15,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { debounceTime, distinctUntilChanged, filter, Subscription } from 'rxjs';
 import { FileUploadService } from 'src/app/core/service/file-upload.service';
+import { ConfirmationComponent } from '../dialogs/confirmation/confirmation.component';
 // import { FileUploadService } from 'src/app/core/service/file-upload.service';
 @Component({
   selector: 'app-post-grievance',
@@ -23,7 +24,7 @@ import { FileUploadService } from 'src/app/core/service/file-upload.service';
 })
 export class PostGrievanceComponent implements OnInit {
 
-  displayedColumns: string[] = ['srno', 'name', 'taluka', 'village', 'department', 'office', 'status', 'action', 'button', 'select'];
+  displayedColumns: string[] = ['srno','grievanceId', 'name', 'taluka',  'department',  'status', 'action', 'button', 'select'];
   registerBy = [{ value: 1, type: 'Self' }, { value: 0, type: 'Others' }];
   selection = new SelectionModel<Element>(true, []);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -44,7 +45,7 @@ export class PostGrievanceComponent implements OnInit {
   totalRows: number = 0;
   dataSource: any;
   pageNumber: number = 1;
-
+  highlightedRow!:number;
   isSelfGrievance = new FormControl(1);
   grievanceImageArray :any[]=[];
   subscription!: Subscription;
@@ -96,9 +97,9 @@ export class PostGrievanceComponent implements OnInit {
   filterForm() {
     this.filterFrm = this.fb.group({
       talukaId: [0],
-      villageId: [0],
+      // villageId: [0],
       deptId: [0],
-      officeId: [0],
+      // officeId: [0],
       statusId: [0],
       textSearch: ['']
     })
@@ -219,18 +220,18 @@ export class PostGrievanceComponent implements OnInit {
     })
   }
 
-  clearFilter(flag: any) {
-    switch (flag) {
-      case 'taluka': this.filterFrm.controls['villageId'].setValue(0); break;
-      case 'department': this.filterFrm.controls['officeId'].setValue(0); break;
-      default:
-    }
-  }
+  // clearFilter(flag: any) {
+  //   switch (flag) {
+  //     case 'taluka': this.filterFrm.controls['villageId'].setValue(0); break;
+  //     case 'department': this.filterFrm.controls['officeId'].setValue(0); break;
+  //     default:
+  //   }
+  // }
 
   bindTable() {
     this.spinner.show()
     let formValue = this.filterFrm.value;
-    let paramList: string = "?pageno=" + this.pageNumber + "&pagesize=" + 10 + "&TalukaId=" + formValue.talukaId + "&VillageId=" + formValue.villageId + "&DeptId=" + formValue.deptId + "&OfficeId=" + formValue.officeId + "&StatusId=" + formValue.statusId;
+    let paramList: string = "?pageno=" + this.pageNumber + "&pagesize=" + 10 + "&TalukaId=" + formValue.talukaId + "&VillageId=" +0 + "&DeptId=" + formValue.deptId + "&OfficeId=" + 0 + "&StatusId=" + formValue.statusId;
     this.commonMethod.checkDataType(formValue.textSearch.trim()) == true ? paramList += "&Textsearch=" + formValue.textSearch : '';
     this.apiService.setHttp('get', "samadhan/Grievance/GetAllGrievance" + paramList, false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
@@ -256,21 +257,23 @@ export class PostGrievanceComponent implements OnInit {
   }
 
   isAllSelected() {
+    
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
+    
 
   }
 
   masterToggle() {
     this.isAllSelected()
       ? this.selection.clear()
-      : this.dataSource.data.forEach((row: any) => this.selection.select(row));
+      : this.dataSource.data.forEach((row: any) => this.selection.select(row));     
   }
 
   documentUpload(event: any) {
     let documentUrlUploaed: any;
-    let documentUrl: any = this.uploadFilesService.uploadDocuments(event, "grievance", "png,jpg,jpeg,pdf", 5, 10000)
+    let documentUrl: any = this.uploadFilesService.uploadDocuments(event, "grievance", "png,jpg,jpeg,pdf")
     documentUrl.subscribe({
       next: (ele: any) => {
         documentUrlUploaed = ele.responseData;
@@ -297,8 +300,9 @@ export class PostGrievanceComponent implements OnInit {
   }
 
   postGrievanceType(flag:any) {
-    this.defaultForm();
+    // this.defaultForm();
     this.formDirective && this.formDirective.resetForm();
+    this.districtArray.length == 1 ? this.postGrievanceForm.controls['districtId'].setValue(this.districtArray[0].id) : '';
     if (flag == 0) {
       this.postGrievanceForm.controls["otherCitizenName"].setValidators([Validators.required,Validators.pattern('^[^\\s0-9\\[\\[`&._@#%*!+"\'\/\\]\\]{}][a-zA-Z.\\s]+$')]);
       this.postGrievanceForm.controls["otherCitizenName"].updateValueAndValidity();
@@ -372,6 +376,62 @@ export class PostGrievanceComponent implements OnInit {
       })
     }
   }
+
+  deleteData() {
+    const dialog = this.dialog.open(ConfirmationComponent, {
+      width: '400px',
+      data: { p1: 'Are you sure you want to delete this record?', p2: '', cardTitle: 'Delete', successBtnText: 'Delete', dialogIcon: '', cancelBtnText: 'Cancel' },
+      disableClose: this.apiService.disableCloseFlag,
+    })
+    dialog.afterClosed().subscribe(res => {
+      if (res == 'Yes') {
+        this.deletePostGrievance();
+      } else {
+        this.selection.clear();
+      }
+    })
+  }
+
+  deletePostGrievance() {
+    let selDelArray = this.selection.selected;
+    let delArray = new Array();
+    if (selDelArray.length > 0) {
+      selDelArray.find((ele: any) => {
+        let obj = {
+          "id": ele.id,
+          "deletedBy": this.localStrorageData?.getUserId(),
+          "modifiedDate": new Date()
+        }
+        delArray.push(obj)
+      })
+    }
+    this.apiService.setHttp('DELETE', 'samadhan/Grievance/Delete', false, delArray, false, 'samadhanMiningService');
+    this.apiService.getHttp().subscribe({
+      next: (res: any) => { 
+        if (res.statusCode === "200") {
+          // this.highlightedRow = 0;
+          this.bindTable();
+          this.commonMethod.matSnackBar(res.statusMessage, 0);
+          this.selection.clear();
+        } else {
+          if (res.statusCode != "404") {   
+            this.error.handelError(res.statusMessage)
+          }
+        }
+      }
+    }, (error: any) => {
+      this.spinner.hide();
+      this.error.handelError(error.status);
+    });
+
+  }
+
+  //#endregiondrop single or multiple user delete fn end here
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
+  }
+
 
 }
 
