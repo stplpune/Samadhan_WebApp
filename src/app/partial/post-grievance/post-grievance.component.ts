@@ -1,6 +1,6 @@
-import { Component, OnInit,ViewChild,ElementRef } from '@angular/core';
-import {SelectionModel} from '@angular/cdk/collections';
-import {MatTableDataSource} from '@angular/material/table';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { SelectionModel } from '@angular/cdk/collections';
+import { MatTableDataSource } from '@angular/material/table';
 import { CommonApiService } from 'src/app/core/service/common-api.service';
 import { ErrorHandlerService } from 'src/app/core/service/error-handler.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -13,7 +13,8 @@ import { WebStorageService } from 'src/app/core/service/web-storage.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, Subscription } from 'rxjs';
+import { FileUploadService } from 'src/app/core/service/file-upload.service';
 // import { FileUploadService } from 'src/app/core/service/file-upload.service';
 @Component({
   selector: 'app-post-grievance',
@@ -21,28 +22,32 @@ import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
   styleUrls: ['./post-grievance.component.css']
 })
 export class PostGrievanceComponent implements OnInit {
-  stateArray:any[]=[];
-  filterFrm!:FormGroup;
-  postGrievanceForm!:FormGroup;
-  districtArray=new Array();
-  talukaArray=new Array();
-  villageArray=new Array();
-  departmentArray=new Array();
-  officeArray=new Array();
-  statusArray=new Array();
-  natureOfGrievance=new Array();
-  postGrivanceData=new Array();
-  totalRows:number=0;
-  dataSource:any;
-  pageNumber:number=1;
-  displayedColumns: string[] = [ 'srno','name', 'taluka','village', 'department','office','status', 'action','button','select'];
-  registerBy= [{ value:0, type: 'Self' }, { value:1, type: 'Others' }];
+
+  displayedColumns: string[] = ['srno', 'name', 'taluka', 'village', 'department', 'office', 'status', 'action', 'button', 'select'];
+  registerBy = [{ value: 0, type: 'Self' }, { value: 1, type: 'Others' }];
   selection = new SelectionModel<Element>(true, []);
-  urls=new Array();
-  
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('fileInput') fileInput!: ElementRef;
+
+  stateArray: any[] = [];
+  filterFrm!: FormGroup;
+  postGrievanceForm!: FormGroup;
+  districtArray = new Array();
+  talukaArray = new Array();
+  villageArray = new Array();
+  departmentArray = new Array();
+  officeArray = new Array();
+  statusArray = new Array();
+  natureOfGrievance = new Array();
+  postGrivanceData = new Array();
+  totalRows: number = 0;
+  dataSource: any;
+  pageNumber: number = 1;
+
+  grievanceImageArray :any[]=[];
+  subscription!: Subscription;
+
 
   constructor(public commonMethod: CommonMethodService,
     public apiService: ApiService,
@@ -53,9 +58,9 @@ export class PostGrievanceComponent implements OnInit {
     public commonApi: CommonApiService,
     public localStrorageData: WebStorageService,
     private fb: FormBuilder,
-    // private uploadFilesService:FileUploadService,
+    private uploadFilesService:FileUploadService,
     private spinner: NgxSpinnerService
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.filterForm();
@@ -68,6 +73,23 @@ export class PostGrievanceComponent implements OnInit {
     this.bindTable();
   }
 
+  get f() { return this.postGrievanceForm.controls;}
+
+  defaultForm() {
+    this.postGrievanceForm = this.fb.group({
+      isSelfGrievance: [0, [Validators.required]],
+      otherCitizenName: [''],
+      otherCitizenMobileNo: [''],
+      otherCitizenAddress: [''],
+      districtId: ['', [Validators.required]],
+      talukaId: ['', [Validators.required]],
+      villageId: ['', [Validators.required]],
+      deptId: ['', [Validators.required]],
+      officeId: ['', [Validators.required]],
+      natureGrievanceId: ['', [Validators.required]],
+      grievanceDescription: ['', [Validators.required]]
+    })
+  }
 
   filterForm() {
     this.filterFrm = this.fb.group({
@@ -75,29 +97,9 @@ export class PostGrievanceComponent implements OnInit {
       villageId: [0],
       deptId: [0],
       officeId: [0],
-      statusId:[0],
+      statusId: [0],
       textSearch: ['']
     })
-  }
-
-  defaultForm(){
-    this.postGrievanceForm= this.fb.group({
-      isSelfGrievance:[0,[Validators.required]],
-      otherCitizenName:[''],
-      otherCitizenMobileNo:[''],
-      otherCitizenAddress:[''],
-      districtId:['',[Validators.required]],
-      talukaId:['',[Validators.required]],
-      villageId:['',[Validators.required]],
-      deptId:['',[Validators.required]],
-      officeId:['',[Validators.required]],
-      natureGrievanceId:['',[Validators.required]],
-      grievanceDescription:['',[Validators.required]]
-    })
-  }
- 
-  get f(){
-    return this.postGrievanceForm.controls;
   }
 
   ngAfterViewInit() {
@@ -121,49 +123,48 @@ export class PostGrievanceComponent implements OnInit {
     this.bindTable();
   }
 
-
   getState() {
     this.stateArray = [];
     this.commonApi.getAllState().subscribe({
       next: (response: any) => {
-       this.stateArray.push({ 'value': 0, 'text': 'Select State' }, ...response);
-       console.log( this.stateArray);
+        this.stateArray.push({ 'value': 0, 'text': 'Select State' }, ...response);
+        console.log(this.stateArray);
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
   }
 
-  getDistrict(){
+  getDistrict() {
     this.districtArray = [];
     // const id = this.userFrm.value.stateId;
     this.commonApi.getAllDistrict().subscribe({
       next: (response: any) => {
         this.districtArray.push(...response);
-        this.districtArray.length == 1 ? this.postGrievanceForm.controls['districtId'].setValue(this.districtArray[0].id):'';
+        this.districtArray.length == 1 ? this.postGrievanceForm.controls['districtId'].setValue(this.districtArray[0].id) : '';
         this.getTaluka(1);
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
   }
 
-  getTaluka(distId:number){
+  getTaluka(distId: number) {
     this.talukaArray = [];
     this.commonApi.getTalukabyDistId(distId).subscribe({
       next: (response: any) => {
-       this.talukaArray.push( ...response);
+        this.talukaArray.push(...response);
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
   }
 
-  getVillage(talId:number){
-    if(talId==0){
+  getVillage(talId: number) {
+    if (talId == 0) {
       return;
-     }
+    }
     this.villageArray = [];
     this.commonApi.getVillageByTalukaId(talId).subscribe({
       next: (response: any) => {
-       this.villageArray.push( ...response);       
+        this.villageArray.push(...response);
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
@@ -180,21 +181,21 @@ export class PostGrievanceComponent implements OnInit {
     })
   }
 
-  getOffice(deptNo:number) {
-    if(deptNo==0){
-     return;
+  getOffice(deptNo: number) {
+    if (deptNo == 0) {
+      return;
     }
-     this.officeArray = [];
-     this.commonApi.getOfficeByDeptId(deptNo).subscribe({
-       next: (response: any) => {
-         this.officeArray.push(...response);
+    this.officeArray = [];
+    this.commonApi.getOfficeByDeptId(deptNo).subscribe({
+      next: (response: any) => {
+        this.officeArray.push(...response);
         //  this.isEdit ? (this.userFrm.controls['officeId'].setValue(this.updatedObj.officeId)) : '';
-       },
-       error: ((error: any) => { this.error.handelError(error.status) })
-     })
-   }
+      },
+      error: ((error: any) => { this.error.handelError(error.status) })
+    })
+  }
 
-   getStatus(){
+  getStatus() {
     this.statusArray = [];
     this.commonApi.getAllStatus().subscribe({
       next: (response: any) => {
@@ -203,9 +204,9 @@ export class PostGrievanceComponent implements OnInit {
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
-   }
-   
-   getGrievance(){
+  }
+
+  getGrievance() {
     this.natureOfGrievance = [];
     this.commonApi.getAllNatureOfGrievance().subscribe({
       next: (response: any) => {
@@ -214,43 +215,34 @@ export class PostGrievanceComponent implements OnInit {
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
-   }
-   //#region  clear filter  fn Start here
+  }
+
   clearFilter(flag: any) {
     switch (flag) {
-      case 'taluka':
-        this.filterFrm.controls['villageId'].setValue(0);
-        // this.filterFrm.controls['textSearch'].setValue('');
-        break;
-        case 'department':
-        this.filterFrm.controls['officeId'].setValue(0);
-        // this.filterFrm.controls['textSearch'].setValue('');
-        break;
+      case 'taluka': this.filterFrm.controls['villageId'].setValue(0); break;
+      case 'department': this.filterFrm.controls['officeId'].setValue(0); break;
       default:
     }
-
   }
-  //#endregion clear filter  fn end here
 
-   bindTable(){
+  bindTable() {
     this.spinner.show()
     let formValue = this.filterFrm.value;
-    let paramList: string = "?pageno=" + this.pageNumber+ "&pagesize=" + 10 +"&TalukaId="+ formValue.talukaId +"&VillageId="+ formValue.villageId+ "&DeptId=" + formValue.deptId + "&OfficeId=" + formValue.officeId + "&StatusId="+ formValue.statusId;
+    let paramList: string = "?pageno=" + this.pageNumber + "&pagesize=" + 10 + "&TalukaId=" + formValue.talukaId + "&VillageId=" + formValue.villageId + "&DeptId=" + formValue.deptId + "&OfficeId=" + formValue.officeId + "&StatusId=" + formValue.statusId;
     this.commonMethod.checkDataType(formValue.textSearch.trim()) == true ? paramList += "&Textsearch=" + formValue.textSearch : '';
     this.apiService.setHttp('get', "samadhan/Grievance/GetAllGrievance" + paramList, false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {
-           this.postGrivanceData = res.responseData.responseData1;
+          this.postGrivanceData = res.responseData.responseData1;
           this.dataSource = new MatTableDataSource(this.postGrivanceData);
           this.dataSource.sort = this.sort;
           this.totalRows = res.responseData.responseData2[0].pageCount;
           this.pageNumber == 1 ? this.paginator?.firstPage() : '';
           this.spinner.hide();
         } else {
-        
           this.spinner.hide();
-          this.dataSource = []
+          this.dataSource = [];
           this.totalRows = 0;
           if (res.statusCode != "404") {
             this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
@@ -259,9 +251,9 @@ export class PostGrievanceComponent implements OnInit {
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     });
-   }
+  }
 
-   isAllSelected() {
+  isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
@@ -274,26 +266,75 @@ export class PostGrievanceComponent implements OnInit {
       : this.dataSource.data.forEach((row: any) => this.selection.select(row));
   }
 
-  documentUpload(event:any){
-    if (event.target.files && event.target.files[0]) {
-      var filesAmount = event.target.files.length;
-      for (let i = 0; i < filesAmount; i++) {
-              var reader = new FileReader();
-
-              reader.onload = (event:any) => {
-                console.log(event.target.result);
-                 this.urls.push(event.target.result); 
-              }
-
-              reader.readAsDataURL(event.target.files[i]);
-      }
+  documentUpload(event: any) {
+    let documentUrlUploaed: any;
+    let documentUrl: any = this.uploadFilesService.uploadDocuments(event, "grievance", "png,jpg,jpeg,pdf", 5, 10000)
+    documentUrl.subscribe({
+      next: (ele: any) => {
+        documentUrlUploaed = ele.responseData;
+        if (documentUrlUploaed != null) {
+          let obj =    {
+            "grievanceId": 0,
+            "docname": "string",
+            "docpath": documentUrlUploaed,
+            "sortOrder": 0,
+            "createdBy": this.localStrorageData.getUserId(),
+            "createdDate": new Date(),
+            "isDeleted": false
+          }
+          this.grievanceImageArray.push(obj);
+        }
+      },
+    })  
+    console.log(this.grievanceImageArray)
   }
-}
 
-  onSubmit(){
-    if(this.postGrievanceForm.invalid){
+  onSubmitForm() {
+    if (this.postGrievanceForm.invalid) {
       return
+    } else {
+      this.spinner.show();
+      let formData = this.postGrievanceForm.value;
+      let obj = {
+        "createdBy": this.localStrorageData.getUserId(),
+        "modifiedBy": this.localStrorageData.getUserId(),
+        "createdDate": new Date(),
+        "modifiedDate": new Date(),
+        "isDeleted": false,
+        "id": 0,
+        "districtId": formData.districtId,
+        "talukaId": formData.talukaId,
+        "stateId": 1,
+        "villageId": formData.villageId,
+        "concern_DeptId": formData.deptId,
+        "concern_OfficeId": formData.officeId,
+        "natureGrievanceId": formData.natureGrievanceId,
+        "grievanceDescription": formData.grievanceDescription,
+        "isSelfGrievance": formData.isSelfGrievance,
+        "otherCitizenName": formData.otherCitizenName,
+        "otherCitizenMobileNo": formData.otherCitizenMobileNo,
+        "otherCitizenAddress": formData.otherCitizenAddress,
+        "grievanceSubmissionDate": new Date(),
+        "citizenGrievanceImages": this.grievanceImageArray
+      }
+
+      this.apiService.setHttp('post', 'samadhan/Grievance/PostGrievance',false,obj,false,'samadhanMiningService');
+      this.subscription = this.apiService.getHttp().subscribe({
+        next: (res: any) => {
+          if (res.statusCode == 200) {
+            this.spinner.hide();
+            this.bindTable();
+            this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 0);
+          } else {
+            this.spinner.hide();
+            this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
+          }
+        },
+        error: ((error: any) => { this.error.handelError(error.status); this.spinner.hide(); })
+      })
     }
   }
+
+
 }
 
