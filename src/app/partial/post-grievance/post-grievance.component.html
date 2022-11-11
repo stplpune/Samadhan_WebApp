@@ -175,7 +175,7 @@
                 Post Grievance
             </div>
             <div class="card-body">
-                <form [formGroup]="postGrievanceForm" (ngSubmit)="onSubmit()">
+                <form [formGroup]="postGrievanceForm" (ngSubmit)="onSubmitForm()">
                     <div class="mb-3">
                         <mat-radio-group aria-label="Select an option" formControlName="isSelfGrievance">
                             <mat-radio-button *ngFor="let reg of registerBy" [value]="reg.value" class="me-4">
@@ -325,7 +325,7 @@
                         </div>
                         <!-- <input type="file" id="myfile" name="myfile" class="form-control" multiple (change)="documentUpload($event)" #fileInput> -->
                     </div>
-                    <img *ngFor="let url of urls" [src]="url" height="40" /> <br />
+                    <img *ngFor="let url of grievanceImageArray" [src]="url" height="40" /> <br />
                     <div class="text-end mt-3">
                         <button mat-stroked-button class="btn-main" type="submit">Submit</button>
                     </div>
