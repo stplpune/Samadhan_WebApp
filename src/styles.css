@@ -158,6 +158,10 @@ body {
     box-shadow: none;
     font-size: 0.85rem;
 }
+.image-container{
+    width: 160px;
+    position: relative;
+}
 .upload-btn-wrapper {
     position: relative;
     overflow: hidden;
@@ -170,6 +174,27 @@ body {
     top: 0;
     opacity: 0;
   }
+  .grievance-image{
+    width: 158px;
+    height: 158px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position:middle;
+}
+.grievance-buttons{
+    position: absolute;
+    bottom: -2px;
+    right: 18px;
+}
+.grievance-buttons .btn{
+    border-radius: 50%;
+    height: 32px;
+    width: 32px;
+    line-height: 16px;
+    font-size: 0.85rem;
+    text-align: center;
+    padding: 0;
+}
   .mat-error {
     display: block;
     line-height: 1.8rem !important;
