@@ -1,53 +1,59 @@
     <div class="row">
         <div class="col-sm-8">
+            <form [formGroup]="filterFrm">
             <div class="row gx-1 mb-2">
                 <div class="col-sm-2">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Taluka</mat-label>
-                        <mat-select>
-                            <mat-option>Option 1</mat-option>
-                            <mat-option>Option 2</mat-option>
-                            <mat-option>Option 3</mat-option>
+                        <mat-select formControlName="talukaId" (selectionChange)="clearFilter('taluka');getVillage(filterFrm.value.talukaId);filterData()">
+                            <mat-option  value="0">All Taluka</mat-option>
+                            <mat-option *ngFor="let taluka of talukaArray" [value]="taluka.id">
+                                {{taluka.taluka}}
+                            </mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
                 <div class="col-sm-2">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Village</mat-label>
-                        <mat-select>
-                            <mat-option>Option 1</mat-option>
-                            <mat-option>Option 2</mat-option>
-                            <mat-option>Option 3</mat-option>
+                        <mat-select formControlName="villageId" (selectionChange)="getDepartment();filterData()" [disabled]='!filterFrm.value.talukaId'>
+                            <mat-option  value="0">All Village</mat-option>
+                            <mat-option *ngFor="let village of villageArray" [value]="village.id">
+                                {{village.village}}
+                            </mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
                 <div class="col-sm-3">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Department</mat-label>
-                        <mat-select>
-                            <mat-option>Option 1</mat-option>
-                            <mat-option>Option 2</mat-option>
-                            <mat-option>Option 3</mat-option>
+                        <mat-select formControlName="deptId" (selectionChange)="clearFilter('department');getOffice(filterFrm.value.deptId);filterData()">
+                            <mat-option  value="0">All Department</mat-option>
+                            <mat-option *ngFor="let department of departmentArray" [value]="department.id">
+                                {{department.departmentName}}
+                            </mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
                 <div class="col-sm-3">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Office</mat-label>
-                        <mat-select>
-                            <mat-option>Option 1</mat-option>
-                            <mat-option>Option 2</mat-option>
-                            <mat-option>Option 3</mat-option>
+                        <mat-select formControlName="officeId" (selectionChange)="filterData()" [disabled]='!filterFrm.value.deptId'>
+                            <mat-option  value="0">All Office</mat-option>
+                            <mat-option *ngFor="let office of officeArray" [value]="office.id">
+                                {{office.name}}
+                            </mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
                 <div class="col-sm-2">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Status</mat-label>
-                        <mat-select>
-                            <mat-option>Option 1</mat-option>
-                            <mat-option>Option 2</mat-option>
-                            <mat-option>Option 3</mat-option>
+                        <mat-select formControlName="statusId" (selectionChange)="filterData()">
+                             <mat-option  value="0">All Status</mat-option> 
+                            <mat-option *ngFor="let status of statusArray" [value]="status.id">
+                                {{status.name}}
+                            </mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
@@ -55,7 +61,7 @@
                     <div class="mb-2">
                       <mat-form-field class="w-100" appearance="outline">
                         <mat-label>Search</mat-label>
-                        <input matInput placeholder="Search">
+                        <input matInput placeholder="Search" formControlName="textSearch">
                       </mat-form-field>
                     </div>
                   </div>
@@ -63,52 +69,42 @@
             <div class="row">
                 <div class="">
                     <table mat-table [dataSource]="dataSource" class="w-100 dashboard-table">
-
-                        <ng-container matColumnDef="select">
-                            <th mat-header-cell *matHeaderCellDef class="checkbox">
-                                <mat-checkbox (change)="$event ? toggleAllRows() : null"
-                                    [checked]="selection.hasValue() && isAllSelected()"
-                                    [indeterminate]="selection.hasValue() && !isAllSelected()"
-                                    [aria-label]="checkboxLabel()">
-                                </mat-checkbox>
-                            </th>
-                            <td mat-cell *matCellDef="let row">
-                                <mat-checkbox (click)="$event.stopPropagation()"
-                                    (change)="$event ? selection.toggle(row) : null"
-                                    [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
-                                </mat-checkbox>
-                            </td>
-                        </ng-container>
-
                         <ng-container matColumnDef="srno">
                             <th mat-header-cell *matHeaderCellDef class="srno"> Sr.No. </th>
-                            <td mat-cell *matCellDef="let element"> {{element.srno}} </td>
+                            <td mat-cell *matCellDef="let element;let i= index"> {{((pageNumber + 1) * 10 + i +
+                                1)-20}}</td>
                         </ng-container>
-                        <ng-container matColumnDef="grievanceid">
-                            <th mat-header-cell *matHeaderCellDef> Taluka </th>
-                            <td mat-cell *matCellDef="let element"> {{element.grievanceid}} </td>
-                        </ng-container>
-
                         <ng-container matColumnDef="name">
-                            <th mat-header-cell *matHeaderCellDef> VILLAGE </th>
+                            <th mat-header-cell *matHeaderCellDef>Name</th>
                             <td mat-cell *matCellDef="let element"> {{element.name}} </td>
                         </ng-container>
                         <ng-container matColumnDef="taluka">
-                            <th mat-header-cell *matHeaderCellDef> DEPARTMENT </th>
+                            <th mat-header-cell *matHeaderCellDef> Taluka </th>
                             <td mat-cell *matCellDef="let element"> {{element.taluka}} </td>
                         </ng-container>
 
-                        <ng-container matColumnDef="department">
-                            <th mat-header-cell *matHeaderCellDef> OFFICE </th>
-                            <td mat-cell *matCellDef="let element"> {{element.department}} </td>
+                        <ng-container matColumnDef="village">
+                            <th mat-header-cell *matHeaderCellDef> VILLAGE </th>
+                            <td mat-cell *matCellDef="let element"> {{element.village}} </td>
                         </ng-container>
+
+                        <ng-container matColumnDef="department">
+                            <th mat-header-cell *matHeaderCellDef> Department </th>
+                            <td mat-cell *matCellDef="let element"> {{element.departmentName}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="office">
+                            <th mat-header-cell *matHeaderCellDef> Office </th>
+                            <td mat-cell *matCellDef="let element"> {{element.officeName}} </td>
+                        </ng-container>
+
                         <ng-container matColumnDef="status">
                             <th mat-header-cell *matHeaderCellDef> STATUS </th>
-                            <td mat-cell *matCellDef="let element"> 
-                                <a href="">
+                            <td mat-cell *matCellDef="let element"> {{element.status}}
+                                <!-- <a href="">
 
                                     {{element.status}} 
-                                </a>
+                                </a> -->
                             </td>
                         </ng-container>
 
@@ -122,15 +118,52 @@
                                 </button>
                             </td>
                         </ng-container>
+                        <ng-container matColumnDef="button">
+                            <th mat-header-cell *matHeaderCellDef>  <button [disabled]="this.selection.selected.length ==0" mat-icon-button
+                              >
+                                <span class="material-symbols-outlined">
+                                   delete
+                                </span>
+                                </button></th>
+                            <td mat-cell *matCellDef="let element">
+                            </td>
+                        </ng-container>
 
-                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+                        <ng-container matColumnDef="select">
+                            <th *matHeaderCellDef class="mxw-80">
+                                <!-- Sr.No mat-sort-header  -->
+                                <mat-checkbox (change)="$event ? masterToggle() : null"
+                                    [checked]="selection.hasValue() && isAllSelected()"
+                                    [indeterminate]="selection.hasValue() && !isAllSelected()">
+                                </mat-checkbox>
+                            </th>
+                            <td *matCellDef="let element let i=index" class="mxw-80">
+                                <!-- {{i +1}} -->
+        
+                                <mat-checkbox (click)="$event.stopPropagation()"
+                                    (change)="$event ? selection.toggle(element) : null"
+                                    [checked]="selection.isSelected(element)">
+                                </mat-checkbox>
+                            </td>
+                        </ng-container> 
+                        
+                        <tr class="mat-row p-2 w-100" *matNoDataRow col>
+                            <td class="alert alert-danger text-center m-2 mt-2" colspan="9">No data found </td>
                         </tr>
-                    </table>
-
-                </div>
+                
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                        </tr>
+                    </table>   
+                </div>  
+                <ng-container>
+                    <mat-paginator [pageSizeOptions]="[10]" [length]="totalRows" showFirstLastButtons
+                        (page)="pageChanged($event)">
+                    </mat-paginator>
+                </ng-container>
+                
             </div>
-
+        </form>
         </div>
         <div class="col-sm-4">
             <div class="card form-card">
@@ -138,55 +171,83 @@
                     Post Grievance
                 </div>                
                 <div class="card-body">
+                    <form [formGroup]="postGrievanceForm" (ngSubmit)="onSubmit()">
                     <div class="mb-3">
-                        <mat-radio-group aria-label="Select an option">
-                            <mat-radio-button value="1" class="me-3">Self</mat-radio-button>
-                            <mat-radio-button value="2">Others</mat-radio-button>
+                        <mat-radio-group aria-label="Select an option" formControlName="isSelfGrievance">
+                            <!-- <mat-radio-button value="0" class="me-3">Self</mat-radio-button>
+                            <mat-radio-button value="1">Others</mat-radio-button> -->
+                            <mat-radio-button *ngFor="let reg of registerBy" [value]="reg.value"
+                                                    class="me-4">
+                                                    {{reg.type}}
+                                                </mat-radio-button>
                         </mat-radio-group>
                     </div>
-                    <div class="mb-2">
+                    <div class="mb-2" *ngIf="f['isSelfGrievance'].value == 1">
                         <mat-form-field class="w-100" appearance="outline">
                             <mat-label>Name</mat-label>
-                            <input matInput placeholder="Enter name">
+                            <input matInput placeholder="Enter name" formControlName="otherCitizenName">
                           </mat-form-field>
                     </div>
-                    <div class="row mb-2 gx-2">
-                        <div class="col-sm-6">
+                    <div class="mb-2" *ngIf="f['isSelfGrievance'].value == 1">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Mobile Number</mat-label>
+                            <input matInput placeholder="Enter mobile number" formControlName="otherCitizenMobileNo">
+                          </mat-form-field>
+                    </div>
+                    <div class="mb-2" *ngIf="f['isSelfGrievance'].value == 1">
+                        <mat-form-field class="w-100" appearance="legacy">
+                            <mat-label>Address</mat-label>
+                            <textarea matInput placeholder="Type here" rows="4" formControlName="otherCitizenAddress"></textarea>
+                        </mat-form-field>
+                    </div>
+                   
+                    <!-- <div class="row mb-2 gx-2"> -->
+                        <!-- <div class="col-sm-6">
                             <mat-form-field class="w-100" appearance="outline">
                                 <mat-label>Mobile Number</mat-label>
                                 <input matInput placeholder="Enter mobile number">
                               </mat-form-field>
-                        </div>
-                        <div class="col-sm-6">
+                        </div> -->
+                        
+                        <div class="mb-2">
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>District</mat-label>
-                                <mat-select>
-                                    <mat-option>Option 1</mat-option>
-                                    <mat-option>Option 2</mat-option>
-                                    <mat-option>Option 3</mat-option>
+                                <mat-select formControlName="districtId" [disabled]="true">
+                                    <mat-option *ngFor="let district of districtArray" [value]="district.id" [disabled]="district.value == 1">
+                                        {{district.district}}
+                                    </mat-option>
                                 </mat-select>
+                                <mat-error *ngIf="f['districtId']?.errors">
+                                    <span *ngIf="f['districtId']?.hasError('required')"> District is required</span>
+                                </mat-error>
                             </mat-form-field>
                         </div>
-                    </div>
+                    <!-- </div> -->
                     <div class="row gx-2 mb-2">
                         <div class="col-sm-6">
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>Taluka</mat-label>
-                                <mat-select>
-                                    <mat-option>Option 1</mat-option>
-                                    <mat-option>Option 2</mat-option>
-                                    <mat-option>Option 3</mat-option>
+                                <mat-select formControlName="talukaId" (selectionChange)="getVillage(postGrievanceForm.value.talukaId)">
+                                    <mat-option *ngFor="let taluka of talukaArray" [value]="taluka.id">
+                                        {{taluka.taluka}}
+                                    </mat-option>
                                 </mat-select>
+                                <mat-error *ngIf="f['talukaId']?.errors">
+                                    <span *ngIf="f['talukaId']?.hasError('required')"> Taluka is required </span>
+                                </mat-error>
                             </mat-form-field>
                         </div>
                         <div class="col-sm-6">
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>Village</mat-label>
-                                <mat-select>
-                                    <mat-option>Option 1</mat-option>
-                                    <mat-option>Option 2</mat-option>
-                                    <mat-option>Option 3</mat-option>
+                                <mat-select formControlName="villageId" [disabled]="!postGrievanceForm.value.talukaId">
+                                    <mat-option *ngFor="let village of villageArray" [value]="village.id">
+                                        {{village.village}}
+                                    </mat-option>
                                 </mat-select>
+                                <mat-error *ngIf="f['villageId']?.errors">
+                                    <span *ngIf="f['villageId']?.hasError('required')"> Village is required</span>
+                                </mat-error>
                             </mat-form-field>
                         </div>
                     </div>
@@ -194,52 +255,61 @@
                         <div class="col-sm-6">
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>Department</mat-label>
-                                <mat-select>
-                                    <mat-option>Option 1</mat-option>
-                                    <mat-option>Option 2</mat-option>
-                                    <mat-option>Option 3</mat-option>
+                                <mat-select formControlName="deptId" (selectionChange)="getOffice(postGrievanceForm.value.deptId)">
+                                    <mat-option *ngFor="let department of departmentArray" [value]="department.id">
+                                        {{department.departmentName}}
+                                    </mat-option>
                                 </mat-select>
+                                <mat-error *ngIf="f['deptId']?.errors">
+                                    <span *ngIf="f['deptId']?.hasError('required')"> Department is required</span>
+                                </mat-error>
                             </mat-form-field>
                         </div>
                         <div class="col-sm-6">
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>Office</mat-label>
-                                <mat-select>
-                                    <mat-option>Option 1</mat-option>
-                                    <mat-option>Option 2</mat-option>
-                                    <mat-option>Option 3</mat-option>
+                                <mat-select formControlName="officeId" [disabled]="!postGrievanceForm.value.deptId">
+                                    <mat-option *ngFor="let office of officeArray" [value]="office.id">
+                                        {{office.name}}
+                                    </mat-option>
                                 </mat-select>
+                                <mat-error *ngIf="f['officeId']?.errors">
+                                    <span *ngIf="f['officeId']?.hasError('required')"> Office is required</span>
+                                </mat-error>
                             </mat-form-field>
                         </div>
                     </div>
                     <div class="mb-2">
                         <mat-form-field appearance="outline" class="w-100">
                             <mat-label>Nature of Grievance</mat-label>
-                            <mat-select>
-                                <mat-option>Option 1</mat-option>
-                                <mat-option>Option 2</mat-option>
-                                <mat-option>Option 3</mat-option>
+                            <mat-select formControlName="natureGrievanceId">
+                                <mat-option *ngFor="let nature of natureOfGrievance" [value]="nature.id">
+                                    {{nature.name}}
+                                </mat-option>
                             </mat-select>
+                            <mat-error *ngIf="f['natureGrievanceId']?.errors">
+                                <span *ngIf="f['natureGrievanceId']?.hasError('required')"> Nature of grievance is required</span>
+                            </mat-error>
                         </mat-form-field>
                     </div>
                     <div class="mb-2">
                         <mat-form-field class="w-100" appearance="legacy">
                             <mat-label>Grievance Details</mat-label>
-                            <textarea matInput placeholder="Type here" rows="4"></textarea>
+                            <textarea matInput placeholder="Type here" rows="4" formControlName="grievanceDescription"></textarea>
+                            <mat-error *ngIf="f['grievanceDescription']?.errors">
+                                <span *ngIf="f['grievanceDescription']?.hasError('required')">Grievance details is required</span>
+                            </mat-error>
                         </mat-form-field>
                     </div>
+                    
                     <div class="mb-2">
-                        <mat-form-field class="w-100" appearance="legacy">
-                            <mat-label>Address</mat-label>
-                            <textarea matInput placeholder="Type here" rows="4"></textarea>
-                        </mat-form-field>
+                        <input type="file" id="myfile" name="myfile" class="form-control" multiple (change)="documentUpload($event)" #fileInput>
                     </div>
-                    <div class="mb-2">
-                        <input type="file" id="myfile" name="myfile" class="form-control">
-                    </div>
+                    <img *ngFor="let url of urls" [src]="url" height="40" /> <br />
                     <div class="text-end mt-3">
-                        <button mat-stroked-button class="btn-main">Submit</button>
+                        <button mat-stroked-button class="btn-main" type="submit">Submit</button>
                     </div>
+                </form>
                 </div>
             </div>
         </div>
