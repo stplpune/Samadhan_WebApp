@@ -175,31 +175,45 @@
                 Post Grievance
             </div>
             <div class="card-body">
-                <form [formGroup]="postGrievanceForm" (ngSubmit)="onSubmitForm()">
                     <div class="mb-3">
-                        <mat-radio-group aria-label="Select an option" formControlName="isSelfGrievance">
-                            <mat-radio-button *ngFor="let reg of registerBy" [value]="reg.value" class="me-4">
+                        <mat-radio-group aria-label="Select an option" [formControl]="isSelfGrievance">
+                            <mat-radio-button *ngFor="let reg of registerBy" [value]="reg.value" class="me-4" (change)="postGrievanceType(reg?.value)">
                                 {{reg.type}}
                             </mat-radio-button>
                         </mat-radio-group>
                     </div>
-                    <div class="mb-2" *ngIf="f['isSelfGrievance'].value == 1">
+
+             <form [formGroup]="postGrievanceForm" #formDirective="ngForm">
+
+                    <div class="mb-2" *ngIf="isSelfGrievance.value == 0">
                         <mat-form-field class="w-100" appearance="outline">
                             <mat-label>Name</mat-label>
-                            <input matInput placeholder="Enter name" formControlName="otherCitizenName">
+                            <input matInput placeholder="Enter name" (keypress)="validation.noFirstSpaceAllow($event)" formControlName="otherCitizenName">
+                            <mat-error *ngIf="f['otherCitizenName']?.errors">
+                                <span *ngIf="f['otherCitizenName']?.hasError('required')"> Name is required</span>
+                                <span *ngIf="f['otherCitizenName']?.hasError('pattern')"> Enter Valid Name</span>
+                            </mat-error>
                         </mat-form-field>
                     </div>
-                    <div class="mb-2" *ngIf="f['isSelfGrievance'].value == 1">
+                    <div class="mb-2" *ngIf="isSelfGrievance.value == 0">
                         <mat-form-field class="w-100" appearance="outline">
                             <mat-label>Mobile Number</mat-label>
-                            <input matInput placeholder="Enter mobile number" formControlName="otherCitizenMobileNo">
+                            <input matInput placeholder="Enter mobile number" maxlength="10" (keypress)="validation.acceptedOnlyNumbers($event)" formControlName="otherCitizenMobileNo">
+                            <mat-error *ngIf="f['otherCitizenMobileNo']?.errors">
+                                <span *ngIf="f['otherCitizenMobileNo']?.hasError('required')"> Mobile Number is required</span>
+                                <span *ngIf="f['otherCitizenMobileNo']?.hasError('pattern')"> Enter Valid Mobile Number</span>
+                            </mat-error>
                         </mat-form-field>
                     </div>
-                    <div class="mb-2" *ngIf="f['isSelfGrievance'].value == 1">
+                    <div class="mb-2" *ngIf="isSelfGrievance.value == 0">
                         <mat-form-field class="w-100" appearance="legacy">
                             <mat-label>Address</mat-label>
-                            <textarea matInput placeholder="Type here" rows="4"
+                            <textarea matInput placeholder="Type here" rows="4" (keypress)="validation.noFirstSpaceAllow($event)"
                                 formControlName="otherCitizenAddress"></textarea>
+                                <mat-error *ngIf="f['otherCitizenAddress']?.errors">
+                                    <span *ngIf="f['otherCitizenAddress']?.hasError('required')"> Address is required</span>
+                                    <span *ngIf="f['otherCitizenAddress']?.hasError('pattern')"> Enter Valid Address</span>
+                                </mat-error>
                         </mat-form-field>
                     </div>
 
@@ -231,7 +245,7 @@
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>Taluka</mat-label>
                                 <mat-select formControlName="talukaId"
-                                    (selectionChange)="getVillage(postGrievanceForm.value.talukaId)">
+                                    (selectionChange)="getVillage(postGrievanceForm.value.talukaId);postGrievanceForm.controls['villageId'].setValue('')">
                                     <mat-option *ngFor="let taluka of talukaArray" [value]="taluka.id">
                                         {{taluka.taluka}}
                                     </mat-option>
@@ -260,7 +274,7 @@
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>Department</mat-label>
                                 <mat-select formControlName="deptId"
-                                    (selectionChange)="getOffice(postGrievanceForm.value.deptId)">
+                                    (selectionChange)="getOffice(postGrievanceForm.value.deptId);postGrievanceForm.controls['officeId'].setValue('')">
                                     <mat-option *ngFor="let department of departmentArray" [value]="department.id">
                                         {{department.departmentName}}
                                     </mat-option>
@@ -301,7 +315,7 @@
                     <div class="mb-2">
                         <mat-form-field class="w-100" appearance="legacy">
                             <mat-label>Grievance Details</mat-label>
-                            <textarea matInput placeholder="Type here" rows="4"
+                            <textarea matInput placeholder="Type here" rows="4" (keypress)="validation.noFirstSpaceAllow($event)"
                                 formControlName="grievanceDescription"></textarea>
                             <mat-error *ngIf="f['grievanceDescription']?.errors">
                                 <span *ngIf="f['grievanceDescription']?.hasError('required')">Grievance details is
@@ -312,22 +326,21 @@
 
                     <div class="mb-2">
                         <div class="image-container">
-                            <img src="assets/images/user.jpg" class="grievance-image">
-                            <input type="file" style="display:none;" />
+                            <img *ngIf="!grievanceImageArray?.length" src="assets/images/user.jpg" class="grievance-image">
+                            <img *ngIf="grievanceImageArray?.length" [src]="grievanceImageArray[0]?.docpath" class="grievance-image"> 
                             <div class="grievance-buttons d-flex flex-column upload-btn-wrapper">
                                 <button type="button" class="btn bg-light text-primary" >
                                     <i class="fa-solid fa-plus"></i>
+                                    <input type="file" (change)="documentUpload($event)" #fileInput>
                                 </button>
-                                <button type="button" class="border border-0 btn bg-light text-danger">
+                                <button type="button" class="border border-0 btn bg-light text-danger" (click)="deleteDocument()">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </button>
                             </div>
                         </div>
-                        <!-- <input type="file" id="myfile" name="myfile" class="form-control" multiple (change)="documentUpload($event)" #fileInput> -->
-                    </div>
-                    <img *ngFor="let url of grievanceImageArray" [src]="url" height="40" /> <br />
+                       </div>
                     <div class="text-end mt-3">
-                        <button mat-stroked-button class="btn-main" type="submit">Submit</button>
+                        <button mat-stroked-button class="btn-main" type="submit" (click)="onSubmitForm()">Submit</button>
                     </div>
                 </form>
             </div>

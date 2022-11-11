@@ -3,7 +3,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
 import { CommonApiService } from 'src/app/core/service/common-api.service';
 import { ErrorHandlerService } from 'src/app/core/service/error-handler.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { CommonMethodService } from 'src/app/core/service/common-method.service';
 import { ApiService } from 'src/app/core/service/api.service';
 import { FormsValidationService } from 'src/app/core/service/forms-validation.service';
@@ -24,7 +24,7 @@ import { FileUploadService } from 'src/app/core/service/file-upload.service';
 export class PostGrievanceComponent implements OnInit {
 
   displayedColumns: string[] = ['srno', 'name', 'taluka', 'village', 'department', 'office', 'status', 'action', 'button', 'select'];
-  registerBy = [{ value: 0, type: 'Self' }, { value: 1, type: 'Others' }];
+  registerBy = [{ value: 1, type: 'Self' }, { value: 0, type: 'Others' }];
   selection = new SelectionModel<Element>(true, []);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -45,8 +45,11 @@ export class PostGrievanceComponent implements OnInit {
   dataSource: any;
   pageNumber: number = 1;
 
+  isSelfGrievance = new FormControl(1);
   grievanceImageArray :any[]=[];
   subscription!: Subscription;
+  @ViewChild('formDirective')
+  private formDirective!: NgForm;
 
 
   constructor(public commonMethod: CommonMethodService,
@@ -77,7 +80,6 @@ export class PostGrievanceComponent implements OnInit {
 
   defaultForm() {
     this.postGrievanceForm = this.fb.group({
-      isSelfGrievance: [0, [Validators.required]],
       otherCitizenName: [''],
       otherCitizenMobileNo: [''],
       otherCitizenAddress: [''],
@@ -275,24 +277,56 @@ export class PostGrievanceComponent implements OnInit {
         if (documentUrlUploaed != null) {
           let obj =    {
             "grievanceId": 0,
-            "docname": "string",
+            "docname": "grievance",
             "docpath": documentUrlUploaed,
             "sortOrder": 0,
             "createdBy": this.localStrorageData.getUserId(),
             "createdDate": new Date(),
             "isDeleted": false
           }
+          this.grievanceImageArray = [];
           this.grievanceImageArray.push(obj);
         }
       },
     })  
-    console.log(this.grievanceImageArray)
+  }
+
+  deleteDocument(){
+    this.grievanceImageArray.splice(0,1);
+    this.fileInput.nativeElement.value = '';
+  }
+
+  postGrievanceType(flag:any) {
+    this.defaultForm();
+    this.formDirective && this.formDirective.resetForm();
+    if (flag == 0) {
+      this.postGrievanceForm.controls["otherCitizenName"].setValidators([Validators.required,Validators.pattern('^[^\\s0-9\\[\\[`&._@#%*!+"\'\/\\]\\]{}][a-zA-Z.\\s]+$')]);
+      this.postGrievanceForm.controls["otherCitizenName"].updateValueAndValidity();
+      this.postGrievanceForm.controls["otherCitizenMobileNo"].setValidators([Validators.required,Validators.pattern('[6-9]\\d{9}')]);
+      this.postGrievanceForm.controls["otherCitizenMobileNo"].updateValueAndValidity();
+      this.postGrievanceForm.controls["otherCitizenAddress"].setValidators([Validators.required,Validators.pattern('^[^[ ]+|[ ][gm]+$')]);
+      this.postGrievanceForm.controls["otherCitizenAddress"].updateValueAndValidity();
+      this.grievanceImageArray = [];
+    } else {
+      this.postGrievanceForm.controls['otherCitizenName'].setValue('');
+      this.postGrievanceForm.controls['otherCitizenName'].clearValidators();
+      this.postGrievanceForm.controls['otherCitizenName'].updateValueAndValidity();
+      this.postGrievanceForm.controls['otherCitizenMobileNo'].setValue('');
+      this.postGrievanceForm.controls['otherCitizenMobileNo'].clearValidators();
+      this.postGrievanceForm.controls['otherCitizenMobileNo'].updateValueAndValidity();
+      this.postGrievanceForm.controls['otherCitizenAddress'].setValue('');
+      this.postGrievanceForm.controls['otherCitizenAddress'].clearValidators();
+      this.postGrievanceForm.controls['otherCitizenAddress'].updateValueAndValidity();
+      this.grievanceImageArray = [];
+    }
   }
 
   onSubmitForm() {
     if (this.postGrievanceForm.invalid) {
       return
-    } else {
+    } else if(!this.grievanceImageArray.length){
+      this.commonMethod.matSnackBar('Document Field is Required', 1);
+    }else{
       this.spinner.show();
       let formData = this.postGrievanceForm.value;
       let obj = {
@@ -310,7 +344,7 @@ export class PostGrievanceComponent implements OnInit {
         "concern_OfficeId": formData.officeId,
         "natureGrievanceId": formData.natureGrievanceId,
         "grievanceDescription": formData.grievanceDescription,
-        "isSelfGrievance": formData.isSelfGrievance,
+        "isSelfGrievance": this.isSelfGrievance.value,
         "otherCitizenName": formData.otherCitizenName,
         "otherCitizenMobileNo": formData.otherCitizenMobileNo,
         "otherCitizenAddress": formData.otherCitizenAddress,
@@ -323,6 +357,10 @@ export class PostGrievanceComponent implements OnInit {
         next: (res: any) => {
           if (res.statusCode == 200) {
             this.spinner.hide();
+            this.grievanceImageArray = [];
+            this.isSelfGrievance.setValue(1);
+            this.formDirective && this.formDirective.resetForm();
+            this.defaultForm();
             this.bindTable();
             this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 0);
           } else {
@@ -334,7 +372,6 @@ export class PostGrievanceComponent implements OnInit {
       })
     }
   }
-
 
 }
 
