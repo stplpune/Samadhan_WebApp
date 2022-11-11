@@ -185,4 +185,11 @@ acceptedOnlyNumbers_floatValue(event: any) {
      const maskSeperator = new RegExp('^([0-9 .])', 'g'); // only Accept 0-9 & .
      return maskSeperator.test(event.key);
  }
+
+ noFirstSpaceAllow(event: any) {  // for First Space Not Allow
+    if (event.target.selectionStart === 0 && (event.code === 'Space')){
+        event.preventDefault();
+    } 
+}
+
 }
