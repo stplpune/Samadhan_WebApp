@@ -129,6 +129,7 @@ export class PostGrievanceComponent implements OnInit {
     this.pageNumber = event.pageIndex + 1;
     this.bindTable();
    this.onCancelRecord();
+   this.selection.clear();
   }
 
   getState() {
