@@ -120,7 +120,7 @@
                         <ng-container matColumnDef="action" class="srno">
                             <th mat-header-cell *matHeaderCellDef> ACTION </th>
                             <td mat-cell *matCellDef="let element">
-                                <button mat-icon-button>
+                                <button mat-icon-button (click)="patchData(element)">
                                     <span class="material-symbols-outlined">
                                         visibility
                                     </span>
@@ -165,7 +165,7 @@
                         </tr>
                     </table>
                 </div>
-                <ng-container *ngIf="totalRows > 10">
+                <ng-container>
                     <mat-paginator [pageSizeOptions]="[10]" [length]="totalRows" showFirstLastButtons
                         (page)="pageChanged($event)">
                     </mat-paginator>
@@ -174,7 +174,7 @@
             </div>
         </form>
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-4" [class.disabled-contenct]="ispatch">
         <div class="card form-card">
             <div class="card-header">
                 Post Grievance
@@ -182,7 +182,7 @@
             <div class="card-body">
                     <div class="mb-3">
                         <mat-radio-group aria-label="Select an option" [formControl]="isSelfGrievance">
-                            <mat-radio-button *ngFor="let reg of registerBy" [value]="reg.value" class="me-4" (change)="postGrievanceType(reg?.value)">
+                            <mat-radio-button *ngFor="let reg of registerBy" [value]="reg.value" class="me-4" (change)="postGrievanceType(reg?.value)" [disabled]="ispatch">
                                 {{reg.type}}
                             </mat-radio-button>
                         </mat-radio-group>
@@ -193,7 +193,7 @@
                     <div class="mb-2" *ngIf="isSelfGrievance.value == 0">
                         <mat-form-field class="w-100" appearance="outline">
                             <mat-label>Name</mat-label>
-                            <input matInput placeholder="Enter name" (keypress)="validation.noFirstSpaceAllow($event)" formControlName="otherCitizenName">
+                            <input matInput placeholder="Enter name" (keypress)="validation.noFirstSpaceAllow($event)" formControlName="otherCitizenName" [readonly]="ispatch">
                             <mat-error *ngIf="f['otherCitizenName']?.errors">
                                 <span *ngIf="f['otherCitizenName']?.hasError('required')"> Name is required</span>
                                 <span *ngIf="f['otherCitizenName']?.hasError('pattern')"> Enter Valid Name</span>
@@ -203,7 +203,7 @@
                     <div class="mb-2" *ngIf="isSelfGrievance.value == 0">
                         <mat-form-field class="w-100" appearance="outline">
                             <mat-label>Mobile Number</mat-label>
-                            <input matInput placeholder="Enter mobile number" maxlength="10" (keypress)="validation.acceptedOnlyNumbers($event)" formControlName="otherCitizenMobileNo">
+                            <input matInput placeholder="Enter mobile number" maxlength="10" (keypress)="validation.acceptedOnlyNumbers($event)" formControlName="otherCitizenMobileNo" [readonly]="ispatch">
                             <mat-error *ngIf="f['otherCitizenMobileNo']?.errors">
                                 <span *ngIf="f['otherCitizenMobileNo']?.hasError('required')"> Mobile Number is required</span>
                                 <span *ngIf="f['otherCitizenMobileNo']?.hasError('pattern')"> Enter Valid Mobile Number</span>
@@ -213,7 +213,7 @@
                     <div class="mb-2" *ngIf="isSelfGrievance.value == 0">
                         <mat-form-field class="w-100" appearance="legacy">
                             <mat-label>Address</mat-label>
-                            <textarea matInput placeholder="Type here" rows="4" (keypress)="validation.noFirstSpaceAllow($event)"
+                            <textarea matInput placeholder="Type here" rows="4" (keypress)="validation.noFirstSpaceAllow($event)" [readonly]="ispatch"
                                 formControlName="otherCitizenAddress"></textarea>
                                 <mat-error *ngIf="f['otherCitizenAddress']?.errors">
                                     <span *ngIf="f['otherCitizenAddress']?.hasError('required')"> Address is required</span>
@@ -249,7 +249,7 @@
                         <div class="col-sm-6">
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>Taluka</mat-label>
-                                <mat-select formControlName="talukaId"
+                                <mat-select formControlName="talukaId" [disabled]="ispatch"
                                     (selectionChange)="getVillage(postGrievanceForm.value.talukaId);postGrievanceForm.controls['villageId'].setValue('')">
                                     <mat-option *ngFor="let taluka of talukaArray" [value]="taluka.id">
                                         {{taluka.taluka}}
@@ -263,7 +263,7 @@
                         <div class="col-sm-6">
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>Village</mat-label>
-                                <mat-select formControlName="villageId" [disabled]="!postGrievanceForm.value.talukaId">
+                                <mat-select formControlName="villageId"   [disabled]="!postGrievanceForm.value.talukaId || ispatch">
                                     <mat-option *ngFor="let village of villageArray" [value]="village.id">
                                         {{village.village}}
                                     </mat-option>
@@ -278,7 +278,7 @@
                         <div class="col-sm-6">
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>Department</mat-label>
-                                <mat-select formControlName="deptId"
+                                <mat-select formControlName="deptId" [disabled]="ispatch"
                                     (selectionChange)="getOffice(postGrievanceForm.value.deptId);postGrievanceForm.controls['officeId'].setValue('')">
                                     <mat-option *ngFor="let department of departmentArray" [value]="department.id">
                                         {{department.departmentName}}
@@ -292,7 +292,7 @@
                         <div class="col-sm-6">
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>Office</mat-label>
-                                <mat-select formControlName="officeId" [disabled]="!postGrievanceForm.value.deptId">
+                                <mat-select formControlName="officeId" [disabled]="!postGrievanceForm.value.deptId || ispatch">
                                     <mat-option *ngFor="let office of officeArray" [value]="office.id">
                                         {{office.name}}
                                     </mat-option>
@@ -306,7 +306,7 @@
                     <div class="mb-2">
                         <mat-form-field appearance="outline" class="w-100">
                             <mat-label>Nature of Grievance</mat-label>
-                            <mat-select formControlName="natureGrievanceId">
+                            <mat-select formControlName="natureGrievanceId" [disabled]="ispatch">
                                 <mat-option *ngFor="let nature of natureOfGrievance" [value]="nature.id">
                                     {{nature.name}}
                                 </mat-option>
@@ -320,7 +320,7 @@
                     <div class="mb-2">
                         <mat-form-field class="w-100" appearance="legacy">
                             <mat-label>Grievance Details</mat-label>
-                            <textarea matInput placeholder="Type here" rows="4" (keypress)="validation.noFirstSpaceAllow($event)"
+                            <textarea matInput placeholder="Type here" rows="4" (keypress)="validation.noFirstSpaceAllow($event)" [readonly]="ispatch"
                                 formControlName="grievanceDescription"></textarea>
                             <mat-error *ngIf="f['grievanceDescription']?.errors">
                                 <span *ngIf="f['grievanceDescription']?.hasError('required')">Grievance details is
@@ -331,20 +331,27 @@
 
                     <div class="mb-2">
                         <div class="image-container">
-                            <img *ngIf="!grievanceImageArray?.length" src="assets/images/user.jpg" class="grievance-image">
-                            <img *ngIf="grievanceImageArray?.length" [src]="grievanceImageArray[0]?.docpath" class="grievance-image"> 
+                            <!-- <img *ngIf="!grievanceImageArray?.length" src="assets/images/user.jpg" class="grievance-image">
+                            <img *ngIf="grievanceImageArray?.length" [src]="grievanceImageArray[0]?.docpath" class="grievance-image">  -->
+                         
+                         <img *ngIf="!documentUrlUploaed" src="assets/images/user.jpg" class="grievance-image">
+                            <img *ngIf="documentUrlUploaed" [src]="documentUrlUploaed" class="grievance-image"> 
                             <div class="grievance-buttons d-flex flex-column upload-btn-wrapper">
                                 <button type="button" class="btn bg-light text-primary" >
                                     <i class="fa-solid fa-plus"></i>
                                     <input type="file" (change)="documentUpload($event)" #fileInput>
                                 </button>
-                                <button type="button" *ngIf="grievanceImageArray?.length" class="border border-0 btn bg-light text-danger" (click)="deleteDocument()">
+                                  <!-- <button type="button" *ngIf="grievanceImageArray?.length" class="border border-0 btn bg-light text-danger" (click)="deleteDocument()">
                                     <i class="fa-solid fa-trash-can"></i>
-                                </button>
+                                </button>   -->
+                                 <button type="button" *ngIf="documentUrlUploaed" class="border border-0 btn bg-light text-danger" (click)="deleteDocument()">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button> 
                             </div>
                         </div>
                        </div>
-                    <div class="text-end mt-3">
+                    <div class="text-end mt-3" *ngIf="!ispatch">
+                        <button mat-stroked-button class="btn-main" type="button" (click)="onCancelRecord()">Cancel</button>
                         <button mat-stroked-button class="btn-main" type="submit" (click)="onSubmitForm()">Submit</button>
                     </div>
                 </form>

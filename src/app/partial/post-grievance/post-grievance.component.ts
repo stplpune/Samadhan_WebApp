@@ -49,6 +49,9 @@ export class PostGrievanceComponent implements OnInit {
   isSelfGrievance = new FormControl(1);
   grievanceImageArray :any[]=[];
   subscription!: Subscription;
+  ispatch:boolean=false;
+  updatedObj:any;
+  documentUrlUploaed:any;
   @ViewChild('formDirective')
   private formDirective!: NgForm;
 
@@ -124,6 +127,8 @@ export class PostGrievanceComponent implements OnInit {
   pageChanged(event: any) {
     this.pageNumber = event.pageIndex + 1;
     this.bindTable();
+    this.isAllSelected();
+    this.masterToggle();
   }
 
   getState() {
@@ -144,7 +149,8 @@ export class PostGrievanceComponent implements OnInit {
       next: (response: any) => {
         this.districtArray.push(...response);
         this.districtArray.length == 1 ? this.postGrievanceForm.controls['districtId'].setValue(this.districtArray[0].id) : '';
-        this.getTaluka(1);
+        // this.getTaluka(1);
+        this.ispatch==true ? (this.postGrievanceForm.controls['districtId'].setValue(this.updatedObj?.districtId),this.getTaluka(this.updatedObj?.districtId)): '';
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
@@ -155,6 +161,7 @@ export class PostGrievanceComponent implements OnInit {
     this.commonApi.getTalukabyDistId(distId).subscribe({
       next: (response: any) => {
         this.talukaArray.push(...response);
+        this.ispatch==true ? (this.postGrievanceForm.controls['talukaId'].setValue(this.updatedObj?.talukaId),this.getVillage(this.updatedObj?.talukaId)): '';
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
@@ -168,6 +175,7 @@ export class PostGrievanceComponent implements OnInit {
     this.commonApi.getVillageByTalukaId(talId).subscribe({
       next: (response: any) => {
         this.villageArray.push(...response);
+        this.ispatch==true ? (this.postGrievanceForm.controls['villageId'].setValue(this.updatedObj?.villageId)): '';
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
@@ -178,7 +186,7 @@ export class PostGrievanceComponent implements OnInit {
     this.commonApi.getAllDepartment().subscribe({
       next: (response: any) => {
         this.departmentArray.push(...response);
-        // this.isEdit ? (this.userFrm.controls['deptId'].setValue(this.updatedObj?.deptId), this.getOffice(this.updatedObj?.deptId)) : '';
+        this.ispatch==true ? (this.postGrievanceForm.controls['deptId'].setValue(this.updatedObj?.concern_DeptId),this.getOffice(this.updatedObj?.concern_DeptId)): '';
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
@@ -192,7 +200,7 @@ export class PostGrievanceComponent implements OnInit {
     this.commonApi.getOfficeByDeptId(deptNo).subscribe({
       next: (response: any) => {
         this.officeArray.push(...response);
-        //  this.isEdit ? (this.userFrm.controls['officeId'].setValue(this.updatedObj.officeId)) : '';
+        this.ispatch==true ? (this.postGrievanceForm.controls['officeId'].setValue(this.updatedObj?.concern_OfficeId)): '';
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
@@ -203,7 +211,7 @@ export class PostGrievanceComponent implements OnInit {
     this.commonApi.getAllStatus().subscribe({
       next: (response: any) => {
         this.statusArray.push(...response);
-        // this.isEdit ? (this.userFrm.controls['deptId'].setValue(this.updatedObj?.deptId), this.getOffice(this.updatedObj?.deptId)) : '';
+        
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
@@ -214,7 +222,7 @@ export class PostGrievanceComponent implements OnInit {
     this.commonApi.getAllNatureOfGrievance().subscribe({
       next: (response: any) => {
         this.natureOfGrievance.push(...response);
-        // this.isEdit ? (this.userFrm.controls['deptId'].setValue(this.updatedObj?.deptId), this.getOffice(this.updatedObj?.deptId)) : '';
+        this.ispatch==true ? (this.postGrievanceForm.controls['natureGrievanceId'].setValue(this.updatedObj?.natureGrievanceId)): '';
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
@@ -260,34 +268,32 @@ export class PostGrievanceComponent implements OnInit {
     
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-    
-
+    return numSelected === numRows;  
   }
 
   masterToggle() {
     this.isAllSelected()
       ? this.selection.clear()
-      : this.dataSource.data.forEach((row: any) => this.selection.select(row));     
+      : this.dataSource.data.forEach((row: any) => this.selection.select(row));  
   }
 
   documentUpload(event: any) {
-    let documentUrlUploaed: any;
+    // let documentUrlUploaed: any;
     let documentUrl: any = this.uploadFilesService.uploadDocuments(event, "grievance", "png,jpg,jpeg,JPEG")
     documentUrl.subscribe({
       next: (ele: any) => {
-        documentUrlUploaed = ele.responseData;
-        if (documentUrlUploaed != null) {
+        this.documentUrlUploaed = ele.responseData;
+        if (this.documentUrlUploaed != null) {
           let obj =    {
             "grievanceId": 0,
             "docname": "grievance",
-            "docpath": documentUrlUploaed,
+            "docpath":this.documentUrlUploaed,
             "sortOrder": 0,
             "createdBy": this.localStrorageData.getUserId(),
             "createdDate": new Date(),
             "isDeleted": false
           }
-          this.grievanceImageArray = [];
+          // this.grievanceImageArray = [];
           this.grievanceImageArray.push(obj);
         }
       },
@@ -297,7 +303,14 @@ export class PostGrievanceComponent implements OnInit {
   deleteDocument(){
     this.grievanceImageArray.splice(0,1);
     this.fileInput.nativeElement.value = '';
+    this.documentUrlUploaed='';
   }
+
+  onCancelRecord() {
+    this.formDirective.resetForm();
+    this.ispatch = false;
+  }
+
 
   postGrievanceType(flag:any) {
     // this.defaultForm();
@@ -353,7 +366,7 @@ export class PostGrievanceComponent implements OnInit {
         "otherCitizenMobileNo": formData.otherCitizenMobileNo,
         "otherCitizenAddress": formData.otherCitizenAddress,
         "grievanceSubmissionDate": new Date(),
-        "citizenGrievanceImages": this.grievanceImageArray
+        "citizenGrievanceImages": this.grievanceImageArray       
       }
 
       this.apiService.setHttp('post', 'samadhan/Grievance/PostGrievance',false,obj,false,'samadhanMiningService');
@@ -362,10 +375,11 @@ export class PostGrievanceComponent implements OnInit {
           if (res.statusCode == 200) {
             this.spinner.hide();
             this.grievanceImageArray = [];
-            this.isSelfGrievance.setValue(1);
-            this.formDirective && this.formDirective.resetForm();
+            // this.formDirective && this.formDirective.resetForm();
             this.defaultForm();
             this.bindTable();
+            this.onCancelRecord();
+            this.isSelfGrievance.setValue(1);
             this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 0);
           } else {
             this.spinner.hide();
@@ -375,6 +389,23 @@ export class PostGrievanceComponent implements OnInit {
         error: ((error: any) => { this.error.handelError(error.status); this.spinner.hide(); })
       })
     }
+  }
+
+  patchData(ele:any){
+      this.ispatch=true;
+      this.updatedObj=ele;
+      console.log(this.updatedObj);
+      this.documentUrlUploaed=this.updatedObj.citizenGrievanceImages[0]?.docpath;
+      this.isSelfGrievance.patchValue(ele.isSelfGrievance);
+      this.postGrievanceForm.patchValue({
+        otherCitizenName: this.updatedObj.otherCitizenName,
+        otherCitizenMobileNo: this.updatedObj.otherCitizenMobileNo,
+        otherCitizenAddress: this.updatedObj.otherCitizenAddress,
+        grievanceDescription:this.updatedObj.grievanceDescription,
+      })
+      this.getDistrict();
+      this.getDepartment();
+      this.getGrievance();
   }
 
   deleteData() {
