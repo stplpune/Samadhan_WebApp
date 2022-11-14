@@ -9,11 +9,11 @@ import { FormsValidationService } from 'src/app/core/service/forms-validation.se
 import { CommonMethodService } from 'src/app/core/service/common-method.service';
 import { ConfirmationComponent } from './../dialogs/confirmation/confirmation.component';
 import { ConfigService } from 'src/app/configs/config.service';
-// import { WebStorageService } from 'src/app/core/service/web-storage.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
-import { Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, Subscription } from 'rxjs';
 import { WebStorageService } from 'src/app/core/service/web-storage.service';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-office-master',
@@ -23,6 +23,7 @@ import { WebStorageService } from 'src/app/core/service/web-storage.service';
 export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('formDirective') formDirective!: NgForm;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   displayedColumns: string[] = [
     'srNo',
     'departmentName',
@@ -33,11 +34,12 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
   ];
   dataSource: any;
   frmOffice!: FormGroup;
+  filterForm!:FormGroup;
   totalRows: any;
-  departmentArr: any;
-  officeArray: any;
+  departmentArr= new Array();
+  officeArray = new Array();
   totalPages: any;
-  pageNo = 0;
+  pageNo = 1;
   pageSize = 10;
   isEdit: boolean = false;
   subscription!: Subscription;
@@ -60,9 +62,9 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.createOfficeForm();
+    this.filterform();
     this.getDepartmentName();
-    this.getOfficeName();
-    this.dataDispaly();
+    this.getData();
   }
 
 
@@ -82,9 +84,39 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.frmOffice.controls;
   }
   //--------------------------------------------------------FilterFOrm--------------------------------------------------------------------------------------
-  ngAfterViewInit(): void {}
-  selection = new SelectionModel<any>(true, []);
+   filterform() {
+    this.filterForm = this.fb.group({
+      deptId: [0],
+      name: ['']
+          })
+       }
 
+    ngAfterViewInit() {
+    let formData: any = this.filterForm.controls['name'].valueChanges;
+    formData.pipe(filter(() => this.filterForm.valid),
+      debounceTime(1000),
+      distinctUntilChanged()).subscribe(() => {
+        this.pageNo = 1;
+        this.getData();
+        this.totalRows > 10 && this.pageNo == 1 ? this.paginator?.firstPage() : '';
+      });
+    }
+   selection = new SelectionModel<any>(true, []);
+
+  //---------------------------------------------------------------clear filter-----------------------------------------------------------------------------------
+//   clearFilter(flag: any) {
+//   switch (flag) {
+//     case 'department':
+//       this.filterForm.controls['officeId'].setValue(0);
+//       this.filterForm.controls['textSearch'].setValue('');
+//       break;
+//       // case 'office':
+//       // this.filterFrm.controls['textSearch'].setValue('');
+//       // break;
+//     default:
+//   }
+
+// }
   // toggleAllRows() {
   //   if (this.isAllSelected()) {
   //     this.selection.clear();
@@ -115,47 +147,43 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
         next: (res: any) => {
           if (res.statusCode == '200' && res.responseData) {
             this.departmentArr = res.responseData;
+            console.log(this.departmentArr);
+
           }
         },
       });
     }
     //------------------------------------------------------------Office---------------------------------------------------------------------------------------------
-    getOfficeName() {
-      this.apiService.setHttp(
-        'get',
-        'samadhan/commondropdown/GetAllOffice',
-        false,
-        false,
-        false,
-        'samadhanMiningService'
-      );
-      this.apiService.getHttp().subscribe({
-        next: (res: any) => {
-          if (res.statusCode == '200' && res.responseData) {
-            this.officeArray = res.responseData;
-          }
-        },
-      });
-    }
+    // getOfficeName() {
+    //   this.apiService.setHttp(
+    //     'get',
+    //     'samadhan/commondropdown/GetAllOffice',
+    //     false,
+    //     false,
+    //     false,
+    //     'samadhanMiningService'
+    //   );
+    //   this.apiService.getHttp().subscribe({
+    //     next: (res: any) => {
+    //       if (res.statusCode == '200' && res.responseData) {
+    //         this.officeArray = res.responseData;
+    //       }
+    //     },
+    //   });
+    // }
 
   //-------------------------------------------------------------Dispaly Table-----------------------------------------------------------------------------
-  dataDispaly() {
-    this.apiService.setHttp(
-      'get',
-      'samadhan/office/GetAll?pageno=' +
-        (this.pageNo + 1) +
-        '&pagesize=' +
-        this.pageSize,
-      false,
-      false,
-      false,
-      'samadhanMiningService'
-    );
+  getData() {
+    // this.spinner.show()
+    let formData = this.filterForm.value;
+    this.apiService.setHttp('get','samadhan/office/GetAll?pageno=' +this.pageNo+'&pagesize=' +this.pageSize+'&DeptId='+ formData.deptId +'&Name='+formData.name,false,false,false,'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {
           let dataSet = res.responseData;
+          console.log(dataSet);
           this.dataSource = new MatTableDataSource(dataSet);
+          this.dataSource.sort = this.sort;
           this.totalPages = res.responseData1.pageCount;
         } else {
           this.dataSource = [];
@@ -201,7 +229,7 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
         if (res.statusCode == 200) {
           this.highlightedRow = 0;
           // this.spinner.hide();
-          this.dataDispaly();
+          this.getData();
           this.onCancelRecord();
           this.commonMethod.checkDataType(res.statusMessage) == false? this.error.handelError(res.statusCode): this.commonMethod.matSnackBar(res.statusMessage, 0);
         } else {
@@ -232,10 +260,43 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
   }
     //--------------------------------------------------------Pagination-------------------------------------------------------------------------------------------
     pageChanged(event: any) {
-      this.pageNo = event.pageIndex;
-      this.pageSize = event.pageSize;
-      this.dataDispaly();
+      this.pageNo = event.pageIndex + 1;
+      // this.pageSize = event.pageSize;
+      this.getData();
     }
+    //------------------------------------------------------------------------FIlterData------------------------------------------------------------------------
+    filterData(){
+      this.pageNo = 1;
+      this.getData();
+    }
+
+  //-------------------------------------------------------------------------FilterRecord---------------------------------------------------------------------
+   //-------------------------------------------------------------------------filter----------------------------------------------------------------------
+  // deleteConformation(id: any) {
+  //   this.highlightedRow = id;
+  //   let obj: any = ConfigService.dialogObj;
+  //   obj['p1'] = 'Are you sure you want to delete this record?';
+  //   obj['cardTitle'] = 'Delete';
+  //   obj['successBtnText'] = 'Delete';
+  //   obj['cancelBtnText'] = 'Cancel';
+  //   obj['inputType'] = false;
+  //   const dialog = this.dialog.open(ConfirmationComponent, {
+  //     width: this.configService.dialogBoxWidth[0],
+  //     data: obj,
+  //     disableClose: this.configService.disableCloseBtnFlag,
+  //   })
+  //   dialog.afterClosed().subscribe(res => {
+  //     if (res == 'Yes') {
+  //       this.deleteCoalGrade();
+  //     }
+  //   })
+
+  // }
+
+  //------------------------------------------------------filter----------------------------------------------------------------------------------------
+  filterRecord() {
+    this.getData();
+  }
   //---------------------------------------------------------------------------Cancle--------------------------------------------------------------------------------------
   onCancelRecord() {
     this.formDirective.resetForm();
@@ -280,9 +341,9 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
     let selDelArray = this.selection.selected;
     let delArray = new Array();
     if (selDelArray.length > 0) {
-      selDelArray.find((ele: any) => {
+      selDelArray.find((data: any) => {
         let obj = {
-          id: ele.id,
+          id: data.id,
           deletedBy: 0,
           modifiedDate: new Date(),
         };
@@ -302,9 +363,9 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
         next: (res: any) => {
           if (res.statusCode === '200') {
             this.highlightedRow = 0;
-            this.dataDispaly();
+            this.getData();
             this.commonMethod.matSnackBar(res.statusMessage, 0);
-
+            this.selection.clear();
           } else {
             if (res.statusCode != '404') {
               this.error.handelError(res.statusMessage);
@@ -317,10 +378,11 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
         this.error.handelError(error.status);
       }
     );
+    this.onCancelRecord();
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.subscription?.unsubscribe();
   }
 }
 // export interface PeriodicElement {
