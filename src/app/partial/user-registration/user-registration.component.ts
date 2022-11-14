@@ -394,6 +394,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
           this.getData();
           this.commonMethod.matSnackBar(res.statusMessage, 0);
           this.selection.clear();
+          this.onCancelRecord();
         } else {
           if (res.statusCode != "404") {   
             this.error.handelError(res.statusMessage)
