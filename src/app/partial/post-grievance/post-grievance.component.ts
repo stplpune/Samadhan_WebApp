@@ -278,16 +278,16 @@ export class PostGrievanceComponent implements OnInit {
   }
 
   documentUpload(event: any) {
-    // let documentUrlUploaed: any;
+    let documentUrlUploaed: any;
     let documentUrl: any = this.uploadFilesService.uploadDocuments(event, "grievance", "png,jpg,jpeg,JPEG")
     documentUrl.subscribe({
       next: (ele: any) => {
-        this.documentUrlUploaed = ele.responseData;
-        if (this.documentUrlUploaed != null) {
+        documentUrlUploaed = ele.responseData;
+        if (documentUrlUploaed != null) {
           let obj =    {
             "grievanceId": 0,
             "docname": "grievance",
-            "docpath":this.documentUrlUploaed,
+            "docpath":documentUrlUploaed,
             "sortOrder": 0,
             "createdBy": this.localStrorageData.getUserId(),
             "createdDate": new Date(),
