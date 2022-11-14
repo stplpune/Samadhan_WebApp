@@ -28,7 +28,7 @@ export class ChangePasswordComponent implements OnInit {
     private webstorageService: WebStorageService,
     private router: Router,
     private common: CommonMethodService,
-    private validation: FormsValidationService) { }
+    public validation: FormsValidationService) { }
 
   ngOnInit(): void {
     this.changePasswordFrm = this.fb.group({
@@ -42,11 +42,11 @@ export class ChangePasswordComponent implements OnInit {
     return this.changePasswordFrm.controls;
   }
   onSubmit() {
-    // debugger
+    debugger
     let formData = this.changePasswordFrm.value;
     if (this.changePasswordFrm.invalid) {
       return;
-    } else if (formData.newPassword != formData.confirmPassword) {
+    } else if (formData.newPassword.trim() != formData.confirmPassword.trim()) {
       this.changePasswordFrm.controls['confirmPassword'].setErrors({ 'notMatched': true })
       return;
     } else if (formData.oldPassword == formData.newPassword && (this.common.checkDataType(formData.oldPassword) == true && this.common.checkDataType(formData.newPassword) == true)) {
@@ -91,7 +91,7 @@ export class ChangePasswordComponent implements OnInit {
 
   ClearAll() {
     this.formGroupDirective.resetForm();
-    this.dialogRef.close();
+    // this.dialogRef.close();
   }
 
 }

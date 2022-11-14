@@ -175,6 +175,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   filterData() {
     this.pageNumber = 1;
     this.getData();
+    this.onCancelRecord();
   }
    //#region  bind table  fn Start here
   getData() {
@@ -217,7 +218,6 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
       return;
     }
     let formData = this.userFrm.value;
-    console.log(formData);
     let obj = {
       "createdBy": this.webStorage.getUserId(),
       "modifiedBy": this.webStorage.getUserId(),
@@ -319,7 +319,6 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.highlightedRow = ele.id;
     this.isEdit = true;
     this.updatedObj = ele;
-    console.log(this.updatedObj);
     this.userFrm.patchValue({
       userTypeId: this.updatedObj.userTypeId,
       name: this.updatedObj.name,
@@ -334,7 +333,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   pageChanged(event: any) {
     this.pageNumber = event.pageIndex + 1;
     this.getData();
-    // this.onCancelRecord();
+    this.onCancelRecord();
   }
 
     //#region reset form value fn Start here
@@ -396,6 +395,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
           this.getData();
           this.commonMethod.matSnackBar(res.statusMessage, 0);
           this.selection.clear();
+          this.onCancelRecord();
         } else {
           if (res.statusCode != "404") {   
             this.error.handelError(res.statusMessage)
