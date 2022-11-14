@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatTableDataSource} from '@angular/material/table';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
@@ -12,7 +12,7 @@ import { ConfirmationComponent } from './../dialogs/confirmation/confirmation.co
 import { ConfigService } from 'src/app/configs/config.service';
 import { WebStorageService } from 'src/app/core/service/web-storage.service';
 import { MatDialog } from '@angular/material/dialog';
-import { Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, Subscription } from 'rxjs';
 import { MatSort } from '@angular/material/sort';
 
 
@@ -22,13 +22,15 @@ import { MatSort } from '@angular/material/sort';
   templateUrl: './grievance-master.component.html',
   styleUrls: ['./grievance-master.component.css']
 })
-export class GrievanceMasterComponent implements OnInit {
+export class GrievanceMasterComponent implements OnInit ,AfterViewInit, OnDestroy {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('formDirective') formDirective!: NgForm;
   displayedColumns: string[] = [ 'srNo', 'departmentName', 'grievanceType', 'action','delete','select'];
   dataSource :any;
   frmGrievance! : FormGroup;
-  totalRows:any
+  filterForm!:FormGroup;
+  totalRows:any;
+  griveanceArray=new Array();
   totalPages: any;
   pageNo = 1;
   pageSize = 10;
@@ -42,60 +44,67 @@ export class GrievanceMasterComponent implements OnInit {
   constructor(private fb: FormBuilder,private apiService:ApiService,
     public configService: ConfigService,
     public dialog: MatDialog,
-    private webStorageService:WebStorageService,
+    // private webStorageService:WebStorageService,
     public error: ErrorHandlerService,
     private spinner: NgxSpinnerService,
     public validation: FormsValidationService,
+    public localStrorageData: WebStorageService,
+    private webStorage:WebStorageService,
     public commonMethod: CommonMethodService,) { }
 
   ngOnInit(): void {
     this.createGrievanceForm();
+    this.filterMethod();
     this.getDepartmentName();
-    this.dataDispaly();
+    this.getData();
+
+
   }
   get f() { return this.frmGrievance.controls };
-
+//---------------------------------------------------------------------------Form---------------------------------------------------------------------------------------
 createGrievanceForm(){
   this.frmGrievance = this.fb.group({
-    id: 0,
-    departmentName: ['', [Validators.required, Validators.pattern]],
-    grievanceType:['',[Validators.required]]
+    deptId: ['', [Validators.required]],
+    grievanceType:['',[Validators.required,Validators.pattern]]
   })
 }
 
+//---------------------------------------------------------------------------ngAfterViewInit--------------------------------------------------------------------
+ngAfterViewInit() {
+let formData = this.filterForm.controls['grievanceType'].valueChanges;
+formData.pipe(filter(() => this.filterForm.valid),
+debounceTime(1000),
+distinctUntilChanged()).subscribe(() => {
+  this.pageNo = 1;
+  this.getData();
+  this.totalRows > 10 && this.pageNo == 1 ? this.paginator?.firstPage() : '';
+})
+}
+
+//-------------------------------------------------------------------------FilterForm--------------------------------------------------------------------------------
+filterMethod(){
+     this.filterForm = this.fb.group({
+      deptId:[0],
+      grievanceType:['']
+  })
+}
   selection = new SelectionModel<any>(true, []);
 
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.length;
-    return numSelected === numRows;
-  }
 
-  toggleAllRows() {
-    if (this.isAllSelected()) {
-      this.selection.clear();
-      return;
-    }
-
-    this.selection.select(...this.dataSource);
-  }
-
-  checkboxLabel(row?: any): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.srNo + 1}`;
-  }
   //------------------------------------------------------------------------Display Table----------------------------------------------------------------------
-  dataDispaly(){
-  this.apiService.setHttp('get', "api/Grievance/GetAll?pageno=" + this.pageNo +'&pagesize='+this.pageSize, false, false, false, 'samadhanMiningService');
+
+  getData(){
+  let formData = this.filterForm.value;
+  this.apiService.setHttp('get', "api/Grievance/GetAll?Id=" +formData.deptId+'&GrievanceType='+ formData.grievanceType +'&pageno=' + this.pageNo +'&pagesize='+this.pageSize, false, false, false, 'samadhanMiningService');
   this.apiService.getHttp().subscribe({
     next: (res: any) => {
       if (res.statusCode == 200) {
         let dataSet = res.responseData;
         this.dataSource = new MatTableDataSource(dataSet);
+        console.log();
+        this.dataSource.sort = this.sort;
         this.totalPages = res.responseData1.pageCount;
-        this.pageNo == 1 ? this.paginator.firstPage():'';
+        this.pageNo == 1 ? this.paginator?.firstPage():'';
       }else{
         this.dataSource=[];
       }
@@ -118,97 +127,161 @@ createGrievanceForm(){
   }
 //------------------------------------------------------------------------Submit-------------------------------------------------------------------------------------------
 onSubmitGrievance(){
-    this.spinner.show();
+    // this.spinner.show();
     if (this.frmGrievance.invalid) {
       return;
     }
     let formData = this.frmGrievance.value;
     console.log(formData);
     let obj = {
-      "createdBy": 0,
-      "modifiedBy": 0,
-      "createdDate": "2022-11-09T06:58:26.532Z",
-      "modifiedDate": "2022-11-09T06:58:26.532Z",
-      "isDeleted": true,
-      "id":this.isEdit == true ? this.updatedObj.id : 0,
-      "deptId": 0,
-      "name": formData.name,
-      "address": formData.address,
-      "emailId": formData.emailId,
-      "contactPersonName": formData.contactPersonName,
-      "mobileNo": formData.mobileNo
+  "createdBy":  this.webStorage.getUserId(),
+  "modifiedBy": this.webStorage.getUserId(),
+  "createdDate": new Date(),
+  "modifiedDate": new Date(),
+  "isDeleted": true,
+  "id": this.isEdit == true ? this.updatedObj.grievanceTypeId : 0,
+  "deptId": formData.deptId,
+  "name":formData.grievanceType,
     }
 
     let method = this.isEdit ? 'PUT' : 'POST';
-    let url = this.isEdit ? "UpdateOfficeDetails" : "AddOfficeDetails";
-    this.apiService.setHttp(method, "samadhan/office/" + url, false, obj, false, 'samadhanMiningService');
+    let url = this.isEdit ? "UpdateGrivance" : "AddGrivance";
+    this.apiService.setHttp(method, "api/Grievance/" + url, false, obj, false, 'samadhanMiningService');
     this.subscription = this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {
           this.highlightedRow = 0;
-          this.spinner.hide();
-          this.dataDispaly();
+          // this.spinner.hide();
+          this.getData();
           this.onCancelRecord();
           this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 0);
         } else {
           this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
         }
-        this.spinner.hide();
+        // this.spinner.hide();
       },
       error: ((error: any) => { this.error.handelError(error.status); this.spinner.hide(); })
     })
   }
 
- //--------------------------------------------------------------------------delete-----------------------------------------------------------------------------
- deleteCoalGrade(row:any){
-  let obj:any = ConfigService.dialogObj;
-  obj['p1'] = 'Are you sure you want to delete this record?';
-  obj['cardTitle'] = 'Delete';
-  obj['successBtnText'] = 'Delete';
-  obj['cancelBtnText'] =  'Cancel';
-
-  const dialog = this.dialog.open(ConfirmationComponent, {
-    width:this.configService.dialogBoxWidth[0],
-    data: obj,
-    disableClose: this.configService.disableCloseBtnFlag,
-  })
-  dialog.afterClosed().subscribe(res => {
-    if(res == "Yes"){
-      var req = {
-      "id":row.id,
-    "deletedBy": this.webStorageService.getUserId(),
-    "modifiedDate": new Date().toISOString(),
-
-      }
-  this.apiService.setHttp('DELETE', "api/Grievance/DeleteGrievance", false, req, false, 'samadhanMiningService');
-  this.apiService.getHttp().subscribe({
-    next: (res: any) => {
-      if (res.statusCode == "200") {
-        this.commonMethod.matSnackBar(res.statusMessage, 0);
-        this.dataDispaly();
-      } else {
-        this.commonMethod.matSnackBar('Colliery record is deleted!', 0);
-      }
-    },
-    error: ((error: any) => { this.error.handelError(error.status) })
+ //------------------------------------------------------------------------------Edit-----------------------------------------------------------------------------
+ editRecord(data:any){
+  this.highlightedRow = data.grievanceTypeId;
+  this.isEdit = true;
+  this.updatedObj = data;
+  console.log(this.updatedObj);
+  this.frmGrievance.patchValue({
+    deptId:this.updatedObj?.deptId,
+    grievanceType:this.updatedObj.grievanceType,
   });
-}
-})
  }
 
-//------------------------------------------------------------------------Pagination-----------------------------------------------------------------------------
-pageChanged(event:any){
-      this.pageNo = event.pageIndex+1;
-      this.dataDispaly();
-    }
+//------------------------------------------------------------------------------Pagination-----------------------------------------------------------------------------
+pageChanged(event: any) {
+  this.pageNo = event.pageIndex + 1;
+  // this.pageSize = event.pageSize;
+  this.getData();
+}
 
 
-    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------Cancle Record------------------------------------------------------------------------------------
 onCancelRecord() {
   this.formDirective.resetForm();
   this.isEdit = false;
 }
 
+  //-------------------------------------------------------------------------------filter----------------------------------------------------------------------------------------
+  filterRecord() {
+    this.getData();
+  }
+  //-----------------------------------------------------------------------------filterData--------------------------------------------------------------------------------------
+  filterData(){
+    this.pageNo = 1;
+    this.getData();
+  }
+
+//-----------------------------------------------------------------------------------Delete-------------------------------------------------------------------------------
+isAllSelected() {
+  const numSelected = this.selection.selected.length;
+  const numRows = this.dataSource.data.length;
+  return numSelected === numRows;
+}
+
+masterToggle() {
+  this.isAllSelected()
+    ? this.selection.clear()
+    : this.dataSource.data.forEach((row: any) => this.selection.select(row));
+}
+
+deleteUserData() {
+  const dialog = this.dialog.open(ConfirmationComponent, {
+    width: '400px',
+    data: {
+      p1: 'Are you sure you want to delete this record?',
+      p2: '',
+      cardTitle: 'Delete',
+      successBtnText: 'Delete',
+      dialogIcon: '',
+      cancelBtnText: 'Cancel',
+    },
+    disableClose: this.apiService.disableCloseFlag,
+  });
+  dialog.afterClosed().subscribe((res) => {
+    if (res == 'Yes') {
+      this.deleteUser();
+    } else {
+      this.selection.clear();
+    }
+  });
+}
+
+deleteUser() {
+  let selDelArray = this.selection.selected;
+  let delArray = new Array();
+  if (selDelArray.length > 0) {
+    selDelArray.find((data: any) => {
+      let obj = {
+        id: data.grievanceTypeId,
+        deletedBy: 0,
+        modifiedDate: new Date(),
+      };
+      delArray.push(obj);
+    });
+  }
+  this.apiService.setHttp(
+    'DELETE',
+    'api/Grievance/DeleteGrievance',
+    false,
+    delArray,
+    false,
+    'samadhanMiningService'
+  );
+  this.apiService.getHttp().subscribe(
+    {
+      next: (res: any) => {
+        if (res.statusCode === '200') {
+          this.highlightedRow = 0;
+          this.getData();
+          this.commonMethod.matSnackBar(res.statusMessage, 0);
+          this.selection.clear();
+        } else {
+          if (res.statusCode != '404') {
+            this.error.handelError(res.statusMessage);
+
+          }
+        }
+      },
+    },
+    (error: any) => {
+      this.spinner.hide();
+      this.error.handelError(error.status);
+    }
+  );
+  this.onCancelRecord();
+}
+ngOnDestroy() {
+  this.subscription?.unsubscribe();
+}
   }
 
 // export interface PeriodicElement {
