@@ -331,22 +331,22 @@
 
                     <div class="mb-2">
                         <div class="image-container">
-                            <!-- <img *ngIf="!grievanceImageArray?.length" src="assets/images/user.jpg" class="grievance-image">
-                            <img *ngIf="grievanceImageArray?.length" [src]="grievanceImageArray[0]?.docpath" class="grievance-image">  -->
+                            <img *ngIf="!grievanceImageArray?.length" src="assets/images/user.jpg" class="grievance-image">
+                            <img *ngIf="grievanceImageArray?.length" [src]="grievanceImageArray[0]?.docpath" class="grievance-image"> 
                          
-                         <img *ngIf="!documentUrlUploaed" src="assets/images/user.jpg" class="grievance-image">
-                            <img *ngIf="documentUrlUploaed" [src]="documentUrlUploaed" class="grievance-image"> 
+                         <!-- <img *ngIf="!documentUrlUploaed" src="assets/images/user.jpg" class="grievance-image">
+                            <img *ngIf="documentUrlUploaed" [src]="documentUrlUploaed" class="grievance-image">  -->
                             <div class="grievance-buttons d-flex flex-column upload-btn-wrapper">
                                 <button type="button" class="btn bg-light text-primary" >
                                     <i class="fa-solid fa-plus"></i>
                                     <input type="file" (change)="documentUpload($event)" #fileInput>
                                 </button>
-                                  <!-- <button type="button" *ngIf="grievanceImageArray?.length" class="border border-0 btn bg-light text-danger" (click)="deleteDocument()">
+                                  <button type="button" *ngIf="grievanceImageArray?.length" class="border border-0 btn bg-light text-danger" (click)="deleteDocument()">
                                     <i class="fa-solid fa-trash-can"></i>
-                                </button>   -->
-                                 <button type="button" *ngIf="documentUrlUploaed" class="border border-0 btn bg-light text-danger" (click)="deleteDocument()">
+                                </button>  
+                                 <!-- <button type="button" *ngIf="documentUrlUploaed" class="border border-0 btn bg-light text-danger" (click)="deleteDocument()">
                                     <i class="fa-solid fa-trash-can"></i>
-                                </button> 
+                                </button>  -->
                             </div>
                         </div>
                        </div>

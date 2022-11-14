@@ -394,8 +394,8 @@ export class PostGrievanceComponent implements OnInit {
   patchData(ele:any){
       this.ispatch=true;
       this.updatedObj=ele;
-      console.log(this.updatedObj);
-      this.documentUrlUploaed=this.updatedObj.citizenGrievanceImages[0]?.docpath;
+      console.log('asdafd',this.updatedObj);
+      this.grievanceImageArray=this.updatedObj.citizenGrievanceImages;
       this.isSelfGrievance.patchValue(ele.isSelfGrievance);
       this.postGrievanceForm.patchValue({
         otherCitizenName: this.updatedObj.otherCitizenName,
