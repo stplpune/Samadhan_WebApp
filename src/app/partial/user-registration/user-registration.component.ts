@@ -175,6 +175,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   filterData() {
     this.pageNumber = 1;
     this.getData();
+    this.onCancelRecord();
   }
    //#region  bind table  fn Start here
   getData() {
@@ -332,7 +333,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   pageChanged(event: any) {
     this.pageNumber = event.pageIndex + 1;
     this.getData();
-    // this.onCancelRecord();
+    this.onCancelRecord();
   }
 
     //#region reset form value fn Start here
