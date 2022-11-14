@@ -122,13 +122,13 @@ export class PostGrievanceComponent implements OnInit {
   filterData() {
     this.pageNumber = 1;
     this.bindTable();
+    this.onCancelRecord();
   }
 
   pageChanged(event: any) {
     this.pageNumber = event.pageIndex + 1;
     this.bindTable();
-    this.isAllSelected();
-    this.masterToggle();
+   this.onCancelRecord();
   }
 
   getState() {
@@ -293,7 +293,7 @@ export class PostGrievanceComponent implements OnInit {
             "createdDate": new Date(),
             "isDeleted": false
           }
-          // this.grievanceImageArray = [];
+           this.grievanceImageArray = [];
           this.grievanceImageArray.push(obj);
         }
       },
@@ -309,6 +309,7 @@ export class PostGrievanceComponent implements OnInit {
   onCancelRecord() {
     this.formDirective.resetForm();
     this.ispatch = false;
+    this.grievanceImageArray=[];
   }
 
 
