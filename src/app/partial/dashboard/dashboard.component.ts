@@ -97,7 +97,6 @@ export class DashboardComponent implements OnInit {
       next: (res: any) => {
         if (res.statusCode == 200) {
           this.totalGrievance=res.responseData; 
-          console.log(this.totalGrievance); 
           this.departmants= this.totalGrievance.map((ele:any)=> ele['name']);  
           this.percentages=this.totalGrievance.map((ele:any)=> ele.percentage); 
           this.getChart(); 
