@@ -145,7 +145,7 @@
 
                   <mat-form-field appearance="outline" class="w-100">
                       <mat-label>Contact Person Name</mat-label>
-                      <input matInput formControlName="contactPersonName" maxlength="200" (keyup)="validation.removeSpaceAtBegining($event)"
+                      <input matInput formControlName="contactPersonName" maxlength="50" (keyup)="validation.removeSpaceAtBegining($event)"
                       (keypress)="validation.alphabetsWithSpaces($event)">
                       <mat-error *ngIf="f['contactPersonName']?.errors">
                         <span *ngIf="f['contactPersonName']?.hasError('required')">Contact Person Name is required</span>
