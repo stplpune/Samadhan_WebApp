@@ -22,6 +22,7 @@
     "@angular/router": "^14.2.0",
     "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^7.0.0",
+    "ng-apexcharts": "^1.7.4",
     "ngx-perfect-scrollbar": "^10.1.1",
     "ngx-spinner": "^12.0.0",
     "rxjs": "~7.5.0",
