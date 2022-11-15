@@ -12,13 +12,13 @@
        
         <div class="col-sm-12 text-center">
             <div class="position-relative upload-btn-wrapper">
-                 <!-- <img src="assets/images/user.jpg" class="vehicle-image"> -->
+                  <!-- <img src="assets/images/user.jpg" class="vehicle-image"> -->
 
                      <img src="assets/images/user.jpg" *ngIf="!ImgUrl" alt="profile-img" width="100"
                             class="vehicle-image">
                     <img src="{{ImgUrl}}" *ngIf="ImgUrl" alt="profile-img" width="100"
-                            class="vehicle-image">
-                   <!-- <img src="assets/images/user.jpg" *ngIf="profileData?.profilePhoto!==''" alt="profile-img" class="vehicle-image">
+                            class="vehicle-image"> 
+                   <!-- <img src="assets/images/user.jpg" *ngIf="profileData?.profilePhoto ==''" alt="profile-img" class="vehicle-image">
                 <img src="{{profileData?.profilePhoto}}" *ngIf="profileData?.profilePhoto" alt="profile-img" class="vehicle-image">  -->
                 <input type="file" id="img-upload" (change)="documentUpload($event)" #fileInput/>
                 <div class="vehicle-buttons d-flex flex-column">
