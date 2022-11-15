@@ -23,9 +23,7 @@ const routes: Routes = [
       { path: '', loadChildren: () => import('./partial/partial-layout/partial-layout.module').then(m => m.PartialLayoutModule), data: { title: 'Login' } },
     ]
   },
- 
-  
-  
+    
 ];
 
 @NgModule({
