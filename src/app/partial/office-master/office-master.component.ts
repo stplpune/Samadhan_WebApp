@@ -10,7 +10,6 @@ import { CommonMethodService } from 'src/app/core/service/common-method.service'
 import { ConfirmationComponent } from './../dialogs/confirmation/confirmation.component';
 import { ConfigService } from 'src/app/configs/config.service';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSort } from '@angular/material/sort';
 import { debounceTime, distinctUntilChanged, filter, Subscription } from 'rxjs';
 import { WebStorageService } from 'src/app/core/service/web-storage.service';
 import { MatPaginator } from '@angular/material/paginator';
@@ -21,17 +20,9 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ['./office-master.component.css'],
 })
 export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('formDirective') formDirective!: NgForm;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  displayedColumns: string[] = [
-    'srNo',
-    'departmentName',
-    'officeName',
-    'weight',
-    'delete',
-    'select',
-  ];
+  displayedColumns: string[] = ['srNo','departmentName','officeName','weight','delete','select',];
   dataSource: any;
   frmOffice!: FormGroup;
   filterForm!:FormGroup;
@@ -90,7 +81,7 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
       name: ['']
          })
        }
-
+  //-------------------------------------------------------------------------AfterViewInit------------------------------------------------------------------
     ngAfterViewInit() {
     let formData: any = this.filterForm.controls['name'].valueChanges;
     formData.pipe(filter(() => this.filterForm.valid),
@@ -180,7 +171,6 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
         if (res.statusCode == 200) {
           let dataSet = res.responseData;
           this.dataSource = new MatTableDataSource(dataSet);
-          this.dataSource.sort = this.sort;
           this.totalPages = res.responseData1.pageCount;
           this.spinner.hide();
         } else {

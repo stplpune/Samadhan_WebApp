@@ -13,7 +13,6 @@ import { ConfigService } from 'src/app/configs/config.service';
 import { WebStorageService } from 'src/app/core/service/web-storage.service';
 import { MatDialog } from '@angular/material/dialog';
 import { debounceTime, distinctUntilChanged, filter, Subscription } from 'rxjs';
-import { MatSort } from '@angular/material/sort';
 
 
 
@@ -23,7 +22,6 @@ import { MatSort } from '@angular/material/sort';
   styleUrls: ['./grievance-master.component.css']
 })
 export class GrievanceMasterComponent implements OnInit ,AfterViewInit, OnDestroy {
-  @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('formDirective') formDirective!: NgForm;
   displayedColumns: string[] = [ 'srNo', 'departmentName', 'grievanceType', 'action','delete','select'];
   dataSource :any;
@@ -68,7 +66,7 @@ createGrievanceForm(){
   })
 }
 
-//---------------------------------------------------------------------------ngAfterViewInit--------------------------------------------------------------------
+//---------------------------------------------------------------------------AfterViewInit--------------------------------------------------------------------
 ngAfterViewInit() {
 let formData = this.filterForm.controls['grievanceType'].valueChanges;
 formData.pipe(filter(() => this.filterForm.valid),
@@ -90,7 +88,7 @@ filterMethod(){
   selection = new SelectionModel<any>(true, []);
 
 
-  //------------------------------------------------------------------------Display Table----------------------------------------------------------------------
+//------------------------------------------------------------------------Display Table-------------------------------------------------------------------------------
 
   getData(){
   this.spinner.show();
@@ -101,7 +99,6 @@ filterMethod(){
       if (res.statusCode == 200) {
         let dataSet = res.responseData;
         this.dataSource = new MatTableDataSource(dataSet);
-        this.dataSource.sort = this.sort;
         this.totalPages = res.responseData1.pageCount;
         this.pageNo == 1 ? this.paginator?.firstPage():'';
         this.spinner.hide();
@@ -202,7 +199,7 @@ onCancelRecord() {
 
   }
 
-//-----------------------------------------------------------------------------------Delete-------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------Delete-------------------------------------------------------------------------------
 isAllSelected() {
   const numSelected = this.selection.selected.length;
   const numRows = this.dataSource.data.length;
