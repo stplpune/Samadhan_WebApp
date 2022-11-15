@@ -33,8 +33,8 @@ export class WebStorageService {
 
   getAllPageName() {
     if (this.checkUserIsLoggedIn() == true) {
-      let getAllPageName = this.getLoggedInLocalstorageData();
-      return getAllPageName?.responseData2;
+      let getAllPageName = this.getLoggedInLocalstorageData();      
+      return getAllPageName?.responseData?.pageLstModels;
     }
   }
 
