@@ -44,7 +44,6 @@ export class GrievanceMasterComponent implements OnInit ,AfterViewInit, OnDestro
   constructor(private fb: FormBuilder,private apiService:ApiService,
     public configService: ConfigService,
     public dialog: MatDialog,
-    // private webStorageService:WebStorageService,
     public error: ErrorHandlerService,
     private spinner: NgxSpinnerService,
     public validation: FormsValidationService,
@@ -94,6 +93,7 @@ filterMethod(){
   //------------------------------------------------------------------------Display Table----------------------------------------------------------------------
 
   getData(){
+  this.spinner.show();
   let formData = this.filterForm.value;
   this.apiService.setHttp('get', "api/Grievance/GetAll?Id=" +formData.deptId+'&GrievanceType='+ formData.grievanceType +'&pageno=' + this.pageNo +'&pagesize='+this.pageSize, false, false, false, 'samadhanMiningService');
   this.apiService.getHttp().subscribe({
@@ -101,11 +101,12 @@ filterMethod(){
       if (res.statusCode == 200) {
         let dataSet = res.responseData;
         this.dataSource = new MatTableDataSource(dataSet);
-        console.log();
         this.dataSource.sort = this.sort;
         this.totalPages = res.responseData1.pageCount;
         this.pageNo == 1 ? this.paginator?.firstPage():'';
+        this.spinner.hide();
       }else{
+       this.spinner.hide();
         this.dataSource=[];
       }
       }
@@ -132,7 +133,6 @@ onSubmitGrievance(){
       return;
     }
     let formData = this.frmGrievance.value;
-    console.log(formData);
     let obj = {
   "createdBy":  this.webStorage.getUserId(),
   "modifiedBy": this.webStorage.getUserId(),
@@ -169,7 +169,6 @@ onSubmitGrievance(){
   this.highlightedRow = data.grievanceTypeId;
   this.isEdit = true;
   this.updatedObj = data;
-  console.log(this.updatedObj);
   this.frmGrievance.patchValue({
     deptId:this.updatedObj?.deptId,
     grievanceType:this.updatedObj.grievanceType,
@@ -179,8 +178,10 @@ onSubmitGrievance(){
 //------------------------------------------------------------------------------Pagination-----------------------------------------------------------------------------
 pageChanged(event: any) {
   this.pageNo = event.pageIndex + 1;
-  // this.pageSize = event.pageSize;
   this.getData();
+  this.onCancelRecord();
+  this.selection.clear();
+
 }
 
 
@@ -198,6 +199,8 @@ onCancelRecord() {
   filterData(){
     this.pageNo = 1;
     this.getData();
+    this.onCancelRecord();
+
   }
 
 //-----------------------------------------------------------------------------------Delete-------------------------------------------------------------------------------
@@ -284,14 +287,4 @@ ngOnDestroy() {
 }
   }
 
-// export interface PeriodicElement {
-//   srNo: number;
-//   departmentName: string;
-//   grievanceType: string;
-//   action: any;
-// }
-
-// const ELEMENT_DATA: PeriodicElement[] = [
-
-// ];
 

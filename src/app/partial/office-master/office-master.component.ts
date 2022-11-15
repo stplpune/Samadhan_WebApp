@@ -83,12 +83,12 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
   get f() {
     return this.frmOffice.controls;
   }
-  //--------------------------------------------------------FilterFOrm--------------------------------------------------------------------------------------
+  //-------------------------------------------------------------------------FilterFOrm--------------------------------------------------------------------------------------
    filterform() {
     this.filterForm = this.fb.group({
       deptId: [0],
       name: ['']
-          })
+         })
        }
 
     ngAfterViewInit() {
@@ -103,7 +103,7 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
     }
    selection = new SelectionModel<any>(true, []);
 
-  //---------------------------------------------------------------clear filter-----------------------------------------------------------------------------------
+  //-----------------------------------------------------------------------clear filter-----------------------------------------------------------------------------------
 //   clearFilter(flag: any) {
 //   switch (flag) {
 //     case 'department':
@@ -147,8 +147,6 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
         next: (res: any) => {
           if (res.statusCode == '200' && res.responseData) {
             this.departmentArr = res.responseData;
-            console.log(this.departmentArr);
-
           }
         },
       });
@@ -174,19 +172,21 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
 
   //-------------------------------------------------------------Dispaly Table-----------------------------------------------------------------------------
   getData() {
-    // this.spinner.show()
+    this.spinner.show()
     let formData = this.filterForm.value;
     this.apiService.setHttp('get','samadhan/office/GetAll?pageno=' +this.pageNo+'&pagesize=' +this.pageSize+'&DeptId='+ formData.deptId +'&Name='+formData.name,false,false,false,'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {
           let dataSet = res.responseData;
-          console.log(dataSet);
           this.dataSource = new MatTableDataSource(dataSet);
           this.dataSource.sort = this.sort;
           this.totalPages = res.responseData1.pageCount;
+          this.spinner.hide();
         } else {
+          this.spinner.hide();
           this.dataSource = [];
+          this.totalPages = 0;
         }
       },
     });
@@ -198,7 +198,6 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
     let formData = this.frmOffice.value;
-    console.log(formData);
     let obj = {
       "createdBy": this.webStorage.getUserId(),
       "modifiedBy": this.webStorage.getUserId(),
@@ -248,7 +247,6 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
     this.highlightedRow = ele.id;
     this.isEdit = true;
     this.updatedObj = ele;
-    console.log(this.updatedObj);
     this.frmOffice.patchValue({
       deptId: this.updatedObj.deptId,
       name: this.updatedObj.officeName,
@@ -261,16 +259,19 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
     //--------------------------------------------------------Pagination-------------------------------------------------------------------------------------------
     pageChanged(event: any) {
       this.pageNo = event.pageIndex + 1;
-      // this.pageSize = event.pageSize;
       this.getData();
+      this.onCancelRecord();
+      this.selection.clear();
+
     }
     //------------------------------------------------------------------------FIlterData------------------------------------------------------------------------
     filterData(){
       this.pageNo = 1;
       this.getData();
+      this.onCancelRecord();
+
     }
 
-  //-------------------------------------------------------------------------FilterRecord---------------------------------------------------------------------
    //-------------------------------------------------------------------------filter----------------------------------------------------------------------
   // deleteConformation(id: any) {
   //   this.highlightedRow = id;
@@ -294,10 +295,10 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
   // }
 
   //------------------------------------------------------filter----------------------------------------------------------------------------------------
-  filterRecord() {
+   filterRecord() {
     this.getData();
   }
-  //---------------------------------------------------------------------------Cancle--------------------------------------------------------------------------------------
+  //----------------------------------------------------------------------------Cancle--------------------------------------------------------------------------------------
   onCancelRecord() {
     this.formDirective.resetForm();
     this.isEdit = false;
@@ -385,12 +386,4 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subscription?.unsubscribe();
   }
 }
-// export interface PeriodicElement {
-//   departmentName: string;
-//   srNo: number;
-//   weight:any;
-// }
 
-// const ELEMENT_DATA: PeriodicElement[] = [
-
-// ];

@@ -11,7 +11,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { ConfirmationComponent } from './../dialogs/confirmation/confirmation.component';
 import { ConfigService } from 'src/app/configs/config.service';
 import { MatDialog } from '@angular/material/dialog';
-// import { WebStorageService } from 'src/app/core/service/web-storage.service';
 import { Subscription } from 'rxjs';
 import { MatSort } from '@angular/material/sort';
 import { WebStorageService } from 'src/app/core/service/web-storage.service';
@@ -57,6 +56,7 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
     this.filterMethod();
     this.getDepartmentName();
     this.getData();
+
   }
 
   //-------------------------------------------------------------------------Start Form-----------------------------------------------------------------------------------------
@@ -76,30 +76,10 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
       deptId: [0],
     });
   }
-  //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
-  filterData() {
-    this.pageNo = 1;
-    this.getData();
-  }
+
 
   selection = new SelectionModel<any>(true, []);
 
-  // toggleAllRows() {
-  //   if (this.isAllSelected()) {
-  //     this.selection.clear();
-  //     return;
-  //   }
-
-  //   this.selection.select(...this.dataSource);
-  // }
-  // checkboxLabel(row?: any): string {
-  //   if (!row) {
-  //     return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-  //   }
-  //   return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
-  //     row.srNo + 1
-  //   }`;
-  // }
   //-------------------------------------------------------------------------Department---------------------------------------------------------------------------
   getDepartmentName() {
     this.apiService.setHttp('get','samadhan/commondropdown/GetAllDepartment',false,false,false,'samadhanMiningService');
@@ -113,6 +93,7 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
   }
   //-----------------------------------------------------------------------Display Table --------------------------------------------------------------------------------
   getData() {
+     this.spinner.show();
     let formData = this.filterForm.value;
     this.apiService.setHttp('get','samdhan/Department/GetAllDepartments?Id=' +formData.deptId +'&pageno=' +this.pageNo +'&pagesize=' +this.pageSize,false,false,false,'samadhanMiningService');
     this.apiService.getHttp().subscribe({
@@ -122,7 +103,10 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
           this.dataSource = new MatTableDataSource(dataSet);
           this.dataSource.sort = this.sort;
           this.totalPages = res.responseData1.pageCount;
+          this.pageNo == 1 ? this.paginator?.firstPage() : '';
+          this.spinner.hide();
         } else {
+          this.spinner.hide();
           this.dataSource = [];
           this.totalPages = 0;
         }
@@ -138,7 +122,6 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
       return;
     }
     let formData = this.frmDepartment.value;
-    console.log(formData);
     let obj = {
       createdBy: this.webStorage.getUserId(),
       modifiedBy: this.webStorage.getUserId(),
@@ -148,7 +131,6 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
       id: this.isEdit == true ? this.updatedObj.id : 0,
       departmentName: formData.departmentName,
     };
-    // this.isEdit ? obj.id = this.updatedObj.id : obj.id =0;
     let method = this.isEdit ? 'PUT' : 'POST';
     let url = this.isEdit ? 'UpdateDepartment' : 'AddDepartment';
     this.apiService.setHttp(method,'samdhan/Department/' + url,false,obj,false,'samadhanMiningService');
@@ -175,54 +157,41 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
       },
     });
   }
-  //----------------------------------------------------------------------Update--------------------------------------------------------------------------------
+  //----------------------------------------------------------------------------Update--------------------------------------------------------------------------------
   editRecord(data: any) {
     this.highlightedRow = data.id;
     this.isEdit = true;
     this.updatedObj = data;
-    console.log(this.updatedObj);
     this.frmDepartment.patchValue({
       departmentName: this.updatedObj.departmentName,
     });
   }
-  //----------------------------------------------------------------------Pagination-----------------------------------------------------------------------------
+  //--------------------------------------------------------------------------Pagination-----------------------------------------------------------------------------
   pageChanged(event: any) {
     this.pageNo = event.pageIndex + 1;
     this.getData();
+    this.onCancelRecord();
+    this.selection.clear();
+
+
   }
-  //------------------------------------------------------------------------cancle------------------------------------------------------------------------------
+  //---------------------------------------------------------------------------cancle------------------------------------------------------------------------------
   onCancelRecord() {
     this.formDirective.resetForm();
     this.isEdit = false;
   }
 
-  //-------------------------------------------------------------------------filter----------------------------------------------------------------------
-  // deleteConformation(id: any) {
-  //   this.highlightedRow = id;
-  //   let obj: any = ConfigService.dialogObj;
-  //   obj['p1'] = 'Are you sure you want to delete this record?';
-  //   obj['cardTitle'] = 'Delete';
-  //   obj['successBtnText'] = 'Delete';
-  //   obj['cancelBtnText'] = 'Cancel';
-  //   obj['inputType'] = false;
-  //   const dialog = this.dialog.open(ConfirmationComponent, {
-  //     width: this.configService.dialogBoxWidth[0],
-  //     data: obj,
-  //     disableClose: this.configService.disableCloseBtnFlag,
-  //   })
-  //   dialog.afterClosed().subscribe(res => {
-  //     if (res == 'Yes') {
-  //       this.deleteCoalGrade();
-  //     }
-  //   })
-
-  // }
-
-  //------------------------------------------------------filter----------------------------------------------------------------------------------------
+  //---------------------------------------------------------------------------filter-----------------------------------------------------------------------------------------------
   filterRecord() {
     this.getData();
+
   }
 
+  filterData() {
+    this.pageNo = 1;
+    this.getData();
+    this.onCancelRecord();
+  }
   //---------------------------------------------------------------------------Delete---------------------------------------------------------------------------------------
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -306,12 +275,4 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
     this.subscription?.unsubscribe();
   }
 }
-// export interface PeriodicElement {
-//   departmentName: string;
-//   srNo: number;
-//   weight:any;
-// }
 
-// const ELEMENT_DATA: PeriodicElement[] = [
-
-// ];
