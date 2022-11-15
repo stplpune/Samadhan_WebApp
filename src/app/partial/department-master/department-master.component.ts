@@ -152,6 +152,7 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
       error: (error: any) => {
         this.error.handelError(error.status);
         this.spinner.hide();
+
       },
     });
   }
