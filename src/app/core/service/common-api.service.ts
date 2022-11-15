@@ -20,6 +20,7 @@ export class CommonApiService {
   villageByTaluka=new Array();
   talukaByDistrict=new Array();
   natureGrievance=new Array();
+  natureGrievanceByDept=new Array();
   otp:any;
   verify:any;
   constructor(
@@ -163,5 +164,18 @@ export class CommonApiService {
       })
     })
   }
+
+  getAllNatureOfGrievanceByDeptId(deptId:number){
+    return new Observable((obj) => {
+      this.apiService.setHttp('get', "samadhan/commondropdown/GetAllNatureOfGrivanceByDeptId?DeptId=" + deptId, false, false, false, 'samadhanMiningService');
+      this.apiService.getHttp().subscribe({
+        next: (res: any) => { if (res.statusCode == "200") { this.natureGrievanceByDept = res.responseData; obj.next(this.natureGrievanceByDept); } else { obj.error(res); } },
+        error: (e: any) => { obj.error(e) }
+      })
+
+    })
+  }
+
+
   
 }
