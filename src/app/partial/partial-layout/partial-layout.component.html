@@ -1,6 +1,6 @@
 <div class="page-wrapper" [ngClass]="{'toggled' : getSideBarState()}">
     <app-header></app-header>
-    <app-sidebar></app-sidebar>
+    <app-sidebar *ngIf="!getSideBarState()"></app-sidebar>
     <main class="page-content">
         <div class="main-content">
             <div class="card card-body border-0">
