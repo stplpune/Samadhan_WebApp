@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { UserRightAccessRoutingModule } from './user-right-access-routing.module';
 import { UserRightAccessComponent } from './user-right-access.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MaterialModule } from 'src/app/shared/AngularMaterialModule/material.module';
 
 
 @NgModule({
@@ -11,7 +13,10 @@ import { UserRightAccessComponent } from './user-right-access.component';
   ],
   imports: [
     CommonModule,
-    UserRightAccessRoutingModule
+    UserRightAccessRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MaterialModule
   ]
 })
 export class UserRightAccessModule { }
