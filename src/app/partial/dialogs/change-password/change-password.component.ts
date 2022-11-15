@@ -14,9 +14,9 @@ import { FormsValidationService } from 'src/app/core/service/forms-validation.se
   styleUrls: ['./change-password.component.css']
 })
 export class ChangePasswordComponent implements OnInit {
-  hide = true;
-  hide1 = true;
-  hide2 = true;
+  hideCurrentPass:boolean = true;
+  hideNewPass:boolean = true; 
+  hideConfirmPass:boolean = true; 
   changePasswordFrm!: FormGroup
   @ViewChild(FormGroupDirective) formGroupDirective!: FormGroupDirective;
   localstorageData = this.webstorageService.getLoggedInLocalstorageData();
@@ -42,14 +42,14 @@ export class ChangePasswordComponent implements OnInit {
     return this.changePasswordFrm.controls;
   }
   onSubmit() {
-    debugger
     let formData = this.changePasswordFrm.value;
     if (this.changePasswordFrm.invalid) {
       return;
     } else if (formData.newPassword.trim() != formData.confirmPassword.trim()) {
       this.changePasswordFrm.controls['confirmPassword'].setErrors({ 'notMatched': true })
       return;
-    } else if (formData.oldPassword == formData.newPassword && (this.common.checkDataType(formData.oldPassword) == true && this.common.checkDataType(formData.newPassword) == true)) {
+    }
+     else if (formData.oldPassword == formData.newPassword ) {
       this.changePasswordFrm.controls['confirmPassword'].setErrors({ 'Matched': true });
       return;
     }
@@ -60,13 +60,12 @@ export class ChangePasswordComponent implements OnInit {
       "Password": formData.newPassword,
       "MobileNo": this.localstorageData.responseData.mobileNo,
     }
-    // console.log(this.changePasswordFrm.value);
     this.apiService.setHttp('put', 'samadhan/user-registration/UpdatePassward?OldPassword=' + obj.OldPassword + '&UserName=' + obj.UserName + '&Password=' + obj.Password + '&MobileNo=' + obj.MobileNo, false, obj, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
-        // console.log(res);
         if (res.statusCode == "200") {
           this.spinner.hide();
+          this.dialogRef.close('Yes');
           this.common.matSnackBar(res.statusMessage, 0);
           localStorage.removeItem('loggedInData');
           sessionStorage.removeItem('loggedIn');
@@ -81,8 +80,6 @@ export class ChangePasswordComponent implements OnInit {
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
-
-
   }
 
   closeDialog() {
@@ -91,7 +88,14 @@ export class ChangePasswordComponent implements OnInit {
 
   ClearAll() {
     this.formGroupDirective.resetForm();
-    // this.dialogRef.close();
   }
 
+  validationaddremove() {
+    let formData = this.changePasswordFrm.value;
+    if (formData.oldPassword == formData.newPassword && (this.common.checkDataType(formData.oldPassword) == true && this.common.checkDataType(formData.newPassword) == true)) {
+      this.changePasswordFrm.controls['confirmPassword'].setErrors({ 'Matched': true });
+    }else if(formData.oldPassword != formData.confirmPassword){
+      this.changePasswordFrm.controls['confirmPassword'].updateValueAndValidity();
+    }
+  }
 }
