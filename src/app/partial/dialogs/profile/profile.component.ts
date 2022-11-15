@@ -45,6 +45,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.defaultForm();
     this.getUserRegistration();
+   
   }
 
   defaultForm(){
@@ -64,8 +65,9 @@ export class ProfileComponent implements OnInit {
     this.apiService.setHttp('get', "samadhan/user-registration/" + this.localstorageService.getUserId(), false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
-        if (res.statusCode === "200") {
+        if (res.statusCode == "200") {
           this.profileData = res.responseData;
+          this.commonService.checkDataType(this.profileData?.profilePhoto) === '' && this.commonService.checkDataType(this.profileData) == true ? this.ImgUrl = 'assets/images/user.png' : this.ImgUrl = this.profileData?.profilePhoto;
           this.profileFormPatchValue(this.profileData);
         } else {
           this.profileData = [];
@@ -115,7 +117,7 @@ export class ProfileComponent implements OnInit {
   deleteImg() {
     localStorage.setItem('imgUrl', '');
     this.file = "";
-    this.ImgUrl = 'assets/images/user.jpg';
+    this.ImgUrl = '';
     this.fileInput.nativeElement.value = '';
     this.profileImg = '';
   }
@@ -164,6 +166,7 @@ export class ProfileComponent implements OnInit {
     this.subscription = this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {
+          this.closeDialog();
           this.commonService.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonService.matSnackBar(res.statusMessage, 0);
         } else {
           this.commonService.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonService.matSnackBar(res.statusMessage, 1);

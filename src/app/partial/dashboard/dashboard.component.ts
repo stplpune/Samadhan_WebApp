@@ -13,6 +13,7 @@ import {
   ApexTitleSubtitle
 } from "ng-apexcharts";
 import { ChartComponent } from "ng-apexcharts"
+import { NgxSpinnerService } from 'ngx-spinner';
 
 export type ChartOptions = {
   series: ApexNonAxisChartSeries;
@@ -45,8 +46,8 @@ export class DashboardComponent implements OnInit {
   constructor(
     private apiService:ApiService,
     private commonMethod:CommonMethodService,
-    private error:ErrorHandlerService
-
+    private error:ErrorHandlerService,
+    private spinner:NgxSpinnerService
   ) {}
 
   ngOnInit(): void {
@@ -74,13 +75,16 @@ export class DashboardComponent implements OnInit {
   }
 
   bindTable() {
+    this.spinner.show()
     this.apiService.setHttp('get', "api/DashboardWeb/StatusWiseGrievanceReceived", false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {
           this.dataSource=new MatTableDataSource(res.responseData.responseData1); 
           this.dataSource.sort = this.sort;
+          this.spinner.hide();
         } else {
+          this.spinner.hide();
           this.dataSource = []
           if (res.statusCode != "404") {
             this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
