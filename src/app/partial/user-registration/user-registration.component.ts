@@ -107,7 +107,9 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
         this.pageNumber = 1;
         this.getData();
         this.totalRows > 10 && this.pageNumber == 1 ? this.paginator?.firstPage() : '';
+        this.onCancelRecord();
       });
+     
   }
 
   //#endregion search  fn end here
@@ -186,7 +188,6 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.apiService.setHttp('get', "samadhan/user-registration/GetAll" + paramList, false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
-        // debugger
         if (res.statusCode == 200) {
           this.users = res.responseData.responseData1;
           this.dataSource = new MatTableDataSource(this.users);
@@ -334,6 +335,8 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.pageNumber = event.pageIndex + 1;
     this.getData();
     this.onCancelRecord();
+    // this.selection = new SelectionModel<Element>(true, []);
+    this.selection.clear();
   }
 
     //#region reset form value fn Start here
@@ -349,15 +352,13 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
-
   }
 
   masterToggle() {
     this.isAllSelected()
       ? this.selection.clear()
-      : this.dataSource.data.forEach((row: any) => this.selection.select(row));
+      : this.dataSource.connect().value.forEach((row: any) => this.selection.select(row));  
   }
-
 
   deleteUserData() {
     const dialog = this.dialog.open(ConfirmationComponent, {
@@ -370,6 +371,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
         this.deleteUser();
       } else {
         this.selection.clear();
+        this.selection = new SelectionModel<Element>(true, []);
       }
     })
   }

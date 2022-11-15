@@ -100,15 +100,12 @@
 
                   <ng-container matColumnDef="select">
                     <th *matHeaderCellDef class="mxw-80">
-                        <!-- Sr.No mat-sort-header  -->
                         <mat-checkbox (change)="$event ? masterToggle() : null"
                             [checked]="selection.hasValue() && isAllSelected()"
                             [indeterminate]="selection.hasValue() && !isAllSelected()">
                         </mat-checkbox>
                     </th>
                     <td *matCellDef="let element let i=index" class="mxw-80">
-                        <!-- {{i +1}} -->
-
                         <mat-checkbox (click)="$event.stopPropagation()"
                             (change)="$event ? selection.toggle(element) : null"
                             [checked]="selection.isSelected(element)">

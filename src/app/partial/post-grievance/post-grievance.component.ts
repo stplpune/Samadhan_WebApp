@@ -129,6 +129,7 @@ export class PostGrievanceComponent implements OnInit {
     this.pageNumber = event.pageIndex + 1;
     this.bindTable();
    this.onCancelRecord();
+   this.selection.clear();
   }
 
   getState() {
@@ -136,7 +137,6 @@ export class PostGrievanceComponent implements OnInit {
     this.commonApi.getAllState().subscribe({
       next: (response: any) => {
         this.stateArray.push({ 'value': 0, 'text': 'Select State' }, ...response);
-        console.log(this.stateArray);
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
@@ -395,7 +395,6 @@ export class PostGrievanceComponent implements OnInit {
   patchData(ele:any){
       this.ispatch=true;
       this.updatedObj=ele;
-      console.log('asdafd',this.updatedObj);
       this.grievanceImageArray=this.updatedObj.citizenGrievanceImages;
       this.isSelfGrievance.patchValue(ele.isSelfGrievance);
       this.postGrievanceForm.patchValue({
