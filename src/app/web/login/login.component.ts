@@ -12,8 +12,8 @@ import { FormsValidationService } from 'src/app/core/service/forms-validation.se
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
-  submitted = false;
-  hide: boolean = true;
+
+  hide: boolean = true;  
 
   loginData: any;
   constructor(private fb: FormBuilder,
@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
     this.loginForm = this.fb.group({
       username: ['', [Validators.required, Validators.pattern(/^[6-9][0-9]{9}$/)]],
       password: ['', [Validators.required, Validators.pattern(/^(((?=.*[a-z])(?=.*[A-Z]))((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,8})/)]],
-      captcha: ['', [Validators.required]]
+      captcha: ['', [Validators.required,Validators.pattern(this.validation.onlyNumbers)]]
     })
     this.captcha();
   }
@@ -39,33 +39,11 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.loginData = this.loginForm.value;
-    // console.log(this.common.checkvalidateCaptcha());
-    // if (this.loginForm.value.captcha != this.common.checkvalidateCaptcha()) {
-    //   this.common.matSnackBar("Invalid Captcha", 1)
-    // } else if (this.loginForm.valid) {
-    //   this.loginData = this.loginForm.value;
-    //   // console.log(this.loginForm.value);
-    //   this.apiService.setHttp('get', 'samadhan/user-registration/' + this.loginData.username.trim() + '/' + this.loginData.password.trim(), false, false, false, 'samadhanMiningService');
-    //   this.apiService.getHttp().subscribe((res: any) => {
-    //     if (res.statusCode == "200") {
-    //       this.common.matSnackBar(res.statusMessage, 1)
-    //       // console.log(res);
-    //       sessionStorage.setItem('loggedIn', 'true');
-    //       localStorage.setItem('loggedInData', JSON.stringify(res));
-    //       this.router.navigate(['../dashboard'])
-    //     }
-    //     else {
-    //       this.common.matSnackBar(res.statusMessage, 1)
-    //     }
-    //   }, (error: any) => {
-    //     this.error.handelError(error.status);
-    //   })
-    // }
-
     if (this.loginForm.invalid) {
       return;
     }else if (this.loginForm.value.captcha != this.common.checkvalidateCaptcha()){
       this.common.matSnackBar("Invalid Captcha", 1)
+      return;
       }else if(this.loginForm.valid){
         // console.log(this.loginForm.value);
         this.apiService.setHttp('get', 'samadhan/user-registration/' + this.loginData.username.trim() + '/' + this.loginData.password.trim(), false, false, false, 'samadhanMiningService');
