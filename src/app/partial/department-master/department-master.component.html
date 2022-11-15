@@ -90,12 +90,12 @@
           <div class="mb-3">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Department</mat-label>
-              <input matInput formControlName="departmentName" maxlength="50">
+              <input matInput formControlName="departmentName" maxlength="50" (keyup)="validation.removeSpaceAtBegining($event)">
               <mat-error *ngIf="f['departmentName'].errors">
-                <span class="text-danger" *ngIf="f['departmentName'].errors?.['required']">Please enter
-                  department name.</span>
+                <span class="text-danger" *ngIf="f['departmentName'].errors?.['required']">
+                  Department is required</span>
                 <span class="text-danger" *ngIf="f['departmentName'].errors?.['pattern']">Please enter
-                  valid department name.</span>
+                  valid department name</span>
               </mat-error>
             </mat-form-field>
           </div>

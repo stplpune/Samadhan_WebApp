@@ -12,7 +12,6 @@ import { ConfirmationComponent } from './../dialogs/confirmation/confirmation.co
 import { ConfigService } from 'src/app/configs/config.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { MatSort } from '@angular/material/sort';
 import { WebStorageService } from 'src/app/core/service/web-storage.service';
 
 @Component({
@@ -21,8 +20,8 @@ import { WebStorageService } from 'src/app/core/service/web-storage.service';
   styleUrls: ['./department-master.component.css'],
 })
 export class DepartmentMasterComponent implements OnInit, OnDestroy {
-  @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('formDirective') formDirective!: NgForm;
+  @ViewChild('paginator') paginator!: MatPaginator;
   displayedColumns: string[] = ['srNo','departmentName','weight','delete','select',];
   dataSource: any;
   frmDepartment!: FormGroup;
@@ -36,7 +35,7 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
   updatedObj: any;
   highlightedRow!: number;
   departmentArr: any;
-  @ViewChild('paginator') paginator!: MatPaginator;
+
 
   constructor(
     private fb: FormBuilder,
@@ -101,7 +100,6 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
         if (res.statusCode == 200) {
           let dataSet = res.responseData;
           this.dataSource = new MatTableDataSource(dataSet);
-          this.dataSource.sort = this.sort;
           this.totalPages = res.responseData1.pageCount;
           this.pageNo == 1 ? this.paginator?.firstPage() : '';
           this.spinner.hide();
@@ -154,6 +152,7 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
       error: (error: any) => {
         this.error.handelError(error.status);
         this.spinner.hide();
+
       },
     });
   }

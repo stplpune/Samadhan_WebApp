@@ -115,7 +115,7 @@
                         <div class="mb-2">
                             <mat-form-field class="w-100" appearance="outline">
                                 <mat-label>Grievance Type</mat-label>
-                                <input matInput placeholder="grievance type" formControlName="grievanceType">
+                                <input matInput placeholder="grievance type" formControlName="grievanceType" (keyup)="validation.removeSpaceAtBegining($event)">
                                 <mat-error *ngIf="f['grievanceType']?.errors">
                                   <span *ngIf="f['grievanceType']?.hasError('required')"> Grievance is required</span>
                                   <span
