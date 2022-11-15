@@ -67,7 +67,7 @@ export class ProfileComponent implements OnInit {
       next: (res: any) => {
         if (res.statusCode == "200") {
           this.profileData = res.responseData;
-          this.commonService.checkDataType(this.profileData?.profilePhoto) == false && this.commonService.checkDataType(this.profileData) == true ? this.ImgUrl = 'assets/images/user.png' : this.ImgUrl = this.profileData?.profilePhoto;
+          this.commonService.checkDataType(this.profileData?.profilePhoto) === '' && this.commonService.checkDataType(this.profileData) == true ? this.ImgUrl = 'assets/images/user.png' : this.ImgUrl = this.profileData?.profilePhoto;
           this.profileFormPatchValue(this.profileData);
         } else {
           this.profileData = [];
