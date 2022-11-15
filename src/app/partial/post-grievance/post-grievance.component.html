@@ -279,7 +279,7 @@
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>Department</mat-label>
                                 <mat-select formControlName="deptId" [disabled]="ispatch"
-                                    (selectionChange)="getOffice(postGrievanceForm.value.deptId);postGrievanceForm.controls['officeId'].setValue('')">
+                                    (selectionChange)="getOffice(postGrievanceForm.value.deptId);getGrievanceByDeptId(postGrievanceForm.value.deptId);postGrievanceForm.controls['officeId'].setValue('')">
                                     <mat-option *ngFor="let department of departmentArray" [value]="department.id">
                                         {{department.departmentName}}
                                     </mat-option>

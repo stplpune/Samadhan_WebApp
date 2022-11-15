@@ -76,7 +76,7 @@ export class PostGrievanceComponent implements OnInit {
     this.getTaluka(1);
     this.getStatus();
     this.getDepartment();
-    this.getGrievance();
+    // this.getGrievance();
     this.bindTable();
   }
 
@@ -186,7 +186,7 @@ export class PostGrievanceComponent implements OnInit {
     this.commonApi.getAllDepartment().subscribe({
       next: (response: any) => {
         this.departmentArray.push(...response);
-        this.ispatch==true ? (this.postGrievanceForm.controls['deptId'].setValue(this.updatedObj?.concern_DeptId),this.getOffice(this.updatedObj?.concern_DeptId)): '';
+        this.ispatch==true ? (this.postGrievanceForm.controls['deptId'].setValue(this.updatedObj?.concern_DeptId),this.getOffice(this.updatedObj?.concern_DeptId),this.getGrievanceByDeptId(this.updatedObj?.concern_DeptId)): '';
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
@@ -217,9 +217,9 @@ export class PostGrievanceComponent implements OnInit {
     })
   }
 
-  getGrievance() {
+  getGrievanceByDeptId(deptNo:number) {
     this.natureOfGrievance = [];
-    this.commonApi.getAllNatureOfGrievance().subscribe({
+    this.commonApi.getAllNatureOfGrievanceByDeptId(deptNo).subscribe({
       next: (response: any) => {
         this.natureOfGrievance.push(...response);
         this.ispatch==true ? (this.postGrievanceForm.controls['natureGrievanceId'].setValue(this.updatedObj?.natureGrievanceId)): '';
@@ -354,6 +354,7 @@ export class PostGrievanceComponent implements OnInit {
         "modifiedDate": new Date(),
         "isDeleted": false,
         "id": 0,
+        "grievanceNo": "",
         "districtId": formData.districtId,
         "talukaId": formData.talukaId,
         "stateId": 1,
@@ -405,7 +406,7 @@ export class PostGrievanceComponent implements OnInit {
       })
       this.getDistrict();
       this.getDepartment();
-      this.getGrievance();
+      // this.getGrievance();
   }
 
   deleteData() {
