@@ -28,6 +28,7 @@ export class UserRightAccessComponent implements OnInit {
   displayedColumns: string[] = ['srno', 'pageName', 'pageURL', 'menuIcon', 'select'];
   totalRows: number = 0;
   highlightedRow!: number;
+  initialLoadFlag: boolean = true;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -73,7 +74,7 @@ export class UserRightAccessComponent implements OnInit {
           this.userRightFrm.patchValue({
             subUserType: this.SubUserTypeArr[0].subUserTypeId
           })
-          this.getUserRightPageList();
+          this.initialLoadFlag ? this.getUserRightPageList() : '';
         }
       },
       error: ((error: any) => { this.error.handelError(error.status) })
@@ -124,15 +125,15 @@ export class UserRightAccessComponent implements OnInit {
     this.getUserRightPageList();
   }
 
-  addUpdatePageRights(event: any, pageId: any) {
+  addUpdatePageRights(event: any, pageId: any, id: any) {
     var req = {
-      "id": 0,
+      "id": id,
       "userTypeId": this.userRightFrm.value.userType,
       "pageId": pageId,
       // "isReadWriteAccess": event,
       "readRight": event,
       "writeRight": event,
-      "subUserTypeId": 0,
+      "subUserTypeId": this.userRightFrm.value.subUserType,
       "createdBy": this.webStorage.getUserId(),
       "modifiedBy": this.webStorage.getUserId(),
       "createdDate": new Date(),
