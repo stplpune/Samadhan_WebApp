@@ -58,7 +58,7 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
 
   }
 
-  //-------------------------------------------------------------------------Start Form-----------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------Start Form-----------------------------------------------------------------------------------------
   createDepartmentForm() {
     this.frmDepartment = this.fb.group({
       departmentName: ['',[Validators.required, Validators.pattern(this.validation.valName)],],
@@ -69,7 +69,7 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
     return this.frmDepartment.controls;
   }
 
-  //------------------------------------------------------------------------------FilterForm--------------------------------------------------------------------------
+//------------------------------------------------------------------------------FilterForm--------------------------------------------------------------------------
   filterMethod() {
     this.filterForm = this.fb.group({
       deptId: [0],
@@ -79,7 +79,7 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
 
   selection = new SelectionModel<any>(true, []);
 
-  //-------------------------------------------------------------------------Department---------------------------------------------------------------------------
+//-------------------------------------------------------------------------Department---------------------------------------------------------------------------
   getDepartmentName() {
     this.apiService.setHttp('get','samadhan/commondropdown/GetAllDepartment',false,false,false,'samadhanMiningService');
     this.apiService.getHttp().subscribe({
@@ -90,7 +90,7 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
       },
     });
   }
-  //-----------------------------------------------------------------------Display Table --------------------------------------------------------------------------------
+//-----------------------------------------------------------------------Display Table --------------------------------------------------------------------------------
   getData() {
      this.spinner.show();
     let formData = this.filterForm.value;
@@ -113,7 +113,7 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
     });
   }
 
-  //----------------------------------------------------------------------Submit----------------------------------------------------------------------------------
+//----------------------------------------------------------------------Submit----------------------------------------------------------------------------------
   onSubmitDepartment() {
     // this.spinner.show();
     if (this.frmDepartment.invalid) {
@@ -156,7 +156,7 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
       },
     });
   }
-  //----------------------------------------------------------------------------Update--------------------------------------------------------------------------------
+//----------------------------------------------------------------------------Update--------------------------------------------------------------------------------
   editRecord(data: any) {
     this.highlightedRow = data.id;
     this.isEdit = true;
@@ -165,7 +165,7 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
       departmentName: this.updatedObj.departmentName,
     });
   }
-  //--------------------------------------------------------------------------Pagination-----------------------------------------------------------------------------
+//--------------------------------------------------------------------------Pagination-----------------------------------------------------------------------------
   pageChanged(event: any) {
     this.pageNo = event.pageIndex + 1;
     this.getData();
@@ -174,13 +174,13 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
 
 
   }
-  //---------------------------------------------------------------------------cancle------------------------------------------------------------------------------
+//---------------------------------------------------------------------------cancle------------------------------------------------------------------------------
   onCancelRecord() {
     this.formDirective.resetForm();
     this.isEdit = false;
   }
 
-  //---------------------------------------------------------------------------filter-----------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------filter-----------------------------------------------------------------------------------------------
   filterRecord() {
     this.getData();
 
@@ -191,7 +191,7 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
     this.getData();
     this.onCancelRecord();
   }
-  //---------------------------------------------------------------------------Delete---------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------Delete---------------------------------------------------------------------------------------
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
