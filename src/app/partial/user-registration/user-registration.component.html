@@ -140,7 +140,7 @@
                     <mat-form-field class="w-100" appearance="outline">
                         <mat-label>User Type</mat-label>
                         <mat-select formControlName="userTypeId" 
-                        (selectionChange)="getSubUsers(userFrm.value.userTypeId);setValidators(userFrm.value.userTypeId)" >
+                        (selectionChange)="getSubUsers(userFrm.value.userTypeId);setValidators(userFrm.value.userTypeId);changeDepFlag = false" >
                             <mat-option *ngFor="let user of usersArray" [value]="user.userTypeId">
                                 {{user.userType}}
                             </mat-option>
@@ -172,7 +172,7 @@
                     <mat-form-field class="w-100" appearance="outline">
                         <mat-label>Department</mat-label>
                         <mat-select formControlName="deptId" [disabled]="!userFrm.value.userTypeId" 
-                        (selectionChange)="getOffice(userFrm.value.deptId)">
+                        (selectionChange)="getOffice(userFrm.value.deptId);changeDepFlag = false">
                             <mat-option *ngFor="let department of departmentArray" [value]="department.id">
                                 {{department.departmentName}}
                             </mat-option>
@@ -198,7 +198,7 @@
                 <div class="mb-3">
                     <mat-form-field class="w-100" appearance="outline">
                         <mat-label>Name</mat-label>
-                        <input matInput placeholder="Enter name" formControlName="name"
+                        <input matInput placeholder="Enter name" formControlName="name" maxlength="50"
                          (keypress)="validation.noFirstSpaceAllow($event);validation.alphabetsWithSpaces($event)"
                         maxlength="200">
                         <mat-error *ngIf="f['name']?.errors">
@@ -224,7 +224,7 @@
                 <div class="mb-3">
                     <mat-form-field class="w-100" appearance="outline">
                         <mat-label>Email ID</mat-label>
-                        <input matInput placeholder="Enter email id" formControlName="emailId"  maxlength="100"
+                        <input matInput placeholder="Enter email id" formControlName="emailId"  maxlength="20"
                         (keypress)="validation.alphaNumericWithSpacesAndSpecChars($event)">
                         <mat-error *ngIf="f['emailId']?.errors">
                             <span *ngIf="f['emailId']?.hasError('required')"> Email Id is required</span>

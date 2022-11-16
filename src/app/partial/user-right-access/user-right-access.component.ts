@@ -20,6 +20,7 @@ import { FormsValidationService } from 'src/app/core/service/forms-validation.se
 export class UserRightAccessComponent implements OnInit {
 
   UserTypeArr = new Array();
+  SubUserTypeArr = new Array();
   userRightFrm !: FormGroup;
   pageNumber: number = 1;
   pageSize: number = 10;
@@ -27,6 +28,7 @@ export class UserRightAccessComponent implements OnInit {
   displayedColumns: string[] = ['srno', 'pageName', 'pageURL', 'menuIcon', 'select'];
   totalRows: number = 0;
   highlightedRow!: number;
+  initialLoadFlag: boolean = true;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -48,13 +50,32 @@ export class UserRightAccessComponent implements OnInit {
 
   getUserType() {
     this.UserTypeArr = [];
+    this.SubUserTypeArr = [];
     this.commonService.getAllUser().subscribe({
       next: (response: any) => {
         this.UserTypeArr.push(...response);
-        this.userRightFrm.patchValue({
-          userType: this.UserTypeArr[0].userTypeId
-        })
-        this.getUserRightPageList();
+        if(this.UserTypeArr.length > 0){
+          this.userRightFrm.patchValue({
+            userType: this.UserTypeArr[0].userTypeId
+          })
+          this.getSubUserType(this.UserTypeArr[0].userTypeId);
+        }
+      },
+      error: ((error: any) => { this.error.handelError(error.status) })
+    })
+  }
+
+  getSubUserType(id: any){
+    this.SubUserTypeArr = [];
+    this.commonService.getAllSubUser(id).subscribe({
+      next: (response: any) => {
+        this.SubUserTypeArr.push(...response);
+        if(this.SubUserTypeArr.length > 0){
+          this.userRightFrm.patchValue({
+            subUserType: this.SubUserTypeArr[0].subUserTypeId
+          })
+          this.initialLoadFlag ? this.getUserRightPageList() : '';
+        }
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
@@ -63,13 +84,14 @@ export class UserRightAccessComponent implements OnInit {
   assignUserRightsForm() {
     this.userRightFrm = this.fb.group({
       userType: [''],
+      subUserType: [''],
       pageName: ['']
     });
   }
 
   getUserRightPageList(){
     this.spinner.show()
-    let paramList: string = "?UserTypeId=" + this.userRightFrm.value.userType + "&Textsearch=" + this.userRightFrm.value.pageName.trim() + "&pageno=" + this.pageNumber + "&pagesize=" + this.pageSize;
+    let paramList: string = "?UserTypeId=" + this.userRightFrm.value.userType + "&SubUserTypeId=" + this.userRightFrm.value.subUserType + "&Textsearch=" + this.userRightFrm.value.pageName.trim() + "&pageno=" + this.pageNumber + "&pagesize=" + this.pageSize;
     this.apiService.setHttp('get', "samadhan/user-pages/GetByCriteria" + paramList, false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
@@ -103,15 +125,15 @@ export class UserRightAccessComponent implements OnInit {
     this.getUserRightPageList();
   }
 
-  addUpdatePageRights(event: any, pageId: any) {
+  addUpdatePageRights(event: any, pageId: any, id: any) {
     var req = {
-      "id": 0,
+      "id": id,
       "userTypeId": this.userRightFrm.value.userType,
       "pageId": pageId,
       // "isReadWriteAccess": event,
       "readRight": event,
       "writeRight": event,
-      "subUserTypeId": 0,
+      "subUserTypeId": this.userRightFrm.value.subUserType,
       "createdBy": this.webStorage.getUserId(),
       "modifiedBy": this.webStorage.getUserId(),
       "createdDate": new Date(),

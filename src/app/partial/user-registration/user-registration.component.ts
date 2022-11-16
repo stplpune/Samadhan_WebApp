@@ -32,11 +32,11 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   userBlockFlag: boolean = false;
   totalRows: number = 0;
   pageNumber: number = 1;
-  stateArray=new Array();
-  usersArray=new Array();
-  subUsersArray=new Array();
-  departmentArray= new Array();
-  officeArray= new Array();
+  stateArray = new Array();
+  usersArray = new Array();
+  subUsersArray = new Array();
+  departmentArray = new Array();
+  officeArray = new Array();
   highlightedRow!: number;
   userTypeArray: any[] = [{ "userTypeId": 1, "userType": "HOD" }, { "userTypeId": 2, "userType": "Nodal Officer" }, { "userTypeId": 3, "userType": "Clerk" }]
   blockStsArr: any[] = [{ value: true, status: 'Block' }, { value: false, status: 'Unblock' }];
@@ -45,6 +45,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   updatedObj: any;
   users: any;
   selection = new SelectionModel<Element>(true, []);
+  changeDepFlag:boolean = false;
 
 
   constructor(public commonMethod: CommonMethodService,
@@ -56,7 +57,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     public commonService: CommonApiService,
     public localStrorageData: WebStorageService,
     private fb: FormBuilder,
-    private webStorage:WebStorageService,
+    private webStorage: WebStorageService,
     private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
@@ -69,7 +70,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
 
   //#region  filter form fn Start here
 
-  
+
 
   filterForm() {
     this.filterFrm = this.fb.group({
@@ -81,25 +82,25 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
 
   //#endregion filter form fn end here
 
-   //#region  user form form fn Start here
+  //#region  user form form fn Start here
   defaultForm() {
     this.userFrm = this.fb.group({
       userTypeId: ['', [Validators.required]],
-      subUserTypeId:['',[Validators.required]],
-      deptId: ['',[Validators.required]],
-      officeId: ['',[Validators.required]],
+      subUserTypeId: ['', [Validators.required]],
+      deptId: ['', [Validators.required]],
+      officeId: ['', [Validators.required]],
       name: ['', [Validators.required, Validators.pattern(this.validation.valName)]],
       mobileNo: ['', [Validators.required, Validators.pattern(this.validation.valMobileNo), Validators.minLength(10), Validators.maxLength(10)]],
       emailId: ['', [Validators.required, Validators.pattern(this.validation.valEmailId)]],
     })
   }
-   //#endregion filter form fn end heare
+  //#endregion filter form fn end heare
 
   get f() {
     return this.userFrm.controls;
   }
 
-    //#region  search  fn Start here
+  //#region  search  fn Start here
 
   ngAfterViewInit() {
     let formValue: any = this.filterFrm.controls.textSearch.valueChanges;
@@ -111,20 +112,20 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
         this.totalRows > 10 && this.pageNumber == 1 ? this.paginator?.firstPage() : '';
         this.onCancelRecord();
       });
-     
+
   }
 
   //#endregion search  fn end here
 
 
-//#region  clear filter  fn Start here
+  //#region  clear filter  fn Start here
   clearFilter(flag: any) {
     switch (flag) {
       case 'department':
         this.filterFrm.controls['officeId'].setValue(0);
         this.filterFrm.controls['textSearch'].setValue('');
         break;
-        case 'office':
+      case 'office':
         this.filterFrm.controls['textSearch'].setValue('');
         break;
       default:
@@ -137,19 +138,20 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.usersArray = [];
     this.commonService.getAllUser().subscribe({
       next: (response: any) => {
-        this.usersArray.push(...response);
-        this.isEdit ? (this.userFrm.controls['userTypeId'].setValue(this.updatedObj?.userTypeId), this.getSubUsers(this.updatedObj?.userTypeId)) : '';
+        this.usersArray.push(...response); 
+        this.changeDepFlag == true ? (this.userFrm.controls['userTypeId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.userTypeId) == false ? '' : this.updatedObj?.userTypeId),
+         this.getSubUsers(this.commonMethod.checkDataType(this.updatedObj?.userTypeId) == false ? '' : this.updatedObj?.userTypeId)) : '';
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
   }
 
-  getSubUsers(usertypeId:number) {
+  getSubUsers(usertypeId: number) {
     this.subUsersArray = [];
     this.commonService.getAllSubUser(usertypeId).subscribe({
       next: (response: any) => {
-        this.subUsersArray.push(...response);
-       this.isEdit ? (this.userFrm.controls['subUserTypeId'].setValue(this.updatedObj?.subUserTypeId)) : '';
+        this.subUsersArray.push(...response); 
+        this.changeDepFlag == true ? (this.userFrm.controls['subUserTypeId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.subUserTypeId) == false ? '' : this.updatedObj?.subUserTypeId)) :this.userFrm.controls['subUserTypeId'].setValue('');
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
@@ -163,23 +165,25 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.commonService.getAllDepartment().subscribe({
       next: (response: any) => {
         this.departmentArray.push(...response);
-        this.isEdit ? (this.userFrm.controls['deptId'].setValue(this.updatedObj?.deptId), this.getOffice(this.updatedObj?.deptId)) : '';
+        this.changeDepFlag == true ? (this.userFrm.controls['deptId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.deptId) == false ? '' : this.updatedObj?.deptId),
+         this.getOffice(this.commonMethod.checkDataType(this.updatedObj?.deptId) == false ? '' : this.updatedObj?.deptId)) : '';
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
   }
-//#endregiondrop down department bind fn end here
+  //#endregiondrop down department bind fn end here
 
- //#region  drop down office bind  fn Start here
-  getOffice(deptNo:number) {
-   if(deptNo==0){
-    return;
-   }
+  //#region  drop down office bind  fn Start here
+  getOffice(deptNo: number) {
+    if (deptNo == 0) {
+      return;
+    }
     this.officeArray = [];
     this.commonService.getOfficeByDeptId(deptNo).subscribe({
       next: (response: any) => {
         this.officeArray.push(...response);
-        this.isEdit ? (this.userFrm.controls['officeId'].setValue(this.updatedObj.officeId)) : '';
+        
+        this.changeDepFlag == true ? (this.userFrm.controls['officeId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.officeId) == false ? '' : this.updatedObj?.officeId)) : '';
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
@@ -193,23 +197,35 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.onCancelRecord();
   }
 
-  setValidators(flag:any){
-    if(flag == 2){
-      this.userFrm.controls['deptId'].setValue('');
-      this.userFrm.controls['deptId'].clearValidators();
-      this.userFrm.controls['deptId'].updateValueAndValidity();
-      this.userFrm.controls['officeId'].setValue('');
-      this.userFrm.controls['officeId'].clearValidators();
-      this.userFrm.controls['officeId'].updateValueAndValidity();
-    }else if (flag == 3){
-      this.userFrm.controls["deptId"].setValidators([Validators.required]);
-      this.userFrm.controls["deptId"].updateValueAndValidity();
-      this.userFrm.controls['officeId'].setValue('');
-      this.userFrm.controls['officeId'].clearValidators();
-      this.userFrm.controls['officeId'].updateValueAndValidity();
+  setValidators(flag: any) {
+    
+    switch (flag) {
+      case 2: 
+              this.userFrm.controls['deptId'].setValue('');
+              this.userFrm.controls['deptId'].clearValidators();
+              this.userFrm.controls['deptId'].updateValueAndValidity();
+              this.userFrm.controls['officeId'].setValue('');
+              this.userFrm.controls['officeId'].clearValidators();
+              this.userFrm.controls['officeId'].updateValueAndValidity();
+              break;
+        
+       case 3: 
+                this.userFrm.controls["deptId"].setValidators([Validators.required]);
+                this.userFrm.controls["deptId"].updateValueAndValidity();
+                this.userFrm.controls['officeId'].setValue('');
+                this.userFrm.controls['officeId'].clearValidators();
+                this.userFrm.controls['officeId'].updateValueAndValidity();
+                break;
+      default:
+                this.userFrm.controls["deptId"].setValidators([Validators.required]);
+                this.userFrm.controls["deptId"].updateValueAndValidity();
+                this.userFrm.controls["officeId"].setValidators([Validators.required]);
+                this.userFrm.controls["officeId"].updateValueAndValidity();
+
     }
   }
-   //#region  bind table  fn Start here
+
+  //#region  bind table  fn Start here
   getData() {
     this.spinner.show()
     let formValue = this.filterFrm.value;
@@ -226,7 +242,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
           this.pageNumber == 1 ? this.paginator?.firstPage() : '';
           this.spinner.hide();
         } else {
-        
+
           this.spinner.hide();
           this.dataSource = []
           this.totalRows = 0;
@@ -245,6 +261,8 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   //#region  submit and update formadata  fn Start here
   onSubmit() {
     // this.spinner.show();
+    console.log(this.userFrm.controls)
+
     if (this.userFrm.invalid) {
       return;
     }
@@ -267,8 +285,8 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
       "subUserTypeId": formData.subUserTypeId,
       "userName": formData.mobileNo,
       "password": "",
-      "deptId": formData.deptId | 0,
-      "officeId": formData.officeId | 0,
+      "deptId": formData.deptId || 0,
+      "officeId": formData.officeId || 0,
       "isBlock": false,
       "blockDate": new Date(),
       "blockBy": 0,
@@ -312,7 +330,8 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     });
     dialogRef.afterClosed().subscribe((res: any) => {
       this.highlightedRow = 0;
-      res == 'Yes' ? this.userBlockUnBlock(element, event.checked) : element.isBlock === "False" || element.isBlock==null ? event.source.checked = false : event.source.checked = true;
+      res == 'Yes' ? this.userBlockUnBlock(element, event.checked) : element.isBlock === "False" || element.isBlock == null ? event.source.checked = false : event.source.checked = true;
+      this.onCancelRecord();
     });
   }
 
@@ -342,15 +361,15 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
       error: (err: any) => { this.error.handelError(err) }
     })
   }
- //#endregiondrop   user block/unblok  fn end here
+  //#endregiondrop   user block/unblok  fn end here
 
   //#region   patch form value for edit  fn Start here
 
   editRecord(ele: any) {
     this.highlightedRow = ele.id;
     this.isEdit = true;
+    this.changeDepFlag = true;
     this.updatedObj = ele;
-    console.log(this.updatedObj);
     this.userFrm.patchValue({
       name: this.updatedObj.name,
       mobileNo: this.updatedObj.mobileNo,
@@ -371,15 +390,15 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.selection.clear();
   }
 
-    //#region reset form value fn Start here
+  //#region reset form value fn Start here
   onCancelRecord() {
     this.formDirective.resetForm();
     this.isEdit = false;
   }
 
-   //#endregiondrop reset form value fn end here
+  //#endregiondrop reset form value fn end here
 
-   //#region single or multiple user delete fn Start here 
+  //#region single or multiple user delete fn Start here 
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
@@ -389,7 +408,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   masterToggle() {
     this.isAllSelected()
       ? this.selection.clear()
-      : this.dataSource.connect().value.forEach((row: any) => this.selection.select(row));  
+      : this.dataSource.connect().value.forEach((row: any) => this.selection.select(row));
   }
 
   deleteUserData() {
@@ -423,7 +442,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     }
     this.apiService.setHttp('DELETE', 'samadhan/user-registration/Delete', false, delArray, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
-      next: (res: any) => { 
+      next: (res: any) => {
         if (res.statusCode === "200") {
           this.highlightedRow = 0;
           this.getData();
@@ -431,7 +450,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
           this.selection.clear();
           this.onCancelRecord();
         } else {
-          if (res.statusCode != "404") {   
+          if (res.statusCode != "404") {
             this.error.handelError(res.statusMessage)
           }
         }

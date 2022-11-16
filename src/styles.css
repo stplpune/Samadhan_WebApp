@@ -37,7 +37,16 @@ body {
 .text-main {
     color: var(--main-color);
 }
+.btn-main {
+    background-color: transparent;
+    color: var(--main-color);
+    border: solid 1px var(--main-color) !important;
+}
 
+.btn-main:hover {
+    background-color: var(--main-color);
+    color: #fff;
+}
 .btn-main-outline {
     font-size: 0.85rem;
     color: var(--main-color);
@@ -122,16 +131,7 @@ body {
     font-family: "Rubik", sans-serif !important;
 }
 
-.btn-main {
-    background-color: transparent;
-    color: var(--main-color);
-    border: solid 1px var(--main-color) !important;
-}
 
-.btn-main:hover {
-    background-color: var(--main-color);
-    color: #fff;
-}
 
 .dashboard-table {
     border: solid 1px rgba(0, 0, 0, .12);
