@@ -20,6 +20,7 @@ import { FormsValidationService } from 'src/app/core/service/forms-validation.se
 export class UserRightAccessComponent implements OnInit {
 
   UserTypeArr = new Array();
+  SubUserTypeArr = new Array();
   userRightFrm !: FormGroup;
   pageNumber: number = 1;
   pageSize: number = 10;
@@ -48,13 +49,32 @@ export class UserRightAccessComponent implements OnInit {
 
   getUserType() {
     this.UserTypeArr = [];
+    this.SubUserTypeArr = [];
     this.commonService.getAllUser().subscribe({
       next: (response: any) => {
         this.UserTypeArr.push(...response);
-        this.userRightFrm.patchValue({
-          userType: this.UserTypeArr[0].userTypeId
-        })
-        this.getUserRightPageList();
+        if(this.UserTypeArr.length > 0){
+          this.userRightFrm.patchValue({
+            userType: this.UserTypeArr[0].userTypeId
+          })
+          this.getSubUserType(this.UserTypeArr[0].userTypeId);
+        }
+      },
+      error: ((error: any) => { this.error.handelError(error.status) })
+    })
+  }
+
+  getSubUserType(id: any){
+    this.SubUserTypeArr = [];
+    this.commonService.getAllSubUser(id).subscribe({
+      next: (response: any) => {
+        this.SubUserTypeArr.push(...response);
+        if(this.SubUserTypeArr.length > 0){
+          this.userRightFrm.patchValue({
+            subUserType: this.SubUserTypeArr[0].subUserTypeId
+          })
+          this.getUserRightPageList();
+        }
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
@@ -63,13 +83,14 @@ export class UserRightAccessComponent implements OnInit {
   assignUserRightsForm() {
     this.userRightFrm = this.fb.group({
       userType: [''],
+      subUserType: [''],
       pageName: ['']
     });
   }
 
   getUserRightPageList(){
     this.spinner.show()
-    let paramList: string = "?UserTypeId=" + this.userRightFrm.value.userType + "&Textsearch=" + this.userRightFrm.value.pageName.trim() + "&pageno=" + this.pageNumber + "&pagesize=" + this.pageSize;
+    let paramList: string = "?UserTypeId=" + this.userRightFrm.value.userType + "&SubUserTypeId=" + this.userRightFrm.value.subUserType + "&Textsearch=" + this.userRightFrm.value.pageName.trim() + "&pageno=" + this.pageNumber + "&pagesize=" + this.pageSize;
     this.apiService.setHttp('get', "samadhan/user-pages/GetByCriteria" + paramList, false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {

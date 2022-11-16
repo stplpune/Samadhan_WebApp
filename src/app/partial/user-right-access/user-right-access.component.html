@@ -2,23 +2,31 @@
     <div class="col-sm-12">
       <form [formGroup]="userRightFrm" (ngSubmit)="onSubmit()">
       <div class="row">
-        <div class="col-sm-5">
+        <div class="col-sm-3">
           <mat-form-field  appearance="outline" class="w-100">
               <mat-label>Select User Type</mat-label>
-              <mat-select formControlName="userType">
+              <mat-select formControlName="userType" (selectionChange)="getSubUserType(userRightFrm.value.userType)">
                 <mat-option *ngFor="let u of UserTypeArr" [value]="u.userTypeId">{{u.userType}}</mat-option>
             </mat-select>
           </mat-form-field>
-      </div>
-      <div class="col-sm-5">
-        <mat-form-field  appearance="outline" class="w-100">
-            <mat-label>Page Name/Page Url</mat-label>
-            <input matInput formControlName="pageName" (keypress)="validation.noSpacesAtStart($event)" maxlength="100">
-        </mat-form-field>
-    </div>
-    <div class="col-sm-2">
-        <button mat-stroked-button class="btn-main ms-2" type="submit">Search</button>
-    </div>
+        </div>
+        <div class="col-sm-3">
+          <mat-form-field  appearance="outline" class="w-100">
+              <mat-label>Select Subuser Type</mat-label>
+              <mat-select formControlName="subUserType">
+                <mat-option *ngFor="let u of SubUserTypeArr" [value]="u.subUserTypeId">{{u.subUserType}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-sm-3">
+          <mat-form-field  appearance="outline" class="w-100">
+              <mat-label>Page Name/Page Url</mat-label>
+              <input matInput formControlName="pageName" (keypress)="validation.noSpacesAtStart($event)" maxlength="100">
+          </mat-form-field>
+        </div>
+        <div class="col-sm-3">
+            <button mat-stroked-button class="btn-main ms-2" type="submit">Search</button>
+        </div>
       </div>
     </form>
       <table mat-table [dataSource]="dataSource" class="dashboard-table w-100">
