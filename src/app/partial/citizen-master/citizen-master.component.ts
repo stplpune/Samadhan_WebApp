@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatTableDataSource} from '@angular/material/table';
-import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { ErrorHandlerService } from 'src/app/core/service/error-handler.service';
 import { ApiService } from 'src/app/core/service/api.service';
@@ -24,7 +24,7 @@ import { ConfirmationComponent } from './../dialogs/confirmation/confirmation.co
 export class CitizenMasterComponent implements OnInit {
   @ViewChild('formDirective') formDirective!: NgForm;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  displayedColumns: string[] = [ 'srno', 'name', 'mobileno','emailId', 'taluka','village', 'select'];
+  displayedColumns: string[] = [ 'srno', 'name', 'mobileNo','emailId', 'taluka','village', 'select'];
   dataSource: any;
   frmCitizen!:FormGroup;
   filterForm!:FormGroup;
@@ -50,11 +50,25 @@ export class CitizenMasterComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.createCitizenForm();
+    this.getData();
   }
 
 //----------------------------------------------------------------FormStart---------------------------------------------------------------------------------------
   createCitizenForm(){
     this.frmCitizen = this.fb.group({
+     name :['',[Validators.required]],
+     mobileNo :['',[Validators.required]],
+     emailId :['',[Validators.required]],
+     taluka :['',[Validators.required]],
+     village :['',[Validators.required]]
+    });
+
+    this.filterForm = this.fb.group({
+      name : [''],
+      mobileNo : [''],
+      talukaId  : [0],
+      villageId : [0],
 
     })
   }
@@ -99,15 +113,15 @@ export class CitizenMasterComponent implements OnInit {
 
 //-------------------------------------------------------------Dispaly Table-----------------------------------------------------------------------------
 getData() {
-this.spinner.show()
-let formData = this.filterForm.value;
-this.apiService.setHttp('get','samadhan/user-registration/GetAllCitizen?Textsearch='+formData.name +'&pageno=' +this.pageNo+'&pagesize=' +this.pageSize ,false,false,false,'samadhanMiningService');
+// this.spinner.show()
+// let formData = this.filterForm.value;
+this.apiService.setHttp('get','samadhan/user-registration/GetAllCitizen?&pageno='+this.pageNo+'&pagesize='+this.pageSize,false,false,false,'samadhanMiningService');
 this.apiService.getHttp().subscribe({
   next: (res: any) => {
     if (res.statusCode == 200) {
-      let dataSet = res.responseData;
+      let dataSet = res.responseData.responseData1;
       this.dataSource = new MatTableDataSource(dataSet);
-      this.totalPages = res.responseData1.pageCount;
+      // this.totalPages = res.responseData1.responseData2.pageCount;
       this.spinner.hide();
     } else {
       this.spinner.hide();
