@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -10,7 +11,7 @@ export class WebHeaderComponent implements OnInit {
 
   selectedLanguage: any = 'English';
 
-  constructor(
+  constructor(@Inject(DOCUMENT) private document: any,
     public translate: TranslateService) {
     translate.addLangs(['English', 'Marathi']);
   }
@@ -23,6 +24,16 @@ export class WebHeaderComponent implements OnInit {
     this.selectedLanguage = lang;
     sessionStorage.setItem('language', lang);
     this.translate.use(lang);
+  }
+
+  onChangeFontSize(value:any){
+    if(value == 'sm'){
+      this.document.body.style.fontSize = '0.8rem';
+    }else if(value == 'md'){
+      this.document.body.style.fontSize = '0.85rem';
+    }else{
+      this.document.body.style.fontSize = '0.9rem';
+    }
   }
 
 }
