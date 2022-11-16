@@ -84,9 +84,9 @@ export class PostGrievanceComponent implements OnInit {
 
   defaultForm() {
     this.postGrievanceForm = this.fb.group({
-      otherCitizenName: ['',[Validators.required,Validators.pattern(this.validation.valName)]],
-      otherCitizenMobileNo: ['',[Validators.required,Validators.pattern(this.validation.valMobileNo)]],
-      otherCitizenAddress: ['',[Validators.required,Validators.pattern(this.validation.valDescription)]],
+      otherCitizenName: [''],
+      otherCitizenMobileNo: [''],
+      otherCitizenAddress: [''],
       districtId: ['', [Validators.required]],
       talukaId: ['', [Validators.required]],
       villageId: ['', [Validators.required]],
@@ -114,7 +114,9 @@ export class PostGrievanceComponent implements OnInit {
       debounceTime(0),
       distinctUntilChanged()).subscribe(() => {
         this.pageNumber = 1;
+        this.isSelfGrievance.setValue(1);
         this.bindTable();
+        this.onCancelRecord();
         this.totalRows > 10 && this.pageNumber == 1 ? this.paginator?.firstPage() : '';
       });
   }
@@ -313,15 +315,16 @@ export class PostGrievanceComponent implements OnInit {
   }
 
   onCancelRecord() {
+    this.updatedObj = '';
     this.formDirective.resetForm();
     this.ispatch = false;
     this.grievanceImageArray=[];
+    this.postGrievanceType(1);
     this.districtArray.length == 1 ? this.postGrievanceForm.controls['districtId'].setValue(this.districtArray[0].id) : '';
   }
 
 
   postGrievanceType(flag:any) {
-    // this.defaultForm();
     this.formDirective && this.formDirective.resetForm();
     this.districtArray.length == 1 ? this.postGrievanceForm.controls['districtId'].setValue(this.districtArray[0].id) : '';
     if (flag == 0) {
@@ -347,6 +350,7 @@ export class PostGrievanceComponent implements OnInit {
   }
 
   onSubmitForm() {
+    console.log(this.postGrievanceForm.controls)
     if (this.postGrievanceForm.invalid) {
       return
     } else if(!this.grievanceImageArray.length){
