@@ -140,7 +140,7 @@
                     <mat-form-field class="w-100" appearance="outline">
                         <mat-label>User Type</mat-label>
                         <mat-select formControlName="userTypeId" 
-                        (selectionChange)="getSubUsers(userFrm.value.userTypeId);setValidators(userFrm.value.userTypeId)" >
+                        (selectionChange)="getSubUsers(userFrm.value.userTypeId);setValidators(userFrm.value.userTypeId);changeDepFlag = false" >
                             <mat-option *ngFor="let user of usersArray" [value]="user.userTypeId">
                                 {{user.userType}}
                             </mat-option>
@@ -172,7 +172,7 @@
                     <mat-form-field class="w-100" appearance="outline">
                         <mat-label>Department</mat-label>
                         <mat-select formControlName="deptId" [disabled]="!userFrm.value.userTypeId" 
-                        (selectionChange)="getOffice(userFrm.value.deptId)">
+                        (selectionChange)="getOffice(userFrm.value.deptId);changeDepFlag = false">
                             <mat-option *ngFor="let department of departmentArray" [value]="department.id">
                                 {{department.departmentName}}
                             </mat-option>

@@ -42,10 +42,10 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   blockStsArr: any[] = [{ value: true, status: 'Block' }, { value: false, status: 'Unblock' }];
   subscription!: Subscription;
   isEdit: boolean = false;
-  isvalidate:boolean=false;
   updatedObj: any;
   users: any;
   selection = new SelectionModel<Element>(true, []);
+  changeDepFlag:boolean = false;
 
 
   constructor(public commonMethod: CommonMethodService,
@@ -138,9 +138,9 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.usersArray = [];
     this.commonService.getAllUser().subscribe({
       next: (response: any) => {
-        this.usersArray.push(...response);
-        this.isEdit ? (this.userFrm.controls['userTypeId'].setValue(this.updatedObj?.userTypeId), this.getSubUsers(this.updatedObj?.userTypeId)) : '';
-        
+        this.usersArray.push(...response); 
+        this.changeDepFlag == true ? (this.userFrm.controls['userTypeId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.userTypeId) == false ? '' : this.updatedObj?.userTypeId),
+         this.getSubUsers(this.commonMethod.checkDataType(this.updatedObj?.userTypeId) == false ? '' : this.updatedObj?.userTypeId)) : '';
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
@@ -150,8 +150,8 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.subUsersArray = [];
     this.commonService.getAllSubUser(usertypeId).subscribe({
       next: (response: any) => {
-        this.subUsersArray.push(...response);
-        this.isEdit ? (this.userFrm.controls['subUserTypeId'].setValue(this.updatedObj?.subUserTypeId)) :this.userFrm.controls['subUserTypeId'].setValue('');
+        this.subUsersArray.push(...response); 
+        this.changeDepFlag == true ? (this.userFrm.controls['subUserTypeId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.subUserTypeId) == false ? '' : this.updatedObj?.subUserTypeId)) :this.userFrm.controls['subUserTypeId'].setValue('');
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
@@ -165,7 +165,8 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.commonService.getAllDepartment().subscribe({
       next: (response: any) => {
         this.departmentArray.push(...response);
-        this.isEdit ? (this.userFrm.controls['deptId'].setValue(this.updatedObj?.deptId), this.getOffice(this.updatedObj?.deptId)) : '';
+        this.changeDepFlag == true ? (this.userFrm.controls['deptId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.deptId) == false ? '' : this.updatedObj?.deptId),
+         this.getOffice(this.commonMethod.checkDataType(this.updatedObj?.deptId) == false ? '' : this.updatedObj?.deptId)) : '';
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
@@ -181,7 +182,8 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.commonService.getOfficeByDeptId(deptNo).subscribe({
       next: (response: any) => {
         this.officeArray.push(...response);
-        this.isEdit ? (this.userFrm.controls['officeId'].setValue(this.updatedObj.officeId)) : '';
+        
+        this.changeDepFlag == true ? (this.userFrm.controls['officeId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.officeId) == false ? '' : this.updatedObj?.officeId)) : '';
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
@@ -259,6 +261,8 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   //#region  submit and update formadata  fn Start here
   onSubmit() {
     // this.spinner.show();
+    console.log(this.userFrm.controls)
+
     if (this.userFrm.invalid) {
       return;
     }
@@ -364,10 +368,8 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   editRecord(ele: any) {
     this.highlightedRow = ele.id;
     this.isEdit = true;
-    this.isvalidate=true;
-    console.log(this.userFrm.controls);
+    this.changeDepFlag = true;
     this.updatedObj = ele;
-    console.log(this.updatedObj);
     this.userFrm.patchValue({
       name: this.updatedObj.name,
       mobileNo: this.updatedObj.mobileNo,
@@ -375,7 +377,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     });
     this.getDepartment();
     this.getUsers();
-    // this.setValidators(this.updatedObj?.userTypeId);
+    this.setValidators(this.updatedObj?.userTypeId);
   }
 
   //#endregiondrop   patch form value for edit  fn end here
