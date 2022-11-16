@@ -17,7 +17,7 @@
     margin-inline: 3px;
 }
 #topbar .btn-main{
-    background-color: var(--main-color);
+    background-color: #B83058;
 }
 #topbar .btn-blue{
     background-color: #4C74A2;
@@ -57,7 +57,8 @@
 }
 
 #menubar .navbar{
-    background-color: #B83058 !important;
+    /* background-color: #B83058 !important; */
+    background-color: var(--main-color) !important;
     padding: 0 !important;
 }
 .navbar .nav-item a{

@@ -3,7 +3,7 @@
 }
 .home-img h4{
     position: absolute;
-    color: #B83058;
+    color: var(--main-color) !important;;
     top: 80px;
     left: 100px;
     font-size: 50px;
