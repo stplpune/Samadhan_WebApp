@@ -13,8 +13,8 @@
     </div>
     <div class="col-sm-6">
       <mat-form-field  appearance="outline" class="w-100">
-          <mat-label>Office Type</mat-label>
-          <input matInput placeholder="Office Type" formControlName="name">
+          <mat-label>Office</mat-label>
+          <input matInput placeholder="Office" formControlName="name">
       </mat-form-field>
   </div>
     </div>
@@ -89,8 +89,8 @@
           </div>
           <form [formGroup]="frmOffice" #formDirective="ngForm" (ngSubmit)="onSubmitOffice()" autocomplete="off">
           <div class="card-body">
-              <div class="mb-2">
 
+              <div class="mb-2">
                   <mat-form-field appearance="outline" class="w-100 ">
                       <mat-label>Select Department</mat-label>
                       <mat-select formControlName="deptId">
@@ -104,8 +104,8 @@
                     </mat-error>
                   </mat-form-field>
               </div>
-              <div class="mb-2">
 
+              <div class="mb-2">
                   <mat-form-field appearance="outline" class="w-100 ">
                       <mat-label>Office Name</mat-label>
                       <input matInput formControlName="name" maxlength="50" (keyup)="validation.removeSpaceAtBegining($event)"
@@ -117,8 +117,8 @@
                     </mat-error>
                   </mat-form-field>
               </div>
-              <div class="mb-2">
 
+              <div class="mb-2">
                   <mat-form-field appearance="outline" class="w-100 ">
                       <mat-label>Office Address</mat-label>
                       <input matInput formControlName="address" maxlength="200" (keyup)="validation.removeSpaceAtBegining($event)">
@@ -128,11 +128,7 @@
                            Pelase enter address</span>
                     </mat-error>
                   </mat-form-field>
-                  <div class="mb-3 position-relative">
-                        <button class="btn-map-close"
-                        aria-label="Remove Shape"><i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
+
                 <div class="row">
                     <div class="col-sm-6">
                         <mat-form-field [appearance]="configService.matFormField" class="w-100">
@@ -146,16 +142,10 @@
                             <input id="colliery_name"  [readonly]="true"  matInput formControlName="longitude" maxlength="200">
                         </mat-form-field>
                     </div>
-
-                    <!-- <div class="col-sm-auto">
-                        <button mat-mini-fab color="warn">
-                            <mat-icon>location_on</mat-icon>
-                        </button>
-                    </div> -->
                 </div>
               </div>
-              <div class="mb-2">
 
+              <div class="mb-2">
                   <mat-form-field appearance="outline" class="w-100 ">
                       <mat-label>Office Email ID</mat-label>
                       <input matInput formControlName="emailId" (keyup)="validation.removeSpaceAtBegining($event)">
@@ -166,8 +156,8 @@
                     </mat-error>
                   </mat-form-field>
               </div>
-              <div class="mb-2">
 
+              <div class="mb-2">
                   <mat-form-field appearance="outline" class="w-100">
                       <mat-label>Contact Person Name</mat-label>
                       <input matInput formControlName="contactPersonName" maxlength="50" (keyup)="validation.removeSpaceAtBegining($event)"
@@ -179,8 +169,8 @@
                     </mat-error>
                   </mat-form-field>
               </div>
-              <div class="mb-2">
 
+              <div class="mb-2">
                   <mat-form-field appearance="outline" class="w-100 ">
                       <mat-label>Contact Person Mobile No.</mat-label>
                       <input matInput formControlName="mobileNo" maxlength="10" (keyup)="validation.removeSpaceAtBegining($event)"(keypress)="validation.acceptedOnlyNumbers($event)">
@@ -192,6 +182,7 @@
                     </mat-error>
                   </mat-form-field>
               </div>
+
               <div class="text-end">
                  <button mat-stroked-button class="btn-main" type="button" (click)="onCancelRecord()">Cancel</button>
                   <button mat-stroked-button class="btn-main ms-2" type="submit">{{isEdit ? 'Update':'Submit'}}</button>

@@ -7,15 +7,15 @@
                     <div class="top-content border-end"><a>{{'Home.skip_to_main_content' | translate}}</a></div>
                     <div class="top-content border-end">
                         <span>Color</span>
-                        <button class="btn-color btn-main"></button>
-                        <button class="btn-color btn-blue"></button>
-                        <button class="btn-color btn-black"></button>
+                        <button class="btn-color btn-main" (click)="onClickThemeChange('main')"></button>
+                        <button class="btn-color btn-blue" (click)="onClickThemeChange('blue')"></button>
+                        <button class="btn-color btn-black" (click)="onClickThemeChange('black')"></button>
                     </div>
                     <div class="top-content border-end">
                         <span>Font</span>
-                        <button class="btn-font">A-</button>
-                        <button class="btn-font">A</button>
-                        <button class="btn-font">A+</button>
+                        <button class="btn-font" (click)="onChangeFontSize('sm')">A-</button>
+                        <button class="btn-font" (click)="onChangeFontSize('md')">A</button>
+                        <button class="btn-font" (click)="onChangeFontSize('lg')">A+</button>
                     </div>
                     <div class="top-content">
                         <span>Language</span>

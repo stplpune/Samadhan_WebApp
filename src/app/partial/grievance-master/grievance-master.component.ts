@@ -13,6 +13,7 @@ import { ConfigService } from 'src/app/configs/config.service';
 import { WebStorageService } from 'src/app/core/service/web-storage.service';
 import { MatDialog } from '@angular/material/dialog';
 import { debounceTime, distinctUntilChanged, filter, Subscription } from 'rxjs';
+import { CommonApiService } from 'src/app/core/service/common-api.service';
 
 
 
@@ -46,6 +47,7 @@ export class GrievanceMasterComponent implements OnInit ,AfterViewInit, OnDestro
     private spinner: NgxSpinnerService,
     public validation: FormsValidationService,
     public localStrorageData: WebStorageService,
+    public commonService: CommonApiService,
     private webStorage:WebStorageService,
     public commonMethod: CommonMethodService,) { }
 
@@ -113,15 +115,14 @@ filterMethod(){
   //------------------------------------------------------------------------Get Department--------------------------------------------------------------------------------
 
   getDepartmentName(){
-    this.apiService.setHttp('get', "samadhan/commondropdown/GetAllDepartment", false, false, false, 'samadhanMiningService');
-    this.apiService.getHttp().subscribe({
-      next: (res: any) => {
-        if (res.statusCode == '200'  && res.responseData.length) {
-          this.departmentArr = res.responseData;
-        }
+    this.departmentArr = [];
+    this.commonService.getAllDepartment().subscribe({
+      next: (response: any) => {
+        this.departmentArr.push(...response);
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
+
   }
 //------------------------------------------------------------------------Submit-------------------------------------------------------------------------------------------
 onSubmitGrievance(){

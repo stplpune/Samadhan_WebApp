@@ -35,8 +35,8 @@
         <div class="col-sm-4">
             <mat-form-field appearance="outline" class="w-100">
                 <mat-label>First Name</mat-label>
-                <input matInput placeholder="First Name" formControlName="name"  (keyup)="validation.removeSpaceAtBegining($event)"
-                (keypress)="validation.alphabetsWithSpaces($event)">
+                <input matInput placeholder="First Name" formControlName="name"
+                (keypress)="validation.noFirstSpaceAllow($event);validation.alphabetsWithSpaces($event)">
                 <mat-error *ngIf="f['name']?.errors">
                     <span *ngIf="f['name']?.hasError('required')"> Name is required</span>
                     <span  *ngIf="f['name'].hasError('pattern')">

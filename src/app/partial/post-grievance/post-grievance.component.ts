@@ -111,10 +111,12 @@ export class PostGrievanceComponent implements OnInit {
   ngAfterViewInit() {
     let formValue: any = this.filterFrm.controls['textSearch'].valueChanges;
     formValue.pipe(filter(() => this.filterFrm.valid),
-      debounceTime(1000),
+      debounceTime(0),
       distinctUntilChanged()).subscribe(() => {
         this.pageNumber = 1;
+        this.isSelfGrievance.setValue(1);
         this.bindTable();
+        this.onCancelRecord();
         this.totalRows > 10 && this.pageNumber == 1 ? this.paginator?.firstPage() : '';
       });
   }
@@ -228,13 +230,17 @@ export class PostGrievanceComponent implements OnInit {
     })
   }
 
-  // clearFilter(flag: any) {
-  //   switch (flag) {
-  //     case 'taluka': this.filterFrm.controls['villageId'].setValue(0); break;
-  //     case 'department': this.filterFrm.controls['officeId'].setValue(0); break;
-  //     default:
-  //   }
-  // }
+  clearFilter(flag: any) {
+    switch (flag) {
+      case 'taluka':
+         this.filterFrm.controls['deptId'].setValue(0);
+         this.filterFrm.controls['statusId'].setValue(0);
+       break;
+
+      case 'department': this.filterFrm.controls['statusId'].setValue(0); break;
+      default:
+    }
+  }
 
   bindTable() {
     this.spinner.show()
@@ -282,6 +288,9 @@ export class PostGrievanceComponent implements OnInit {
     let documentUrl: any = this.uploadFilesService.uploadDocuments(event, "grievance", "png,jpg,jpeg,pdf")
     documentUrl.subscribe({
       next: (ele: any) => {
+        if (ele == 'error') {
+          this.fileInput.nativeElement.value = '';
+        }
         documentUrlUploaed = ele.responseData;
         if (documentUrlUploaed != null) {
           let obj =    {
@@ -310,14 +319,16 @@ export class PostGrievanceComponent implements OnInit {
   }
 
   onCancelRecord() {
+    this.updatedObj = '';
     this.formDirective.resetForm();
     this.ispatch = false;
     this.grievanceImageArray=[];
+    this.postGrievanceType(1);
+    this.districtArray.length == 1 ? this.postGrievanceForm.controls['districtId'].setValue(this.districtArray[0].id) : '';
   }
 
 
   postGrievanceType(flag:any) {
-    // this.defaultForm();
     this.formDirective && this.formDirective.resetForm();
     this.districtArray.length == 1 ? this.postGrievanceForm.controls['districtId'].setValue(this.districtArray[0].id) : '';
     if (flag == 0) {
@@ -343,6 +354,7 @@ export class PostGrievanceComponent implements OnInit {
   }
 
   onSubmitForm() {
+    console.log(this.postGrievanceForm.controls)
     if (this.postGrievanceForm.invalid) {
       return
     } else if(!this.grievanceImageArray.length){
@@ -421,8 +433,10 @@ export class PostGrievanceComponent implements OnInit {
     dialog.afterClosed().subscribe(res => {
       if (res == 'Yes') {
         this.deletePostGrievance();
+        this.onCancelRecord();
       } else {
         this.selection.clear();
+        this.onCancelRecord();
       }
     })
   }

@@ -94,7 +94,7 @@
             <div class="col-sm-4">
                 <div class="card form-card">
                     <div class="card-header ">
-                        Add Grievance
+                      {{isEdit?'Update' : 'Add'}} Grievance
                     </div>
                     <form [formGroup]="frmGrievance" #formDirective="ngForm" (ngSubmit)="onSubmitGrievance()" autocomplete="off">
                     <div class="card-body">
