@@ -62,12 +62,17 @@ export class CitizenMasterComponent implements OnInit {
      emailId :['',[Validators.required]],
      taluka :['',[Validators.required]],
      village :['',[Validators.required]]
+    });
+
+    this.filterForm = this.fb.group({
+      name : [''],
+      mobileNo : [''],
+      talukaId  : [0],
+      villageId : [0],
+
     })
   }
-//-----------------------------------------------------------------FilterForm-------------------------------------------------------------------------------------
-createFilterForm(){
 
-}
   selection = new SelectionModel<any>(true, []);
 //--------------------------------------------------------Department-------------------------------------------------------------------------------------------
 // getDepartmentName() {
@@ -116,7 +121,7 @@ this.apiService.getHttp().subscribe({
     if (res.statusCode == 200) {
       let dataSet = res.responseData.responseData1;
       this.dataSource = new MatTableDataSource(dataSet);
-      this.totalPages = res.responseData1.responseData2.pageCount;
+      // this.totalPages = res.responseData1.responseData2.pageCount;
       this.spinner.hide();
     } else {
       this.spinner.hide();

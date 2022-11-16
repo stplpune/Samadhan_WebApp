@@ -85,7 +85,7 @@
 
                         <ng-container matColumnDef="name">
                             <th mat-header-cell *matHeaderCellDef>Name</th>
-                            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element.isSelfGrievance == 0 ? element.otherCitizenName  : element.name  | titlecase}} </td>
                         </ng-container>
                         <ng-container matColumnDef="taluka">
                             <th mat-header-cell *matHeaderCellDef> Taluka </th>
@@ -190,17 +190,18 @@
 
              <form [formGroup]="postGrievanceForm" #formDirective="ngForm">
 
-                    <div class="mb-2" *ngIf="isSelfGrievance.value == 0">
+                    <div class="mb-2" *ngIf="isSelfGrievance.value == 0" [class.disabled-contenct]="ispatch">
                         <mat-form-field class="w-100" appearance="outline">
                             <mat-label>Name</mat-label>
-                            <input matInput placeholder="Enter name" (keypress)="validation.noFirstSpaceAllow($event)" formControlName="otherCitizenName" [readonly]="ispatch">
+                            <input matInput placeholder="Enter name" (keypress)="validation.noFirstSpaceAllow($event);validation.alphabetsWithSpaces($event)"
+                             formControlName="otherCitizenName" maxlength="50" [readonly]="ispatch">
                             <mat-error *ngIf="f['otherCitizenName']?.errors">
                                 <span *ngIf="f['otherCitizenName']?.hasError('required')"> Name is required</span>
                                 <span *ngIf="f['otherCitizenName']?.hasError('pattern')"> Enter Valid Name</span>
                             </mat-error>
                         </mat-form-field>
                     </div>
-                    <div class="mb-2" *ngIf="isSelfGrievance.value == 0">
+                    <div class="mb-2" *ngIf="isSelfGrievance.value == 0" [class.disabled-contenct]="ispatch">
                         <mat-form-field class="w-100" appearance="outline">
                             <mat-label>Mobile Number</mat-label>
                             <input matInput placeholder="Enter mobile number" maxlength="10" (keypress)="validation.acceptedOnlyNumbers($event)" formControlName="otherCitizenMobileNo" [readonly]="ispatch">
@@ -210,11 +211,11 @@
                             </mat-error>
                         </mat-form-field>
                     </div>
-                    <div class="mb-2" *ngIf="isSelfGrievance.value == 0">
+                    <div class="mb-2" *ngIf="isSelfGrievance.value == 0" [class.disabled-contenct]="ispatch">
                         <mat-form-field class="w-100" appearance="legacy">
                             <mat-label>Address</mat-label>
-                            <textarea matInput placeholder="Type here" rows="4" (keypress)="validation.noFirstSpaceAllow($event)" [readonly]="ispatch"
-                                formControlName="otherCitizenAddress"></textarea>
+                            <textarea matInput placeholder="Type here" rows="4" (keypress)="validation.noFirstSpaceAllow($event)"
+                                formControlName="otherCitizenAddress" maxlength="50"></textarea>
                                 <mat-error *ngIf="f['otherCitizenAddress']?.errors">
                                     <span *ngIf="f['otherCitizenAddress']?.hasError('required')"> Address is required</span>
                                     <span *ngIf="f['otherCitizenAddress']?.hasError('pattern')"> Enter Valid Address</span>
@@ -230,7 +231,7 @@
                               </mat-form-field>
                         </div> -->
 
-                    <div class="mb-2">
+                    <div class="mb-2" [class.disabled-contenct]="ispatch">
                         <mat-form-field appearance="outline" class="w-100">
                             <mat-label>District</mat-label>
                             <mat-select formControlName="districtId" [disabled]="true">
@@ -260,10 +261,10 @@
                                 </mat-error>
                             </mat-form-field>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-6" [class.disabled-contenct]="ispatch">
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>Village</mat-label>
-                                <mat-select formControlName="villageId"   [disabled]="!postGrievanceForm.value.talukaId || ispatch">
+                                <mat-select formControlName="villageId"   [disabled]="!postGrievanceForm.value.talukaId">
                                     <mat-option *ngFor="let village of villageArray" [value]="village.id">
                                         {{village.village}}
                                     </mat-option>
@@ -289,10 +290,10 @@
                                 </mat-error>
                             </mat-form-field>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-6" [class.disabled-contenct]="ispatch">
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>Office</mat-label>
-                                <mat-select formControlName="officeId" [disabled]="!postGrievanceForm.value.deptId || ispatch">
+                                <mat-select formControlName="officeId" [disabled]="!postGrievanceForm.value.deptId">
                                     <mat-option *ngFor="let office of officeArray" [value]="office.id">
                                         {{office.name}}
                                     </mat-option>
@@ -321,7 +322,7 @@
                         <mat-form-field class="w-100" appearance="legacy">
                             <mat-label>Grievance Details</mat-label>
                             <textarea matInput placeholder="Type here" rows="4" (keypress)="validation.noFirstSpaceAllow($event)" 
-                                formControlName="grievanceDescription" [readonly]="ispatch"></textarea>
+                                formControlName="grievanceDescription"  maxlength="500" [readonly]="ispatch"></textarea>
                             <mat-error *ngIf="f['grievanceDescription']?.errors">
                                 <span *ngIf="f['grievanceDescription']?.hasError('required')">Grievance details is
                                     required</span>
