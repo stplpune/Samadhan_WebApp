@@ -331,23 +331,56 @@
 
                     <div class="mb-2">
                         <div class="image-container">
-                            <img *ngIf="!grievanceImageArray?.length" src="assets/images/user.jpg" class="grievance-image">
-                            <img *ngIf="grievanceImageArray?.length" [src]="grievanceImageArray[0]?.docpath" class="grievance-image"> 
+                            <!-- <img *ngIf="!grievanceImageArray?.length" src="assets/images/user.jpg" class="grievance-image">
+                            <img *ngIf="grievanceImageArray?.length" [src]="grievanceImageArray[0]?.docpath" class="grievance-image">  -->
                          
                          <!-- <img *ngIf="!documentUrlUploaed" src="assets/images/user.jpg" class="grievance-image">
                             <img *ngIf="documentUrlUploaed" [src]="documentUrlUploaed" class="grievance-image">  -->
-                            <div class="grievance-buttons d-flex flex-column upload-btn-wrapper">
+
+
+                            <!-- <div class="grievance-buttons d-flex flex-column upload-btn-wrapper">
                                 <button type="button" class="btn bg-light text-primary" >
                                     <i class="fa-solid fa-plus"></i>
                                     <input type="file" (change)="documentUpload($event)" #fileInput>
                                 </button>
                                   <button type="button" *ngIf="grievanceImageArray?.length" class="border border-0 btn bg-light text-danger" (click)="deleteDocument()">
                                     <i class="fa-solid fa-trash-can"></i>
-                                </button>  
+                                </button>   -->
                                  <!-- <button type="button" *ngIf="documentUrlUploaed" class="border border-0 btn bg-light text-danger" (click)="deleteDocument()">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </button>  -->
+                            <!-- </div> -->
+
+
+                            <div>
+                                <button mat-raised-button type="button" class="btn btn-main ">
+                                    <label class="px-2"><span>Upload Document</span>
+                                        <input type="file" style="display: none"
+                                            (change)="documentUpload($event)"
+                                            #fileInput>
+                                    </label>
+                                </button>
+                                <!-- <input type="file" (change)="documentUpload($event)" #fileInput> -->
+                                <!-- <button type="button" *ngIf="grievanceImageArray?.length" class="border border-0 btn bg-light text-danger" (click)="deleteDocument()">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>  -->
+                                <div *ngIf="grievanceImageArray?.length != 0">
+                                    <span class="text-left mnw-70 d-inline-block px-1">
+                                        <span><i class="fa fa-file-alt text-primary"
+                                                (click)="viewDocument(grievanceImageArray[0]?.docpath)"></i></span>
+                                        <!-- <img src="../../../assets/images/success.svg"
+                                            class="uploadDocImg mx-1 border-0" style="height: 20px; width: 20px;"
+                                            id="PanImg" alt="Document Uploaded Successfully"
+                                            title="Document Uploaded Successfully"> -->
+
+                                        <img class="uploadDocBtn border-0" (click)="deleteDocument()"
+                                            src="../../../assets/images/close_upload_file.svg"
+                                            style="height: 20px; width: 20px; cursor: pointer;" id="PanImgDelete"
+                                            alt="Delete Uploaded Document" title="Delete Uploaded Document">
+                                    </span>
+                                </div>
                             </div>
+                            
                         </div>
                        </div>
                     <div class="text-end mt-3" *ngIf="!ispatch">

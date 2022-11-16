@@ -279,7 +279,7 @@ export class PostGrievanceComponent implements OnInit {
 
   documentUpload(event: any) {
     let documentUrlUploaed: any;
-    let documentUrl: any = this.uploadFilesService.uploadDocuments(event, "grievance", "png,jpg,jpeg,JPEG")
+    let documentUrl: any = this.uploadFilesService.uploadDocuments(event, "grievance", "png,jpg,jpeg,pdf")
     documentUrl.subscribe({
       next: (ele: any) => {
         documentUrlUploaed = ele.responseData;
@@ -303,7 +303,10 @@ export class PostGrievanceComponent implements OnInit {
   deleteDocument(){
     this.grievanceImageArray.splice(0,1);
     this.fileInput.nativeElement.value = '';
-    this.documentUrlUploaed='';
+  }
+
+  viewDocument(ele:any) {
+    window.open(ele, '_blank');
   }
 
   onCancelRecord() {
