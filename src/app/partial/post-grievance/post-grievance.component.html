@@ -6,7 +6,7 @@
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Taluka</mat-label>
                         <mat-select formControlName="talukaId"
-                            (selectionChange)="isSelfGrievance.setValue(1);filterData()">
+                            (selectionChange)="clearFilter('taluka');isSelfGrievance.setValue(1);filterData();">
                             <mat-option value="0">All Taluka</mat-option>
                             <mat-option *ngFor="let taluka of talukaArray" [value]="taluka.id">
                                 {{taluka.taluka}}
@@ -30,7 +30,7 @@
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Department</mat-label>
                         <mat-select formControlName="deptId"
-                            (selectionChange)="isSelfGrievance.setValue(1);filterData()">
+                            (selectionChange)="clearFilter('department');isSelfGrievance.setValue(1);filterData();">
                             <mat-option value="0">All Department</mat-option>
                             <mat-option *ngFor="let department of departmentArray" [value]="department.id">
                                 {{department.departmentName}}
