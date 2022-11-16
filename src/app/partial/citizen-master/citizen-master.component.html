@@ -1,26 +1,68 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
-            <div class="card plain-card">
+            <div class="">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-8">
+                            <div class="row gx-2 mb-3">
+                                <div class="col-sm-3">
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Name</mat-label>
+                                        <input matInput placeholder="Enter Name" formControlName="">
+                                    </mat-form-field>
+                                </div>
+                               
+                                <div class="col-sm-3">
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Taluka</mat-label>
+                                        <mat-select>
+                                            <mat-option>Option 1</mat-option>
+                                            <mat-option>Option 2</mat-option>
+                                            <mat-option>Option 3</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-3">
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Village</mat-label>
+                                        <mat-select>
+                                            <mat-option>Option 1</mat-option>
+                                            <mat-option>Option 2</mat-option>
+                                            <mat-option>Option 3</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-2">
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Mobile Number</mat-label>
+                                        <input matInput placeholder="Enter Mobile Number" formControlName="">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-1">
+                                    <button mat-icon-button class="text-main">
+                                        <span class="material-symbols-outlined">
+                                            search
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
                             <table mat-table [dataSource]="dataSource" class="w-100 dashboard-table">
 
                                 <!-- Checkbox Column -->
                                 <ng-container matColumnDef="select">
-                                  <th *matHeaderCellDef class="mxw-80">
-                                    <mat-checkbox (change)="$event ? masterToggle() : null"
-                                        [checked]="selection.hasValue() && isAllSelected()"
-                                        [indeterminate]="selection.hasValue() && !isAllSelected()">
-                                    </mat-checkbox>
-                                </th>
-                                <td *matCellDef="let element let i=index" class="mxw-80">
-                                    <mat-checkbox (click)="$event.stopPropagation()"
-                                        (change)="$event ? selection.toggle(element) : null"
-                                        [checked]="selection.isSelected(element)">
-                                    </mat-checkbox>
-                                </td>
+                                    <th *matHeaderCellDef class="mxw-80">
+                                        <mat-checkbox (change)="$event ? masterToggle() : null"
+                                            [checked]="selection.hasValue() && isAllSelected()"
+                                            [indeterminate]="selection.hasValue() && !isAllSelected()">
+                                        </mat-checkbox>
+                                    </th>
+                                    <td *matCellDef="let element let i=index" class="mxw-80">
+                                        <mat-checkbox (click)="$event.stopPropagation()"
+                                            (change)="$event ? selection.toggle(element) : null"
+                                            [checked]="selection.isSelected(element)">
+                                        </mat-checkbox>
+                                    </td>
                                 </ng-container>
 
                                 <ng-container matColumnDef="srno">
@@ -57,7 +99,7 @@
                                         <button mat-icon-button>
                                             <span class="material-symbols-outlined">
                                                 edit_square
-                                                </span>
+                                            </span>
                                         </button>
                                     </td>
                                 </ng-container>
@@ -67,9 +109,10 @@
                                 </tr>
                             </table>
                             <ng-container *ngIf="totalPages>10">
-                              <mat-paginator [pageSize]="10" [length]="totalPages"(page)="pageChanged($event)" showFirstLastButtons>
-                            </mat-paginator>
-                          </ng-container>
+                                <mat-paginator [pageSize]="10" [length]="totalPages" (page)="pageChanged($event)"
+                                    showFirstLastButtons>
+                                </mat-paginator>
+                            </ng-container>
                         </div>
                         <div class="col-sm-4">
                             <div class="card form-card">
@@ -77,52 +120,54 @@
                                     Citizen Master
                                 </div>
                                 <form [formGroup]="frmCitizen">
-                                <div class="card-body">
-                                    <div class="row mb-3">
-                                        <mat-form-field appearance="outline" class="w-100">
-                                            <mat-label>Name</mat-label>
-                                            <input matInput placeholder="Enter Name" formControlName="">
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <mat-form-field appearance="outline" class="w-100">
-                                            <mat-label>Mobile Number</mat-label>
-                                            <input matInput placeholder="Enter Mobile Number" formControlName="">
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <mat-form-field appearance="outline" class="w-100">
-                                            <mat-label>Email ID</mat-label>
-                                            <input matInput placeholder="Enter email id" formControlName="">
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <mat-form-field appearance="outline" class="w-100">
-                                            <mat-label>Taluka</mat-label>
-                                            <mat-select>
-                                                <mat-option>Option 1</mat-option>
-                                                <mat-option>Option 2</mat-option>
-                                                <mat-option>Option 3</mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <mat-form-field appearance="outline" class="w-100">
-                                            <mat-label>Village</mat-label>
-                                            <mat-select>
-                                                <mat-option>Option 1</mat-option>
-                                                <mat-option>Option 2</mat-option>
-                                                <mat-option>Option 3</mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <div class="text-end">
-                                          <button mat-stroked-button class="btn-main" type="button">Cancel</button>
-                                            <button mat-stroked-button class="btn-main ms-2" type="submit">Update</button>
+                                    <div class="card-body">
+                                        <div class="row mb-3">
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Name</mat-label>
+                                                <input matInput placeholder="Enter Name" formControlName="">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Mobile Number</mat-label>
+                                                <input matInput placeholder="Enter Mobile Number" formControlName="">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Email ID</mat-label>
+                                                <input matInput placeholder="Enter email id" formControlName="">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Taluka</mat-label>
+                                                <mat-select>
+                                                    <mat-option>Option 1</mat-option>
+                                                    <mat-option>Option 2</mat-option>
+                                                    <mat-option>Option 3</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Village</mat-label>
+                                                <mat-select>
+                                                    <mat-option>Option 1</mat-option>
+                                                    <mat-option>Option 2</mat-option>
+                                                    <mat-option>Option 3</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="d-flex justify-content-between">
+                                                <button mat-stroked-button class="btn-main"
+                                                    type="button">Cancel</button>
+                                                <button mat-stroked-button class="btn-main ms-2"
+                                                    type="submit">Update</button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
                                 </form>
                             </div>
                         </div>
