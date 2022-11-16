@@ -34,6 +34,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   pageNumber: number = 1;
   stateArray=new Array();
   usersArray=new Array();
+  subUsersArray=new Array();
   departmentArray= new Array();
   officeArray= new Array();
   highlightedRow!: number;
@@ -84,6 +85,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   defaultForm() {
     this.userFrm = this.fb.group({
       userTypeId: ['', [Validators.required]],
+      subUserTypeId:['',[Validators.required]],
       deptId: ['',[Validators.required]],
       officeId: ['',[Validators.required]],
       name: ['', [Validators.required, Validators.pattern(this.validation.valName)]],
@@ -102,7 +104,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   ngAfterViewInit() {
     let formValue: any = this.filterFrm.controls.textSearch.valueChanges;
     formValue.pipe(filter(() => this.filterFrm.valid),
-      debounceTime(1000),
+      debounceTime(0),
       distinctUntilChanged()).subscribe(() => {
         this.pageNumber = 1;
         this.getData();
@@ -136,7 +138,18 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.commonService.getAllUser().subscribe({
       next: (response: any) => {
         this.usersArray.push(...response);
-        // this.isEdit ? (this.userFrm.controls['userTypeId'].setValue(this.updatedObj?.userTypeId)) : '';
+        this.isEdit ? (this.userFrm.controls['userTypeId'].setValue(this.updatedObj?.userTypeId), this.getSubUsers(this.updatedObj?.userTypeId)) : '';
+      },
+      error: ((error: any) => { this.error.handelError(error.status) })
+    })
+  }
+
+  getSubUsers(usertypeId:number) {
+    this.subUsersArray = [];
+    this.commonService.getAllSubUser(usertypeId).subscribe({
+      next: (response: any) => {
+        this.subUsersArray.push(...response);
+       this.isEdit ? (this.userFrm.controls['subUserTypeId'].setValue(this.updatedObj?.subUserTypeId)) : '';
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
@@ -178,6 +191,23 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.pageNumber = 1;
     this.getData();
     this.onCancelRecord();
+  }
+
+  setValidators(flag:any){
+    if(flag == 2){
+      this.userFrm.controls['deptId'].setValue('');
+      this.userFrm.controls['deptId'].clearValidators();
+      this.userFrm.controls['deptId'].updateValueAndValidity();
+      this.userFrm.controls['officeId'].setValue('');
+      this.userFrm.controls['officeId'].clearValidators();
+      this.userFrm.controls['officeId'].updateValueAndValidity();
+    }else if (flag == 3){
+      this.userFrm.controls["deptId"].setValidators([Validators.required]);
+      this.userFrm.controls["deptId"].updateValueAndValidity();
+      this.userFrm.controls['officeId'].setValue('');
+      this.userFrm.controls['officeId'].clearValidators();
+      this.userFrm.controls['officeId'].updateValueAndValidity();
+    }
   }
    //#region  bind table  fn Start here
   getData() {
@@ -234,11 +264,11 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
       "villageId": 0,
       "emailId": formData.emailId,
       "userTypeId": formData.userTypeId,
-      "subUserTypeId": 0,
+      "subUserTypeId": formData.subUserTypeId,
       "userName": formData.mobileNo,
       "password": "",
-      "deptId": formData.deptId,
-      "officeId": formData.officeId,
+      "deptId": formData.deptId | 0,
+      "officeId": formData.officeId | 0,
       "isBlock": false,
       "blockDate": new Date(),
       "blockBy": 0,
@@ -320,13 +350,15 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.highlightedRow = ele.id;
     this.isEdit = true;
     this.updatedObj = ele;
+    console.log(this.updatedObj);
     this.userFrm.patchValue({
-      userTypeId: this.updatedObj.userTypeId,
       name: this.updatedObj.name,
       mobileNo: this.updatedObj.mobileNo,
       emailId: this.updatedObj.emailId,
     });
     this.getDepartment();
+    this.getUsers();
+    this.setValidators(this.updatedObj?.userTypeId);
   }
 
   //#endregiondrop   patch form value for edit  fn end here
