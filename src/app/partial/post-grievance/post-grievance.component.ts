@@ -84,9 +84,9 @@ export class PostGrievanceComponent implements OnInit {
 
   defaultForm() {
     this.postGrievanceForm = this.fb.group({
-      otherCitizenName: [''],
-      otherCitizenMobileNo: [''],
-      otherCitizenAddress: [''],
+      otherCitizenName: ['',[Validators.required,Validators.pattern(this.validation.valName)]],
+      otherCitizenMobileNo: ['',[Validators.required,Validators.pattern(this.validation.valMobileNo)]],
+      otherCitizenAddress: ['',[Validators.required,Validators.pattern(this.validation.valDescription)]],
       districtId: ['', [Validators.required]],
       talukaId: ['', [Validators.required]],
       villageId: ['', [Validators.required]],
@@ -111,7 +111,7 @@ export class PostGrievanceComponent implements OnInit {
   ngAfterViewInit() {
     let formValue: any = this.filterFrm.controls['textSearch'].valueChanges;
     formValue.pipe(filter(() => this.filterFrm.valid),
-      debounceTime(1000),
+      debounceTime(0),
       distinctUntilChanged()).subscribe(() => {
         this.pageNumber = 1;
         this.bindTable();
@@ -282,6 +282,9 @@ export class PostGrievanceComponent implements OnInit {
     let documentUrl: any = this.uploadFilesService.uploadDocuments(event, "grievance", "png,jpg,jpeg,pdf")
     documentUrl.subscribe({
       next: (ele: any) => {
+        if (ele == 'error') {
+          this.fileInput.nativeElement.value = '';
+        }
         documentUrlUploaed = ele.responseData;
         if (documentUrlUploaed != null) {
           let obj =    {
@@ -313,6 +316,7 @@ export class PostGrievanceComponent implements OnInit {
     this.formDirective.resetForm();
     this.ispatch = false;
     this.grievanceImageArray=[];
+    this.districtArray.length == 1 ? this.postGrievanceForm.controls['districtId'].setValue(this.districtArray[0].id) : '';
   }
 
 
@@ -421,8 +425,10 @@ export class PostGrievanceComponent implements OnInit {
     dialog.afterClosed().subscribe(res => {
       if (res == 'Yes') {
         this.deletePostGrievance();
+        this.onCancelRecord();
       } else {
         this.selection.clear();
+        this.onCancelRecord();
       }
     })
   }
