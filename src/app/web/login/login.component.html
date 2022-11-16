@@ -20,17 +20,17 @@
                     </div>
 
                     <div class="login-box">
-                        <h5 class="text-center mb-4">LOG IN</h5>
+                        <h5 class="text-center mb-5">LOG IN</h5>
                         <div class="mb-2">
                             <label class="form-label">
                                 Username
                             </label>
                             <mat-form-field class="w-100" appearance="outline">
                                 <input matInput placeholder="User Name" formControlName="username" maxlength="10" autocomplete="off"
-                                    (keypress)="validation.noSpaces($event)" (keyup)="validation.onlyDigits($event)">
+                                    (keypress)="validation.noSpaces($event) && validation.acceptedOnlyNumbers($event) " (keyup)="validation.onlyDigits($event)">
                                 <mat-error *ngIf="f['username'].errors">
                                     <span *ngIf="f['username'].hasError('required')"> Please Enter
-                                        UserName</span>
+                                        Username</span>
                                 </mat-error>
                                 <mat-error *ngIf="f['username'].hasError('pattern')">
                                     Please Enter Valid Username
@@ -70,9 +70,8 @@
                                 </div>
                                 <div class="col-sm">
                                     <mat-form-field appearance="outline" class="w-100">
-                                        <mat-label>Enter Captcha</mat-label>
                                         <input matInput placeholder="Enter Captcha" formControlName="captcha"
-                                            maxlength="4" autocomplete="off" (keypress)="validation.noSpaces($event)">
+                                            maxlength="4" autocomplete="off" (keypress)="validation.noSpaces($event) && validation.acceptedOnlyNumbers($event)">
                                         <mat-error *ngIf="f['captcha'].hasError('required')">
                                             Captcha is required
                                         </mat-error>
