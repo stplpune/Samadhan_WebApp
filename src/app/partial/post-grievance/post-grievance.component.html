@@ -174,7 +174,7 @@
             </div>
         </form>
     </div>
-    <div class="col-sm-4" [class.disabled-contenct]="ispatch">
+    <div class="col-sm-4">
         <div class="card form-card">
             <div class="card-header">
                 Post Grievance
@@ -320,8 +320,8 @@
                     <div class="mb-2">
                         <mat-form-field class="w-100" appearance="legacy">
                             <mat-label>Grievance Details</mat-label>
-                            <textarea matInput placeholder="Type here" rows="4" (keypress)="validation.noFirstSpaceAllow($event)" [readonly]="ispatch"
-                                formControlName="grievanceDescription"></textarea>
+                            <textarea matInput placeholder="Type here" rows="4" (keypress)="validation.noFirstSpaceAllow($event)" 
+                                formControlName="grievanceDescription" [readonly]="ispatch"></textarea>
                             <mat-error *ngIf="f['grievanceDescription']?.errors">
                                 <span *ngIf="f['grievanceDescription']?.hasError('required')">Grievance details is
                                     required</span>
@@ -353,7 +353,7 @@
 
 
                             <div>
-                                <button mat-raised-button type="button" class="btn btn-main ">
+                                <button mat-raised-button type="button" class="btn btn-main" [disabled]="ispatch">
                                     <label class="px-2"><span>Upload Document</span>
                                         <input type="file" style="display: none"
                                             (change)="documentUpload($event)"
@@ -373,7 +373,7 @@
                                             id="PanImg" alt="Document Uploaded Successfully"
                                             title="Document Uploaded Successfully"> -->
 
-                                        <img class="uploadDocBtn border-0" (click)="deleteDocument()"
+                                        <img  *ngIf="!ispatch"  class="uploadDocBtn border-0" (click)="deleteDocument()" 
                                             src="../../../assets/images/close_upload_file.svg"
                                             style="height: 20px; width: 20px; cursor: pointer;" id="PanImgDelete"
                                             alt="Delete Uploaded Document" title="Delete Uploaded Document">
