@@ -65,6 +65,8 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
       deptId: ['', [Validators.required]],
       name: ['',[Validators.required, Validators.pattern(this.validation.valName)],],
       address: ['',[Validators.required,Validators.pattern(this.validation.alphaNumericWithSpaceAndSpecialChar),],],
+      latitude: ['', [Validators.required]],
+      longitude: ['', [Validators.required]],
       emailId: ['',[Validators.required, Validators.pattern(this.validation.valEmailId)],],
       contactPersonName: ['',[Validators.required, Validators.pattern(this.validation.valName)],],
       mobileNo: ['',[Validators.required,Validators.pattern(this.validation.valMobileNo),Validators.minLength(10),Validators.maxLength(10),],],
@@ -94,37 +96,7 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
     }
    selection = new SelectionModel<any>(true, []);
 
-  //-----------------------------------------------------------------------clear filter-----------------------------------------------------------------------------------
-//   clearFilter(flag: any) {
-//   switch (flag) {
-//     case 'department':
-//       this.filterForm.controls['officeId'].setValue(0);
-//       this.filterForm.controls['textSearch'].setValue('');
-//       break;
-//       // case 'office':
-//       // this.filterFrm.controls['textSearch'].setValue('');
-//       // break;
-//     default:
-//   }
-
-// }
-  // toggleAllRows() {
-  //   if (this.isAllSelected()) {
-  //     this.selection.clear();
-  //     return;
-  //   }
-
-  //   this.selection.select(...this.dataSource);
-  // }
-  // checkboxLabel(row?: any): string {
-  //   if (!row) {
-  //     return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-  //   }
-  //   return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
-  //     row.srNo + 1
-  //   }`;
-  // }
-    //--------------------------------------------------------Department-------------------------------------------------------------------------------------------
+  //--------------------------------------------------------Department-------------------------------------------------------------------------------------------
     getDepartmentName() {
       this.apiService.setHttp(
         'get',
@@ -142,7 +114,7 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
         },
       });
     }
-    //------------------------------------------------------------Office---------------------------------------------------------------------------------------------
+  //------------------------------------------------------------Office---------------------------------------------------------------------------------------------
     // getOfficeName() {
     //   this.apiService.setHttp(
     //     'get',
@@ -181,7 +153,7 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
       },
     });
   }
-  //-------------------------------------------------------Submit----------------------------------------------------------------------------------------------------
+//-------------------------------------------------------Submit----------------------------------------------------------------------------------------------------
   onSubmitOffice() {
     // this.spinner.show();
     if (this.frmOffice.invalid) {
@@ -232,7 +204,7 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
       },
     });
   }
-  //----------------------------------------------------------------------------Edit---------------------------------------------------------------------------------
+//----------------------------------------------------------------------------Edit---------------------------------------------------------------------------------
   editRecord(ele: any) {
     this.highlightedRow = ele.id;
     this.isEdit = true;
@@ -246,7 +218,7 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
       mobileNo: this.updatedObj.contactPersonMobileNo,
     });
   }
-    //--------------------------------------------------------Pagination-------------------------------------------------------------------------------------------
+//--------------------------------------------------------Pagination-------------------------------------------------------------------------------------------
     pageChanged(event: any) {
       this.pageNo = event.pageIndex + 1;
       this.getData();
@@ -254,7 +226,7 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
       this.selection.clear();
 
     }
-    //------------------------------------------------------------------------FIlterData------------------------------------------------------------------------
+//------------------------------------------------------------------------FIlterData------------------------------------------------------------------------
     filterData(){
       this.pageNo = 1;
       this.getData();
@@ -262,38 +234,15 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
 
     }
 
-   //-------------------------------------------------------------------------filter----------------------------------------------------------------------
-  // deleteConformation(id: any) {
-  //   this.highlightedRow = id;
-  //   let obj: any = ConfigService.dialogObj;
-  //   obj['p1'] = 'Are you sure you want to delete this record?';
-  //   obj['cardTitle'] = 'Delete';
-  //   obj['successBtnText'] = 'Delete';
-  //   obj['cancelBtnText'] = 'Cancel';
-  //   obj['inputType'] = false;
-  //   const dialog = this.dialog.open(ConfirmationComponent, {
-  //     width: this.configService.dialogBoxWidth[0],
-  //     data: obj,
-  //     disableClose: this.configService.disableCloseBtnFlag,
-  //   })
-  //   dialog.afterClosed().subscribe(res => {
-  //     if (res == 'Yes') {
-  //       this.deleteCoalGrade();
-  //     }
-  //   })
-
-  // }
-
-  //------------------------------------------------------filter----------------------------------------------------------------------------------------
    filterRecord() {
     this.getData();
   }
-  //----------------------------------------------------------------------------Cancle--------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------Cancle--------------------------------------------------------------------------------------
   onCancelRecord() {
     this.formDirective.resetForm();
     this.isEdit = false;
   }
-  //------------------------------------------------------------------------------Delete----------------------------------------------------------------------------------
+//------------------------------------------------------------------------------Delete----------------------------------------------------------------------------------
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
