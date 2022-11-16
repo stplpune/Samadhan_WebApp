@@ -11,8 +11,9 @@ import { FormsValidationService } from 'src/app/core/service/forms-validation.se
 import { WebStorageService } from 'src/app/core/service/web-storage.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CommonMethodService } from 'src/app/core/service/common-method.service';
-import { Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, Subscription } from 'rxjs';
 import { ConfirmationComponent } from './../dialogs/confirmation/confirmation.component';
+import { CommonApiService } from 'src/app/core/service/common-api.service';
 
 
 
@@ -24,7 +25,7 @@ import { ConfirmationComponent } from './../dialogs/confirmation/confirmation.co
 export class CitizenMasterComponent implements OnInit {
   @ViewChild('formDirective') formDirective!: NgForm;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  displayedColumns: string[] = [ 'srno', 'name', 'mobileNo','emailId', 'taluka','village', 'select'];
+  displayedColumns: string[] = [ 'srno', 'name', 'mobileNo','emailId', 'taluka','village','action','delete','select'];
   dataSource: any;
   frmCitizen!:FormGroup;
   filterForm!:FormGroup;
@@ -35,6 +36,10 @@ export class CitizenMasterComponent implements OnInit {
   pageSize = 10;
   highlightedRow!:number;
   subscription!: Subscription;
+  talukaArr = new Array();
+  villageArr = new Array ();
+  updatedObj: any;
+
 
   constructor(
     private fb: FormBuilder,
@@ -44,6 +49,7 @@ export class CitizenMasterComponent implements OnInit {
     public configService: ConfigService,
     public validation: FormsValidationService,
     public localStrorageData: WebStorageService,
+    public commonService: CommonApiService,
     // private webStorage:WebStorageService,
     public dialog: MatDialog,
     public commonMethod: CommonMethodService
@@ -51,77 +57,93 @@ export class CitizenMasterComponent implements OnInit {
 
   ngOnInit(): void {
     this.createCitizenForm();
+    this.getTalukaName();
+    this.getVillageName();
     this.getData();
   }
 
 //----------------------------------------------------------------FormStart---------------------------------------------------------------------------------------
   createCitizenForm(){
     this.frmCitizen = this.fb.group({
-     name :['',[Validators.required]],
-     mobileNo :['',[Validators.required]],
-     emailId :['',[Validators.required]],
-     taluka :['',[Validators.required]],
-     village :['',[Validators.required]]
+     name :['',[Validators.required, Validators.pattern(this.validation.valName)],],
+     mobileNo :['',[Validators.required,Validators.pattern(this.validation.valMobileNo),Validators.minLength(10),Validators.maxLength(10),],],
+     emailId :['',[Validators.required, Validators.pattern(this.validation.valEmailId)],],
+     talukaId :['',[Validators.required]],
+     villageId :['',[Validators.required]]
     });
 
     this.filterForm = this.fb.group({
-      name : [''],
-      mobileNo : [''],
+      textsearch:[''],
       talukaId  : [0],
       villageId : [0],
 
     })
   }
 
+  get f() {
+    return this.frmCitizen.controls;
+  }
+  //-------------------------------------------------------------------------AfterViewInit------------------------------------------------------------------
+  ngAfterViewInit() {
+    let formData: any = this.filterForm.controls['textsearch'].valueChanges;
+    formData.pipe(filter(() => this.filterForm.valid),
+      debounceTime(1000),
+      distinctUntilChanged()).subscribe(() => {
+        this.pageNo = 1;
+        this.getData();
+        this.totalRows > 10 && this.pageNo == 1 ? this.paginator?.firstPage() : '';
+      });
+    }
+
+  //---------------------------------------------------------------------------Filter-------------------------------------------------------------------------
+  filterData(){
+    this.pageNo = 1;
+    this.getData();
+    this.onCancelRecord();
+
+  }
+
+ filterRecord() {
+  this.getData();
+}
   selection = new SelectionModel<any>(true, []);
-//--------------------------------------------------------Department-------------------------------------------------------------------------------------------
-// getDepartmentName() {
-//   this.apiService.setHttp(
-//     'get',
-//     'samadhan/commondropdown/GetAllDepartment',
-//     false,
-//     false,
-//     false,
-//     'samadhanMiningService'
-//   );
-//   this.apiService.getHttp().subscribe({
-//     next: (res: any) => {
-//       if (res.statusCode == '200' && res.responseData) {
-//         this.departmentArr = res.responseData;
-//       }
-//     },
-//   });
-// }
-//------------------------------------------------------------Office---------------------------------------------------------------------------------------------
-// getOfficeName() {
-//   this.apiService.setHttp(
-//     'get',
-//     'samadhan/commondropdown/GetAllOffice',
-//     false,
-//     false,
-//     false,
-//     'samadhanMiningService'
-//   );
-//   this.apiService.getHttp().subscribe({
-//     next: (res: any) => {
-//       if (res.statusCode == '200' && res.responseData) {
-//         this.officeArray = res.responseData;
-//       }
-//     },
-//   });
-// }
+//--------------------------------------------------------Taluka-------------------------------------------------------------------------------------------
+getTalukaName() {
+
+    this.talukaArr = [];
+    this.commonService.getAllTaluka().subscribe({
+      next: (response: any) => {
+        this.talukaArr.push(...response);
+        this.isEdit ? (this.frmCitizen.controls['talukaId'].setValue(this.updatedObj?.talukaId), this.getVillageName()) : '';
+      },
+      error: ((error: any) => { this.error.handelError(error.status) })
+    })
+
+}
+//------------------------------------------------------------Viilage---------------------------------------------------------------------------------------------
+getVillageName() {
+  this.villageArr = [];
+    this.commonService.getAllVillage().subscribe({
+      next: (response: any) => {
+        this.villageArr.push(...response);
+        this.isEdit ? (this.frmCitizen.controls['villageId'].setValue(this.updatedObj?.villageId)) : '';
+      },
+      error: ((error: any) => { this.error.handelError(error.status) })
+    })
+
+}
 
 //-------------------------------------------------------------Dispaly Table-----------------------------------------------------------------------------
 getData() {
-// this.spinner.show()
-// let formData = this.filterForm.value;
-this.apiService.setHttp('get','samadhan/user-registration/GetAllCitizen?&pageno='+this.pageNo+'&pagesize='+this.pageSize,false,false,false,'samadhanMiningService');
+this.spinner.show()
+let formData = this.filterForm.value;
+this.apiService.setHttp('get','samadhan/user-registration/GetAllCitizen?TalukaId='+formData.talukaId+'&VillageId='+formData.villageId+'&Textsearch='+formData.textsearch+'&pageno='+this.pageNo+'&pagesize='+this.pageSize,false,false,false,'samadhanMiningService');
 this.apiService.getHttp().subscribe({
   next: (res: any) => {
     if (res.statusCode == 200) {
       let dataSet = res.responseData.responseData1;
       this.dataSource = new MatTableDataSource(dataSet);
-      // this.totalPages = res.responseData1.responseData2.pageCount;
+      this.totalPages = res.responseData.responseData2.pageCount;
       this.spinner.hide();
     } else {
       this.spinner.hide();
@@ -131,70 +153,65 @@ this.apiService.getHttp().subscribe({
   },
 });
 }
-//-------------------------------------------------------Submit----------------------------------------------------------------------------------------------------
-// onSubmitOffice() {
+//-----------------------------------------------------------------------Submit----------------------------------------------------------------------------------------------------
+onUpdateCitizen() {
 
-// if (this.frmOffice.invalid) {
-//   return;
-// }
-// let formData = this.frmOffice.value;
-// let obj = {
-//   "createdBy": this.webStorage.getUserId(),
-//   "modifiedBy": this.webStorage.getUserId(),
-//   "createdDate": new Date(),
-//   "modifiedDate": new Date(),
-//   "isDeleted": true,
-//   "id": this.isEdit == true ? this.updatedObj.id : 0,
-//   "deptId": formData.deptId,
-//   "name": formData.name,
-//   "address": formData.address,
-//   "emailId": formData.emailId,
-//   "contactPersonName": formData.contactPersonName,
-//   "mobileNo": formData.mobileNo,
-// };
+if (this.frmCitizen.invalid) {
+  return;
+}
+let formData = this.frmCitizen.value;
+let obj = {
+  "id": this.isEdit == true ? this.updatedObj.id : 0,
+  "name" : formData.name,
+  "mobileNo": formData.mobileNo,
+  "emailId": formData.emailId,
+  "talukaId": formData.talukaId,
+  "villageId": formData.villageId,
+  "modifiedBy": formData.modifiedBy,
+  "modifiedDate": new Date()
+};
 
-// let method = this.isEdit ? 'PUT' : 'POST';
-// let url = this.isEdit ? 'UpdateOfficeDetails' : 'AddOfficeDetails';
-// this.apiService.setHttp(
-//   method,
-//   'samadhan/office/' + url,
-//   false,
-//   obj,
-//   false,
-//   'samadhanMiningService'
-// );
-// this.subscription = this.apiService.getHttp().subscribe({
-//   next: (res: any) => {
-//     if (res.statusCode == 200) {
-//       this.highlightedRow = 0;
-//       this.getData();
-//       this.onCancelRecord();
-//       this.commonMethod.checkDataType(res.statusMessage) == false? this.error.handelError(res.statusCode): this.commonMethod.matSnackBar(res.statusMessage, 0);
-//     } else {
-//       this.commonMethod.checkDataType(res.statusMessage) == false? this.error.handelError(res.statusCode): this.commonMethod.matSnackBar(res.statusMessage, 1);
-//     }
+let method = this.isEdit ? 'PUT':'';
+let url = this.isEdit ? 'UpdateCitizen' : '';
+this.apiService.setHttp(
+  method,
+  'samadhan/user-registration/' + url,
+  false,
+  obj,
+  false,
+  'samadhanMiningService'
+);
+this.subscription = this.apiService.getHttp().subscribe({
+  next: (res: any) => {
+    if (res.statusCode == 200) {
+      this.highlightedRow = 0;
+      this.getData();
+      this.onCancelRecord();
+      this.commonMethod.checkDataType(res.statusMessage) == false? this.error.handelError(res.statusCode): this.commonMethod.matSnackBar(res.statusMessage, 0);
+    } else {
+      this.commonMethod.checkDataType(res.statusMessage) == false? this.error.handelError(res.statusCode): this.commonMethod.matSnackBar(res.statusMessage, 1);
+    }
 
-//   },
-//   error: (error: any) => {
-//     this.error.handelError(error.status);
-//     this.spinner.hide();
-//   },
-// });
-// }
+  },
+  error: (error: any) => {
+    this.error.handelError(error.status);
+    this.spinner.hide();
+  },
+});
+}
 //----------------------------------------------------------------------------Edit---------------------------------------------------------------------------------
-// editRecord(ele: any) {
-// this.highlightedRow = ele.id;
-// this.isEdit = true;
-// this.updatedObj = ele;
-// this.frmOffice.patchValue({
-//   deptId: this.updatedObj.deptId,
-//   name: this.updatedObj.officeName,
-//   address: this.updatedObj.officeAddress,
-//   emailId: this.updatedObj.officeEmailId,
-//   contactPersonName: this.updatedObj.contactPersonName,
-//   mobileNo: this.updatedObj.contactPersonMobileNo,
-// });
-// }
+editRecord(ele: any) {
+this.highlightedRow = ele.id;
+this.isEdit = true;
+this.updatedObj = ele;
+this.frmCitizen.patchValue({
+  name: this.updatedObj.name,
+  emailId: this.updatedObj.emailId,
+  mobileNo: this.updatedObj.mobileNo,
+  talukaId: this.updatedObj.talukaId,
+  villageId: this.updatedObj.villageId,
+});
+}
 //-------------------------------------------------------------------------CancleRecord-----------------------------------------------------------------------
 onCancelRecord() {
   this.formDirective.resetForm();
@@ -204,31 +221,11 @@ onCancelRecord() {
 //-------------------------------------------------------------------------Pagination-------------------------------------------------------------------------------
 pageChanged(event: any){
   this.pageNo = event.pageIndex + 1;
+  this.getData();
   this.onCancelRecord();
   this.selection.clear();
 }
 
-  // isAllSelected() {
-  //   const numSelected = this.selection.selected.length;
-  //   const numRows = this.dataSource.data.length;
-  //   return numSelected === numRows;
-  // }
-
-  // toggleAllRows() {
-  //   if (this.isAllSelected()) {
-  //     this.selection.clear();
-  //     return;
-  //   }
-
-  //   this.selection.select(...this.dataSource.data);
-  // }
-
-  // checkboxLabel(row?: PeriodicElement): string {
-  //   if (!row) {
-  //     return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-  //   }
-  //   return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.srno + 1}`;
-  // }
 //------------------------------------------------------------------------------Delete----------------------------------------------------------------------------------
 isAllSelected() {
   const numSelected = this.selection.selected.length;
@@ -279,7 +276,7 @@ deleteUser() {
   }
   this.apiService.setHttp(
     'DELETE',
-    'samadhan/office/Delete',
+    'samadhan/user-registration/DeleteCitizen',
     false,
     delArray,
     false,

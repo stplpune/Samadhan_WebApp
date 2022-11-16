@@ -13,6 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { debounceTime, distinctUntilChanged, filter, Subscription } from 'rxjs';
 import { WebStorageService } from 'src/app/core/service/web-storage.service';
 import { MatPaginator } from '@angular/material/paginator';
+import { CommonApiService } from 'src/app/core/service/common-api.service';
 
 @Component({
   selector: 'app-office-master',
@@ -46,6 +47,7 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
     public validation: FormsValidationService,
     public localStrorageData: WebStorageService,
     private webStorage:WebStorageService,
+    public commonService: CommonApiService,
     public dialog: MatDialog,
     public commonMethod: CommonMethodService
   ) {}
@@ -97,23 +99,16 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
    selection = new SelectionModel<any>(true, []);
 
   //--------------------------------------------------------Department-------------------------------------------------------------------------------------------
-    getDepartmentName() {
-      this.apiService.setHttp(
-        'get',
-        'samadhan/commondropdown/GetAllDepartment',
-        false,
-        false,
-        false,
-        'samadhanMiningService'
-      );
-      this.apiService.getHttp().subscribe({
-        next: (res: any) => {
-          if (res.statusCode == '200' && res.responseData) {
-            this.departmentArr = res.responseData;
-          }
-        },
-      });
-    }
+  getDepartmentName(){
+    this.departmentArr = [];
+    this.commonService.getAllDepartment().subscribe({
+      next: (response: any) => {
+        this.departmentArr.push(...response);
+      },
+      error: ((error: any) => { this.error.handelError(error.status) })
+    })
+
+  }
   //------------------------------------------------------------Office---------------------------------------------------------------------------------------------
     // getOfficeName() {
     //   this.apiService.setHttp(
