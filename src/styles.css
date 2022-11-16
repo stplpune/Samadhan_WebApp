@@ -224,23 +224,26 @@ body {
 .highlightedRow {
     background: #eeeeee !important;
 }
-
+.mat-simple-snack-bar-content{
+  font-family: "Rubik", sans-serif !important;
+  font-size: 0.85rem;
+}
 .snack-warning {
-    background: var(--white-color) !important;
+    background: #fff !important;
     color: black !important;
     border-left: 5px solid #ffc107 !important;
     border-radius: 0 !important;
 }
 
 .snack-danger {
-    background: var(--white-color) !important;
+    background: #fff !important;
     color: black !important;
     border-left: 5px solid #ff4141 !important;
     border-radius: 0 !important;
 }
 
 .snack-success {
-    background: var(--white-color) !important;
+    background: #fff !important;
     color: black !important;
     border-left: 5px solid #198754 !important;
     border-radius: 0 !important;
