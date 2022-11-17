@@ -127,7 +127,7 @@ export class DashboardComponent implements OnInit {
     categoryAxis.renderer.grid.template.strokeDasharray = "1,3";
     categoryAxis.renderer.labels.template.rotation = -90;
     categoryAxis.renderer.labels.template.horizontalCenter = "left";
-    categoryAxis.renderer.labels.template.location = 0.5;
+    categoryAxis.renderer.labels.template.location = 0;
 
     let valueAxis: any = chart.yAxes.push(new am4charts.ValueAxis());
     valueAxis.tooltip.disabled = true;
@@ -145,12 +145,9 @@ export class DashboardComponent implements OnInit {
     series.columns.template.width = 0.01;
     series.tooltip.pointerOrientation = "horizontal";
 
-    let bullet = series.bullets.create(am4charts.CircleBullet);
-    bullet
+    let bullet = series.bullets.create(am4charts.CircleBullet);bullet
     chart.cursor = new am4charts.XYCursor();
-
     chart.scrollbarX = new am4core.Scrollbar();
-
   }
 
     
