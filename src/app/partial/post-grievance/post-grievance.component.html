@@ -119,7 +119,7 @@
                             </td>
                         </ng-container>
 
-                        <ng-container matColumnDef="action" class="srno">
+                        <!-- <ng-container matColumnDef="action" class="srno">
                             <th mat-header-cell *matHeaderCellDef> ACTION </th>
                             <td mat-cell *matCellDef="let element">
                                 <button mat-icon-button (click)="patchData(element)">
@@ -142,20 +142,47 @@
                         </ng-container>
 
                         <ng-container matColumnDef="select">
-                            <th *matHeaderCellDef class="mxw-80">
-                                <!-- Sr.No mat-sort-header  -->
+                            <th *matHeaderCellDef class="mxw-80">                             
                                 <mat-checkbox (change)="$event ? masterToggle() : null"
                                     [checked]="selection.hasValue() && isAllSelected()"
                                     [indeterminate]="selection.hasValue() && !isAllSelected()">
                                 </mat-checkbox>
                             </th>
                             <td *matCellDef="let element let i=index" class="mxw-80">
-                                <!-- {{i +1}} -->
-
                                 <mat-checkbox (click)="$event.stopPropagation()"
                                     (change)="$event ? selection.toggle(element) : null"
                                     [checked]="selection.isSelected(element)">
                                 </mat-checkbox>
+                            </td>
+                        </ng-container> -->
+
+                        <ng-container matColumnDef="action" class="srno">
+                            <th mat-header-cell *matHeaderCellDef> ACTION 
+                                <button
+                                    [disabled]="this.selection.selected.length ==0" mat-icon-button
+                                    (click)="deleteData()">
+                                    <span class="material-symbols-outlined">
+                                        delete
+                                    </span>
+                                </button>
+                                <mat-checkbox (change)="$event ? masterToggle() : null"
+                                [checked]="selection.hasValue() && isAllSelected()"
+                                [indeterminate]="selection.hasValue() && !isAllSelected()">
+                            </mat-checkbox>
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                <div>
+                                    <button mat-icon-button (click)="patchData(element)">
+                                        <span class="material-symbols-outlined">
+                                            visibility
+                                        </span>
+                                    </button>
+                                    <mat-checkbox (click)="$event.stopPropagation()"
+                                    (change)="$event ? selection.toggle(element) : null"
+                                    [checked]="selection.isSelected(element)">
+                                </mat-checkbox>
+                                </div>
+                              
                             </td>
                         </ng-container>
 
@@ -343,7 +370,7 @@
                     <div class="mb-2">
                         <div class="row justify-content-between align-items-center">
                             <div class="col-sm">
-                                <button mat-raised-button type="button" class="btn btn-main" [disabled]="ispatch">
+                                <button mat-stroked-button type="button" class="bg-main" [disabled]="ispatch">
                                     <label class="px-2"><span>Upload Document</span>
                                         <input type="file" style="display: none" (change)="documentUpload($event)"
                                             #fileInput>
@@ -369,7 +396,7 @@
                         </div>
                     </div>
                     <div class="text-end mt-3" *ngIf="!ispatch">
-                        <button mat-stroked-button class="btn-main" type="button"
+                        <button mat-stroked-button class="btn-main-outline" type="button"
                             (click)="onCancelRecord()">Cancel</button>
                         <button mat-stroked-button class="btn-main ms-2" type="submit"
                             (click)="onSubmitForm()">Submit</button>
