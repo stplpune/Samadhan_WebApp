@@ -25,7 +25,8 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('formDirective') formDirective!: NgForm;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild('search') searchElementRef: any;
-  displayedColumns: string[] = ['srNo','departmentName','officeName','weight','delete','select',];
+  // displayedColumns: string[] = ['srNo','departmentName','officeName','weight','delete','select',];
+  displayedColumns: string[] = ['srNo','departmentName','officeName','action'];
   dataSource: any;
   frmOffice!: FormGroup;
   filterForm!:FormGroup;
