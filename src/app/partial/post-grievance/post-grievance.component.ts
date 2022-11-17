@@ -235,9 +235,13 @@ export class PostGrievanceComponent implements OnInit {
       case 'taluka':
          this.filterFrm.controls['deptId'].setValue(0);
          this.filterFrm.controls['statusId'].setValue(0);
+         this.filterFrm.controls['textSearch'].setValue('');
        break;
 
-      case 'department': this.filterFrm.controls['statusId'].setValue(0); break;
+      case 'department': 
+      this.filterFrm.controls['statusId'].setValue(0); 
+      this.filterFrm.controls['textSearch'].setValue('');
+      break;
       default:
     }
   }

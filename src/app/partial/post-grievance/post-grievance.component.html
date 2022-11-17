@@ -53,7 +53,8 @@
                 <div class="col-sm-2">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Status</mat-label>
-                        <mat-select formControlName="statusId" (selectionChange)="isSelfGrievance.setValue(1);filterData()">
+                        <mat-select formControlName="statusId"
+                            (selectionChange)="isSelfGrievance.setValue(1);filterData()">
                             <mat-option value="0">All Status</mat-option>
                             <mat-option *ngFor="let status of statusArray" [value]="status.id">
                                 {{status.name}}
@@ -85,7 +86,8 @@
 
                         <ng-container matColumnDef="name">
                             <th mat-header-cell *matHeaderCellDef>Name</th>
-                            <td mat-cell *matCellDef="let element"> {{element.isSelfGrievance == 0 ? (element.otherCitizenName | titlecase)  : element.name  | titlecase}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element.isSelfGrievance == 0 ?
+                                (element.otherCitizenName | titlecase) : element.name | titlecase}} </td>
                         </ng-container>
                         <ng-container matColumnDef="taluka">
                             <th mat-header-cell *matHeaderCellDef> Taluka </th>
@@ -129,7 +131,8 @@
                         </ng-container>
                         <ng-container matColumnDef="button">
                             <th mat-header-cell *matHeaderCellDef> <button
-                                    [disabled]="this.selection.selected.length ==0" mat-icon-button (click)="deleteData()">
+                                    [disabled]="this.selection.selected.length ==0" mat-icon-button
+                                    (click)="deleteData()">
                                     <span class="material-symbols-outlined">
                                         delete
                                     </span>
@@ -161,7 +164,8 @@
                         </tr>
 
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                        <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'highlightedRow ':highlightedRow == row.id}">
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                            [ngClass]="{'highlightedRow ':highlightedRow == row.id}">
                         </tr>
                     </table>
                 </div>
@@ -178,21 +182,23 @@
         <div class="card form-card">
             <div class="card-header"> {{updatedObj ? 'View Grievance' : 'Post Grievance'}}</div>
             <div class="card-body">
-                    <div class="mb-3">
-                        <mat-radio-group aria-label="Select an option" [formControl]="isSelfGrievance">
-                            <mat-radio-button *ngFor="let reg of registerBy" [value]="reg.value" class="me-4" (change)="postGrievanceType(reg?.value)" [disabled]="ispatch">
-                                {{reg.type}}
-                            </mat-radio-button>
-                        </mat-radio-group>
-                    </div>
+                <div class="mb-3">
+                    <mat-radio-group aria-label="Select an option" [formControl]="isSelfGrievance">
+                        <mat-radio-button *ngFor="let reg of registerBy" [value]="reg.value" class="me-4"
+                            (change)="postGrievanceType(reg?.value)" [disabled]="ispatch">
+                            {{reg.type}}
+                        </mat-radio-button>
+                    </mat-radio-group>
+                </div>
 
-             <form [formGroup]="postGrievanceForm" #formDirective="ngForm">
+                <form [formGroup]="postGrievanceForm" #formDirective="ngForm">
 
                     <div class="mb-2" *ngIf="isSelfGrievance.value == 0" [class.disabled-contenct]="ispatch">
                         <mat-form-field class="w-100" appearance="outline">
                             <mat-label>Name</mat-label>
-                            <input matInput placeholder="Enter name" (keypress)="validation.noFirstSpaceAllow($event);validation.alphabetsWithSpaces($event)"
-                             formControlName="otherCitizenName" maxlength="50" [readonly]="ispatch">
+                            <input matInput placeholder="Enter name"
+                                (keypress)="validation.noFirstSpaceAllow($event);validation.alphabetsWithSpaces($event)"
+                                formControlName="otherCitizenName" maxlength="50" [readonly]="ispatch">
                             <mat-error *ngIf="f['otherCitizenName']?.errors">
                                 <span *ngIf="f['otherCitizenName']?.hasError('required')"> Name is required</span>
                                 <span *ngIf="f['otherCitizenName']?.hasError('pattern')"> Enter Valid Name</span>
@@ -202,22 +208,27 @@
                     <div class="mb-2" *ngIf="isSelfGrievance.value == 0" [class.disabled-contenct]="ispatch">
                         <mat-form-field class="w-100" appearance="outline">
                             <mat-label>Mobile Number</mat-label>
-                            <input matInput placeholder="Enter mobile number" maxlength="10" (keypress)="validation.acceptedOnlyNumbers($event)" formControlName="otherCitizenMobileNo" [readonly]="ispatch">
+                            <input matInput placeholder="Enter mobile number" maxlength="10"
+                                (keypress)="validation.acceptedOnlyNumbers($event)"
+                                formControlName="otherCitizenMobileNo" [readonly]="ispatch">
                             <mat-error *ngIf="f['otherCitizenMobileNo']?.errors">
-                                <span *ngIf="f['otherCitizenMobileNo']?.hasError('required')"> Mobile Number is required</span>
-                                <span *ngIf="f['otherCitizenMobileNo']?.hasError('pattern')"> Enter Valid Mobile Number</span>
+                                <span *ngIf="f['otherCitizenMobileNo']?.hasError('required')"> Mobile Number is
+                                    required</span>
+                                <span *ngIf="f['otherCitizenMobileNo']?.hasError('pattern')"> Enter Valid Mobile
+                                    Number</span>
                             </mat-error>
                         </mat-form-field>
                     </div>
                     <div class="mb-2" *ngIf="isSelfGrievance.value == 0" [class.disabled-contenct]="ispatch">
                         <mat-form-field class="w-100" appearance="legacy">
                             <mat-label>Address</mat-label>
-                            <textarea matInput placeholder="Type here" rows="4" (keypress)="validation.noFirstSpaceAllow($event)"
-                                formControlName="otherCitizenAddress" maxlength="50"></textarea>
-                                <mat-error *ngIf="f['otherCitizenAddress']?.errors">
-                                    <span *ngIf="f['otherCitizenAddress']?.hasError('required')"> Address is required</span>
-                                    <span *ngIf="f['otherCitizenAddress']?.hasError('pattern')"> Enter Valid Address</span>
-                                </mat-error>
+                            <textarea matInput placeholder="Type here" rows="4"
+                                (keypress)="validation.noFirstSpaceAllow($event)" formControlName="otherCitizenAddress"
+                                maxlength="50"></textarea>
+                            <mat-error *ngIf="f['otherCitizenAddress']?.errors">
+                                <span *ngIf="f['otherCitizenAddress']?.hasError('required')"> Address is required</span>
+                                <span *ngIf="f['otherCitizenAddress']?.hasError('pattern')"> Enter Valid Address</span>
+                            </mat-error>
                         </mat-form-field>
                     </div>
 
@@ -262,7 +273,7 @@
                         <div class="col-sm-6" [class.disabled-contenct]="ispatch">
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>Village</mat-label>
-                                <mat-select formControlName="villageId"   [disabled]="!postGrievanceForm.value.talukaId">
+                                <mat-select formControlName="villageId" [disabled]="!postGrievanceForm.value.talukaId">
                                     <mat-option *ngFor="let village of villageArray" [value]="village.id">
                                         {{village.village}}
                                     </mat-option>
@@ -319,8 +330,9 @@
                     <div class="mb-2">
                         <mat-form-field class="w-100" appearance="legacy">
                             <mat-label>Grievance Details</mat-label>
-                            <textarea matInput placeholder="Type here" rows="4" (keypress)="validation.noFirstSpaceAllow($event)" 
-                                formControlName="grievanceDescription"  maxlength="500" [readonly]="ispatch"></textarea>
+                            <textarea matInput placeholder="Type here" rows="4"
+                                (keypress)="validation.noFirstSpaceAllow($event)" formControlName="grievanceDescription"
+                                maxlength="500" [readonly]="ispatch"></textarea>
                             <mat-error *ngIf="f['grievanceDescription']?.errors">
                                 <span *ngIf="f['grievanceDescription']?.hasError('required')">Grievance details is
                                     required</span>
@@ -329,62 +341,38 @@
                     </div>
 
                     <div class="mb-2">
-                        <div class="image-container">
-                            <!-- <img *ngIf="!grievanceImageArray?.length" src="assets/images/user.jpg" class="grievance-image">
-                            <img *ngIf="grievanceImageArray?.length" [src]="grievanceImageArray[0]?.docpath" class="grievance-image">  -->
-                         
-                         <!-- <img *ngIf="!documentUrlUploaed" src="assets/images/user.jpg" class="grievance-image">
-                            <img *ngIf="documentUrlUploaed" [src]="documentUrlUploaed" class="grievance-image">  -->
-
-
-                            <!-- <div class="grievance-buttons d-flex flex-column upload-btn-wrapper">
-                                <button type="button" class="btn bg-light text-primary" >
-                                    <i class="fa-solid fa-plus"></i>
-                                    <input type="file" (change)="documentUpload($event)" #fileInput>
-                                </button>
-                                  <button type="button" *ngIf="grievanceImageArray?.length" class="border border-0 btn bg-light text-danger" (click)="deleteDocument()">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                </button>   -->
-                                 <!-- <button type="button" *ngIf="documentUrlUploaed" class="border border-0 btn bg-light text-danger" (click)="deleteDocument()">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                </button>  -->
-                            <!-- </div> -->
-
-
-                            <div>
+                        <div class="row justify-content-between align-items-center">
+                            <div class="col-sm">
                                 <button mat-raised-button type="button" class="btn btn-main" [disabled]="ispatch">
                                     <label class="px-2"><span>Upload Document</span>
-                                        <input type="file" style="display: none"
-                                            (change)="documentUpload($event)"
+                                        <input type="file" style="display: none" (change)="documentUpload($event)"
                                             #fileInput>
                                     </label>
                                 </button>
-                                <!-- <input type="file" (change)="documentUpload($event)" #fileInput> -->
-                                <!-- <button type="button" *ngIf="grievanceImageArray?.length" class="border border-0 btn bg-light text-danger" (click)="deleteDocument()">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                </button>  -->
-                                <div *ngIf="grievanceImageArray?.length != 0">
-                                    <span class="text-left mnw-70 d-inline-block px-1">
-                                        <span><i class="fa fa-file-alt text-primary"
-                                                (click)="viewDocument(grievanceImageArray[0]?.docpath)"></i></span>
-                                        <!-- <img src="../../../assets/images/success.svg"
-                                            class="uploadDocImg mx-1 border-0" style="height: 20px; width: 20px;"
-                                            id="PanImg" alt="Document Uploaded Successfully"
-                                            title="Document Uploaded Successfully"> -->
-
-                                        <img  *ngIf="!ispatch"  class="uploadDocBtn border-0" (click)="deleteDocument()" 
-                                            src="../../../assets/images/close_upload_file.svg"
-                                            style="height: 20px; width: 20px; cursor: pointer;" id="PanImgDelete"
-                                            alt="Delete Uploaded Document" title="Delete Uploaded Document">
-                                    </span>
+                            </div>
+                            <div class="col-sm-auto">
+                                <div *ngIf="grievanceImageArray?.length != 0" class="d-flex">
+                                    <button mat-icon-button class="bg-primary bg-opacity-10 text-primary me-2" (click)="viewDocument(grievanceImageArray[0]?.docpath)">
+                                        <span class="material-symbols-outlined">
+                                            description
+                                        </span>
+                                    </button>
+                                    <button mat-icon-button *ngIf="!ispatch" id="PanImgDelete"
+                                        title="Delete Uploaded Document" class="bg-danger bg-opacity-10 text-danger uploadDocBtn border-0"
+                                        (click)="deleteDocument()">
+                                        <span class="material-symbols-outlined">
+                                            delete
+                                        </span>
+                                    </button>
                                 </div>
                             </div>
-                            
                         </div>
-                       </div>
+                    </div>
                     <div class="text-end mt-3" *ngIf="!ispatch">
-                        <button mat-stroked-button class="btn-main" type="button" (click)="onCancelRecord()">Cancel</button>
-                        <button mat-stroked-button class="btn-main ms-2" type="submit" (click)="onSubmitForm()">Submit</button>
+                        <button mat-stroked-button class="btn-main" type="button"
+                            (click)="onCancelRecord()">Cancel</button>
+                        <button mat-stroked-button class="btn-main ms-2" type="submit"
+                            (click)="onSubmitForm()">Submit</button>
                     </div>
                 </form>
             </div>
