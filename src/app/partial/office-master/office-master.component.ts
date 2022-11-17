@@ -76,7 +76,7 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
     this.frmOffice = this.fb.group({
       deptId: ['', [Validators.required]],
       name: ['',[Validators.required, Validators.pattern(this.validation.valName)]],
-      address: ['',[Validators.required]],
+      address: ['',[Validators.required, Validators.pattern('^[^[ ]+|[ ][gm]+$')]],
       // latitude: ['', [Validators.required]],
       // longitude: ['', [Validators.required]],
       emailId: ['',[Validators.required, Validators.pattern(this.validation.valEmailId)],],
