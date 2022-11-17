@@ -370,7 +370,7 @@
                     <div class="mb-2">
                         <div class="row justify-content-between align-items-center">
                             <div class="col-sm">
-                                <button mat-raised-button type="button" class="btn btn-main" [disabled]="ispatch">
+                                <button mat-stroked-button type="button" class="bg-main" [disabled]="ispatch">
                                     <label class="px-2"><span>Upload Document</span>
                                         <input type="file" style="display: none" (change)="documentUpload($event)"
                                             #fileInput>
@@ -396,7 +396,7 @@
                         </div>
                     </div>
                     <div class="text-end mt-3" *ngIf="!ispatch">
-                        <button mat-stroked-button class="btn-main" type="button"
+                        <button mat-stroked-button class="btn-main-outline" type="button"
                             (click)="onCancelRecord()">Cancel</button>
                         <button mat-stroked-button class="btn-main ms-2" type="submit"
                             (click)="onSubmitForm()">Submit</button>
