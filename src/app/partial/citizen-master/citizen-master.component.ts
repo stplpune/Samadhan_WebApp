@@ -60,7 +60,6 @@ export class CitizenMasterComponent implements OnInit {
   ngOnInit(): void {
     this.createCitizenForm();
     this.getTalukaName();
-    // this.getVillageName();
     this.getData();
   }
 
@@ -75,10 +74,9 @@ export class CitizenMasterComponent implements OnInit {
     });
 
     this.filterForm = this.fb.group({
-      textsearch:[''],
       talukaId  : [0],
       villageId : [0],
-
+      textsearch:[''],
     })
   }
 
@@ -109,9 +107,8 @@ export class CitizenMasterComponent implements OnInit {
   this.getData();
 }
   selection = new SelectionModel<any>(true, []);
-//--------------------------------------------------------Taluka-------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------Taluka-------------------------------------------------------------------------------------------
 getTalukaName() {
-
     this.talukaArr = [];
     this.commonService.getAllTaluka().subscribe({
       next: (response: any) => {
@@ -122,16 +119,20 @@ getTalukaName() {
     })
 
 }
-//------------------------------------------------------------Viilage---------------------------------------------------------------------------------------------
-getVillageName() {
+
+//-------------------------------------------------------------------------Village---------------------------------------------------------------------------------------------
+getVillageName(talukaId:number) {
   this.villageArr = [];
-    this.commonService.getAllVillage().subscribe({
+  if(talukaId !=0){
+    this.commonService.getVillageByTalukaId(talukaId).subscribe({
       next: (response: any) => {
         this.villageArr.push(...response);
         this.changevillFlag == true ? (this.frmCitizen.controls['villageId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.villageId) == false ? '' : this.updatedObj?.villageId)) :this.frmCitizen.controls['villageId'].setValue('');
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
+
+  }
 
 }
 
@@ -205,6 +206,7 @@ this.subscription = this.apiService.getHttp().subscribe({
 editRecord(ele: any) {
 this.highlightedRow = ele.id;
 this.isEdit = true;
+this.changevillFlag = true;
 this.updatedObj = ele;
 this.frmCitizen.patchValue({
   name: this.updatedObj.name,
@@ -213,6 +215,8 @@ this.frmCitizen.patchValue({
   talukaId: this.updatedObj.talukaId,
   villageId: this.updatedObj.villageId,
 });
+// this.getTalukaName();
+
 }
 //-------------------------------------------------------------------------CancleRecord-----------------------------------------------------------------------
 onCancelRecord() {
