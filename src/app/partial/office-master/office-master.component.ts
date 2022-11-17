@@ -24,6 +24,7 @@ declare var google: any;
 export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('formDirective') formDirective!: NgForm;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild('search') searchElementRef: any;
   displayedColumns: string[] = ['srNo','departmentName','officeName','weight','delete','select',];
   dataSource: any;
   frmOffice!: FormGroup;
@@ -38,8 +39,6 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
   subscription!: Subscription;
   updatedObj: any;
   highlightedRow!: number;
-  @ViewChild('search') searchElementRef: any;
- 
   latitude: any;
   longitude: any;
   pinCode: any;
@@ -119,24 +118,6 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
     })
 
   }
-  //------------------------------------------------------------Office---------------------------------------------------------------------------------------------
-    // getOfficeName() {
-    //   this.apiService.setHttp(
-    //     'get',
-    //     'samadhan/commondropdown/GetAllOffice',
-    //     false,
-    //     false,
-    //     false,
-    //     'samadhanMiningService'
-    //   );
-    //   this.apiService.getHttp().subscribe({
-    //     next: (res: any) => {
-    //       if (res.statusCode == '200' && res.responseData) {
-    //         this.officeArray = res.responseData;
-    //       }
-    //     },
-    //   });
-    // }
 
   //-------------------------------------------------------------Dispaly Table-----------------------------------------------------------------------------
   getData() {
@@ -333,7 +314,7 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   mapApiLoader() {
-    
+
     this.mapsAPILoader.load().then(() => {
       this.geocoder = new google.maps.Geocoder();
       let autocomplete = new google.maps.places.Autocomplete(
