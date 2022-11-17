@@ -41,6 +41,7 @@ body {
     background-color: transparent;
     color: var(--main-color);
     border: solid 1px var(--main-color) !important;
+    font-family: "Rubik", sans-serif !important;
 }
 
 .btn-main:hover {
@@ -49,14 +50,15 @@ body {
 }
 .btn-main-outline {
     font-size: 0.85rem;
-    color: var(--main-color);
-    border: solid 1px var(--main-color);
+    color: #808080;
+    border: solid 1px #808080 !important;
     background-color: transparent;
+    font-family: "Rubik", sans-serif !important;
 }
 
 .btn-main-outline:hover {
-    background-color: var(--main-color);
-    border: solid 1px var(--main-color);
+    background-color: #808080;
+    border: solid 1px #808080 !important;
     color: #fff;
 }
 
