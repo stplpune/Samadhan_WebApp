@@ -83,7 +83,7 @@
     position: relative;
   }  
   .sidebar .sidebar-content .sidebar-menu {
-    padding-bottom: 10px;
+    padding-block: 10px;
   }
   
   .sidebar .sidebar-content .sidebar-menu .header-menu span {
@@ -128,11 +128,10 @@
     animation: swing ease-in-out 0.5s 1 alternate;
   }
   
-  .sidebar .sidebar-content .sidebar-menu ul li a span.label,
-  .sidebar .sidebar-content .sidebar-menu ul li a span.badge {
-    float: right;
-    margin-top: 8px;
-    margin-left: 5px;
+  .sidebar .sidebar-content .sidebar-menu ul li a span{
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
   }
   
   .sidebar .sidebar-content .sidebar-menu .sidebar-dropdown>a:after {
