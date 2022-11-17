@@ -5,8 +5,9 @@
 
         <div class="col-sm-4">
           <mat-form-field appearance="outline" class="w-100">
-            <mat-label >All Taluka</mat-label>
-            <mat-select formControlName="talukaId" (selectionChange)="clearFilter('taluka');filterData();getVillageName()">
+            <mat-label >Taluka</mat-label>
+            <mat-select formControlName="talukaId" (selectionChange)="clearFilter('taluka');filterData();getVillageName(filterForm.value.talukaId)">
+              <mat-option value="0">All Taluka</mat-option>
               <mat-option *ngFor="let tal of talukaArr" [value]="tal.id">{{tal.taluka}}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -17,6 +18,7 @@
             <mat-label>Village</mat-label>
             <mat-select formControlName="villageId" (selectionChange)="clearFilter('village');filterData()"
               [disabled]='!filterForm.value.talukaId'>
+              <mat-option value="0">All Village</mat-option>
               <mat-option *ngFor="let vill of villageArr" [value]="vill.id">{{vill.village}}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -116,10 +118,10 @@
       </div>
       <form [formGroup]="frmCitizen" #formDirective="ngForm" (ngSubmit)="onUpdateCitizen()">
         <div class="card-body">
-          <div class="row mb-3">
+          <div class="row mb-3" [class.disabled-contenct]="isEdit">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Name</mat-label>
-              <input matInput placeholder="Enter Name" formControlName="name"
+              <input matInput placeholder="Enter Name" formControlName="name" maxlength="50"
                 (keyup)="validation.removeSpaceAtBegining($event)" (keypress)="validation.alphabetsWithSpaces($event)">
               <mat-error *ngIf="f['name']?.errors">
                 <span *ngIf="f['name']?.hasError('required')"> Name is required</span>
@@ -156,7 +158,7 @@
           <div class="row mb-3">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Select Taluka</mat-label>
-              <mat-select formControlName="talukaId" (selectionChange)="getVillageName()">
+              <mat-select formControlName="talukaId" (selectionChange)="getVillageName(frmCitizen.value.talukaId)">
                 <mat-option *ngFor="let tal of talukaArr" [value]="tal.id">{{tal.taluka}}</mat-option>
               </mat-select>
               <mat-error *ngIf="f['talukaId']?.errors">
