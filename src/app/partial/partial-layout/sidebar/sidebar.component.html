@@ -3,9 +3,9 @@
     <perfect-scrollbar>
       <div class="sidebar-menu">
         <ul>
-          <li class="header-menu">
+          <!-- <li class="header-menu">
             <span>assets</span>
-          </li>
+          </li> -->
           <li *ngFor="let menu of menus; let i = index"  routerLinkActive="active"  [ngClass]="{'active': menu.active, 'sidebar-dropdown':menu.pageURL.length > 1}">
             <a  *ngIf="menu.pageURL.length <= 1"  routerLink="{{menu.pageURL}}" (click)="addActiveClass(menu.pageURL.length)">
               <img [src]="menu.menuIcon">
