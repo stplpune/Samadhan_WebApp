@@ -39,6 +39,8 @@ export class CitizenMasterComponent implements OnInit {
   talukaArr = new Array();
   villageArr = new Array ();
   updatedObj: any;
+  changevillFlag:boolean=false
+
 
 
   constructor(
@@ -58,7 +60,7 @@ export class CitizenMasterComponent implements OnInit {
   ngOnInit(): void {
     this.createCitizenForm();
     this.getTalukaName();
-    this.getVillageName();
+    // this.getVillageName();
     this.getData();
   }
 
@@ -114,7 +116,7 @@ getTalukaName() {
     this.commonService.getAllTaluka().subscribe({
       next: (response: any) => {
         this.talukaArr.push(...response);
-        this.isEdit ? (this.frmCitizen.controls['talukaId'].setValue(this.updatedObj?.talukaId), this.getVillageName()) : '';
+
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
@@ -126,7 +128,7 @@ getVillageName() {
     this.commonService.getAllVillage().subscribe({
       next: (response: any) => {
         this.villageArr.push(...response);
-        this.isEdit ? (this.frmCitizen.controls['villageId'].setValue(this.updatedObj?.villageId)) : '';
+        this.changevillFlag == true ? (this.frmCitizen.controls['villageId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.villageId) == false ? '' : this.updatedObj?.villageId)) :this.frmCitizen.controls['villageId'].setValue('');
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
@@ -224,6 +226,22 @@ pageChanged(event: any){
   this.getData();
   this.onCancelRecord();
   this.selection.clear();
+}
+
+//---------------------------------------------------------------------------Clear---------------------------------------------------------------------------------
+ //#region  clear filter  fn Start here
+ clearFilter(flag: any) {
+  switch (flag) {
+    case 'taluka':
+      this.filterForm.controls['villageId'].setValue(0);
+      this.filterForm.controls['textsearch'].setValue('');
+      break;
+    case 'village':
+      this.filterForm.controls['textsearch'].setValue('');
+      break;
+    default:
+  }
+
 }
 
 //------------------------------------------------------------------------------Delete----------------------------------------------------------------------------------
