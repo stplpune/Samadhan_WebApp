@@ -11,6 +11,7 @@ import { FormsValidationService } from 'src/app/core/service/forms-validation.se
   styleUrls: ['./forgot-password.component.css']
 })
 export class ForgotPasswordComponent implements OnInit {
+  hide = true;
   sendOTPForm!: FormGroup;
   verifyOTPForm!: FormGroup;
   sendOTPContainer: boolean = true;
