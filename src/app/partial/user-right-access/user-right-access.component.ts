@@ -153,5 +153,10 @@ export class UserRightAccessComponent implements OnInit {
       error: ((error: any) => { this.error.handelError(error.status) })
     })
   }
+  resetFilter(){
+    this.assignUserRightsForm();
+    this.getUserType();
+    this.initialLoadFlag = true;
+  }
 
 }
