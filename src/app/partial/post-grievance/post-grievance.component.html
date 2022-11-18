@@ -369,8 +369,8 @@
 
                     <div class="mb-2">
                         <div class="row justify-content-between align-items-center">
-                            <div class="col-sm">
-                                <button mat-stroked-button type="button" class="bg-main" [disabled]="ispatch">
+                            <div class="col-sm" [class.disabled-contenct]="ispatch">
+                                <button mat-stroked-button type="button" class="bg-main">
                                     <label class="px-2"><span>Upload Document</span>
                                         <input type="file" style="display: none" (change)="documentUpload($event)"
                                             #fileInput>

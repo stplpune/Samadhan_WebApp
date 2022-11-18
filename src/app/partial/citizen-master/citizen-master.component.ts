@@ -39,7 +39,8 @@ export class CitizenMasterComponent implements OnInit {
   talukaArr = new Array();
   villageArr = new Array ();
   updatedObj: any;
-  changevillFlag:boolean=false
+  changevillFlag:boolean=false;
+  isdisable=false;
 
 
 
@@ -83,7 +84,8 @@ export class CitizenMasterComponent implements OnInit {
   get f() {
     return this.frmCitizen.controls;
   }
-  //-------------------------------------------------------------------------AfterViewInit------------------------------------------------------------------
+
+//-------------------------------------------------------------------------AfterViewInit------------------------------------------------------------------
   ngAfterViewInit() {
     let formData: any = this.filterForm.controls['textsearch'].valueChanges;
     formData.pipe(filter(() => this.filterForm.valid),
@@ -95,12 +97,11 @@ export class CitizenMasterComponent implements OnInit {
       });
     }
 
-  //---------------------------------------------------------------------------Filter-------------------------------------------------------------------------
+//---------------------------------------------------------------------------Filter-------------------------------------------------------------------------
   filterData(){
     this.pageNo = 1;
     this.getData();
     this.onCancelRecord();
-
   }
 
  filterRecord() {
@@ -113,11 +114,10 @@ getTalukaName() {
     this.commonService.getAllTaluka().subscribe({
       next: (response: any) => {
         this.talukaArr.push(...response);
-
+        this.isEdit == true ? (this.frmCitizen.controls['talukaId'].setValue(this.updatedObj?.talukaId), this.getVillageName(this.updatedObj?.talukaId)) : '';
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
-
 }
 
 //-------------------------------------------------------------------------Village---------------------------------------------------------------------------------------------
@@ -127,11 +127,11 @@ getVillageName(talukaId:number) {
     this.commonService.getVillageByTalukaId(talukaId).subscribe({
       next: (response: any) => {
         this.villageArr.push(...response);
-        this.changevillFlag == true ? (this.frmCitizen.controls['villageId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.villageId) == false ? '' : this.updatedObj?.villageId)) :this.frmCitizen.controls['villageId'].setValue('');
+        this.isEdit == true ? (this.frmCitizen.controls['villageId'].setValue(this.updatedObj?.villageId)) : ''
       },
       error: ((error: any) => { this.error.handelError(error.status) })
-    })
 
+    })
   }
 
 }
@@ -158,7 +158,6 @@ this.apiService.getHttp().subscribe({
 }
 //-----------------------------------------------------------------------Submit----------------------------------------------------------------------------------------------------
 onUpdateCitizen() {
-
 if (this.frmCitizen.invalid) {
   return;
 }
@@ -204,19 +203,16 @@ this.subscription = this.apiService.getHttp().subscribe({
 }
 //----------------------------------------------------------------------------Edit---------------------------------------------------------------------------------
 editRecord(ele: any) {
+this.isdisable = true;
 this.highlightedRow = ele.id;
 this.isEdit = true;
-this.changevillFlag = true;
 this.updatedObj = ele;
 this.frmCitizen.patchValue({
   name: this.updatedObj.name,
   emailId: this.updatedObj.emailId,
   mobileNo: this.updatedObj.mobileNo,
-  talukaId: this.updatedObj.talukaId,
-  villageId: this.updatedObj.villageId,
 });
-// this.getTalukaName();
-
+this.getTalukaName();
 }
 //-------------------------------------------------------------------------CancleRecord-----------------------------------------------------------------------
 onCancelRecord() {
@@ -233,7 +229,6 @@ pageChanged(event: any){
 }
 
 //---------------------------------------------------------------------------Clear---------------------------------------------------------------------------------
- //#region  clear filter  fn Start here
  clearFilter(flag: any) {
   switch (flag) {
     case 'taluka':
@@ -245,7 +240,6 @@ pageChanged(event: any){
       break;
     default:
   }
-
 }
 
 //------------------------------------------------------------------------------Delete----------------------------------------------------------------------------------

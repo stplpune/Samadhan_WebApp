@@ -10,6 +10,7 @@ import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import { ApexNonAxisChartSeries,ApexResponsive,ApexChart,ApexDataLabels,ApexLegend,ApexTitleSubtitle} from "ng-apexcharts";
 import { ChartComponent } from "ng-apexcharts"
 import { NgxSpinnerService } from 'ngx-spinner';
+import { WebStorageService } from 'src/app/core/service/web-storage.service';
 
 export type ChartOptions = {
   series: ApexNonAxisChartSeries;
@@ -43,7 +44,8 @@ export class DashboardComponent implements OnInit {
     private apiService:ApiService,
     private commonMethod:CommonMethodService,
     private error:ErrorHandlerService,
-    private spinner:NgxSpinnerService
+    private spinner:NgxSpinnerService,
+    private localStrorageData:WebStorageService
   ) {}
 
   ngOnInit(): void {
@@ -53,7 +55,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getData() {
-    this.apiService.setHttp('get', "api/DashboardWeb/GetAll", false, false, false, 'samadhanMiningService');
+    this.apiService.setHttp('get', "api/DashboardWeb/GetAll?userid=" +this.localStrorageData.getUserId() , false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {
@@ -71,7 +73,7 @@ export class DashboardComponent implements OnInit {
 
   bindTable() {
     this.spinner.show()
-    this.apiService.setHttp('get', "api/DashboardWeb/StatusWiseGrievanceReceived", false, false, false, 'samadhanMiningService');
+    this.apiService.setHttp('get', "api/DashboardWeb/StatusWiseGrievanceReceived?userid=" +this.localStrorageData.getUserId(), false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {
@@ -91,7 +93,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getChartData(){
-    this.apiService.setHttp('get', "api/DashboardWeb/TotalGrievancesReceived", false, false, false, 'samadhanMiningService');
+    this.apiService.setHttp('get', "api/DashboardWeb/TotalGrievancesReceived?userid=" +this.localStrorageData.getUserId(), false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {

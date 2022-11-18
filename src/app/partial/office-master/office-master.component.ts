@@ -25,7 +25,8 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('formDirective') formDirective!: NgForm;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild('search') searchElementRef: any;
-  displayedColumns: string[] = ['srNo','departmentName','officeName','weight','delete','select',];
+  // displayedColumns: string[] = ['srNo','departmentName','officeName','weight','delete','select',];
+  displayedColumns: string[] = ['srNo','departmentName','officeName','action'];
   dataSource: any;
   frmOffice!: FormGroup;
   filterForm!:FormGroup;
@@ -75,7 +76,7 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
     this.frmOffice = this.fb.group({
       deptId: ['', [Validators.required]],
       name: ['',[Validators.required, Validators.pattern(this.validation.valName)]],
-      address: ['',[Validators.required]],
+      address: ['',[Validators.required, Validators.pattern('^[^[ ]+|[ ][gm]+$')]],
       // latitude: ['', [Validators.required]],
       // longitude: ['', [Validators.required]],
       emailId: ['',[Validators.required, Validators.pattern(this.validation.valEmailId)],],

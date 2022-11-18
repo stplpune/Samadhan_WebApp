@@ -35,7 +35,7 @@
         <div class="col-sm-4">
             <mat-form-field appearance="outline" class="w-100">
                 <mat-label>First Name</mat-label>
-                <input matInput placeholder="First Name" formControlName="name"
+                <input matInput placeholder="First Name" formControlName="name" maxlength="20"
                 (keypress)="validation.noFirstSpaceAllow($event);validation.alphabetsWithSpaces($event)">
                 <mat-error *ngIf="f['name']?.errors">
                     <span *ngIf="f['name']?.hasError('required')"> Name is required</span>
@@ -77,7 +77,7 @@
         </div>
         <div class="col-sm-12">
             <div class="mb-0 text-end">
-                <button mat-stroked-button class="bg-main-light text-main me-2"  (click)=" ClearAll()">Cancel</button>
+                <button mat-stroked-button class="bg-main-light text-main me-2"  (click)=" ClearAll()">Close</button>
                 <button mat-stroked-button class="bg-main" type="submit">Update Profile</button>
             </div>
         </div>
