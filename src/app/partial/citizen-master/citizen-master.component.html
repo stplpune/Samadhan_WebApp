@@ -6,7 +6,7 @@
         <div class="col-sm-4">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label >Taluka</mat-label>
-            <mat-select formControlName="talukaId" (selectionChange)="clearFilter('taluka');filterData();getVillageName(filterForm.value.talukaId)">
+            <mat-select formControlName="talukaId" (selectionChange)="clearFilter('taluka');filterData();getVillageName(filterForm.value.talukaId, false)">
               <mat-option value="0">All Taluka</mat-option>
               <mat-option *ngFor="let tal of talukaArr" [value]="tal.id">{{tal.taluka}}</mat-option>
             </mat-select>
@@ -27,7 +27,7 @@
         <div class="col-sm-4">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Name / Mobile Number</mat-label>
-            <input matInput placeholder="Name / Mobile Number" formControlName="textsearch" (keypress)="validation.noFirstSpaceAllow($event)">
+            <input matInput placeholder="Name / Mobile Number" formControlName="textsearch" (keypress)="validation.noFirstSpaceAllow($event)" >
           </mat-form-field>
         </div>
       </div>
@@ -158,7 +158,7 @@
           <div class="row mb-3">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Select Taluka</mat-label>
-              <mat-select formControlName="talukaId" (selectionChange)="frmCitizen.controls['villageId'].setValue('');getVillageName(frmCitizen.value.talukaId);">
+              <mat-select formControlName="talukaId" (selectionChange)="getVillageName(frmCitizen.value.talukaId, false);frmCitizen.controls['villageId'].setValue('')">
                 <mat-option *ngFor="let tal of talukaArr" [value]="tal.id">{{tal.taluka}}</mat-option>
               </mat-select>
               <mat-error *ngIf="f['talukaId']?.errors">
