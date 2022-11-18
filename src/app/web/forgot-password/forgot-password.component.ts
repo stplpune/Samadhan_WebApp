@@ -140,7 +140,6 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   ChangePassword() {
-    debugger;
     let formData = this.sendOTPForm.value;
     let changeform = this.changePassword.value;
     if (this.changePassword.invalid) {
