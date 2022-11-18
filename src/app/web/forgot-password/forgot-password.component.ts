@@ -61,11 +61,8 @@ export class ForgotPasswordComponent implements OnInit {
         "otpExpireDate": new Date(),
         "isUser": true
       }
-
-      // console.log(this.sendOTPForm.value);
       this.apiService.setHttp('post', 'samadhan/otptran', false, obj, false, 'samadhanMiningService');
       this.apiService.getHttp().subscribe((res: any) => {
-        // console.log(res);
         if (res.statusCode == "200") {
           this.common.matSnackBar(res.statusMessage, 1)
           this.sendOTPContainer = false;
@@ -100,11 +97,9 @@ export class ForgotPasswordComponent implements OnInit {
         "otpExpireDate": new Date(),
         "isUser": true
       }
-      // console.log(this.verifyOTPForm.value);
+
       this.apiService.setHttp('post', 'samadhan/otptran/VerifyOTP', false, obj, false, 'samadhanMiningService');
       this.apiService.getHttp().subscribe((res: any) => {
-        // console.log(res);
-
         if (res.statusCode == "200") {
           this.common.matSnackBar(res.statusMessage, 1)
           this.verifyOTPForm.reset();
@@ -122,6 +117,7 @@ export class ForgotPasswordComponent implements OnInit {
 
 
   startTimer() {
+    this.timeLeft = 30;
     this.interval = setInterval(() => {
       if (this.timeLeft > 0) {
         this.timeLeft--;
@@ -132,7 +128,4 @@ export class ForgotPasswordComponent implements OnInit {
       }
     }, 1000)
   }
-
-
-
 }

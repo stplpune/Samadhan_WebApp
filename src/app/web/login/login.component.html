@@ -73,7 +73,7 @@
                                         <input matInput placeholder="Enter Captcha" formControlName="captcha"
                                             maxlength="4" autocomplete="off" (keypress)="validation.noSpaces($event) && validation.acceptedOnlyNumbers($event)">
                                         <mat-error *ngIf="f['captcha'].hasError('required')">
-                                            Captcha is required
+                                            Captcha Is Required
                                         </mat-error>
                                         <mat-error *ngIf="f['captcha'].hasError('pattern')">
                                             Please Enter Valid Captcha
