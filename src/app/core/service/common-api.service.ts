@@ -23,6 +23,7 @@ export class CommonApiService {
   talukaByDistrict=new Array();
   natureGrievance=new Array();
   natureGrievanceByDept=new Array();
+  userByUserId=new Array();
   otp:any;
   verify:any;
   constructor(
@@ -162,6 +163,16 @@ export class CommonApiService {
       this.apiService.setHttp('get', "samadhan/commondropdown/GetAllUserType", false, false, false, 'samadhanMiningService');
       this.apiService.getHttp().subscribe({
         next: (res: any) => { if (res.statusCode == 200) { this.usersArray = res.responseData; obj.next(this.usersArray); } else { obj.error(res); } },
+        error: (e: any) => { obj.error(e) }
+      })
+    })
+  }
+
+  getAllUserByUserId(userId:number) {
+    return new Observable((obj) => {
+      this.apiService.setHttp('get', "samadhan/commondropdown/GetAllUserTypeByUserId?UserId=" +userId , false, false, false, 'samadhanMiningService');
+      this.apiService.getHttp().subscribe({
+        next: (res: any) => { if (res.statusCode == 200) { this.userByUserId = res.responseData; obj.next(this.userByUserId); } else { obj.error(res); } },
         error: (e: any) => { obj.error(e) }
       })
     })

@@ -66,7 +66,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.defaultForm();
     this.filterForm();
     this.getData();
-    this.getUsers();
+    this.getUsers(this.localStrorageData.getUserId());
     // this.getDepartment();
     this.getDepartmentByUser(this.localStrorageData.getUserId());
   }
@@ -137,9 +137,9 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   }
   //#endregion clear filter  fn end here
 
-  getUsers() {
+  getUsers(userId:number) {
     this.usersArray = [];
-    this.commonService.getAllUser().subscribe({
+    this.commonService.getAllUserByUserId(userId).subscribe({
       next: (response: any) => {
         this.usersArray.push(...response); 
         this.changeDepFlag == true ? (this.userFrm.controls['userTypeId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.userTypeId) == false ? '' : this.updatedObj?.userTypeId),
@@ -393,7 +393,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     });
     // this.getDepartment();
     this.getDepartmentByUser(this.localStrorageData.getUserId());
-    this.getUsers();
+    this.getUsers(this.localStrorageData.getUserId());
     this.setValidators(this.updatedObj?.userTypeId);
   }
 
