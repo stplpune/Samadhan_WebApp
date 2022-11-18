@@ -250,7 +250,7 @@ export class PostGrievanceComponent implements OnInit {
   bindTable() {
     this.spinner.show()
     let formValue = this.filterFrm.value;
-    let paramList: string = "?pageno=" + this.pageNumber + "&pagesize=" + 10 + "&TalukaId=" + formValue.talukaId + "&VillageId=" +0 + "&DeptId=" + formValue.deptId + "&OfficeId=" + 0 + "&StatusId=" + formValue.statusId;
+    let paramList: string = "?pageno=" + this.pageNumber + "&pagesize=" + 10 + "&TalukaId=" + formValue.talukaId + "&VillageId=" +0 + "&DeptId=" + formValue.deptId + "&OfficeId=" + 0 + "&StatusId=" + formValue.statusId +"&user="+ this.localStrorageData.getUserId();
     this.commonMethod.checkDataType(formValue.textSearch.trim()) == true ? paramList += "&Textsearch=" + formValue.textSearch : '';
     this.apiService.setHttp('get', "samadhan/Grievance/GetAllGrievance" + paramList, false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
@@ -259,7 +259,7 @@ export class PostGrievanceComponent implements OnInit {
           this.postGrivanceData = res.responseData.responseData1;
           this.dataSource = new MatTableDataSource(this.postGrivanceData);
           this.dataSource.sort = this.sort;
-          this.totalRows = res.responseData.responseData2[0].pageCount;
+          this.totalRows = res.responseData.responseData2.pageCount;
           this.pageNumber == 1 ? this.paginator?.firstPage() : '';
           this.spinner.hide();
         } else {
