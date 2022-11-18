@@ -5,17 +5,21 @@ import { ApiService } from 'src/app/core/service/api.service';
 import { CommonMethodService } from 'src/app/core/service/common-method.service';
 import { ErrorHandlerService } from 'src/app/core/service/error-handler.service';
 import { FormsValidationService } from 'src/app/core/service/forms-validation.service';
+
 @Component({
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.css']
 })
 export class ForgotPasswordComponent implements OnInit {
-  hide = true;
+  hideNewPass: boolean = true;
+  hideConfirmPass: boolean = true;
   sendOTPForm!: FormGroup;
   verifyOTPForm!: FormGroup;
+  changePassword!: FormGroup;
   sendOTPContainer: boolean = true;
   verifyOTPContainer: boolean = false;
+  changePassContainer: boolean = false;
   public timerFlag: boolean = true;
   timeLeft: number = 30;
   interval: any;
@@ -24,7 +28,8 @@ export class ForgotPasswordComponent implements OnInit {
     private common: CommonMethodService,
     private error: ErrorHandlerService,
     private router: Router,
-    public validation: FormsValidationService) { }
+    public validation: FormsValidationService,
+  ) { }
 
   ngOnInit(): void {
     this.sendOTPForm = this.fb.group({
@@ -38,11 +43,17 @@ export class ForgotPasswordComponent implements OnInit {
       otpD: ['', Validators.required],
       otpE: ['', Validators.required],
     })
+    this.changePassword = this.fb.group({
+      NewPassword: ['', [Validators.required, Validators.pattern(this.validation.valPassword)]],
+      ConfirmPassword: ['', [Validators.required, Validators.pattern(this.validation.valPassword)]]
+    })
   }
 
   get f() { return this.sendOTPForm.controls; }
 
   get g() { return this.verifyOTPForm.controls; }
+
+  get h() { return this.changePassword.controls; }
 
   sendOTP() {
     let formData = this.sendOTPForm.value;
@@ -65,7 +76,7 @@ export class ForgotPasswordComponent implements OnInit {
       this.apiService.setHttp('post', 'samadhan/otptran', false, obj, false, 'samadhanMiningService');
       this.apiService.getHttp().subscribe((res: any) => {
         if (res.statusCode == "200") {
-          this.common.matSnackBar(res.statusMessage, 1)
+          this.common.matSnackBar(res.statusMessage, 0)
           this.sendOTPContainer = false;
           this.verifyOTPContainer = true;
           this.startTimer();
@@ -102,10 +113,10 @@ export class ForgotPasswordComponent implements OnInit {
       this.apiService.setHttp('post', 'samadhan/otptran/VerifyOTP', false, obj, false, 'samadhanMiningService');
       this.apiService.getHttp().subscribe((res: any) => {
         if (res.statusCode == "200") {
-          this.common.matSnackBar(res.statusMessage, 1)
-          this.verifyOTPForm.reset();
+          this.common.matSnackBar(res.statusMessage, 0)
+          // this.verifyOTPForm.reset();
+          this.changePassContainer = true;
           this.verifyOTPContainer = false;
-          this.router.navigate(['/login']);
         }
         else {
           this.common.matSnackBar(res.statusMessage, 1)
@@ -115,8 +126,6 @@ export class ForgotPasswordComponent implements OnInit {
       })
     }
   }
-
-
   startTimer() {
     this.timeLeft = 30;
     this.interval = setInterval(() => {
@@ -129,4 +138,47 @@ export class ForgotPasswordComponent implements OnInit {
       }
     }, 1000)
   }
+
+  ChangePassword() {
+    debugger;
+    let formData = this.sendOTPForm.value;
+    let changeform = this.changePassword.value;
+    if (this.changePassword.invalid) {
+      return;
+    } else if (changeform.NewPassword != changeform.ConfirmPassword) {
+      this.changePassword.controls['ConfirmPassword'].setErrors({ 'notMatched': true })
+      return;
+    }
+
+    let obj = {
+      "UserName": formData.MobileNo,
+      "Password": "",
+      "NewPassword": changeform.NewPassword,
+      "MobileNo": formData.MobileNo
+    }
+
+    this.apiService.setHttp('put', 'samadhan/user-registration/ForgotPassword?UserName=' + obj.UserName + '&Password=' + obj.Password + '&NewPassword=' + obj.NewPassword + '&MobileNo=' + obj.MobileNo, false, false, false, 'samadhanMiningService');
+    this.apiService.getHttp().subscribe((res: any) => {
+      if (res.statusCode == "200") {
+        this.common.matSnackBar(res.statusMessage, 0)
+        this.changePassContainer = false;
+        this.router.navigate(['/login']);
+      }
+      else {
+        this.common.matSnackBar(res.statusMessage, 1)
+      }
+    }, (error: any) => {
+      this.error.handelError(error.status);
+    })
+  }
+
+
+  validationaddremove() {
+    let formData = this.changePassword.value;
+    if (formData.NewPassword == formData.ConfirmPassword) {
+      this.changePassword.controls['ConfirmPassword'].updateValueAndValidity();
+    }
+  }
 }
+
+
