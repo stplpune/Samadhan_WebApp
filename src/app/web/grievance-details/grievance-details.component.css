@@ -1,0 +1,42 @@
+
+.griev-details-title{
+    background-color: #B83058;
+}
+.griev-id,.griev-data{
+    /* font-size: 16px; */
+    font-size: 1rem;
+    color: #fff;
+}
+.griev-id{
+    font-weight: 200;
+}
+
+@media only screen and (max-width: 478px){
+    .griev-id, .griev-data {
+        font-size: 15px !important;
+        color: #fff !important;
+    }
+}
+.bbottom{
+    margin-bottom:15px;
+    padding-bottom:15px;
+    border-bottom: dashed 1px #aaa;
+}
+.pdf-icon{
+    background-color: rgb(255, 233, 233);
+    border-radius: 5px;
+    width: 38px;
+    padding: 5px;
+}
+.pdf-icon img{
+    width:28px;
+}
+.hlink{
+    font-size:0.6rem;
+    color: red;
+}
+.note{
+    font-size: 0.85rem;
+    color: #FF6A6A;
+    margin-bottom:0;
+}
