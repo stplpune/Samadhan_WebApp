@@ -147,6 +147,7 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
           // this.spinner.hide();
           this.getData();
           this.onCancelRecord();
+          this.selection.clear();
           this.commonMethod.checkDataType(res.statusMessage) == false
             ? this.error.handelError(res.statusCode)
             : this.commonMethod.matSnackBar(res.statusMessage, 0);

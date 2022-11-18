@@ -166,8 +166,8 @@
                                     </span>
                                 </button>
                                 <mat-checkbox (change)="$event ? masterToggle() : null"
-                                [checked]="selection.hasValue() && isAllSelected()"
-                                [indeterminate]="selection.hasValue() && !isAllSelected()">
+                                [checked]="selection.hasValue() && isAllSelected()">
+                                <!-- [indeterminate]="selection.hasValue() && !isAllSelected()"> -->
                             </mat-checkbox>
                             </th>
                             <td mat-cell *matCellDef="let element">
@@ -251,7 +251,7 @@
                             <mat-label>Address</mat-label>
                             <textarea matInput placeholder="Type here" rows="4"
                                 (keypress)="validation.noFirstSpaceAllow($event)" formControlName="otherCitizenAddress"
-                                maxlength="50"></textarea>
+                                maxlength="500"></textarea>
                             <mat-error *ngIf="f['otherCitizenAddress']?.errors">
                                 <span *ngIf="f['otherCitizenAddress']?.hasError('required')"> Address is required</span>
                                 <span *ngIf="f['otherCitizenAddress']?.hasError('pattern')"> Enter Valid Address</span>

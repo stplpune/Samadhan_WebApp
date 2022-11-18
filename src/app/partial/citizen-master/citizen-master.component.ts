@@ -24,7 +24,8 @@ import { CommonApiService } from 'src/app/core/service/common-api.service';
 export class CitizenMasterComponent implements OnInit {
   @ViewChild('formDirective') formDirective!: NgForm;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  displayedColumns: string[] = [ 'srno', 'name', 'mobileNo','emailId', 'taluka','village','action','delete','select'];
+  // displayedColumns: string[] = [ 'srno', 'name', 'mobileNo','emailId', 'taluka','village','action','delete','select'];
+  displayedColumns: string[] = [ 'srno', 'name', 'mobileNo','emailId', 'taluka','village','action'];
   dataSource: any;
   frmCitizen!:FormGroup;
   filterForm!:FormGroup;
@@ -189,6 +190,7 @@ this.subscription = this.apiService.getHttp().subscribe({
       this.highlightedRow = 0;
       this.getData();
       this.onCancelRecord();
+      this.selection.clear();
       this.commonMethod.checkDataType(res.statusMessage) == false? this.error.handelError(res.statusCode): this.commonMethod.matSnackBar(res.statusMessage, 0);
     } else {
       this.commonMethod.checkDataType(res.statusMessage) == false? this.error.handelError(res.statusCode): this.commonMethod.matSnackBar(res.statusMessage, 1);

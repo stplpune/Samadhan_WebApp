@@ -117,8 +117,8 @@
                             </span>
                             </button>
                             <mat-checkbox (change)="$event ? masterToggle() : null"
-                            [checked]="selection.hasValue() && isAllSelected()"
-                            [indeterminate]="selection.hasValue() && !isAllSelected()">
+                            [checked]="selection.hasValue() && isAllSelected()">
+                            <!-- [indeterminate]="selection.hasValue() && !isAllSelected()"> -->
                         </mat-checkbox>
                     </th>
                     <td mat-cell *matCellDef="let element">
