@@ -1,4 +1,4 @@
-import {AfterViewInit,Component,OnDestroy,OnInit,ViewChild,}from '@angular/core';
+import {AfterViewInit,Component,OnDestroy,OnInit,ViewChild,NgZone,}from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
@@ -14,7 +14,8 @@ import { debounceTime, distinctUntilChanged, filter, Subscription } from 'rxjs';
 import { WebStorageService } from 'src/app/core/service/web-storage.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { CommonApiService } from 'src/app/core/service/common-api.service';
-
+import { MapsAPILoader } from '@agm/core';
+declare var google: any;
 @Component({
   selector: 'app-office-master',
   templateUrl: './office-master.component.html',
@@ -23,7 +24,9 @@ import { CommonApiService } from 'src/app/core/service/common-api.service';
 export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('formDirective') formDirective!: NgForm;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  displayedColumns: string[] = ['srNo','departmentName','officeName','weight','delete','select',];
+  @ViewChild('search') searchElementRef: any;
+  // displayedColumns: string[] = ['srNo','departmentName','officeName','weight','delete','select',];
+  displayedColumns: string[] = ['srNo','departmentName','officeName','action'];
   dataSource: any;
   frmOffice!: FormGroup;
   filterForm!:FormGroup;
@@ -37,6 +40,10 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
   subscription!: Subscription;
   updatedObj: any;
   highlightedRow!: number;
+  latitude: any;
+  longitude: any;
+  pinCode: any;
+  geocoder: any;
 
   constructor(
     private fb: FormBuilder,
@@ -49,7 +56,9 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
     private webStorage:WebStorageService,
     public commonService: CommonApiService,
     public dialog: MatDialog,
-    public commonMethod: CommonMethodService
+    public commonMethod: CommonMethodService,
+    private mapsAPILoader: MapsAPILoader,
+    private ngZone: NgZone,
   ) {}
 
 
@@ -58,6 +67,7 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
     this.filterform();
     this.getDepartmentName();
     this.getData();
+    this.mapApiLoader();
   }
 
 
@@ -65,10 +75,10 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
   createOfficeForm() {
     this.frmOffice = this.fb.group({
       deptId: ['', [Validators.required]],
-      name: ['',[Validators.required, Validators.pattern(this.validation.valName)],],
-      address: ['',[Validators.required,Validators.pattern(this.validation.alphaNumericWithSpaceAndSpecialChar),],],
-      latitude: ['', [Validators.required]],
-      longitude: ['', [Validators.required]],
+      name: ['',[Validators.required, Validators.pattern(this.validation.valName)]],
+      address: ['',[Validators.required, Validators.pattern('^[^[ ]+|[ ][gm]+$')]],
+      // latitude: ['', [Validators.required]],
+      // longitude: ['', [Validators.required]],
       emailId: ['',[Validators.required, Validators.pattern(this.validation.valEmailId)],],
       contactPersonName: ['',[Validators.required, Validators.pattern(this.validation.valName)],],
       mobileNo: ['',[Validators.required,Validators.pattern(this.validation.valMobileNo),Validators.minLength(10),Validators.maxLength(10),],],
@@ -89,7 +99,7 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
     ngAfterViewInit() {
     let formData: any = this.filterForm.controls['name'].valueChanges;
     formData.pipe(filter(() => this.filterForm.valid),
-      debounceTime(1000),
+      debounceTime(0),
       distinctUntilChanged()).subscribe(() => {
         this.pageNo = 1;
         this.getData();
@@ -109,24 +119,6 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
     })
 
   }
-  //------------------------------------------------------------Office---------------------------------------------------------------------------------------------
-    // getOfficeName() {
-    //   this.apiService.setHttp(
-    //     'get',
-    //     'samadhan/commondropdown/GetAllOffice',
-    //     false,
-    //     false,
-    //     false,
-    //     'samadhanMiningService'
-    //   );
-    //   this.apiService.getHttp().subscribe({
-    //     next: (res: any) => {
-    //       if (res.statusCode == '200' && res.responseData) {
-    //         this.officeArray = res.responseData;
-    //       }
-    //     },
-    //   });
-    // }
 
   //-------------------------------------------------------------Dispaly Table-----------------------------------------------------------------------------
   getData() {
@@ -266,8 +258,10 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
     dialog.afterClosed().subscribe((res) => {
       if (res == 'Yes') {
         this.deleteUser();
+        this.onCancelRecord();
       } else {
         this.selection.clear();
+        this.onCancelRecord();
       }
     });
   }
@@ -318,6 +312,38 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription?.unsubscribe();
+  }
+
+  mapApiLoader() {
+
+    this.mapsAPILoader.load().then(() => {
+      this.geocoder = new google.maps.Geocoder();
+      let autocomplete = new google.maps.places.Autocomplete(
+        this.searchElementRef.nativeElement
+      );
+      autocomplete.addListener('place_changed', () => {
+        this.ngZone.run(() => {
+          let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+          if (place.geometry === undefined || place.geometry === null) {
+            return;
+          }
+          this.latitude = place.geometry.location.lat();
+          this.longitude = place.geometry.location.lng();
+          this.findAddressByCoordinates();
+        });
+      });
+    });
+  }
+
+  findAddressByCoordinates() {
+    this.geocoder.geocode(
+      { location: { lat: this.latitude, lng: this.longitude, } },
+      (results: any) => {
+        results[0].address_components.forEach((element: any) => {
+          this.pinCode = element.long_name;
+        });
+      });
+      this.frmOffice.controls['address'].setValue(this.searchElementRef.nativeElement?.value);
   }
 }
 

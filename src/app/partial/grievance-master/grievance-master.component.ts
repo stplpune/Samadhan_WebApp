@@ -24,7 +24,8 @@ import { CommonApiService } from 'src/app/core/service/common-api.service';
 })
 export class GrievanceMasterComponent implements OnInit ,AfterViewInit, OnDestroy {
   @ViewChild('formDirective') formDirective!: NgForm;
-  displayedColumns: string[] = [ 'srNo', 'departmentName', 'grievanceType', 'action','delete','select'];
+  //  displayedColumns: string[] = [ 'srNo', 'departmentName', 'grievanceType', 'action','delete','select'];
+  displayedColumns: string[] = [ 'srNo', 'departmentName', 'grievanceType', 'action'];
   dataSource :any;
   frmGrievance! : FormGroup;
   filterForm!:FormGroup;

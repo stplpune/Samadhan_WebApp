@@ -39,6 +39,9 @@ export class CitizenMasterComponent implements OnInit {
   talukaArr = new Array();
   villageArr = new Array ();
   updatedObj: any;
+  changevillFlag:boolean=false;
+  isdisable=false;
+
 
 
   constructor(
@@ -58,7 +61,6 @@ export class CitizenMasterComponent implements OnInit {
   ngOnInit(): void {
     this.createCitizenForm();
     this.getTalukaName();
-    this.getVillageName();
     this.getData();
   }
 
@@ -73,17 +75,17 @@ export class CitizenMasterComponent implements OnInit {
     });
 
     this.filterForm = this.fb.group({
-      textsearch:[''],
       talukaId  : [0],
       villageId : [0],
-
+      textsearch:[''],
     })
   }
 
   get f() {
     return this.frmCitizen.controls;
   }
-  //-------------------------------------------------------------------------AfterViewInit------------------------------------------------------------------
+
+//-------------------------------------------------------------------------AfterViewInit------------------------------------------------------------------
   ngAfterViewInit() {
     let formData: any = this.filterForm.controls['textsearch'].valueChanges;
     formData.pipe(filter(() => this.filterForm.valid),
@@ -95,41 +97,42 @@ export class CitizenMasterComponent implements OnInit {
       });
     }
 
-  //---------------------------------------------------------------------------Filter-------------------------------------------------------------------------
+//---------------------------------------------------------------------------Filter-------------------------------------------------------------------------
   filterData(){
     this.pageNo = 1;
     this.getData();
     this.onCancelRecord();
-
   }
 
  filterRecord() {
   this.getData();
 }
   selection = new SelectionModel<any>(true, []);
-//--------------------------------------------------------Taluka-------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------Taluka-------------------------------------------------------------------------------------------
 getTalukaName() {
-
     this.talukaArr = [];
     this.commonService.getAllTaluka().subscribe({
       next: (response: any) => {
         this.talukaArr.push(...response);
-        this.isEdit ? (this.frmCitizen.controls['talukaId'].setValue(this.updatedObj?.talukaId), this.getVillageName()) : '';
+        this.isEdit == true ? (this.frmCitizen.controls['talukaId'].setValue(this.updatedObj?.talukaId), this.getVillageName(this.updatedObj?.talukaId)) : '';
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
-
 }
-//------------------------------------------------------------Viilage---------------------------------------------------------------------------------------------
-getVillageName() {
+
+//-------------------------------------------------------------------------Village---------------------------------------------------------------------------------------------
+getVillageName(talukaId:number) {
   this.villageArr = [];
-    this.commonService.getAllVillage().subscribe({
+  if(talukaId !=0){
+    this.commonService.getVillageByTalukaId(talukaId).subscribe({
       next: (response: any) => {
         this.villageArr.push(...response);
-        this.isEdit ? (this.frmCitizen.controls['villageId'].setValue(this.updatedObj?.villageId)) : '';
+        this.isEdit == true ? (this.frmCitizen.controls['villageId'].setValue(this.updatedObj?.villageId)) : ''
       },
       error: ((error: any) => { this.error.handelError(error.status) })
+
     })
+  }
 
 }
 
@@ -155,7 +158,6 @@ this.apiService.getHttp().subscribe({
 }
 //-----------------------------------------------------------------------Submit----------------------------------------------------------------------------------------------------
 onUpdateCitizen() {
-
 if (this.frmCitizen.invalid) {
   return;
 }
@@ -201,6 +203,7 @@ this.subscription = this.apiService.getHttp().subscribe({
 }
 //----------------------------------------------------------------------------Edit---------------------------------------------------------------------------------
 editRecord(ele: any) {
+this.isdisable = true;
 this.highlightedRow = ele.id;
 this.isEdit = true;
 this.updatedObj = ele;
@@ -208,9 +211,8 @@ this.frmCitizen.patchValue({
   name: this.updatedObj.name,
   emailId: this.updatedObj.emailId,
   mobileNo: this.updatedObj.mobileNo,
-  talukaId: this.updatedObj.talukaId,
-  villageId: this.updatedObj.villageId,
 });
+this.getTalukaName();
 }
 //-------------------------------------------------------------------------CancleRecord-----------------------------------------------------------------------
 onCancelRecord() {
@@ -224,6 +226,20 @@ pageChanged(event: any){
   this.getData();
   this.onCancelRecord();
   this.selection.clear();
+}
+
+//---------------------------------------------------------------------------Clear---------------------------------------------------------------------------------
+ clearFilter(flag: any) {
+  switch (flag) {
+    case 'taluka':
+      this.filterForm.controls['villageId'].setValue(0);
+      this.filterForm.controls['textsearch'].setValue('');
+      break;
+    case 'village':
+      this.filterForm.controls['textsearch'].setValue('');
+      break;
+    default:
+  }
 }
 
 //------------------------------------------------------------------------------Delete----------------------------------------------------------------------------------

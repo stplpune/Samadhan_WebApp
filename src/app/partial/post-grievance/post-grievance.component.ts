@@ -24,7 +24,8 @@ import { ConfirmationComponent } from '../dialogs/confirmation/confirmation.comp
 })
 export class PostGrievanceComponent implements OnInit {
 
-  displayedColumns: string[] = ['srno','grievanceNo', 'name', 'taluka',  'department',  'status', 'action', 'button', 'select'];
+  // displayedColumns: string[] = ['srno','grievanceNo', 'name', 'taluka',  'department',  'status', 'action', 'button', 'select'];
+  displayedColumns: string[] = ['srno','grievanceNo', 'name', 'taluka',  'department',  'status', 'action'];
   registerBy = [{ value: 1, type: 'Self' }, { value: 0, type: 'Others' }];
   selection = new SelectionModel<Element>(true, []);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -235,9 +236,13 @@ export class PostGrievanceComponent implements OnInit {
       case 'taluka':
          this.filterFrm.controls['deptId'].setValue(0);
          this.filterFrm.controls['statusId'].setValue(0);
+         this.filterFrm.controls['textSearch'].setValue('');
        break;
 
-      case 'department': this.filterFrm.controls['statusId'].setValue(0); break;
+      case 'department': 
+      this.filterFrm.controls['statusId'].setValue(0); 
+      this.filterFrm.controls['textSearch'].setValue('');
+      break;
       default:
     }
   }

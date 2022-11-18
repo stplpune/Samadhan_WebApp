@@ -181,6 +181,9 @@ export class ProfileComponent implements OnInit {
     let documentUrl: any = this.uploadFilesService.uploadDocuments(this.file, "profile", "png,jpg,jpeg", 5, 5000);
     documentUrl.subscribe((ele: any) => {
       if (ele.statusCode == '200') {
+        if (ele == 'error') {
+          this.fileInput.nativeElement.value = '';
+        }
         this.profileImg = ele.responseData;
         this.updateProfile();
       } else {

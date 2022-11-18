@@ -33,6 +33,12 @@ export class WebHeaderComponent implements OnInit {
     this.translate.use(lang);
   }
 
+  skipToMainContent(){
+    let element: any = document.getElementById('about-us')
+    element.setAttribute('tabindex','-1');
+    element.focus()
+  }
+
   onChangeFontSize(value:any){
     if(value == 'sm'){
       this.document.body.style.fontSize = '0.8rem';

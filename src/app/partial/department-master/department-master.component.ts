@@ -22,7 +22,8 @@ import { WebStorageService } from 'src/app/core/service/web-storage.service';
 export class DepartmentMasterComponent implements OnInit, OnDestroy {
   @ViewChild('formDirective') formDirective!: NgForm;
   @ViewChild('paginator') paginator!: MatPaginator;
-  displayedColumns: string[] = ['srNo','departmentName','weight','delete','select',];
+  // displayedColumns: string[] = ['srNo','departmentName','weight','delete','select',];
+  displayedColumns: string[] = ['srNo','departmentName','action'];
   dataSource: any;
   frmDepartment!: FormGroup;
   totalRows: any;

@@ -4,14 +4,10 @@ import { MatTableDataSource, _MatTableDataSource } from '@angular/material/table
 import { ApiService } from 'src/app/core/service/api.service';
 import { CommonMethodService } from 'src/app/core/service/common-method.service';
 import { ErrorHandlerService } from 'src/app/core/service/error-handler.service';
-import {
-  ApexNonAxisChartSeries,
-  ApexResponsive,
-  ApexChart,
-  ApexDataLabels,
-  ApexLegend,
-  ApexTitleSubtitle
-} from "ng-apexcharts";
+import * as am4core from "@amcharts/amcharts4/core";
+import * as am4charts from "@amcharts/amcharts4/charts";
+import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import { ApexNonAxisChartSeries,ApexResponsive,ApexChart,ApexDataLabels,ApexLegend,ApexTitleSubtitle} from "ng-apexcharts";
 import { ChartComponent } from "ng-apexcharts"
 import { NgxSpinnerService } from 'ngx-spinner';
 
@@ -53,7 +49,6 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.getData();
     this.bindTable();
-    this.getChart();
     this.getChartData();
   }
 
@@ -103,7 +98,7 @@ export class DashboardComponent implements OnInit {
           this.totalGrievance=res.responseData; 
           this.departmants= this.totalGrievance.map((ele:any)=> ele['name']);  
           this.percentages=this.totalGrievance.map((ele:any)=> ele.percentage); 
-          this.getChart(); 
+          this.lolipopChart(this.totalGrievance); 
         } else {
           if (res.statusCode != "404") {
             this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
@@ -114,50 +109,51 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  getChart(){
-    this.chartOptions = {
-      series: this.percentages,  
-      plotOptions: {
-        pie: {
-            donut: {
-                labels: {
-                    show: true,                       
-                    total: {
-                        show: true,
-                        showAlways: true,
-                        label: 'Total Grievance',                           
-                        formatter: function (series:any) {
-                          return series.globals.seriesTotals.reduce((a:any, b:any) => {
-                            return a + b
-                          }, 0)
-                        }
-                    }
-                }                   
-            }
-        }
-    },             
-      chart: {
-        width: 380,
-        type: "donut",
-      },
-      labels: this.departmants,
-      responsive: [
-        {
-          breakpoint: 480,
-          options: {
-            chart: {
-              width: 200
-            },
-            legend: {
-               position: "bottom",
-            }
-          }
-        }
-      ]
-    };
+  lolipopChart(redData:any) {
+    am4core.useTheme(am4themes_animated);
+    am4core.addLicense("ch-custom-attribution");
+    let chart = am4core.create("chartdiv", am4charts.XYChart);
+    let data:any[] = [];
+    redData.map((ele:any)=>{
+      data.push({ category: ele?.name, value: ele.percentage });
+    })
+    
+    chart.data = data;
+    let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+    categoryAxis.renderer.grid.template.location = 0;
+    categoryAxis.dataFields.category = "category";
+    categoryAxis.renderer.minGridDistance = 15;
+    categoryAxis.renderer.grid.template.location = 0.5;
+    categoryAxis.renderer.grid.template.strokeDasharray = "1,3";
+    categoryAxis.renderer.labels.template.rotation = -90;
+    categoryAxis.renderer.labels.template.horizontalCenter = "left";
+    categoryAxis.renderer.labels.template.location = 0;
+
+    let valueAxis: any = chart.yAxes.push(new am4charts.ValueAxis());
+    valueAxis.tooltip.disabled = true;
+    valueAxis.renderer.ticks.template.disabled = true;
+    valueAxis.renderer.axisFills.template.disabled = true;
+
+    let series: any = chart.series.push(new am4charts.ColumnSeries());
+    series.dataFields.categoryX = "category";
+    series.dataFields.valueY = "value";
+    series.tooltipText = "{valueY.value}";
+    series.sequencedInterpolation = true;
+    series.fillOpacity = 0;
+    series.strokeOpacity = 1;
+    series.strokeDashArray = "1,3";
+    series.columns.template.width = 0.01;
+    series.tooltip.pointerOrientation = "horizontal";
+
+    let bullet = series.bullets.create(am4charts.CircleBullet);bullet
+    chart.cursor = new am4charts.XYCursor();
+    chart.scrollbarX = new am4core.Scrollbar();
+  }
+
+    
   }
 
   
-}
+
 
 
