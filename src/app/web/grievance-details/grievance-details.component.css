@@ -1,0 +1,37 @@
+
+
+#reciept-title .form-label{
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    padding: 5px;
+}
+.griev-details-title{
+    background-color: #B83058;
+}
+.griev-id,.griev-data{
+    /* font-size: 16px; */
+    font-size: 1rem;
+    color: #fff;
+}
+.griev-id{
+    font-weight: 200;
+}
+.plain-card .card-header{
+    background-color: #b830592e;
+    color: black;
+}
+.plain-card .card-body .form-label,.form-data{
+    font-size: 0.9rem;
+    color: #000;
+}
+.plain-card .card-body .form-data{
+    font-weight: 700;
+}
+
+@media only screen and (max-width: 478px){
+    .griev-id, .griev-data {
+        font-size: 15px !important;
+        color: #fff !important;
+    }
+}
