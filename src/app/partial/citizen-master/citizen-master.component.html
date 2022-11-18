@@ -6,7 +6,7 @@
         <div class="col-sm-4">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label >Taluka</mat-label>
-            <mat-select formControlName="talukaId" (selectionChange)="clearFilter('taluka');filterData();getVillageName(filterForm.value.talukaId)">
+            <mat-select formControlName="talukaId" (selectionChange)="clearFilter('taluka');filterData();getVillageName(filterForm.value.talukaId, false)">
               <mat-option value="0">All Taluka</mat-option>
               <mat-option *ngFor="let tal of talukaArr" [value]="tal.id">{{tal.taluka}}</mat-option>
             </mat-select>
@@ -27,7 +27,7 @@
         <div class="col-sm-4">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Name / Mobile Number</mat-label>
-            <input matInput placeholder="Name / Mobile Number" formControlName="textsearch" (keypress)="validation.noFirstSpaceAllow($event)">
+            <input matInput placeholder="Name / Mobile Number" formControlName="textsearch" (keypress)="validation.noFirstSpaceAllow($event)" >
           </mat-form-field>
         </div>
       </div>
@@ -64,7 +64,8 @@
         <th mat-header-cell *matHeaderCellDef> Village </th>
         <td mat-cell *matCellDef="let element"> {{element.village ? element.village : '-' }} </td>
       </ng-container>
-      <ng-container matColumnDef="action">
+
+      <!-- <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef class="srno-width"> Action </th>
         <td mat-cell *matCellDef="let element">
           <button mat-icon-button (click)="editRecord(element)">
@@ -85,7 +86,7 @@
         <td mat-cell *matCellDef="let element">
         </td>
       </ng-container>
-      <!-- Checkbox Column -->
+      
       <ng-container matColumnDef="select">
         <th *matHeaderCellDef class="mxw-80">
           <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
@@ -97,7 +98,32 @@
             [checked]="selection.isSelected(element)">
           </mat-checkbox>
         </td>
+      </ng-container> -->
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef class="srno"> Action <br>
+          <button [disabled]="this.selection.selected.length ==0"
+          mat-icon-button (click)="deleteUserData()">
+          <span class="material-symbols-outlined">
+            delete
+          </span>
+        </button>
+        <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()">
+            <!-- [indeterminate]="selection.hasValue() && !isAllSelected()"> -->
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let element" class="srno">
+          <button mat-icon-button (click)="editRecord(element)">
+            <span class="material-symbols-outlined">
+              edit_square
+            </span>
+          </button>
+          <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(element) : null"
+            [checked]="selection.isSelected(element)">
+          </mat-checkbox>
+        </td>
       </ng-container>
+
       <tr class="mat-row p-2 w-100" *matNoDataRow col>
         <td class="alert alert-danger text-center m-2 mt-2" colspan="9">No data found </td>
       </tr>
@@ -158,7 +184,7 @@
           <div class="row mb-3">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Select Taluka</mat-label>
-              <mat-select formControlName="talukaId" (selectionChange)="getVillageName(frmCitizen.value.talukaId);frmCitizen.controls['villageId'].setValue('')">
+              <mat-select formControlName="talukaId" (selectionChange)="getVillageName(frmCitizen.value.talukaId, false);frmCitizen.controls['villageId'].setValue('')">
                 <mat-option *ngFor="let tal of talukaArr" [value]="tal.id">{{tal.taluka}}</mat-option>
               </mat-select>
               <mat-error *ngIf="f['talukaId']?.errors">

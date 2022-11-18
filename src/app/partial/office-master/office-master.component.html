@@ -7,7 +7,7 @@
             <mat-label>Select Department</mat-label>
             <mat-select formControlName="deptId" (selectionChange)="filterData();">
               <mat-option value="0">All Department</mat-option>
-              <mat-option *ngFor="let dept of departmentArr" [value]="dept.id">{{dept.departmentName}}</mat-option>
+              <mat-option *ngFor="let dept of departmentArr" [value]="dept.deptId">{{dept.departmentName}}</mat-option>
           </mat-select>
         </mat-form-field>
     </div>
@@ -79,8 +79,8 @@
           </span>
         </button>
         <mat-checkbox (change)="$event ? masterToggle() : null"
-        [checked]="selection.hasValue() && isAllSelected()"
-        [indeterminate]="selection.hasValue() && !isAllSelected()">
+        [checked]="selection.hasValue() && isAllSelected()">
+        <!-- [indeterminate]="selection.hasValue() && !isAllSelected()"> -->
         </mat-checkbox>
         </th>
         <td mat-cell *matCellDef="let element">
@@ -125,7 +125,7 @@
                   <mat-form-field appearance="outline" class="w-100 ">
                       <mat-label>Select Department</mat-label>
                       <mat-select formControlName="deptId">
-                          <mat-option *ngFor="let dept of departmentArr" [value]="dept.id">{{dept.departmentName}}</mat-option>
+                          <mat-option *ngFor="let dept of departmentArr" [value]="dept.deptId">{{dept.departmentName}}</mat-option>
                       </mat-select>
                       <mat-error *ngIf="f['deptId']?.errors">
                         <span *ngIf="f['deptId']?.hasError('required')"> Please Select Department</span>
@@ -150,12 +150,12 @@
               </div>
 
               <div class="mb-2">
-                  <mat-form-field appearance="outline" class="w-100 ">
+                  <mat-form-field appearance="legacy" class="w-100 ">
                       <mat-label>Office Address</mat-label>
                       <!-- <input matInput formControlName="address" maxlength="200" (keyup)="validation.removeSpaceAtBegining($event)"> -->
-                      <input aria-label="Number" matInput (keypress)="validation.noFirstSpaceAllow($event)"
+                      <textarea aria-label="Number" matInput (keypress)="validation.noFirstSpaceAllow($event)"
                                         placeholder="Search Location" autocorrect="off" autocomplete="off" formControlName="address"
-                                        autocapitalize="off" spellcheck="off" type="text" #search>
+                                        autocapitalize="off" spellcheck="off" type="text" #search></textarea>
                       <mat-error *ngIf="f['address']?.errors">
                         <span *ngIf="f['address']?.hasError('required')">Address is required</span>
                         <span  *ngIf="f['address'].hasError('pattern')">

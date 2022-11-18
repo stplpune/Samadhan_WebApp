@@ -37,6 +37,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   usersArray = new Array();
   subUsersArray = new Array();
   departmentArray = new Array();
+  departmentByUserArray=new Array();
   officeArray = new Array();
   highlightedRow!: number;
   userTypeArray: any[] = [{ "userTypeId": 1, "userType": "HOD" }, { "userTypeId": 2, "userType": "Nodal Officer" }, { "userTypeId": 3, "userType": "Clerk" }]
@@ -65,8 +66,9 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.defaultForm();
     this.filterForm();
     this.getData();
-    this.getUsers();
-    this.getDepartment();
+    this.getUsers(this.localStrorageData.getUserId());
+    // this.getDepartment();
+    this.getDepartmentByUser(this.localStrorageData.getUserId());
   }
 
   //#region  filter form fn Start here
@@ -135,9 +137,9 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   }
   //#endregion clear filter  fn end here
 
-  getUsers() {
+  getUsers(userId:number) {
     this.usersArray = [];
-    this.commonService.getAllUser().subscribe({
+    this.commonService.getAllUserByUserId(userId).subscribe({
       next: (response: any) => {
         this.usersArray.push(...response); 
         this.changeDepFlag == true ? (this.userFrm.controls['userTypeId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.userTypeId) == false ? '' : this.updatedObj?.userTypeId),
@@ -161,18 +163,30 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
 
 
   //#region  drop down department bind  fn Start here
-  getDepartment() {
-    this.departmentArray = [];
-    this.commonService.getAllDepartment().subscribe({
+  // getDepartment() {
+  //   this.departmentArray = [];
+  //   this.commonService.getAllDepartment().subscribe({
+  //     next: (response: any) => {
+  //       this.departmentArray.push(...response);
+  //       this.changeDepFlag == true ? (this.userFrm.controls['deptId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.deptId) == false ? '' : this.updatedObj?.deptId),
+  //        this.getOffice(this.commonMethod.checkDataType(this.updatedObj?.deptId) == false ? '' : this.updatedObj?.deptId)) : '';
+  //     },
+  //     error: ((error: any) => { this.error.handelError(error.status) })
+  //   })
+  // }
+  //#endregiondrop down department bind fn end here
+
+  getDepartmentByUser(userId:number) {
+    this.departmentByUserArray = [];
+    this.commonService.getAllDepartmentByUserId(userId).subscribe({
       next: (response: any) => {
-        this.departmentArray.push(...response);
+        this.departmentByUserArray.push(...response);
         this.changeDepFlag == true ? (this.userFrm.controls['deptId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.deptId) == false ? '' : this.updatedObj?.deptId),
          this.getOffice(this.commonMethod.checkDataType(this.updatedObj?.deptId) == false ? '' : this.updatedObj?.deptId)) : '';
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
   }
-  //#endregiondrop down department bind fn end here
 
   //#region  drop down office bind  fn Start here
   getOffice(deptNo: number) {
@@ -307,6 +321,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
           // this.spinner.hide();
           this.getData();
           this.onCancelRecord();
+          this.selection.clear();
           this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 0);
         } else {
           this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
@@ -376,8 +391,9 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
       mobileNo: this.updatedObj.mobileNo,
       emailId: this.updatedObj.emailId,
     });
-    this.getDepartment();
-    this.getUsers();
+    // this.getDepartment();
+    this.getDepartmentByUser(this.localStrorageData.getUserId());
+    this.getUsers(this.localStrorageData.getUserId());
     this.setValidators(this.updatedObj?.userTypeId);
   }
 

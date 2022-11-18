@@ -34,6 +34,7 @@ export class DashboardComponent implements OnInit {
   dataSource:any;
   data:any;
   pageNumber:number=1;
+  totalRows:any;
   totalGrievance:any;
   percentages=new Array();
   departmants=new Array();
@@ -73,11 +74,12 @@ export class DashboardComponent implements OnInit {
 
   bindTable() {
     this.spinner.show()
-    this.apiService.setHttp('get', "api/DashboardWeb/StatusWiseGrievanceReceived?userid=" +this.localStrorageData.getUserId(), false, false, false, 'samadhanMiningService');
+    this.apiService.setHttp('get', "api/DashboardWeb/StatusWiseGrievanceReceived?userid=" +this.localStrorageData.getUserId() + "&pageno=" + this.pageNumber + "&pagesize=" + 10, false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {
           this.dataSource=new MatTableDataSource(res.responseData.responseData1); 
+          this.totalRows = res.responseData.responseData2.pageCount;
           this.dataSource.sort = this.sort;
           this.spinner.hide();
         } else {
@@ -90,6 +92,11 @@ export class DashboardComponent implements OnInit {
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     });
+  }
+
+  pageChanged(event: any) {
+    this.pageNumber = event.pageIndex + 1;
+    this.bindTable();
   }
 
   getChartData(){

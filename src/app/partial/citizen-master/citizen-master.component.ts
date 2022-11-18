@@ -24,7 +24,8 @@ import { CommonApiService } from 'src/app/core/service/common-api.service';
 export class CitizenMasterComponent implements OnInit {
   @ViewChild('formDirective') formDirective!: NgForm;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  displayedColumns: string[] = [ 'srno', 'name', 'mobileNo','emailId', 'taluka','village','action','delete','select'];
+  // displayedColumns: string[] = [ 'srno', 'name', 'mobileNo','emailId', 'taluka','village','action','delete','select'];
+  displayedColumns: string[] = [ 'srno', 'name', 'mobileNo','emailId', 'taluka','village','action'];
   dataSource: any;
   frmCitizen!:FormGroup;
   filterForm!:FormGroup;
@@ -56,7 +57,7 @@ export class CitizenMasterComponent implements OnInit {
 
   ngOnInit(): void {
     this.createCitizenForm();
-    this.getTalukaName();
+    this.getTalukaName(false);
     this.getData();
   }
 
@@ -92,7 +93,6 @@ export class CitizenMasterComponent implements OnInit {
         this.totalRows > 10 && this.pageNo == 1 ? this.paginator?.firstPage() : '';
       });
     }
-
 //---------------------------------------------------------------------------Filter-------------------------------------------------------------------------
   filterData(){
     this.pageNo = 1;
@@ -104,28 +104,29 @@ export class CitizenMasterComponent implements OnInit {
   this.getData();
 }
   selection = new SelectionModel<any>(true, []);
-//------------------------------------------------------------------------Taluka-------------------------------------------------------------------------------------------
-getTalukaName() {
+//----------------------------------------------------------------------------Taluka-------------------------------------------------------------------------------------------
+getTalukaName(editFlag:any ) {
     this.talukaArr = [];
     this.commonService.getAllTaluka().subscribe({
       next: (response: any) => {
         this.talukaArr.push(...response);
-        this.isEdit == true ? (this.frmCitizen.controls['talukaId'].setValue(this.updatedObj?.talukaId), this.getVillageName(this.updatedObj?.talukaId)) : '';
+        editFlag == true ? (this.frmCitizen.controls['talukaId'].setValue(this.updatedObj?.talukaId), this.getVillageName(this.updatedObj?.talukaId, editFlag )) : '';
       },
       error: ((error: any) => { this.error.handelError(error.status) })
 
     })
-
 }
 
-//-------------------------------------------------------------------------Village---------------------------------------------------------------------------------------------
-getVillageName(talukaId:number) {
+//----------------------------------------------------------------------------Village---------------------------------------------------------------------------------------------
+getVillageName(talukaId:number, editFlag:any) {
+  this.frmCitizen.controls['villageId'].setValue('');
+  console.log(this.frmCitizen.controls);
   this.villageArr = [];
   if(talukaId !=0){
     this.commonService.getVillageByTalukaId(talukaId).subscribe({
       next: (response: any) => {
         this.villageArr.push(...response);
-        this.isEdit == true ? (this.frmCitizen.controls['villageId'].setValue(this.updatedObj?.villageId)) : ''
+        editFlag == true ? (this.frmCitizen.controls['villageId'].setValue(this.updatedObj?.villageId)) : ''
       },
       error: ((error: any) => { this.error.handelError(error.status) })
 
@@ -135,7 +136,7 @@ getVillageName(talukaId:number) {
 
 }
 
-//---------------------------------------------------------------------Dispaly Table-----------------------------------------------------------------------------
+//---------------------------------------------------------------------------Dispaly Table-----------------------------------------------------------------------------
 getData() {
 this.spinner.show()
 let formData = this.filterForm.value;
@@ -211,7 +212,7 @@ this.frmCitizen.patchValue({
   emailId: this.updatedObj.emailId,
   mobileNo: this.updatedObj.mobileNo,
 });
-this.getTalukaName();
+this.getTalukaName(this.isEdit);
 
 }
 //-------------------------------------------------------------------------CancleRecord-----------------------------------------------------------------------

@@ -65,7 +65,7 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.createOfficeForm();
     this.filterform();
-    this.getDepartmentName();
+    this.getDepartmentName(this.localStrorageData.getUserId());
     this.getData();
     this.mapApiLoader();
   }
@@ -109,9 +109,9 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
    selection = new SelectionModel<any>(true, []);
 
   //--------------------------------------------------------Department-------------------------------------------------------------------------------------------
-  getDepartmentName(){
+  getDepartmentName(userId:number){
     this.departmentArr = [];
-    this.commonService.getAllDepartment().subscribe({
+    this.commonService.getAllDepartmentByUserId(userId).subscribe({
       next: (response: any) => {
         this.departmentArr.push(...response);
       },
@@ -179,6 +179,7 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
           // this.spinner.hide();
           this.getData();
           this.onCancelRecord();
+          this.selection.clear();
           this.commonMethod.checkDataType(res.statusMessage) == false? this.error.handelError(res.statusCode): this.commonMethod.matSnackBar(res.statusMessage, 0);
         } else {
           this.commonMethod.checkDataType(res.statusMessage) == false? this.error.handelError(res.statusCode): this.commonMethod.matSnackBar(res.statusMessage, 1);
