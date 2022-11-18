@@ -47,12 +47,12 @@
 
       <ng-container matColumnDef="mobileNo">
         <th mat-header-cell *matHeaderCellDef> Mobile Number </th>
-        <td mat-cell *matCellDef="let element"> {{element.mobileNo | titlecase}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.mobileNo}} </td>
       </ng-container>
 
       <ng-container matColumnDef="emailId">
         <th mat-header-cell *matHeaderCellDef> Email ID </th>
-        <td mat-cell *matCellDef="let element"> {{element.emailId | titlecase}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.emailId ? element.emailId : '-'}} </td>
       </ng-container>
 
       <ng-container matColumnDef="taluka">
