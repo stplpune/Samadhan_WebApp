@@ -14,7 +14,7 @@
     <div class="col-sm-6">
       <mat-form-field  appearance="outline" class="w-100">
           <mat-label>Office</mat-label>
-          <input matInput placeholder="Office" formControlName="name">
+          <input matInput placeholder="Office" formControlName="name" (keypress)="validation.noFirstSpaceAllow($event)">
       </mat-form-field>
   </div>
     </div>
@@ -71,7 +71,7 @@
       </ng-container> -->
 
       <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef class="srno">Action 
+        <th mat-header-cell *matHeaderCellDef class="srno">Action
           <button [disabled]="this.selection.selected.length ==0"
           mat-icon-button (click)="deleteUserData()">
           <span class="material-symbols-outlined">
@@ -97,7 +97,7 @@
           </mat-checkbox>
 
           </div>
-          
+
         </td>
       </ng-container>
       <tr class="mat-row p-2 w-100" *matNoDataRow col>

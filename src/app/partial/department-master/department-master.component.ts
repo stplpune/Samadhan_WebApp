@@ -13,6 +13,8 @@ import { ConfigService } from 'src/app/configs/config.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { WebStorageService } from 'src/app/core/service/web-storage.service';
+import { MatSort } from '@angular/material/sort';
+import { CommonApiService } from 'src/app/core/service/common-api.service';
 
 @Component({
   selector: 'app-department-master',
@@ -22,6 +24,7 @@ import { WebStorageService } from 'src/app/core/service/web-storage.service';
 export class DepartmentMasterComponent implements OnInit, OnDestroy {
   @ViewChild('formDirective') formDirective!: NgForm;
   @ViewChild('paginator') paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
   // displayedColumns: string[] = ['srNo','departmentName','weight','delete','select',];
   displayedColumns: string[] = ['srNo','departmentName','action'];
   dataSource: any;
@@ -48,7 +51,9 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
     public error: ErrorHandlerService,
     private spinner: NgxSpinnerService,
     public validation: FormsValidationService,
-    public commonMethod: CommonMethodService
+    public commonMethod: CommonMethodService,
+    public commonService: CommonApiService,
+
   ) {}
 
   ngOnInit(): void {
@@ -81,16 +86,17 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
   selection = new SelectionModel<any>(true, []);
 
 //-------------------------------------------------------------------------Department---------------------------------------------------------------------------
+
   getDepartmentName() {
-    this.apiService.setHttp('get','samadhan/commondropdown/GetAllDepartment',false,false,false,'samadhanMiningService');
-    this.apiService.getHttp().subscribe({
-      next: (res: any) => {
-        if (res.statusCode == '200' && res.responseData) {
-          this.departmentArr = res.responseData;
-        }
+    this.departmentArr = [];
+    this.commonService.getAllDepartment().subscribe({
+      next: (response: any) => {
+        this.departmentArr.push(...response);
       },
-    });
-  }
+      error: ((error: any) => { this.error.handelError(error.status) })
+    })
+}
+
 //-----------------------------------------------------------------------Display Table --------------------------------------------------------------------------------
   getData() {
      this.spinner.show();
@@ -101,6 +107,7 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
         if (res.statusCode == 200) {
           let dataSet = res.responseData;
           this.dataSource = new MatTableDataSource(dataSet);
+          this.dataSource.sort = this.sort;
           this.totalPages = res.responseData1.pageCount;
           this.pageNo == 1 ? this.paginator?.firstPage() : '';
           this.spinner.hide();
