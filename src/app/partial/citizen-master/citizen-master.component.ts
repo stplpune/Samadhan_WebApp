@@ -119,7 +119,6 @@ getTalukaName(editFlag:any ) {
 
 //----------------------------------------------------------------------------Village---------------------------------------------------------------------------------------------
 getVillageName(talukaId:number, editFlag:any) {
-
   this.frmCitizen.controls['villageId'].setValue('');
   console.log(this.frmCitizen.controls);
   this.villageArr = [];
@@ -190,7 +189,6 @@ this.subscription = this.apiService.getHttp().subscribe({
       this.highlightedRow = 0;
       this.getData();
       this.onCancelRecord();
-      this.selection.clear();
       this.commonMethod.checkDataType(res.statusMessage) == false? this.error.handelError(res.statusCode): this.commonMethod.matSnackBar(res.statusMessage, 0);
     } else {
       this.commonMethod.checkDataType(res.statusMessage) == false? this.error.handelError(res.statusCode): this.commonMethod.matSnackBar(res.statusMessage, 1);

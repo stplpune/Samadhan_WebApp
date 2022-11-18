@@ -25,7 +25,7 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
   @ViewChild('formDirective') formDirective!: NgForm;
   @ViewChild('paginator') paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  // displayedColumns: string[] = ['srNo','departmentName','weight','delete','select',];
+// displayedColumns: string[] = ['srNo','departmentName','weight','delete','select',];
   displayedColumns: string[] = ['srNo','departmentName','action'];
   dataSource: any;
   frmDepartment!: FormGroup;
@@ -86,7 +86,6 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
   selection = new SelectionModel<any>(true, []);
 
 //-------------------------------------------------------------------------Department---------------------------------------------------------------------------
-
   getDepartmentName() {
     this.departmentArr = [];
     this.commonService.getAllDepartment().subscribe({
@@ -147,7 +146,6 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
           // this.spinner.hide();
           this.getData();
           this.onCancelRecord();
-          this.selection.clear();
           this.commonMethod.checkDataType(res.statusMessage) == false
             ? this.error.handelError(res.statusCode)
             : this.commonMethod.matSnackBar(res.statusMessage, 0);
