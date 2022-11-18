@@ -16,7 +16,6 @@ import { ConfirmationComponent } from './../dialogs/confirmation/confirmation.co
 import { CommonApiService } from 'src/app/core/service/common-api.service';
 
 
-
 @Component({
   selector: 'app-citizen-master',
   templateUrl: './citizen-master.component.html',
@@ -42,8 +41,6 @@ export class CitizenMasterComponent implements OnInit {
   changevillFlag:boolean=false;
   isdisable=false;
 
-
-
   constructor(
     private fb: FormBuilder,
     private apiService: ApiService,
@@ -53,7 +50,6 @@ export class CitizenMasterComponent implements OnInit {
     public validation: FormsValidationService,
     public localStrorageData: WebStorageService,
     public commonService: CommonApiService,
-    // private webStorage:WebStorageService,
     public dialog: MatDialog,
     public commonMethod: CommonMethodService
   ) { }
@@ -117,7 +113,9 @@ getTalukaName() {
         this.isEdit == true ? (this.frmCitizen.controls['talukaId'].setValue(this.updatedObj?.talukaId), this.getVillageName(this.updatedObj?.talukaId)) : '';
       },
       error: ((error: any) => { this.error.handelError(error.status) })
+
     })
+
 }
 
 //-------------------------------------------------------------------------Village---------------------------------------------------------------------------------------------
@@ -132,11 +130,12 @@ getVillageName(talukaId:number) {
       error: ((error: any) => { this.error.handelError(error.status) })
 
     })
+
   }
 
 }
 
-//-------------------------------------------------------------Dispaly Table-----------------------------------------------------------------------------
+//---------------------------------------------------------------------Dispaly Table-----------------------------------------------------------------------------
 getData() {
 this.spinner.show()
 let formData = this.filterForm.value;
@@ -213,11 +212,13 @@ this.frmCitizen.patchValue({
   mobileNo: this.updatedObj.mobileNo,
 });
 this.getTalukaName();
+
 }
 //-------------------------------------------------------------------------CancleRecord-----------------------------------------------------------------------
 onCancelRecord() {
   this.formDirective.resetForm();
   this.isEdit = false;
+  this.isdisable= false;
 }
 
 //-------------------------------------------------------------------------Pagination-------------------------------------------------------------------------------
