@@ -92,7 +92,6 @@ export class CitizenMasterComponent implements OnInit {
         this.totalRows > 10 && this.pageNo == 1 ? this.paginator?.firstPage() : '';
       });
     }
-
 //---------------------------------------------------------------------------Filter-------------------------------------------------------------------------
   filterData(){
     this.pageNo = 1;
@@ -115,7 +114,6 @@ getTalukaName() {
       error: ((error: any) => { this.error.handelError(error.status) })
 
     })
-
 }
 
 //-------------------------------------------------------------------------Village---------------------------------------------------------------------------------------------
