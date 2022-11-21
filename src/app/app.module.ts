@@ -30,6 +30,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ThemeModule } from './core/theme/theme.module';
 import { AgmCoreModule } from '@agm/core';
+import { AccessDeniedComponent } from './partial/access-denied/access-denied.component';
 
 export function httpTranslateLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -49,7 +50,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ConfirmationComponent,
     LogoutComponent,
     SuccessComponent,
-    ProfileComponent
+    ProfileComponent,
+    AccessDeniedComponent
   ],
   imports: [
     BrowserModule,
