@@ -66,7 +66,7 @@ export class CitizenMasterComponent implements OnInit {
     this.frmCitizen = this.fb.group({
      name :['',[Validators.required, Validators.pattern(this.validation.valName)],],
      mobileNo :['',[Validators.required,Validators.pattern(this.validation.valMobileNo),Validators.minLength(10),Validators.maxLength(10),],],
-     emailId :['',[Validators.required, Validators.pattern(this.validation.valEmailId)],],
+     emailId :['',[Validators.pattern(this.validation.valEmailId)],],
      talukaId :['',[Validators.required]],
      villageId :['',[Validators.required]]
     });
