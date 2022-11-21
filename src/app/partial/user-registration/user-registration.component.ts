@@ -440,6 +440,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
       } else {
         this.selection.clear();
         this.selection = new SelectionModel<Element>(true, []);
+        this.onCancelRecord();
       }
     })
   }
