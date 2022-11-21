@@ -32,7 +32,7 @@
                         <mat-select formControlName="deptId"
                             (selectionChange)="clearFilter('department');isSelfGrievance.setValue(1);filterData();">
                             <mat-option value="0">All Department</mat-option>
-                            <mat-option *ngFor="let department of departmentArray" [value]="department.deptId">
+                            <mat-option *ngFor="let department of departmentArray" [value]="department.id">
                                 {{department.departmentName}}
                             </mat-option>
                         </mat-select>
@@ -317,7 +317,7 @@
                                 <mat-label>Department</mat-label>
                                 <mat-select formControlName="deptId" [disabled]="ispatch"
                                     (selectionChange)="getOffice(postGrievanceForm.value.deptId);getGrievanceByDeptId(postGrievanceForm.value.deptId);postGrievanceForm.controls['officeId'].setValue('')">
-                                    <mat-option *ngFor="let department of departmentArray" [value]="department.deptId">
+                                    <mat-option *ngFor="let department of departmentArray" [value]="department.id">
                                         {{department.departmentName}}
                                     </mat-option>
                                 </mat-select>
