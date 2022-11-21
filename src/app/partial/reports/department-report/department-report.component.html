@@ -1,1 +1,80 @@
-<p>department-report works!</p>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="d-flex justify-content-end gap-2">
+                <button mat-mini-fab color="accent">
+                    <i class="fa-solid fa-file-excel"></i>
+                </button>
+                  <button mat-mini-fab color="accent">
+                    <i class="fa-solid fa-file-pdf"></i>
+                  </button>
+        </div>
+        <form>
+            <div class="row gx-2">
+                <div class="col-sm-3">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Select Department ID</mat-label>
+                        <mat-select formControlName="userType">
+                            <mat-option >option-1</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-2">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>From Date</mat-label>
+                        <input matInput [matDatepicker]="picker">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                      
+                </div>
+                <div class="col-sm-2">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>To Date</mat-label>
+                        <input matInput [matDatepicker]="picker2">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2 color="primary"></mat-datepicker>
+                      </mat-form-field>
+                </div>
+                <div class="col-sm-auto">
+                    <button mat-stroked-button class="btn-main me-2" type="submit">Search</button>
+                    <button mat-stroked-button class="btn-main-outline" type="button">Clear</button>
+                </div>
+            </div>
+        </form>
+
+        <table mat-table [dataSource]="dataSource" class="dashboard-table w-100">
+
+            <ng-container matColumnDef="position">
+              <th mat-header-cell *matHeaderCellDef> Sr.No </th>
+              <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef> Department Name </th>
+              <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+            </ng-container>
+        
+            <ng-container matColumnDef="Received">
+              <th mat-header-cell *matHeaderCellDef> Received </th>
+              <td mat-cell *matCellDef="let element"> {{element.Received}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="Pending">
+              <th mat-header-cell *matHeaderCellDef> Pending </th>
+              <td mat-cell *matCellDef="let element"> {{element.Pending}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Resolved">
+                <th mat-header-cell *matHeaderCellDef> Resolved </th>
+                <td mat-cell *matCellDef="let element"> {{element.Resolved}} </td>
+              </ng-container>
+          
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+          <ng-container *ngIf="dataSource?.length!=0">
+            <mat-paginator #paginator [pageSizeOptions]="[10]"  
+            showFirstLastButtons></mat-paginator>
+          </ng-container>  
+    </div>
+</div>
