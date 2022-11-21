@@ -395,10 +395,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="text-end mt-3" *ngIf="!ispatch">
+                    <div class="text-end mt-3">
                         <button mat-stroked-button class="btn-main-outline" type="button"
                             (click)="onCancelRecord()">Cancel</button>
-                        <button mat-stroked-button class="btn-main ms-2" type="submit"
+                        <button mat-stroked-button class="btn-main ms-2" type="submit" *ngIf="!ispatch"
                             (click)="onSubmitForm()">Submit</button>
                     </div>
                 </form>
