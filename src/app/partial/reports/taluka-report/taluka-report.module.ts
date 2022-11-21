@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { TalukaReportRoutingModule } from './taluka-report-routing.module';
 import { TalukaReportComponent } from './taluka-report.component';
+import { MaterialModule } from 'src/app/shared/AngularMaterialModule/material.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -11,7 +13,10 @@ import { TalukaReportComponent } from './taluka-report.component';
   ],
   imports: [
     CommonModule,
-    TalukaReportRoutingModule
+    TalukaReportRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MaterialModule
   ]
 })
 export class TalukaReportModule { }
