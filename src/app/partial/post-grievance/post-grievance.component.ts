@@ -76,7 +76,7 @@ export class PostGrievanceComponent implements OnInit {
     this.getDistrict();
     this.getTaluka(1);
     this.getStatus();
-    this.getDepartment(this.localStrorageData.getUserId());
+    this.getDepartment();
     // this.getGrievance();
     this.bindTable();
   }
@@ -184,9 +184,9 @@ export class PostGrievanceComponent implements OnInit {
     })
   }
 
-  getDepartment(userId:number) {
+  getDepartment() {
     this.departmentArray = [];
-    this.commonApi.getAllDepartmentByUserId(userId).subscribe({
+    this.commonApi.getAllDepartment().subscribe({
       next: (response: any) => {
         this.departmentArray.push(...response);
         this.ispatch==true ? (this.postGrievanceForm.controls['deptId'].setValue(this.updatedObj?.concern_DeptId),this.getOffice(this.updatedObj?.concern_DeptId),this.getGrievanceByDeptId(this.updatedObj?.concern_DeptId)): '';
@@ -425,7 +425,7 @@ export class PostGrievanceComponent implements OnInit {
         grievanceDescription:this.updatedObj.grievanceDescription,
       })
       this.getDistrict();
-      this.getDepartment(this.localStrorageData.getUserId());
+      this.getDepartment();
       // this.getGrievance();
   }
 

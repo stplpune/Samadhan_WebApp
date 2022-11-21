@@ -1,128 +1,140 @@
 <div class="container-fluid">
     <div class="container">
         <div class="card card-body my-5">
-            <div class="logo">
+            <div class="logo mb-3">
                 <img src="../../../assets/web-icons/SAMADHAN-logo.svg" alt="">
             </div>
-            <div class="container">
-                <div class="row" id="reciept-title">
-                    <div class="card plain-card griev-details-title mb-1 mt-3">
-                        <div class="card-header">
+            <div class="row mb-3">
+                <div class="col-sm-12">
+                    <div class="card griev-details-title">
+                        <div class="card-body">
                             <div class="row align-items-center">
                                 <div class="col-sm-6">
-
-                                    <div class="form-label mb-0">Grievance Details</div>
+                                    <h4 class="mb-0 text-white">Grievance Details</h4>
                                 </div>
                                 <div class="col-sm-6">
-
                                     <div class="d-flex justify-content-end">
                                         <div class="griev-id">Grievance ID : </div>
-                                        <div class="griev-data mx-auto mx-lg-0">304534583485348-1</div>
+                                        <div class="griev-data mx-auto mx-lg-0">{{grivanceData?.grievanceNo}}</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
-                <div class="row mb-3">
-                    <div class="card plain-card px-0">
-                        <div class="card-header">
+            </div>
+            <div class="row form-container">
+                <div class="col-sm-12">
+                    <div class="card mb-4">
+                        <div class="card-header bg-main-light">
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <div class="d-flex">
-                                        <div class="form-label me-2">Submission Date & Time :</div>
-                                        <div class="form-data">12-10-2022 12.01 PM</div>
+                                    <div class="row">
+                                        <div class="col-sm-6 col-lg-auto form-label">Submission Date & Time :</div>
+                                        <div class="col-sm-6 col-lg-auto form-data">
+                                            {{grivanceData?.grievanceSubmissionDate | date:'dd/MM/yyyy & h:m:a'}}</div>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <div class="d-flex justify-content-lg-end">
-                                        <div class="form-label me-2">Status:</div>
-                                        <div class="form-data text-success">Resolved</div>
+                                    <div class="row justify-content-end">
+                                        <div class="col-sm-6 col-lg-auto form-label">Status:</div>
+                                        <!-- <div class="col-sm-6 col-lg-auto form-data text-success">
+                                            {{grivanceData?.status}}</div> -->
+                                        <div class="col-sm-6 col-lg-auto form-data"
+                                            [ngClass]="{'text-primary': grivanceData?.status =='Open','text-secondary': grivanceData?.status =='Accepted','text-success': grivanceData?.status=='Resolved' ,'text-warning': grivanceData?.status =='Partial Resolved'
+                                        ,'text-danger': grivanceData?.status =='Rejected','text-info': grivanceData?.status =='Transferred' }">
+                                            {{grivanceData?.status}}</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="row mb-0">
-                                <div class="col-sm-6">
-                                    <div class="d-flex">
-                                        <div class="form-label me-3">Department : </div>
-                                        <div class="form-data">Municipal Corporation</div>
-                                    </div>
+                            <div class="row bbottom g-2">
+                                <div class="col-sm-2">
+                                    <div class="form-label">Department : </div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <div class="d-flex">
-                                        <div class="form-label me-3">Office:</div>
-                                        <div class="form-data">Osmanabad Municipal Corporation</div>
-                                    </div>
+                                <div class="col-sm-4">
+                                    <div class="form-data">{{grivanceData?.departmentName}}</div>
                                 </div>
-                                <div class="col-sm-6">
-
+                                <div class="col-sm-2">
+                                    <div class="form-label">Office:</div>
                                 </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="d-flex">
-                                    <div class="form-label me-3">Nature of Grievance : </div>
-                                    <div class="form-data">Water Supply</div>
+                                <div class="col-sm-4">
+                                    <div class="form-data">{{grivanceData?.officeName}}</div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-label">Nature of Grievance : </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-data">{{grivanceData?.natureofGrievance}}</div>
                                 </div>
                             </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-6">
-                                    <div class="d-flex">
-                                        <div class="form-label">Name :</div>
-                                        <div class="form-data">Mukul Joshi</div>
-                                    </div>
+                            <div class="row bbottom g-2">
+                                <div class="col-sm-2">
+                                    <div class="form-label">Name :</div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <div class="d-flex">
-                                        <div class="form-label">Mobile Number :</div>
-                                        <div class="form-data">8669264767</div>
-                                    </div>
+                                <div class="col-sm-4">
+                                    <div class="form-data">{{grivanceData?.name}}</div>
                                 </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-6">
-                                    <div class="d-flex">
-                                        <div class="form-label">Email :</div>
-                                        <div class="form-data">mukul@gmail.com </div>
-                                    </div>
+                                <div class="col-sm-2">
+                                    <div class="form-label">Mobile Number :</div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <div class="d-flex">
-                                        <div class="form-label">District :</div>
-                                        <div class="form-data">Osmanabad</div>
-                                    </div>
+                                <div class="col-sm-4">
+                                    <div class="form-data">{{grivanceData?.userMobileNo}}</div>
                                 </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-6">
-                                    <div class="d-flex">
-                                        <div class="form-label">Village : </div>
-                                        <div class="form-data">Andur </div>
-                                    </div>
+                                <div class="col-sm-2">
+                                    <div class="form-label">Email :</div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <div class="d-flex">
-                                        <div class="form-label">Taluka :</div>
-                                        <div class="form-data">Tuljapur</div>
-                                    </div>
+                                <div class="col-sm-4">
+                                    <div class="form-data">{{grivanceData?.userEmailId}}</div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-label">District :</div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-data">{{grivanceData?.district}}</div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-label">Village : </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-data">{{grivanceData?.village}} </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-label">Taluka :</div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-data">{{grivanceData?.taluka}}</div>
                                 </div>
                             </div>
-                            <div class="row mb-3">
+                            <div class="row bbottom g-2">
                                 <div class="col-sm-2">
                                     <div class="form-label">Grievance Details : </div>
                                 </div>
-                                <div class="col-sm">
-
-                                    <div class="form-data">Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                        Delectus ea
-                                        tempora iste harum nulla deleniti magnam modi porro repellendus fugit.
-                                        tempora iste harum nulla deleniti magnam modi porro repellendus fugit.
+                                <div class="col-sm-10">
+                                    <div class="form-data">
+                                        {{grivanceData?.grievanceDescription}}
                                     </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-label">
+                                        <div class="pdf-icon col-md-3">
+                                            <img src="assets/images/pdf.png">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-10">
+                                        <a class="primary" (click)="viewDocument(grivanceData?.citizenGrievanceImages[0]?.docpath)">View
+                                            Documents</a>
+
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <p class="note">Note -</p>
+                    <small class="text-muted">1. This is a system generated File .</small>
                 </div>
             </div>
         </div>
