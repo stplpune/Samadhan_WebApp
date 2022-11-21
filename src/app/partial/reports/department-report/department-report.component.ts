@@ -75,8 +75,8 @@ export class DepartmentReportComponent implements OnInit {
     let formData = this.filterForm.value;
     formData.fromDate = formData.fromDate ? this.datePipe.transform(formData.fromDate, 'yyyy/MM/dd') : '';
     formData.toDate = formData.toDate ? this.datePipe.transform(formData.toDate, 'yyyy/MM/dd') : '';
-    let obj = formData.searchdeptId + '&pageno='+ this.pageNo + '&pagesize='+ this.pageSize + '&userid='+ 2 + '&fromDate='+ formData.fromDate + '&toDate='+ formData.toDate
-    this.apiService.setHttp('get','samadhan/Reports/OfficerDepartmentReport?searchdeptId=' + obj,false,false,false,'samadhanMiningService');
+    let obj = formData.searchdeptId + '&userid='+ this.localStrorageData.getUserId() + '&fromDate='+ formData.fromDate + '&toDate='+ formData.toDate
+    this.apiService.setHttp('get','api/ShareGrievances/OfficerDepartmentReport?searchdeptId=' + obj,false,false,false,'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {
