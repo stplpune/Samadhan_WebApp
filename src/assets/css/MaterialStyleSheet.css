@@ -6,6 +6,9 @@ button.mat-menu-item,
 .mat-option-text,
 textarea.mat-input-element,
 .mat-radio-label,
+.mat-calendar,
+.mat-calendar-body-label,
+.mat-calendar-period-button,
 .mat-tab-label-content{
   font-family: 'Rubik', sans-serif !important;
   font-size: 0.85rem;
@@ -45,6 +48,9 @@ transform: translateY(-1em) scale(.75);
 .mat-select-trigger{
     top: -15px;
 }
+.mat-form-field:not(.mat-form-field-appearance-legacy) .mat-form-field-suffix .mat-icon-button{
+    top: 4px;
+}
 .mat-dialog-container{
     padding:0 !important;
 }
@@ -60,7 +66,9 @@ transform: translateY(-1em) scale(.75);
     padding:5px 25px 25px 25px !important;
 }
 .mat-form-field button{
-    top: -5px;
+    top: -12px;
+    position: absolute;
+    right: -12px;
 }
 .mat-icon {
     height: inherit !important;
