@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { OfficeReportRoutingModule } from './office-report-routing.module';
 import { OfficeReportComponent } from './office-report.component';
+import { MaterialModule } from 'src/app/shared/AngularMaterialModule/material.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -11,7 +13,10 @@ import { OfficeReportComponent } from './office-report.component';
   ],
   imports: [
     CommonModule,
-    OfficeReportRoutingModule
+    OfficeReportRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MaterialModule
   ]
 })
 export class OfficeReportModule { }
