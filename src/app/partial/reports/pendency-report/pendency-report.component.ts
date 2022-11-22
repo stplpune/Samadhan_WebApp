@@ -78,16 +78,15 @@ export class PendencyReportComponent implements OnInit {
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {
-          this. pendencyReportArray = res.responseData.map((ele:any)=>{
+          this. pendencyReportArray = res.responseData.map((ele:any,index:any)=>{
+            ele.deptId=index+1;
             delete ele.isDeleted
             return ele});
           this.dataSource = new MatTableDataSource(res.responseData);
-          // this.totalPages = res.responseData1.pageCount;
           this.spinner.hide();
         } else {
           this.spinner.hide();
           this.dataSource = [];
-          // this.totalPages = 0;
         }
       },
       error: (error: any) => {
@@ -99,25 +98,22 @@ export class PendencyReportComponent implements OnInit {
 
   clearFilter(){
     this.filterform();
-    // this.pageNo = 1;
     this.getPendencyReport();
   }
 
   downloadExcel(){
-    let keyValue = this.pendencyReportArray.map((value: any) => Object.keys(value));
-    let keyData = keyValue[0]; // key Name
 
     let ValueData = this.pendencyReportArray.reduce(
       (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
       []
     );// Value Name
     let TopHeadingData = 'Pendency Report';
-
-    this.pdf_excelService.generateExcel(keyData, ValueData, TopHeadingData);
+    let keyPDFHeader = ["SrNo","Department Name", "Received","Pending","Approvedless7","Approvedless15","Approvedless30","Approvedgrt30"];
+    this.pdf_excelService.generateExcel(keyPDFHeader, ValueData, TopHeadingData);
   }
 
   downloadPdf() {
-    let keyPDFHeader = ['srNo', 'departmentname','received', 'pending','approvedless7','approvedless15','approvedless30','approvedgrt30'];
+    let keyPDFHeader = ['SrNo', 'Department Name','Received', 'Pending','Approvedless7','Approvedless15','Approvedless30','Approvedgrt30'];
     let ValueData = this.pendencyReportArray.reduce(
       (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
       []
