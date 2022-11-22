@@ -36,7 +36,7 @@
                 <div class="col-sm-2">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>From Date</mat-label>
-                        <input matInput [matDatepicker]="picker">
+                        <input matInput [matDatepicker]="picker" formControlName="fromDate">
                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
@@ -45,7 +45,7 @@
                 <div class="col-sm-2">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>To Date</mat-label>
-                        <input matInput [matDatepicker]="picker2">
+                        <input matInput [matDatepicker]="picker2" formControlName="toDate">
                         <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
                         <mat-datepicker #picker2 color="primary"></mat-datepicker>
                     </mat-form-field>
