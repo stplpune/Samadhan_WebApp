@@ -220,10 +220,10 @@
 
                 <form [formGroup]="postGrievanceForm" #formDirective="ngForm">
 
-                    <div class="mb-2" *ngIf="isSelfGrievance.value == 0" [class.disabled-contenct]="ispatch">
+                    <div class="mb-3" *ngIf="isSelfGrievance.value == 0" [class.disabled-contenct]="ispatch">
                         <mat-form-field class="w-100" appearance="outline">
                             <mat-label>Name</mat-label>
-                            <input matInput placeholder="Enter name"
+                            <input matInput
                                 (keypress)="validation.noFirstSpaceAllow($event);validation.alphabetsWithSpaces($event)"
                                 formControlName="otherCitizenName" maxlength="50" [readonly]="ispatch">
                             <mat-error *ngIf="f['otherCitizenName']?.errors">
@@ -232,10 +232,10 @@
                             </mat-error>
                         </mat-form-field>
                     </div>
-                    <div class="mb-2" *ngIf="isSelfGrievance.value == 0" [class.disabled-contenct]="ispatch">
+                    <div class="mb-3" *ngIf="isSelfGrievance.value == 0" [class.disabled-contenct]="ispatch">
                         <mat-form-field class="w-100" appearance="outline">
                             <mat-label>Mobile Number</mat-label>
-                            <input matInput placeholder="Enter mobile number" maxlength="10"
+                            <input matInput placeholder="Ex.0236504789" maxlength="10"
                                 (keypress)="validation.acceptedOnlyNumbers($event)"
                                 formControlName="otherCitizenMobileNo" [readonly]="ispatch">
                             <mat-error *ngIf="f['otherCitizenMobileNo']?.errors">
@@ -246,7 +246,7 @@
                             </mat-error>
                         </mat-form-field>
                     </div>
-                    <div class="mb-2" *ngIf="isSelfGrievance.value == 0" [class.disabled-contenct]="ispatch">
+                    <div class="mb-3" *ngIf="isSelfGrievance.value == 0" [class.disabled-contenct]="ispatch">
                         <mat-form-field class="w-100" appearance="legacy">
                             <mat-label>Address</mat-label>
                             <textarea matInput placeholder="Type here" rows="4"
@@ -267,7 +267,7 @@
                               </mat-form-field>
                         </div> -->
 
-                    <div class="mb-2" [class.disabled-contenct]="ispatch">
+                    <div class="mb-3" [class.disabled-contenct]="ispatch">
                         <mat-form-field appearance="outline" class="w-100">
                             <mat-label>District</mat-label>
                             <mat-select formControlName="districtId" [disabled]="true">
@@ -282,7 +282,7 @@
                         </mat-form-field>
                     </div>
                     <!-- </div> -->
-                    <div class="row gx-2 mb-2">
+                    <div class="row gx-2 mb-3">
                         <div class="col-sm-6">
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>Taluka</mat-label>
@@ -311,7 +311,7 @@
                             </mat-form-field>
                         </div>
                     </div>
-                    <div class="row gx-2 mb-2">
+                    <div class="row gx-2 mb-3">
                         <div class="col-sm-6">
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>Department</mat-label>
@@ -340,7 +340,7 @@
                             </mat-form-field>
                         </div>
                     </div>
-                    <div class="mb-2">
+                    <div class="mb-3">
                         <mat-form-field appearance="outline" class="w-100">
                             <mat-label>Nature of Grievance</mat-label>
                             <mat-select formControlName="natureGrievanceId" [disabled]="ispatch">
@@ -354,7 +354,7 @@
                             </mat-error>
                         </mat-form-field>
                     </div>
-                    <div class="mb-2">
+                    <div class="mb-3">
                         <mat-form-field class="w-100" appearance="legacy">
                             <mat-label>Grievance Details</mat-label>
                             <textarea matInput rows="4"
@@ -367,7 +367,7 @@
                         </mat-form-field>
                     </div>
 
-                    <div class="mb-2">
+                    <div class="mb-3">
                         <div class="row justify-content-between align-items-center">
                             <div class="col-sm" [class.disabled-contenct]="ispatch">
                                 <button mat-stroked-button type="button" class="bg-main">
