@@ -22,6 +22,9 @@ export class ExcelService {
     doc.setFontSize(13);
     doc.text(objData.topHedingName, 105, 10, "center");
 
+    doc.setFontSize(10);
+    doc.text(objData.createdDate, 200, 10, "right");
+
     doc.setLineWidth(0.2);
     doc.line(8, 15, 200, 15);
 
