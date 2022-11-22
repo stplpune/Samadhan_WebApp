@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ConfigService } from 'src/app/configs/config.service';
 import { ApiService } from 'src/app/core/service/api.service';
@@ -28,7 +29,7 @@ export class DepartmentReportComponent implements OnInit {
   pageSize = 10;
   officeDepReportArray:any;
   departmentArray = new Array();
-  
+  userId:any;
   
   constructor(
     private apiService: ApiService,
@@ -43,9 +44,12 @@ export class DepartmentReportComponent implements OnInit {
     private fb: FormBuilder,
     private datePipe: DatePipe,
     private pdf_excelService : ExcelService,
+    private router:Router
   ) {}
 
   ngOnInit(): void {
+    let getUrl = this.router.url.split('/');
+    this.userId = getUrl.length == 3 ?  getUrl[getUrl.length -1] : this.localStrorageData.getUserId();
     this.filterform();
     this.getOfficerDepartmentReport();
     this.getDepartment();
@@ -75,7 +79,7 @@ export class DepartmentReportComponent implements OnInit {
     let formData = this.filterForm.value;
     formData.fromDate = formData.fromDate ? this.datePipe.transform(formData.fromDate, 'yyyy/MM/dd') : '';
     formData.toDate = formData.toDate ? this.datePipe.transform(formData.toDate, 'yyyy/MM/dd') : '';
-    let obj = formData.searchdeptId + '&userid='+ this.localStrorageData.getUserId() + '&fromDate='+ formData.fromDate + '&toDate='+ formData.toDate
+    let obj = formData.searchdeptId + '&userid='+ this.userId + '&fromDate='+ formData.fromDate + '&toDate='+ formData.toDate
     this.apiService.setHttp('get','api/ShareGrievances/OfficerDepartmentReport?searchdeptId=' + obj,false,false,false,'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
