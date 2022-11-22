@@ -18,10 +18,16 @@ export class ExcelService {
 
   downLoadPdf(header: any, values: any, objData: any) {
     let doc: any = new jsPDF();
+    var imgWidth = 33; 
+    var height = 25;
+    doc.addImage('../../../../assets/images/samadhanLogo.jpeg', 'JPEG',0, -3, imgWidth,height);
 
     doc.setFontSize(13);
     doc.text(objData.topHedingName, 105, 10, "center");
 
+    doc.setFontSize(10);
+    doc.text(objData.createdDate, 200, 10, "right");
+  
     doc.setLineWidth(0.2);
     doc.line(8, 15, 200, 15);
 
@@ -31,7 +37,6 @@ export class ExcelService {
     });
     doc.save(objData.topHedingName);
   }
-
 
   generateExcel(keyData: any, ValueData: any, TopHeadingData: any) {
 
