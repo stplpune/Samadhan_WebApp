@@ -361,7 +361,7 @@
                                 (keypress)="validation.noFirstSpaceAllow($event)" formControlName="grievanceDescription"
                                 maxlength="500" [readonly]="ispatch"></textarea>
                             <mat-error *ngIf="f['grievanceDescription']?.errors">
-                                <span *ngIf="f['grievanceDescription']?.hasError('required')">Grievance details is
+                                <span *ngIf="f['grievanceDescription']?.hasError('required')">Grievance Details is
                                     required</span>
                             </mat-error>
                         </mat-form-field>
