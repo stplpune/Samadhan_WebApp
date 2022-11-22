@@ -176,7 +176,7 @@
                             </mat-option>
                         </mat-select>
                         <mat-error *ngIf="f['userTypeId']?.errors">
-                            <span *ngIf="f['userTypeId']?.hasError('required')"> Please Select User 
+                            <span *ngIf="f['userTypeId']?.hasError('required')"> Please select User 
                                Type</span>
                         </mat-error>
 
@@ -192,7 +192,7 @@
                             </mat-option>
                         </mat-select>
                         <mat-error *ngIf="f['subUserTypeId']?.errors">
-                            <span *ngIf="f['subUserTypeId']?.hasError('required')"> Please Select Sub User 
+                            <span *ngIf="f['subUserTypeId']?.hasError('required')"> Please select Sub User 
                                Type</span>
                         </mat-error>
 
@@ -208,7 +208,7 @@
                             </mat-option>
                         </mat-select>
                         <mat-error *ngIf="f['deptId']?.errors">
-                            <span *ngIf="f['deptId']?.hasError('required')"> Please Select Department</span>
+                            <span *ngIf="f['deptId']?.hasError('required')"> Please select Department</span>
                         </mat-error>
                     </mat-form-field>
                 </div>
@@ -221,7 +221,7 @@
                             </mat-option>
                         </mat-select>
                         <mat-error *ngIf="f['officeId']?.errors">
-                            <span *ngIf="f['officeId']?.hasError('required')"> Please Select Office</span>
+                            <span *ngIf="f['officeId']?.hasError('required')"> Please select Office</span>
                         </mat-error>
                     </mat-form-field>
                 </div>
@@ -234,7 +234,7 @@
                         <mat-error *ngIf="f['name']?.errors">
                             <span *ngIf="f['name']?.hasError('required')"> Name is required</span>
                             <span  *ngIf="f['name'].hasError('pattern')">
-                               Pelase enter valid name</span>
+                               Pelase enter valid Name</span>
                         </mat-error>
                     </mat-form-field>
                 </div>
@@ -244,10 +244,10 @@
                         <input matInput placeholder="Enter your mobile no." formControlName="mobileNo" maxlength="10"
                          (keypress)="validation.acceptedOnlyNumbers($event)">
                         <mat-error *ngIf="f['mobileNo']?.errors">
-                            <span *ngIf="f['mobileNo']?.hasError('required')"> Mobile No is required</span>
+                            <span *ngIf="f['mobileNo']?.hasError('required')"> Mobile No. is required</span>
                             <span 
                             *ngIf="f['mobileNo']?.hasError('pattern') || f['mobileNo']?.hasError('minlength')">
-                            Please enter valid Mobile no </span>
+                            Please enter valid Mobile No. </span>
                         </mat-error>
                     </mat-form-field>
                 </div>
