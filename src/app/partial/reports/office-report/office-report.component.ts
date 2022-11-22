@@ -123,9 +123,12 @@ export class OfficeReportComponent implements OnInit {
       (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
       []
     );// Value Name
-    let TopHeadingData = 'Office Report';
+    let objData = {
+      'topHedingName': 'Office Taluka Report',
+      'createdDate':this.datePipe.transform(new Date(), 'dd/MM/yyyy')
+    }
     let keyPDFHeader = ['SrNo', "Department Name", "Office Name", "Received", "Pending", "Resolved"];
-    this.pdf_excelService.generateExcel(keyPDFHeader, ValueData, TopHeadingData);
+    this.pdf_excelService.generateExcel(keyPDFHeader, ValueData, objData);
   }
 
   downloadPdf() {
@@ -135,9 +138,10 @@ export class OfficeReportComponent implements OnInit {
         (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
         []
       );// Value Name
-    let objData = {
-      'topHedingName': 'Office Report',
-    }
+      let objData = {
+        'topHedingName': 'Office Taluka Report',
+        'createdDate':this.datePipe.transform(new Date(), 'dd/MM/yyyy')
+      }
     this.pdf_excelService.downLoadPdf(keyPDFHeader, ValueData, objData);
   }
 

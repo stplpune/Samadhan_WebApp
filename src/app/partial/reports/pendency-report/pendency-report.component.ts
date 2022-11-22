@@ -111,8 +111,11 @@ export class PendencyReportComponent implements OnInit {
       (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
       []
     );// Value Name
-    let TopHeadingData = 'Pendency Report';
-    this.pdf_excelService.generateExcel(keyPDFHeader, ValueData, TopHeadingData);
+    let objData = {
+      'topHedingName' : 'Pendency Report',
+      'createdDate':this.datePipe.transform(new Date(), 'dd/MM/yyyy')
+    }
+    this.pdf_excelService.generateExcel(keyPDFHeader, ValueData, objData);
   }
 
   downloadPdf() {
