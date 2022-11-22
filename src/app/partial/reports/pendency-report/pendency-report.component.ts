@@ -111,19 +111,20 @@ export class PendencyReportComponent implements OnInit {
       (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
       []
     );// Value Name
-    let TopHeadingData = 'Department Report';
+    let TopHeadingData = 'Pendency Report';
+
     this.pdf_excelService.generateExcel(keyData, ValueData, TopHeadingData);
   }
 
   downloadPdf() {
-    let keyPDFHeader = ["Department Id","Department Name", "Received","Pending","Resolved"];
+    let keyPDFHeader = ['srNo', 'departmentname','received', 'pending','approvedless7','approvedless15','approvedless30','approvedgrt30'];
     let ValueData = this.pendencyReportArray.reduce(
       (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
       []
     );// Value Name
 
     let objData = {
-      'topHedingName' : 'Department Report',
+      'topHedingName' : 'Pendency Report',
     }
     this.pdf_excelService.downLoadPdf(keyPDFHeader, ValueData, objData);
   }
