@@ -82,11 +82,11 @@
   <div class="col-sm-4">
     <div class="card form-card">
       <div class="card-header ">
-        {{isEdit?'Update' : 'Add'}} Grievance
+        {{isEdit?'Update' : 'Add'}} Grievance Master
       </div>
       <form [formGroup]="frmGrievance" #formDirective="ngForm" (ngSubmit)="onSubmitGrievance()" autocomplete="off">
         <div class="card-body">
-          <div class="mb-2">
+          <div class="mb-3">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Select Department</mat-label>
               <mat-select formControlName="deptId">
@@ -99,7 +99,7 @@
               </mat-error>
             </mat-form-field>
           </div>
-          <div class="mb-2">
+          <div class="mb-3">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Grievance Type</mat-label>
               <input matInput placeholder="grievance type" formControlName="grievanceType"
