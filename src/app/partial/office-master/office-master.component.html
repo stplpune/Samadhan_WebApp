@@ -122,7 +122,7 @@
       <form [formGroup]="frmOffice" #formDirective="ngForm" (ngSubmit)="onSubmitOffice()" autocomplete="off">
         <div class="card-body">
 
-          <div class="mb-2">
+          <div class="mb-3">
             <mat-form-field appearance="outline" class="w-100 ">
               <mat-label>Select Department</mat-label>
               <mat-select formControlName="deptId">
@@ -137,7 +137,7 @@
             </mat-form-field>
           </div>
 
-          <div class="mb-2">
+          <div class="mb-3">
             <mat-form-field appearance="outline" class="w-100 ">
               <mat-label>Office Name</mat-label>
               <input matInput formControlName="name" maxlength="50" (keyup)="validation.removeSpaceAtBegining($event)"
@@ -150,7 +150,7 @@
             </mat-form-field>
           </div>
 
-          <div class="mb-2">
+          <div class="mb-3">
             <mat-form-field appearance="legacy" class="w-100 ">
               <mat-label>Office Address</mat-label>
               <!-- <input matInput formControlName="address" maxlength="200" (keyup)="validation.removeSpaceAtBegining($event)"> -->
@@ -180,7 +180,7 @@
                 </div> -->
           </div>
 
-          <div class="mb-2">
+          <div class="mb-3">
             <mat-form-field appearance="outline" class="w-100 ">
               <mat-label>Office Email ID</mat-label>
               <input matInput formControlName="emailId" (keyup)="validation.removeSpaceAtBegining($event)">
@@ -192,7 +192,7 @@
             </mat-form-field>
           </div>
 
-          <div class="mb-2">
+          <div class="mb-3">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Contact Person Name</mat-label>
               <input matInput formControlName="contactPersonName" maxlength="50"
@@ -205,7 +205,7 @@
             </mat-form-field>
           </div>
 
-          <div class="mb-2">
+          <div class="mb-3">
             <mat-form-field appearance="outline" class="w-100 ">
               <mat-label>Contact Person Mobile No.</mat-label>
               <input matInput formControlName="mobileNo" maxlength="10"
