@@ -134,7 +134,7 @@ export class DepartmentReportComponent implements OnInit {
       (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
       []
     );// Value Name
-
+    
     let objData = {
       'topHedingName' : 'Department Report',
       'createdDate':this.datePipe.transform(new Date(), 'dd/MM/yyyy')
