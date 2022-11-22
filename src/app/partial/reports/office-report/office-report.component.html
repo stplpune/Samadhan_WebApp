@@ -8,21 +8,28 @@
                 <i class="fa-solid fa-file-pdf"></i>
             </button>
         </div> -->
-        <form>
+        <form [formGroup]="filterForm">
             <div class="row gx-2">
                 <div class="col-sm-2">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Select Department ID</mat-label>
-                        <mat-select formControlName="userType">
-                            <mat-option>option-1</mat-option>
-                        </mat-select>
+                        <mat-select formControlName="searchdeptId" (selectionChange)="getOffice(filterForm.value.searchdeptId)">
+                            <mat-option value="0">All Department</mat-option>
+                        <mat-option *ngFor="let department of departmentArray" [value]="department.id">
+                            {{department.departmentName}}
+                        </mat-option>
+                    </mat-select>
                     </mat-form-field>
                 </div>
                 <div class="col-sm-2">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Select Office</mat-label>
-                        <mat-select formControlName="userType">
-                            <mat-option>option-1</mat-option>
+                        <mat-select formControlName="searchofcId"
+                        [disabled]='!filterForm.value.searchdeptId'>
+                        <mat-option value="0">All Office</mat-option>
+                        <mat-option *ngFor="let office of officeArray" [value]="office.id">
+                            {{office.name}}
+                        </mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
@@ -44,12 +51,12 @@
                     </mat-form-field>
                 </div>
                 <div class="col-sm text-end">
-                    <button mat-stroked-button class="btn-main me-2" type="submit">Search</button>
-                    <button mat-stroked-button class="btn-main-outline me-2" type="button">Clear</button>
+                    <button mat-stroked-button class="btn-main me-2" type="submit" (click)="pageNo = 1;getOfficerOfficeReport()">Search</button>
+                    <button mat-stroked-button class="btn-main-outline me-2" type="button"  (click)="clearFilter()">Clear</button>
                     <button mat-stroked-button [matMenuTriggerFor]="menu" class="btn-main">Menu</button>
                     <mat-menu #menu="matMenu">
-                        <button mat-menu-item><i class="fa-solid fa-file-excel me-2"></i><span>Excel</span></button>
-                        <button mat-menu-item> <i class="fa-solid fa-file-pdf me-2"></i><span>Pdf</span></button>
+                        <button mat-menu-item (click)="downloadExcel()"><i class="fa-solid fa-file-excel me-2"></i><span>Excel</span></button>
+                        <button mat-menu-item (click)="downloadPdf()"> <i class="fa-solid fa-file-pdf me-2"></i><span>Pdf</span></button>
                     </mat-menu>
                 </div>
                 <!-- <div class="col-sm text-end">
@@ -66,32 +73,32 @@
 
                 <ng-container matColumnDef="position">
                     <th mat-header-cell *matHeaderCellDef> Sr.No </th>
-                    <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                    <td mat-cell *matCellDef="let element let i= index"> {{((pageNo + 1) * 10 + i + 1)-20}} </td>
                 </ng-container>
     
                 <ng-container matColumnDef="name">
                     <th mat-header-cell *matHeaderCellDef> Department Name </th>
-                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.departmentname}} </td>
                 </ng-container>
     
                 <ng-container matColumnDef="OfficeName">
                     <th mat-header-cell *matHeaderCellDef>Office Name </th>
-                    <td mat-cell *matCellDef="let element"> {{element.OfficeName}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.officeName}} </td>
                 </ng-container>
     
                 <ng-container matColumnDef="Received">
                     <th mat-header-cell *matHeaderCellDef> Received </th>
-                    <td mat-cell *matCellDef="let element"> {{element.Received}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.received}} </td>
                 </ng-container>
     
                 <ng-container matColumnDef="Pending">
                     <th mat-header-cell *matHeaderCellDef> Pending </th>
-                    <td mat-cell *matCellDef="let element"> {{element.Pending}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.pending}} </td>
                 </ng-container>
     
                 <ng-container matColumnDef="Resolved">
                     <th mat-header-cell *matHeaderCellDef> Resolved </th>
-                    <td mat-cell *matCellDef="let element"> {{element.Resolved}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.resolved}} </td>
                 </ng-container>
     
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -99,8 +106,8 @@
             </table>
         </div>
        
-        <ng-container *ngIf="dataSource?.length!=0">
+        <!-- <ng-container *ngIf="dataSource?.length!=0">
             <mat-paginator #paginator [pageSizeOptions]="[10]" showFirstLastButtons></mat-paginator>
-        </ng-container>
+        </ng-container> -->
     </div>
 </div>
