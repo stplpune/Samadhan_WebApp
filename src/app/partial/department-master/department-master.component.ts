@@ -236,11 +236,12 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
   deleteUser() {
     let selDelArray = this.selection.selected;
     let delArray = new Array();
+    let userId = this.webStorage.getUserId();
     if (selDelArray.length > 0) {
       selDelArray.find((data: any) => {
         let obj = {
           id: data.id,
-          deletedBy: 0,
+          deletedBy: userId,
           modifiedDate: new Date(),
         };
         delArray.push(obj);
