@@ -18,23 +18,28 @@ export class ExcelService {
 
   downLoadPdf(header: any, values: any, objData: any) {
     let doc: any = new jsPDF();
-    var imgWidth = 33; 
-    var height = 25;
-    doc.addImage('../../../../assets/images/samadhanLogo.jpeg', 'JPEG',0, -3, imgWidth,height);
-
-    doc.setFontSize(13);
-    doc.text(objData.topHedingName, 105, 10, "center");
-
-    doc.setFontSize(10);
-    doc.text(objData.createdDate, 200, 10, "right");
-  
-    doc.setLineWidth(0.2);
-    doc.line(8, 15, 200, 15);
-
     doc.autoTable(header, values, {
       startY: 25,
-      margin: { horizontal: 7 },
+      // margin: { horizontal: 7 , verticle: 10},
+      margin: {top: 25},
+
+      didDrawPage: function (_data: any) {
+
+        var imgWidth = 33;
+        var height = 25;
+        doc.addImage('../../../../assets/images/samadhanLogo.jpeg', 'JPEG', 2, -3, imgWidth, height);
+
+        doc.setFontSize(13);
+        doc.text(objData.topHedingName, 105, 10, "center");
+
+        doc.setFontSize(10);
+        doc.text(objData.createdDate, 200, 10, "right");
+
+        doc.setLineWidth(0.2);
+        doc.line(12, 15, 200, 15);
+      }
     });
+    
     doc.save(objData.topHedingName);
   }
 
