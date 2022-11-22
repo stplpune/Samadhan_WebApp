@@ -211,9 +211,9 @@
               <input matInput formControlName="mobileNo" maxlength="10"
                 (keyup)="validation.removeSpaceAtBegining($event)" (keypress)="validation.acceptedOnlyNumbers($event)">
               <mat-error *ngIf="f['mobileNo']?.errors">
-                <span *ngIf="f['mobileNo']?.hasError('required')"> Mobile No is required</span>
+                <span *ngIf="f['mobileNo']?.hasError('required')"> Mobile No. is required</span>
                 <span *ngIf="f['mobileNo']?.hasError('pattern') || f['mobileNo']?.hasError('minlength')">
-                  Please enter valid Mobile no </span>
+                  Please enter valid Mobile No. </span>
               </mat-error>
             </mat-form-field>
           </div>
