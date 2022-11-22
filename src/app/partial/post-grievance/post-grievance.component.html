@@ -357,7 +357,7 @@
                     <div class="mb-2">
                         <mat-form-field class="w-100" appearance="legacy">
                             <mat-label>Grievance Details</mat-label>
-                            <textarea matInput placeholder="Type here" rows="4"
+                            <textarea matInput rows="4"
                                 (keypress)="validation.noFirstSpaceAllow($event)" formControlName="grievanceDescription"
                                 maxlength="500" [readonly]="ispatch"></textarea>
                             <mat-error *ngIf="f['grievanceDescription']?.errors">
