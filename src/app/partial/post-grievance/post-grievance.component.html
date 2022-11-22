@@ -65,7 +65,7 @@
                 <div class="col-sm-4">
                     <div class="mb-2">
                         <mat-form-field class="w-100" appearance="outline">
-                            <mat-label>Grievance Id / Name</mat-label>
+                            <mat-label>Grievance ID / Name</mat-label>
                             <input matInput placeholder="Search" formControlName="textSearch">
                         </mat-form-field>
                     </div>
@@ -80,7 +80,7 @@
                                 1)-20}}</td>
                         </ng-container>
                         <ng-container matColumnDef="grievanceNo">
-                            <th mat-header-cell *matHeaderCellDef>Grievance No</th>
+                            <th mat-header-cell *matHeaderCellDef>Grievance ID</th>
                             <td mat-cell *matCellDef="let element"> {{element.grievanceNo}} </td>
                         </ng-container>
 
@@ -349,7 +349,7 @@
                                 </mat-option>
                             </mat-select>
                             <mat-error *ngIf="f['natureGrievanceId']?.errors">
-                                <span *ngIf="f['natureGrievanceId']?.hasError('required')"> Nature of grievance is
+                                <span *ngIf="f['natureGrievanceId']?.hasError('required')"> Nature of Grievance is
                                     required</span>
                             </mat-error>
                         </mat-form-field>
@@ -361,7 +361,7 @@
                                 (keypress)="validation.noFirstSpaceAllow($event)" formControlName="grievanceDescription"
                                 maxlength="500" [readonly]="ispatch"></textarea>
                             <mat-error *ngIf="f['grievanceDescription']?.errors">
-                                <span *ngIf="f['grievanceDescription']?.hasError('required')">Grievance details is
+                                <span *ngIf="f['grievanceDescription']?.hasError('required')">Grievance Details is
                                     required</span>
                             </mat-error>
                         </mat-form-field>

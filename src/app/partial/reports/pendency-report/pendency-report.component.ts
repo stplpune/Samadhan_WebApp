@@ -84,12 +84,10 @@ export class PendencyReportComponent implements OnInit {
             delete ele.isDeleted
             return ele});
           this.dataSource = new MatTableDataSource(res.responseData);
-          // this.totalPages = res.responseData1.pageCount;
           this.spinner.hide();
         } else {
           this.spinner.hide();
           this.dataSource = [];
-          // this.totalPages = 0;
         }
       },
       error: (error: any) => {
@@ -101,7 +99,6 @@ export class PendencyReportComponent implements OnInit {
 
   clearFilter(){
     this.filterform();
-    // this.pageNo = 1;
     this.getPendencyReport();
   }
 
@@ -115,12 +112,11 @@ export class PendencyReportComponent implements OnInit {
       []
     );// Value Name
     let TopHeadingData = 'Pendency Report';
-
     this.pdf_excelService.generateExcel(keyPDFHeader, ValueData, TopHeadingData);
   }
 
   downloadPdf() {
-    let keyPDFHeader = ['srNo', 'departmentname','received', 'pending','approvedless7','approvedless15','approvedless30','approvedgrt30'];
+    let keyPDFHeader = ['SrNo', 'Department Name','Received', 'Pending','Approvedless7','Approvedless15','Approvedless30','Approvedgrt30'];
     let ValueData = this.pendencyReportArray.reduce(
       (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
       []

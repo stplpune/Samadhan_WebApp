@@ -23,17 +23,17 @@
                         <h5 class="text-center mb-5">LOGIN</h5>
                         <div class="mb-2">
                             <label class="form-label">
-                                Username
+                                User Name
                             </label>
                             <mat-form-field class="w-100" appearance="outline">
                                 <input matInput placeholder="User Name" formControlName="username" maxlength="10" autocomplete="off"
                                     (keypress)="validation.noSpaces($event) && validation.acceptedOnlyNumbers($event) " (keyup)="validation.onlyDigits($event)">
                                 <mat-error *ngIf="f['username'].errors">
-                                    <span *ngIf="f['username'].hasError('required')"> Please Enter
-                                        Username</span>
+                                    <span *ngIf="f['username'].hasError('required')"> Please enter
+                                        User Name</span>
                                 </mat-error>
                                 <mat-error *ngIf="f['username'].hasError('pattern')">
-                                    Please Enter Valid Username
+                                    Please enter valid User Name
                                 </mat-error>
                             </mat-form-field>
                         </div>
@@ -50,10 +50,10 @@
                                         {{hide==false ? 'visibility':'visibility_off'}} </span>
                                 </button>
                                 <mat-error *ngIf="f['password'].hasError('required')">
-                                    Please Enter Password
+                                    Please enter Password
                                 </mat-error>
                                 <mat-error *ngIf="f['password'].hasError('pattern')">
-                                    Please Enter Valid Password
+                                    Please enter Valid Password
                                 </mat-error>
                             </mat-form-field>
                         </div>
@@ -73,7 +73,7 @@
                                         <input matInput placeholder="Enter Captcha" formControlName="captcha"
                                             maxlength="4" autocomplete="off" (keypress)="validation.noSpaces($event) && validation.acceptedOnlyNumbers($event)">
                                         <mat-error *ngIf="f['captcha'].hasError('required')">
-                                            Captcha Is Required
+                                            Captcha is required
                                         </mat-error>
                                         <mat-error *ngIf="f['captcha'].hasError('pattern')">
                                             Please Enter Valid Captcha
