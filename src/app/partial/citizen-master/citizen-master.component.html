@@ -28,8 +28,7 @@
         <div class="col-sm-4">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Name / Mobile Number</mat-label>
-            <input matInput formControlName="textsearch"
-              (keypress)="validation.noFirstSpaceAllow($event)">
+            <input matInput formControlName="textsearch" (keypress)="validation.noFirstSpaceAllow($event)">
           </mat-form-field>
         </div>
       </div>
@@ -148,7 +147,7 @@
           <div class="row mb-3">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Name</mat-label>
-              <input matInput  formControlName="name" maxlength="50"
+              <input matInput formControlName="name" maxlength="50"
                 (keypress)="validation.noFirstSpaceAllow($event);validation.alphabetsWithSpaces($event)">
               <mat-error *ngIf="f['name']?.errors">
                 <span *ngIf="f['name']?.hasError('required')"> Name is required</span>
@@ -160,8 +159,8 @@
           <div class="row mb-3">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Mobile Number</mat-label>
-              <input matInput [readonly]="true" formControlName="mobileNo"
-                [class.disabled-contenct]="true" maxlength="10"
+              <input matInput [readonly]="true" formControlName="mobileNo" [class.disabled-contenct]="true"
+                maxlength="10"
                 (keypress)="validation.noFirstSpaceAllow($event);validation.noFirstSpaceAllow($event);validation.acceptedOnlyNumbers($event)">
               <mat-error *ngIf="f['mobileNo']?.errors">
                 <span *ngIf="f['mobileNo']?.hasError('required')"> Mobile No. is required</span>
@@ -173,8 +172,7 @@
           <div class="row mb-3">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Email ID</mat-label>
-              <input matInput  formControlName="emailId"
-                (keypress)="validation.noFirstSpaceAllow($event)">
+              <input matInput formControlName="emailId" (keypress)="validation.noFirstSpaceAllow($event)">
               <!-- <mat-error *ngIf="f['emailId']?.errors">
                 <span *ngIf="f['emailId']?.hasError('required')"> Email Id is required</span>
                 <span *ngIf="f['emailId']?.hasError('pattern') || f['emailId']?.hasError('minlength')">
