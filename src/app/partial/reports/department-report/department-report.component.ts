@@ -137,6 +137,7 @@ export class DepartmentReportComponent implements OnInit {
 
     let objData = {
       'topHedingName' : 'Department Report',
+      'createdDate':this.datePipe.transform(new Date(), 'dd/MM/yyyy')
     }
     this.pdf_excelService.downLoadPdf(keyPDFHeader, ValueData, objData);
   }
