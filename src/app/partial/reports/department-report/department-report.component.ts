@@ -80,7 +80,8 @@ export class DepartmentReportComponent implements OnInit {
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {
-          this.officeDepReportArray = res.responseData.map((ele:any)=>{ 
+          this.officeDepReportArray = res.responseData.map((ele:any,index:any)=>{ 
+            ele.deptId=index+1;
             delete ele.isDeleted 
             return ele});
           this.dataSource = new MatTableDataSource(res.responseData);
@@ -111,19 +112,20 @@ export class DepartmentReportComponent implements OnInit {
   }
 
   downloadExcel(){
-    let keyValue = this.officeDepReportArray.map((value: any) => Object.keys(value));
-    let keyData = keyValue[0]; // key Name
+    // let keyValue = this.officeDepReportArray.map((value: any) => Object.keys(value));
+    // let keyData = keyValue[0]; // key Name
 
     let ValueData = this.officeDepReportArray.reduce(
       (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
       []
     );// Value Name
     let TopHeadingData = 'Department Report';
-    this.pdf_excelService.generateExcel(keyData, ValueData, TopHeadingData);
+    let keyPDFHeader = ["SrNo","Department Name", "Received","Pending","Resolved"]; 
+    this.pdf_excelService.generateExcel(keyPDFHeader, ValueData, TopHeadingData);
   }
 
   downloadPdf() {
-    let keyPDFHeader = ["Department Id","Department Name", "Received","Pending","Resolved"]; 
+    let keyPDFHeader = ["SrNo","Department Name", "Received","Pending","Resolved"]; 
     let ValueData = this.officeDepReportArray.reduce(
       (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
       []
