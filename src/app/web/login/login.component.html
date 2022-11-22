@@ -29,11 +29,11 @@
                                 <input matInput placeholder="User Name" formControlName="username" maxlength="10" autocomplete="off"
                                     (keypress)="validation.noSpaces($event) && validation.acceptedOnlyNumbers($event) " (keyup)="validation.onlyDigits($event)">
                                 <mat-error *ngIf="f['username'].errors">
-                                    <span *ngIf="f['username'].hasError('required')"> Please Enter
+                                    <span *ngIf="f['username'].hasError('required')"> Please enter
                                         Username</span>
                                 </mat-error>
                                 <mat-error *ngIf="f['username'].hasError('pattern')">
-                                    Please Enter Valid Username
+                                    Please enter valid Username
                                 </mat-error>
                             </mat-form-field>
                         </div>
@@ -50,10 +50,10 @@
                                         {{hide==false ? 'visibility':'visibility_off'}} </span>
                                 </button>
                                 <mat-error *ngIf="f['password'].hasError('required')">
-                                    Please Enter Password
+                                    Please enter Password
                                 </mat-error>
                                 <mat-error *ngIf="f['password'].hasError('pattern')">
-                                    Please Enter Valid Password
+                                    Please enter Valid Password
                                 </mat-error>
                             </mat-form-field>
                         </div>
