@@ -258,7 +258,7 @@
                         (keypress)="validation.alphaNumericWithSpacesAndSpecChars($event)">
                         <mat-error *ngIf="f['emailId']?.errors">
                             <span *ngIf="f['emailId']?.hasError('required')"> Email Id is required</span>
-                            <span  *ngIf="f['emailId']?.hasError('pattern')"> Please enter valid email id
+                            <span  *ngIf="f['emailId']?.hasError('pattern')"> Please enter valid Email ID
                             </span>
                         </mat-error>
                     </mat-form-field>
