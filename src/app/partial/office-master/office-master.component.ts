@@ -65,7 +65,7 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.createOfficeForm();
     this.filterform();
-    this.getDepartmentName();
+    this.getDepartmentName(this.localStrorageData.getUserId());
     this.getData();
     this.mapApiLoader();
   }
@@ -110,15 +110,14 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
 
   //--------------------------------------------------------Department-------------------------------------------------------------------------------------------
 
-  getDepartmentName(){
+  getDepartmentName(userId:number) {
     this.departmentArr = [];
-    this.commonService.getAllDepartment().subscribe({
+    this.commonService.getAllDepartmentByUserId(userId).subscribe({
       next: (response: any) => {
         this.departmentArr.push(...response);
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
-
   }
 
   //-------------------------------------------------------------Dispaly Table-----------------------------------------------------------------------------
