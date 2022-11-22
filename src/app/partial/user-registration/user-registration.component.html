@@ -57,7 +57,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="subUserType">
-                    <th mat-header-cell *matHeaderCellDef> Sub User Type </th>
+                    <th mat-header-cell *matHeaderCellDef> DESIGNATION </th>
                     <td mat-cell *matCellDef="let element"> 
                         {{element.subUserType ? element.subUserType : '-'}} </td>
                 </ng-container>
@@ -179,11 +179,10 @@
                             <span *ngIf="f['userTypeId']?.hasError('required')"> Please select User 
                                Type</span>
                         </mat-error>
-
                     </mat-form-field>
                 </div>
 
-                <div class="mb-3">
+                <!-- <div class="mb-3">
                     <mat-form-field class="w-100" appearance="outline">
                         <mat-label> Sub User Type</mat-label>
                         <mat-select formControlName="subUserTypeId" [disabled]="!userFrm.value.userTypeId">
@@ -197,7 +196,7 @@
                         </mat-error>
 
                     </mat-form-field>
-                </div>
+                </div> -->
                 <div class="mb-3" *ngIf="userFrm.value.userTypeId !=2">
                     <mat-form-field class="w-100" appearance="outline">
                         <mat-label>Department</mat-label>
@@ -228,7 +227,7 @@
                 <div class="mb-3">
                     <mat-form-field class="w-100" appearance="outline">
                         <mat-label>Name</mat-label>
-                        <input matInput placeholder="Enter name" formControlName="name" maxlength="50"
+                        <input matInput formControlName="name" maxlength="50"
                          (keypress)="validation.noFirstSpaceAllow($event);validation.alphabetsWithSpaces($event)"
                         maxlength="200">
                         <mat-error *ngIf="f['name']?.errors">
@@ -241,7 +240,7 @@
                 <div class="mb-3">
                     <mat-form-field class="w-100" appearance="outline">
                         <mat-label>Mobile No.</mat-label>
-                        <input matInput placeholder="Enter your mobile no." formControlName="mobileNo" maxlength="10"
+                        <input matInput  formControlName="mobileNo" maxlength="10"
                          (keypress)="validation.acceptedOnlyNumbers($event)">
                         <mat-error *ngIf="f['mobileNo']?.errors">
                             <span *ngIf="f['mobileNo']?.hasError('required')"> Mobile No. is required</span>
