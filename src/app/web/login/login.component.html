@@ -30,10 +30,10 @@
                                     (keypress)="validation.noSpaces($event) && validation.acceptedOnlyNumbers($event) " (keyup)="validation.onlyDigits($event)">
                                 <mat-error *ngIf="f['username'].errors">
                                     <span *ngIf="f['username'].hasError('required')"> Please enter
-                                        Username</span>
+                                        User Name</span>
                                 </mat-error>
                                 <mat-error *ngIf="f['username'].hasError('pattern')">
-                                    Please enter valid Username
+                                    Please enter valid User Name
                                 </mat-error>
                             </mat-form-field>
                         </div>
