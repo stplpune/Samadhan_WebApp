@@ -65,7 +65,7 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.createOfficeForm();
     this.filterform();
-    this.getDepartmentName(this.localStrorageData.getUserId());
+    this.getDepartmentName();
     this.getData();
     this.mapApiLoader();
   }
@@ -109,9 +109,10 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
    selection = new SelectionModel<any>(true, []);
 
   //--------------------------------------------------------Department-------------------------------------------------------------------------------------------
-  getDepartmentName(userId:number){
+
+  getDepartmentName(){
     this.departmentArr = [];
-    this.commonService.getAllDepartmentByUserId(userId).subscribe({
+    this.commonService.getAllDepartment().subscribe({
       next: (response: any) => {
         this.departmentArr.push(...response);
       },
