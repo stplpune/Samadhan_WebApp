@@ -27,6 +27,7 @@ export class PendencyReportComponent implements OnInit {
   filterForm!:FormGroup;
   pendencyReportArray:any;
   pendencyArray = new Array();
+  minDate=new Date();
 
   constructor(
     private apiService: ApiService,
@@ -78,7 +79,8 @@ export class PendencyReportComponent implements OnInit {
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {
-          this. pendencyReportArray = res.responseData.map((ele:any)=>{
+          this.pendencyReportArray = res.responseData.map((ele:any,index:any)=>{
+            ele.deptId=index +1;
             delete ele.isDeleted
             return ele});
           this.dataSource = new MatTableDataSource(res.responseData);
@@ -104,16 +106,17 @@ export class PendencyReportComponent implements OnInit {
   }
 
   downloadExcel(){
-    let keyValue = this.pendencyReportArray.map((value: any) => Object.keys(value));
-    let keyData = keyValue[0]; // key Name
+    // let keyValue = this.pendencyReportArray.map((value: any) => Object.keys(value));
+    // let keyData = keyValue[0]; // key Name
 
+    let keyPDFHeader = ['srNo', 'departmentname','received', 'pending','approvedless7','approvedless15','approvedless30','approvedgrt30'];
     let ValueData = this.pendencyReportArray.reduce(
       (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
       []
     );// Value Name
     let TopHeadingData = 'Pendency Report';
 
-    this.pdf_excelService.generateExcel(keyData, ValueData, TopHeadingData);
+    this.pdf_excelService.generateExcel(keyPDFHeader, ValueData, TopHeadingData);
   }
 
   downloadPdf() {
@@ -125,6 +128,7 @@ export class PendencyReportComponent implements OnInit {
 
     let objData = {
       'topHedingName' : 'Pendency Report',
+      'createdDate':this.datePipe.transform(new Date(), 'dd/MM/yyyy')
     }
     this.pdf_excelService.downLoadPdf(keyPDFHeader, ValueData, objData);
   }
