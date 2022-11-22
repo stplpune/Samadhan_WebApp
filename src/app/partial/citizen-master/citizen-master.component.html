@@ -148,7 +148,7 @@
           <div class="row mb-3">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Name</mat-label>
-              <input matInput placeholder="Enter Name" formControlName="name" maxlength="50"
+              <input matInput  formControlName="name" maxlength="50"
                 (keypress)="validation.noFirstSpaceAllow($event);validation.alphabetsWithSpaces($event)">
               <mat-error *ngIf="f['name']?.errors">
                 <span *ngIf="f['name']?.hasError('required')"> Name is required</span>
@@ -160,7 +160,7 @@
           <div class="row mb-3">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Mobile Number</mat-label>
-              <input matInput placeholder="Enter Mobile Number" [readonly]="true" formControlName="mobileNo"
+              <input matInput [readonly]="true" formControlName="mobileNo"
                 [class.disabled-contenct]="true" maxlength="10"
                 (keypress)="validation.noFirstSpaceAllow($event);validation.noFirstSpaceAllow($event);validation.acceptedOnlyNumbers($event)">
               <mat-error *ngIf="f['mobileNo']?.errors">
