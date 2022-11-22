@@ -185,7 +185,7 @@
               <mat-label>Office Email ID</mat-label>
               <input matInput formControlName="emailId" (keyup)="validation.removeSpaceAtBegining($event)">
               <mat-error *ngIf="f['emailId']?.errors">
-                <span *ngIf="f['emailId']?.hasError('required')">Email Id is required</span>
+                <span *ngIf="f['emailId']?.hasError('required')">Email ID is required</span>
                 <span *ngIf="f['emailId'].hasError('pattern')">
                   Pelase enter valid Email ID</span>
               </mat-error>
