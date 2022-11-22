@@ -20,16 +20,16 @@ import { WebStorageService } from 'src/app/core/service/web-storage.service';
 })
 export class DepartmentReportComponent implements OnInit {
 
-  filterForm!:FormGroup;
-  displayedColumns: string[] = ['srNo', 'departmentname', 'received', 'pending','resolved'];
-  dataSource:any;
+  filterForm!: FormGroup;
+  displayedColumns: string[] = ['srNo', 'departmentname', 'received', 'pending', 'resolved'];
+  dataSource: any;
   totalPages: any;
   pageNo = 1;
   pageSize = 10;
-  officeDepReportArray:any;
+  officeDepReportArray: any;
   departmentArray = new Array();
-  
-  
+
+
   constructor(
     private apiService: ApiService,
     public error: ErrorHandlerService,
@@ -42,8 +42,8 @@ export class DepartmentReportComponent implements OnInit {
     public commonMethod: CommonMethodService,
     private fb: FormBuilder,
     private datePipe: DatePipe,
-    private pdf_excelService : ExcelService,
-  ) {}
+    private pdf_excelService: ExcelService,
+  ) { }
 
   ngOnInit(): void {
     this.filterform();
@@ -56,16 +56,16 @@ export class DepartmentReportComponent implements OnInit {
       searchdeptId: [0],
       fromDate: [''],
       toDate: ['']
-         })
-       }
+    })
+  }
 
-       
+
   getDepartment() {
     this.departmentArray = [];
     this.commonService.getAllDepartment().subscribe({
       next: (response: any) => {
         this.departmentArray.push(...response);
-     },
+      },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
   }
@@ -75,15 +75,16 @@ export class DepartmentReportComponent implements OnInit {
     let formData = this.filterForm.value;
     formData.fromDate = formData.fromDate ? this.datePipe.transform(formData.fromDate, 'yyyy/MM/dd') : '';
     formData.toDate = formData.toDate ? this.datePipe.transform(formData.toDate, 'yyyy/MM/dd') : '';
-    let obj = formData.searchdeptId + '&userid='+ this.localStrorageData.getUserId() + '&fromDate='+ formData.fromDate + '&toDate='+ formData.toDate
-    this.apiService.setHttp('get','api/ShareGrievances/OfficerDepartmentReport?searchdeptId=' + obj,false,false,false,'samadhanMiningService');
+    let obj = formData.searchdeptId + '&userid=' + this.localStrorageData.getUserId() + '&fromDate=' + formData.fromDate + '&toDate=' + formData.toDate
+    this.apiService.setHttp('get', 'api/ShareGrievances/OfficerDepartmentReport?searchdeptId=' + obj, false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {
-          this.officeDepReportArray = res.responseData.map((ele:any,index:any)=>{ 
-            ele.deptId=index+1;
-            delete ele.isDeleted 
-            return ele});
+          this.officeDepReportArray = res.responseData.map((ele: any, index: any) => {
+            ele.deptId = index + 1;
+            delete ele.isDeleted
+            return ele
+          });
           this.dataSource = new MatTableDataSource(res.responseData);
           this.totalPages = res.responseData1.pageCount;
           this.spinner.hide();
@@ -105,13 +106,13 @@ export class DepartmentReportComponent implements OnInit {
     this.getOfficerDepartmentReport();
   }
 
-  clearFilter(){
+  clearFilter() {
     this.filterform();
     this.pageNo = 1;
     this.getOfficerDepartmentReport();
   }
 
-  downloadExcel(){
+  downloadExcel() {
     // let keyValue = this.officeDepReportArray.map((value: any) => Object.keys(value));
     // let keyData = keyValue[0]; // key Name
 
@@ -119,21 +120,26 @@ export class DepartmentReportComponent implements OnInit {
       (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
       []
     );// Value Name
-    let TopHeadingData = 'Department Report';
-    let keyPDFHeader = ["SrNo","Department Name", "Received","Pending","Resolved"]; 
-    this.pdf_excelService.generateExcel(keyPDFHeader, ValueData, TopHeadingData);
+    let keyPDFHeader = ["SrNo", "Department Name", "Received", "Pending", "Resolved"];
+
+    let objData = {
+      'topHedingName': 'Department Report',
+      'createdDate': this.datePipe.transform(new Date(), 'dd/MM/yyyy')
+    }
+
+    this.pdf_excelService.generateExcel(keyPDFHeader, ValueData, objData);
   }
 
   downloadPdf() {
-    let keyPDFHeader = ["SrNo","Department Name", "Received","Pending","Resolved"]; 
+    let keyPDFHeader = ["SrNo", "Department Name", "Received", "Pending", "Resolved"];
     let ValueData = this.officeDepReportArray.reduce(
       (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
       []
     );// Value Name
-    
+
     let objData = {
-      'topHedingName' : 'Department Report',
-      'createdDate':this.datePipe.transform(new Date(), 'dd/MM/yyyy')
+      'topHedingName': 'Department Report',
+      'createdDate': this.datePipe.transform(new Date(), 'dd/MM/yyyy')
     }
     this.pdf_excelService.downLoadPdf(keyPDFHeader, ValueData, objData);
   }

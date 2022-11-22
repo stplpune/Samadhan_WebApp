@@ -21,7 +21,7 @@ export class ExcelService {
     doc.autoTable(header, values, {
       startY: 25,
       // margin: { horizontal: 7 , verticle: 10},
-      margin: {top: 25},
+      margin: { top: 25 },
 
       didDrawPage: function (_data: any) {
 
@@ -39,21 +39,31 @@ export class ExcelService {
         doc.line(12, 15, 200, 15);
       }
     });
-    
+
     doc.save(objData.topHedingName);
   }
 
-  generateExcel(keyData: any, ValueData: any, TopHeadingData: any) {
+  async generateExcel(keyData: any, ValueData: any, objData: any) {
 
     // Create workbook and worksheet
     const workbook = new Workbook();
     const worksheet = workbook.addWorksheet('Sharing Data');
 
     worksheet.addRow([]);
-    worksheet.getCell('C2').value = TopHeadingData
-    worksheet.getCell('C2').font = { name: 'Corbel', family: 3, size: 13, bold: true, };
+    worksheet.getCell('C4').value = objData.topHedingName
+    worksheet.getCell('C4').font = { name: 'Corbel', family: 3, size: 13, bold: true, };
 
-    // worksheet.mergeCells('A1:D2');
+    worksheet.getCell('E5').value = 'Date:' + objData.createdDate
+    worksheet.getCell('E5').font = { name: 'Corbel', family: 3, size: 12, bold: true, };
+
+    const response = await fetch('../../../../assets/images/samadhanLogo.jpeg');
+    const buffer = await response.arrayBuffer();
+    const imageId1 = workbook.addImage({
+      buffer: buffer, extension: 'jpeg',
+    });
+
+    worksheet.addImage(imageId1, 'B1:B5');
+
 
     worksheet.addRow([]);// Blank Row
     const headerRow = worksheet.addRow(keyData); // Add Header Row
@@ -71,10 +81,8 @@ export class ExcelService {
     worksheet.getColumn(2).width = 30;
     worksheet.getColumn(3).width = 30;
     worksheet.getColumn(4).width = 30;
-    worksheet.getColumn(5).width = 15;
-    worksheet.getColumn(6).width = 15;
-    worksheet.getColumn(7).width = 25;
-    worksheet.getColumn(10).width = 15;
+    worksheet.getColumn(5).width = 30;
+    worksheet.getColumn(6).width = 30;
     worksheet.addRow([]);
 
     // Generate Excel File with given name
@@ -82,7 +90,7 @@ export class ExcelService {
       const blob = new Blob([data], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       });
-      FileSaver.saveAs(blob, TopHeadingData);
+      FileSaver.saveAs(blob, objData.topHedingName);
     });
   }
 }
