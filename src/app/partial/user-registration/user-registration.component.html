@@ -182,7 +182,7 @@
                     </mat-form-field>
                 </div>
 
-                <!-- <div class="mb-3">
+             <div class="mb-3">
                     <mat-form-field class="w-100" appearance="outline">
                         <mat-label> Sub User Type</mat-label>
                         <mat-select formControlName="subUserTypeId" [disabled]="!userFrm.value.userTypeId">
@@ -196,7 +196,7 @@
                         </mat-error>
 
                     </mat-form-field>
-                </div> -->
+                </div> 
                 <div class="mb-3" *ngIf="userFrm.value.userTypeId !=2">
                     <mat-form-field class="w-100" appearance="outline">
                         <mat-label>Department</mat-label>
@@ -253,7 +253,7 @@
                 <div class="mb-3">
                     <mat-form-field class="w-100" appearance="outline">
                         <mat-label>Email ID</mat-label>
-                        <input matInput placeholder="Enter email id" formControlName="emailId"  maxlength="20"
+                        <input matInput placeholder="Enter email id" formControlName="emailId"  maxlength="100"
                         (keypress)="validation.alphaNumericWithSpacesAndSpecChars($event)">
                         <mat-error *ngIf="f['emailId']?.errors">
                             <span *ngIf="f['emailId']?.hasError('required')"> Email Id is required</span>
