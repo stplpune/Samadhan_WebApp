@@ -25,7 +25,7 @@ export class UserRightAccessComponent implements OnInit {
   pageNumber: number = 1;
   pageSize: number = 10;
   dataSource: any;
-  displayedColumns: string[] = ['srno', 'pageName', 'pageURL', 'menuIcon', 'select'];
+  displayedColumns: string[] = ['srno', 'pageName', 'pageURL', 'select'];
   totalRows: number = 0;
   highlightedRow!: number;
   initialLoadFlag: boolean = true;
@@ -91,7 +91,7 @@ export class UserRightAccessComponent implements OnInit {
 
   getUserRightPageList(){
     this.spinner.show()
-    let paramList: string = "?UserTypeId=" + this.userRightFrm.value.userType + "&SubUserTypeId=" + this.userRightFrm.value.subUserType + "&Textsearch=" + this.userRightFrm.value.pageName.trim() + "&pageno=" + 10 + "&pagesize=" + this.pageSize;
+    let paramList: string = "?UserTypeId=" + this.userRightFrm.value.userType + "&SubUserTypeId=" + this.userRightFrm.value.subUserType + "&Textsearch=" + this.userRightFrm.value.pageName.trim() + "&pageno=" +this.pageNumber + "&pagesize=" + this.pageSize;
     this.apiService.setHttp('get', "samadhan/user-pages/GetByCriteria" + paramList, false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {

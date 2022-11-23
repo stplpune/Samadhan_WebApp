@@ -176,7 +176,7 @@ let obj = {
   "modifiedDate": new Date()
 };
 
-let method =  'PUT';
+let method = 'PUT';
 let url = 'UpdateCitizen';
 this.apiService.setHttp(
   method,
