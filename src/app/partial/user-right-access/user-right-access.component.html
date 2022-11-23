@@ -62,7 +62,7 @@
         </tr>
       </table>
       <!-- *ngIf="totalRows>10" -->
-      <ng-container>
+      <ng-container *ngIf="totalRows > 10">
         <mat-paginator [pageSizeOptions]="[10]" [length]="totalRows" showFirstLastButtons
             (page)="pageChanged($event)">
         </mat-paginator>
