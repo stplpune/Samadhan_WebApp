@@ -13,7 +13,6 @@ import { ConfigService } from 'src/app/configs/config.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { WebStorageService } from 'src/app/core/service/web-storage.service';
-import { MatSort } from '@angular/material/sort';
 import { CommonApiService } from 'src/app/core/service/common-api.service';
 
 @Component({
@@ -24,7 +23,6 @@ import { CommonApiService } from 'src/app/core/service/common-api.service';
 export class DepartmentMasterComponent implements OnInit, OnDestroy {
   @ViewChild('formDirective') formDirective!: NgForm;
   @ViewChild('paginator') paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
 // displayedColumns: string[] = ['srNo','departmentName','weight','delete','select',];
   displayedColumns: string[] = ['srNo','departmentName','action'];
   dataSource: any;
@@ -106,7 +104,6 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
         if (res.statusCode == 200) {
           let dataSet = res.responseData;
           this.dataSource = new MatTableDataSource(dataSet);
-          this.dataSource.sort = this.sort;
           this.totalPages = res.responseData1.pageCount;
           this.pageNo == 1 ? this.paginator?.firstPage() : '';
           this.spinner.hide();
@@ -115,6 +112,11 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
           this.dataSource = [];
           this.totalPages = 0;
         }
+
+      },  error: (error: any) => {
+        this.dataSource = [];
+        this.error.handelError(error.status);
+        this.spinner.hide();
 
       },
     });
@@ -146,9 +148,7 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
           // this.spinner.hide();
           this.getData();
           this.onCancelRecord();
-          this.commonMethod.checkDataType(res.statusMessage) == false
-            ? this.error.handelError(res.statusCode)
-            : this.commonMethod.matSnackBar(res.statusMessage, 0);
+          this.commonMethod.matSnackBar(res.statusMessage, 0);
         } else {
           this.commonMethod.checkDataType(res.statusMessage) == false
             ? this.error.handelError(res.statusCode)
@@ -188,10 +188,9 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
   }
 
 //---------------------------------------------------------------------------filter-----------------------------------------------------------------------------------------------
-  filterRecord() {
-    this.getData();
-
-  }
+  // filterRecord() {
+  //   this.getData();
+  // }
 
   filterData() {
     this.pageNo = 1;
@@ -221,10 +220,11 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
         successBtnText: 'Delete',
         dialogIcon: '',
         cancelBtnText: 'Cancel',
+        inputType:false
       },
       disableClose: this.apiService.disableCloseFlag,
     });
-    dialog.afterClosed().subscribe((res) => {
+    dialog.afterClosed().subscribe((res) => {;
       if (res == 'Yes') {
         this.deleteUser();
       } else {
@@ -234,6 +234,7 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
   }
 
   deleteUser() {
+
     let selDelArray = this.selection.selected;
     let delArray = new Array();
     let userId = this.webStorage.getUserId();
@@ -258,15 +259,15 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
     this.apiService.getHttp().subscribe(
       {
         next: (res: any) => {
-          if (res.statusCode === '200') {
+          if (res.statusCode == '200') {
             this.highlightedRow = 0;
             this.getData();
             this.commonMethod.matSnackBar(res.statusMessage, 0);
-            this.selection.clear();
+            // this.selection.clear();
           } else {
-            if (res.statusCode != '404') {
-              this.error.handelError(res.statusMessage);
-            }
+            this.commonMethod.checkDataType(res.statusMessage) == false
+            ? this.error.handelError(res.statusCode)
+            : this.commonMethod.matSnackBar(res.statusMessage, 1);
           }
         },
       },
