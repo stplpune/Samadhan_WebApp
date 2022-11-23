@@ -71,8 +71,8 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
 
-//---------------------------------------------------------------------------Office Form----------------------------------------------------------------
-  createOfficeForm() {
+//#region createOfficeForm start
+createOfficeForm() {
     this.frmOffice = this.fb.group({
       deptId: ['', [Validators.required]],
       name: ['',[Validators.required, Validators.pattern(this.validation.valName)]],
@@ -83,18 +83,24 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  //#region createOfficeForm end
+
   get f() {
     return this.frmOffice.controls;
   }
-  //-------------------------------------------------------------------------FilterFOrm--------------------------------------------------------------------------------------
-   filterform() {
+
+  //#region filterform start
+  filterform() {
     this.filterForm = this.fb.group({
       deptId: [0],
       name: ['']
          })
        }
-  //-------------------------------------------------------------------------AfterViewInit------------------------------------------------------------------
-    ngAfterViewInit() {
+
+  //#region filterform end
+
+//#region ngAfterViewInit start
+  ngAfterViewInit() {
     let formData: any = this.filterForm.controls['name'].valueChanges;
     formData.pipe(filter(() => this.filterForm.valid),
       debounceTime(0),
@@ -104,10 +110,11 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
         this.totalRows > 10 && this.pageNo == 1 ? this.paginator?.firstPage() : '';
       });
     }
+
+  //#region ngAfterViewInit end
    selection = new SelectionModel<any>(true, []);
 
-  //--------------------------------------------------------Department-------------------------------------------------------------------------------------------
-
+//#region Department Api start
   getDepartmentName() {
     this.departmentArr = [];
     this.commonService.getAllDepartment().subscribe({
@@ -118,7 +125,10 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
-  //-------------------------------------------------------------Dispaly Table-----------------------------------------------------------------------------
+//#region Department Api end
+
+
+//#region Bind Table Fun start
   getData() {
     this.spinner.show()
     let formData = this.filterForm.value;
@@ -145,7 +155,12 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
       },
     });
   }
-//-------------------------------------------------------Submit----------------------------------------------------------------------------------------------------
+
+
+//#region Bind Table Fun end
+
+
+//#region Submit Fun start
   onSubmitOffice() {
     // this.spinner.show();
     if (this.frmOffice.invalid) {
@@ -197,7 +212,10 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
       },
     });
   }
-//----------------------------------------------------------------------------Edit---------------------------------------------------------------------------------
+
+//#region Submit Fun end
+
+//#region Patch Value Fun start
   editRecord(ele: any) {
     this.highlightedRow = ele.id;
     this.isEdit = true;
@@ -211,7 +229,11 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
       mobileNo: this.updatedObj.contactPersonMobileNo,
     });
   }
-//--------------------------------------------------------Pagination-------------------------------------------------------------------------------------------
+
+  //#region Patch Value Fun end
+
+
+//#region Pagination Fun start
     pageChanged(event: any) {
       this.pageNo = event.pageIndex + 1;
       this.getData();
@@ -219,19 +241,30 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
       this.selection.clear();
 
     }
-//------------------------------------------------------------------------FIlterData------------------------------------------------------------------------
+
+//#region Pagination Fun end
+
+
+//#region Filter Fun start
     filterData(){
       this.pageNo = 1;
       this.getData();
       this.onCancelRecord();
 
     }
-//----------------------------------------------------------------------------Cancle--------------------------------------------------------------------------------------
+
+//#region Filter Fun end
+
+//#region CAncleRecord Fun start
   onCancelRecord() {
     this.formDirective.resetForm();
     this.isEdit = false;
   }
-//------------------------------------------------------------------------------Delete----------------------------------------------------------------------------------
+
+  //#region CAncleRecord Fun end
+
+
+//#region Delete Fun start
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
@@ -312,10 +345,9 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
     this.onCancelRecord();
   }
 
-  ngOnDestroy() {
-    this.subscription?.unsubscribe();
-  }
+//#region Delete Fun end
 
+//#region mapApiLoader Fun start
   mapApiLoader() {
 
     this.mapsAPILoader.load().then(() => {
@@ -347,5 +379,14 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
       });
       this.frmOffice.controls['address'].setValue(this.searchElementRef.nativeElement?.value);
   }
+//#region mapApiLoader Fun end
+
+//#region ngOnDestroy start
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
+  }
+
+//#region ngOnDestroy end
+
 }
 

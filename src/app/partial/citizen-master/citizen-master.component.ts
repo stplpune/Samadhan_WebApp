@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {SelectionModel} from '@angular/cdk/collections';
-import {MatTableDataSource} from '@angular/material/table';
+import { SelectionModel } from '@angular/cdk/collections';
+import { MatTableDataSource } from '@angular/material/table';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { ErrorHandlerService } from 'src/app/core/service/error-handler.service';
@@ -61,8 +61,8 @@ export class CitizenMasterComponent implements OnInit {
     this.getData();
   }
 
-//----------------------------------------------------------------FormStart---------------------------------------------------------------------------------------
-  createCitizenForm(){
+//#region createCitizenForm and filterForm start
+createCitizenForm(){
     this.frmCitizen = this.fb.group({
      name :['',[Validators.required, Validators.pattern(this.validation.valName)],],
      mobileNo :['',[Validators.required,Validators.pattern(this.validation.valMobileNo),Validators.minLength(10),Validators.maxLength(10),],],
@@ -78,11 +78,13 @@ export class CitizenMasterComponent implements OnInit {
     })
   }
 
+
+//#endregion createCitizenForm and filterForm end
   get f() {
     return this.frmCitizen.controls;
   }
 
-//-------------------------------------------------------------------------AfterViewInit------------------------------------------------------------------
+//#region ngAfterViewInit Fun start
   ngAfterViewInit() {
     let formData: any = this.filterForm.controls['textsearch'].valueChanges;
     formData.pipe(filter(() => this.filterForm.valid),
@@ -93,16 +95,23 @@ export class CitizenMasterComponent implements OnInit {
         this.totalRows > 10 && this.pageNo == 1 ? this.paginator?.firstPage() : '';
       });
     }
-//---------------------------------------------------------------------------Filter-------------------------------------------------------------------------
+
+
+ //#endregion ngAfterViewInit Fun end
+
+
+//#region Filter Fun start
   filterData(){
     this.pageNo = 1;
     this.getData();
     this.onCancelRecord();
   }
 
+//#endregion Filter Fun end
   selection = new SelectionModel<any>(true, []);
-//----------------------------------------------------------------------------Taluka-------------------------------------------------------------------------------------------
-getTalukaName(editFlag:any ) {
+
+//#region Taluka Api start
+  getTalukaName(editFlag:any ) {
     this.talukaArr = [];
     this.commonService.getAllTaluka().subscribe({
       next: (response: any) => {
@@ -113,8 +122,10 @@ getTalukaName(editFlag:any ) {
 
     })
 }
+//#endregion Taluka Api end
 
-//----------------------------------------------------------------------------Village---------------------------------------------------------------------------------------------
+
+//#region Village Api start
 getVillageName(talukaId:number, editFlag:any) {
   this.frmCitizen.controls['villageId'].setValue('');
   console.log(this.frmCitizen.controls);
@@ -133,7 +144,10 @@ getVillageName(talukaId:number, editFlag:any) {
 
 }
 
-//---------------------------------------------------------------------------Dispaly Table-----------------------------------------------------------------------------
+//#endregion Village Api end
+
+
+//#region Bind table Fun start
 getData() {
 this.spinner.show()
 let formData = this.filterForm.value;
@@ -159,7 +173,11 @@ this.apiService.getHttp().subscribe({
   },
 });
 }
-//-----------------------------------------------------------------------Submit----------------------------------------------------------------------------------------------------
+
+//#endregion Bind table Fun end
+
+
+//#region update fun start
 onUpdateCitizen() {
 if (this.frmCitizen.invalid) {
   return;
@@ -204,7 +222,11 @@ this.subscription = this.apiService.getHttp().subscribe({
   },
 });
 }
-//----------------------------------------------------------------------------Edit---------------------------------------------------------------------------------
+
+//#endregion update fun end
+
+
+//#region patchValue start
 editRecord(ele: any) {
 this.isdisable = true;
 this.highlightedRow = ele.id;
@@ -218,14 +240,19 @@ this.frmCitizen.patchValue({
 this.getTalukaName(this.isEdit);
 
 }
-//-------------------------------------------------------------------------CancleRecord-----------------------------------------------------------------------
+//#endregion patchValue end
+
+//#region CancelRecord fun start
 onCancelRecord() {
   this.formDirective.resetForm();
   this.isEdit = false;
   this.isdisable= false;
 }
 
-//-------------------------------------------------------------------------Pagination-------------------------------------------------------------------------------
+//#endregion CancelRecord fun end
+
+
+//#region paginaion fun start
 pageChanged(event: any){
   this.pageNo = event.pageIndex + 1;
   this.getData();
@@ -233,7 +260,10 @@ pageChanged(event: any){
   this.selection.clear();
 }
 
-//---------------------------------------------------------------------------Clear---------------------------------------------------------------------------------
+//#endregion paginaion fun end
+
+
+//#region clearFilter Fun start
  clearFilter(flag: any) {
   switch (flag) {
     case 'taluka':
@@ -247,7 +277,10 @@ pageChanged(event: any){
   }
 }
 
-//------------------------------------------------------------------------------Delete----------------------------------------------------------------------------------
+//#endregion clearFilter Fun end
+
+
+//#region delete fun start
 isAllSelected() {
   const numSelected = this.selection.selected.length;
   const numRows = this.dataSource.data.length;
@@ -326,9 +359,13 @@ deleteUser() {
   this.onCancelRecord();
 }
 
+//#endregion Delete fun end
+
+//#region ngOnDestroy start
 ngOnDestroy() {
   this.subscription?.unsubscribe();
 }
+//#endregion ngOnDestroy end
 }
 
 
