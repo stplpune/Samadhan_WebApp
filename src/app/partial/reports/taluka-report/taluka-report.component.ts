@@ -109,9 +109,12 @@ export class TalukaReportComponent implements OnInit {
       (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
       []
     );// Value Name
-    let TopHeadingData = 'Office Taluka Report';
+    let objData = {
+      'topHedingName': 'Office Taluka Report',
+      'createdDate':this.datePipe.transform(new Date(), 'dd/MM/yyyy')
+    }
 
-    this.pdf_excelService.generateExcel(this.keyPDFHeader, ValueData, TopHeadingData);
+    this.pdf_excelService.generateExcel(this.keyPDFHeader, ValueData, objData);
   }
 
   downloadPdf() {

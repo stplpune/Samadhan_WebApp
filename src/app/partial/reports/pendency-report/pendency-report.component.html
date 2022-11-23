@@ -13,23 +13,36 @@
                         </mat-select>
                     </mat-form-field>
                 </div>
-                <div class="col-sm-2">
+
+                <div class="col-sm-3">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>From Date/To Date</mat-label>
+                        <mat-date-range-input [rangePicker]="picker">
+                            <input matStartDate placeholder="Start date" formControlName="fromDate">
+                            <input matEndDate placeholder="End date" formControlName="toDate">
+                          </mat-date-range-input>
+                          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                          <mat-date-range-picker #picker></mat-date-range-picker>
+                    </mat-form-field>
+                </div>
+
+                <!-- <div class="col-sm-2">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>From Date</mat-label>
-                        <input matInput [matDatepicker]="picker" formControlName="fromDate">
+                        <input matInput [matDatepicker]="picker" formControlName="fromDate" (dateChange)="onDateChange()" [disabled]="true">
                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-datepicker #picker [disabled]="false"></mat-datepicker>
                     </mat-form-field>
 
                 </div>
                 <div class="col-sm-2">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>To Date</mat-label>
-                        <input matInput [matDatepicker]="picker2" formControlName="toDate">
+                        <input matInput [matDatepicker]="picker2" formControlName="toDate" [min]="filterForm.value.fromDate">
                         <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
-                        <mat-datepicker #picker2 color="primary"></mat-datepicker>
+                        <mat-datepicker #picker2 color="primary" [disabled]="!filterForm.controls['fromDate'].value ? true :false"></mat-datepicker>
                     </mat-form-field>
-                </div>
+                </div> -->
                 <div class="col-sm text-end">
                   <button mat-stroked-button class="btn-main me-2" type="submit" (click)="pageNo = 1;getPendencyReport()">Search</button>
                   <button mat-stroked-button class="btn-main-outline me-2" type="button" (click)="clearFilter()">Clear</button>

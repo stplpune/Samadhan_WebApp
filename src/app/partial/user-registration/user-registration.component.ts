@@ -337,8 +337,8 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   userBlockUnBlockModal(element: any, event: any) {
     this.highlightedRow = element.id;
     let Title: string, dialogText: string;
-    event.checked == true ? Title = 'User Block' : Title = 'User Unblock';
-    event.checked == true ? dialogText = 'Do you want to User Block' : dialogText = 'Do you want to User Unblock';
+    event.checked == true ? Title = 'Block User' : Title = 'Unblock User';
+    event.checked == true ? dialogText = 'Do you want to Block the User ' : dialogText = 'Do you want to Unblock the User ';
     const dialogRef = this.dialog.open(ConfirmationComponent, {
       width: '340px',
       data: { p1: dialogText, p2: '', cardTitle: Title, successBtnText: 'Yes', dialogIcon: 'done_outline', cancelBtnText: 'No' },
