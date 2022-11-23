@@ -21,7 +21,7 @@
         <div class="col-sm-3">
           <mat-form-field  appearance="outline" class="w-100">
               <mat-label>Page Name/Page URL</mat-label>
-              <input matInput formControlName="pageName" (keypress)="validation.noSpacesAtStart($event)" maxlength="100">
+              <input matInput placeholder="Search" formControlName="pageName" (keypress)="validation.noSpacesAtStart($event)" maxlength="100">
           </mat-form-field>
         </div>
         <div class="col-sm-3">
