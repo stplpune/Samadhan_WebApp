@@ -108,8 +108,15 @@ filterMethod(){
       }else{
        this.spinner.hide();
         this.dataSource=[];
+        this.totalPages = 0;
       }
-      }
+      },
+      error: (error: any) => {
+        this.dataSource = [];
+        this.error.handelError(error.status);
+        this.spinner.hide();
+
+      },
 
       });
     }
@@ -154,7 +161,7 @@ onSubmitGrievance(){
           this.getData();
           this.onCancelRecord();
           this.selection.clear();
-          this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 0);
+          this.commonMethod.matSnackBar(res.statusMessage, 0);
         } else {
           this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
         }
@@ -191,9 +198,6 @@ onCancelRecord() {
 }
 
 //--------------------------------------------------------------------------------filter----------------------------------------------------------------------------------------
-  filterRecord() {
-    this.getData();
-  }
 
   filterData(){
     this.pageNo = 1;

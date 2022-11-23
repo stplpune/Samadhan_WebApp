@@ -77,8 +77,6 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
       deptId: ['', [Validators.required]],
       name: ['',[Validators.required, Validators.pattern(this.validation.valName)]],
       address: ['',[Validators.required, Validators.pattern('^[^[ ]+|[ ][gm]+$')]],
-      // latitude: ['', [Validators.required]],
-      // longitude: ['', [Validators.required]],
       emailId: ['',[Validators.required, Validators.pattern(this.validation.valEmailId)],],
       contactPersonName: ['',[Validators.required, Validators.pattern(this.validation.valName)],],
       mobileNo: ['',[Validators.required,Validators.pattern(this.validation.valMobileNo),Validators.minLength(10),Validators.maxLength(10),],],
@@ -131,12 +129,19 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
           let dataSet = res.responseData;
           this.dataSource = new MatTableDataSource(dataSet);
           this.totalPages = res.responseData1.pageCount;
+          this.pageNo == 1 ? this.paginator?.firstPage() : '';
           this.spinner.hide();
         } else {
           this.spinner.hide();
           this.dataSource = [];
           this.totalPages = 0;
         }
+      },
+      error: (error: any) => {
+        this.dataSource = [];
+        this.error.handelError(error.status);
+        this.spinner.hide();
+
       },
     });
   }
@@ -148,18 +153,18 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     let formData = this.frmOffice.value;
     let obj = {
-      "createdBy": this.webStorage.getUserId(),
-      "modifiedBy": this.webStorage.getUserId(),
-      "createdDate": new Date(),
-      "modifiedDate": new Date(),
-      "isDeleted": true,
-      "id": this.isEdit == true ? this.updatedObj.id : 0,
-      "deptId": formData.deptId,
-      "name": formData.name,
-      "address": formData.address,
-      "emailId": formData.emailId,
-      "contactPersonName": formData.contactPersonName,
-      "mobileNo": formData.mobileNo,
+      createdBy: this.webStorage.getUserId(),
+      modifiedBy: this.webStorage.getUserId(),
+      createdDate: new Date(),
+      modifiedDate: new Date(),
+      isDeleted: true,
+      id: this.isEdit == true ? this.updatedObj.id : 0,
+      deptId: formData.deptId,
+      name: formData.name,
+      address: formData.address,
+      emailId: formData.emailId,
+      contactPersonName: formData.contactPersonName,
+      mobileNo: formData.mobileNo,
     };
 
     let method = this.isEdit ? 'PUT' : 'POST';
@@ -180,7 +185,7 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
           this.getData();
           this.onCancelRecord();
           this.selection.clear();
-          this.commonMethod.checkDataType(res.statusMessage) == false? this.error.handelError(res.statusCode): this.commonMethod.matSnackBar(res.statusMessage, 0);
+         this.commonMethod.matSnackBar(res.statusMessage, 0);
         } else {
           this.commonMethod.checkDataType(res.statusMessage) == false? this.error.handelError(res.statusCode): this.commonMethod.matSnackBar(res.statusMessage, 1);
         }
@@ -221,10 +226,6 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
       this.onCancelRecord();
 
     }
-
-   filterRecord() {
-    this.getData();
-  }
 //----------------------------------------------------------------------------Cancle--------------------------------------------------------------------------------------
   onCancelRecord() {
     this.formDirective.resetForm();

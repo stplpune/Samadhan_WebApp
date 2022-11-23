@@ -100,9 +100,6 @@ export class CitizenMasterComponent implements OnInit {
     this.onCancelRecord();
   }
 
- filterRecord() {
-  this.getData();
-}
   selection = new SelectionModel<any>(true, []);
 //----------------------------------------------------------------------------Taluka-------------------------------------------------------------------------------------------
 getTalukaName(editFlag:any ) {
@@ -154,6 +151,12 @@ this.apiService.getHttp().subscribe({
       this.totalPages = 0;
     }
   },
+  error: (error: any) => {
+    this.dataSource = [];
+    this.error.handelError(error.status);
+    this.spinner.hide();
+
+  },
 });
 }
 //-----------------------------------------------------------------------Submit----------------------------------------------------------------------------------------------------
@@ -173,8 +176,8 @@ let obj = {
   "modifiedDate": new Date()
 };
 
-let method = this.isEdit ? 'PUT':'';
-let url = this.isEdit ? 'UpdateCitizen' : '';
+let method =  'PUT';
+let url = 'UpdateCitizen';
 this.apiService.setHttp(
   method,
   'samadhan/user-registration/' + url,
@@ -189,7 +192,7 @@ this.subscription = this.apiService.getHttp().subscribe({
       this.highlightedRow = 0;
       this.getData();
       this.onCancelRecord();
-      this.commonMethod.checkDataType(res.statusMessage) == false? this.error.handelError(res.statusCode): this.commonMethod.matSnackBar(res.statusMessage, 0);
+      this.commonMethod.matSnackBar(res.statusMessage, 0);
     } else {
       this.commonMethod.checkDataType(res.statusMessage) == false? this.error.handelError(res.statusCode): this.commonMethod.matSnackBar(res.statusMessage, 1);
     }
