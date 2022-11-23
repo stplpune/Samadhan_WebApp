@@ -114,7 +114,7 @@
                             <td mat-cell *matCellDef="let element"> {{element.status}}
                                 <!-- <a href="">
 
-                                    {{element.status}} 
+                                    {{element.status}}
                                 </a> -->
                             </td>
                         </ng-container>
@@ -142,7 +142,7 @@
                         </ng-container>
 
                         <ng-container matColumnDef="select">
-                            <th *matHeaderCellDef class="mxw-80">                             
+                            <th *matHeaderCellDef class="mxw-80">
                                 <mat-checkbox (change)="$event ? masterToggle() : null"
                                     [checked]="selection.hasValue() && isAllSelected()"
                                     [indeterminate]="selection.hasValue() && !isAllSelected()">
@@ -164,10 +164,10 @@
                                     <span class="material-symbols-outlined">
                                         delete
                                     </span>
-                                </button> 
+                                </button>
                                 <mat-checkbox (change)="$event ? masterToggle() : null"
                                 [checked]="selection.hasValue() && isAllSelected()">
-                                <!-- [indeterminate]="selection.hasValue() && !isAllSelected()"> 
+                                <!-- [indeterminate]="selection.hasValue() && !isAllSelected()">
                             </mat-checkbox> -->
                             </th>
                             <td mat-cell *matCellDef="let element" class="srno">
@@ -177,12 +177,12 @@
                                             visibility
                                         </span>
                                     </button>
-                                    <mat-checkbox (click)="$event.stopPropagation()"
+                                    <!-- <mat-checkbox (click)="$event.stopPropagation()"
                                     (change)="$event ? selection.toggle(element) : null"
                                     [checked]="selection.isSelected(element)">
-                                </mat-checkbox>
+                                </mat-checkbox> -->
                                 </div>
-                              
+
                             </td>
                         </ng-container>
 
@@ -196,7 +196,7 @@
                         </tr>
                     </table>
                 </div>
-                <ng-container>
+                <ng-container *ngIf="totalRows > 10">
                     <mat-paginator [pageSizeOptions]="[10]" [length]="totalRows" showFirstLastButtons
                         (page)="pageChanged($event)">
                     </mat-paginator>
@@ -249,9 +249,8 @@
                     <div class="mb-3" *ngIf="isSelfGrievance.value == 0" [class.disabled-contenct]="ispatch">
                         <mat-form-field class="w-100" appearance="legacy">
                             <mat-label>Address</mat-label>
-                            <textarea matInput  rows="4"
-                                (keypress)="validation.noFirstSpaceAllow($event)" formControlName="otherCitizenAddress"
-                                maxlength="500"></textarea>
+                            <textarea matInput rows="4" (keypress)="validation.noFirstSpaceAllow($event)"
+                                formControlName="otherCitizenAddress" maxlength="500"></textarea>
                             <mat-error *ngIf="f['otherCitizenAddress']?.errors">
                                 <span *ngIf="f['otherCitizenAddress']?.hasError('required')"> Address is required</span>
                                 <span *ngIf="f['otherCitizenAddress']?.hasError('pattern')"> Enter Valid Address</span>
@@ -357,9 +356,8 @@
                     <div class="mb-3">
                         <mat-form-field class="w-100" appearance="legacy">
                             <mat-label>Grievance Details</mat-label>
-                            <textarea matInput rows="4"
-                                (keypress)="validation.noFirstSpaceAllow($event)" formControlName="grievanceDescription"
-                                maxlength="500" [readonly]="ispatch"></textarea>
+                            <textarea matInput rows="4" (keypress)="validation.noFirstSpaceAllow($event)"
+                                formControlName="grievanceDescription" maxlength="500" [readonly]="ispatch"></textarea>
                             <mat-error *ngIf="f['grievanceDescription']?.errors">
                                 <span *ngIf="f['grievanceDescription']?.hasError('required')">Grievance Details is
                                     required</span>
@@ -379,13 +377,15 @@
                             </div>
                             <div class="col-sm-auto">
                                 <div *ngIf="grievanceImageArray?.length != 0" class="d-flex">
-                                    <button mat-icon-button class="bg-primary bg-opacity-10 text-primary me-2" (click)="viewDocument(grievanceImageArray[0]?.docpath)">
+                                    <button mat-icon-button class="bg-primary bg-opacity-10 text-primary me-2"
+                                        (click)="viewDocument(grievanceImageArray[0]?.docpath)">
                                         <span class="material-symbols-outlined">
                                             description
                                         </span>
                                     </button>
                                     <button mat-icon-button *ngIf="!ispatch" id="PanImgDelete"
-                                        title="Delete Uploaded Document" class="bg-danger bg-opacity-10 text-danger uploadDocBtn border-0"
+                                        title="Delete Uploaded Document"
+                                        class="bg-danger bg-opacity-10 text-danger uploadDocBtn border-0"
                                         (click)="deleteDocument()">
                                         <span class="material-symbols-outlined">
                                             delete
