@@ -14,7 +14,7 @@
         <div class="col-sm-6">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Grievance Type</mat-label>
-            <input matInput placeholder="Grievance Type" formControlName="grievanceType"
+            <input matInput placeholder="Search" formControlName="grievanceType"
               (keypress)="validation.noFirstSpaceAllow($event)">
           </mat-form-field>
         </div>
@@ -56,9 +56,9 @@
                   edit_square
                 </span>
               </button>
-              <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(element) : null"
+              <!-- <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(element) : null"
                 [checked]="selection.isSelected(element)">
-              </mat-checkbox>
+              </mat-checkbox> -->
             </div>
 
           </td>

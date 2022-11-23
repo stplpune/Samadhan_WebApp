@@ -14,7 +14,7 @@
         <div class="col-sm-6">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Office</mat-label>
-            <input matInput  formControlName="name"
+            <input matInput placeholder="Search" formControlName="name"
               (keypress)="validation.noFirstSpaceAllow($event)">
           </mat-form-field>
         </div>
@@ -92,9 +92,9 @@
               </span>
             </button>
 
-            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(element) : null"
+            <!-- <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(element) : null"
               [checked]="selection.isSelected(element)">
-            </mat-checkbox>
+            </mat-checkbox> -->
 
           </div>
 
