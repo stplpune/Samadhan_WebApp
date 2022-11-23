@@ -7,7 +7,7 @@
             <mat-label>Select Department</mat-label>
             <mat-select formControlName="deptId" (selectionChange)="filterData();">
               <mat-option value="0">All Department</mat-option>
-              <mat-option *ngFor="let dept of departmentArr" [value]="dept.deptId">{{dept.departmentName}}</mat-option>
+              <mat-option *ngFor="let dept of departmentArr" [value]="dept.id">{{dept.departmentName}}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -126,7 +126,7 @@
             <mat-form-field appearance="outline" class="w-100 ">
               <mat-label>Select Department</mat-label>
               <mat-select formControlName="deptId">
-                <mat-option *ngFor="let dept of departmentArr" [value]="dept.deptId">{{dept.departmentName}}
+                <mat-option *ngFor="let dept of departmentArr" [value]="dept.id">{{dept.departmentName}}
                 </mat-option>
               </mat-select>
               <mat-error *ngIf="f['deptId']?.errors">
@@ -183,7 +183,7 @@
           <div class="mb-3">
             <mat-form-field appearance="outline" class="w-100 ">
               <mat-label>Office Email ID</mat-label>
-              <input matInput formControlName="emailId" (keyup)="validation.removeSpaceAtBegining($event)">
+              <input matInput formControlName="emailId" (keyup)="validation.removeSpaceAtBegining($event)"  maxlength="100">
               <mat-error *ngIf="f['emailId']?.errors">
                 <span *ngIf="f['emailId']?.hasError('required')">Email ID is required</span>
                 <span *ngIf="f['emailId'].hasError('pattern')">

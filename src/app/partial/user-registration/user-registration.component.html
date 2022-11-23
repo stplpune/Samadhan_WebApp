@@ -58,7 +58,7 @@
 
                 <ng-container matColumnDef="subUserType">
                     <th mat-header-cell *matHeaderCellDef> Sub User Type </th>
-                    <td mat-cell *matCellDef="let element"> 
+                    <td mat-cell *matCellDef="let element">
                         {{element.subUserType ? element.subUserType : '-'}} </td>
                 </ng-container>
                 <ng-container matColumnDef="mobileNo">
@@ -138,11 +138,11 @@
                                     <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(element) : null"
                                         [checked]="selection.isSelected(element)">
                                     </mat-checkbox>
-                                </ng-container>       
-                        </div>                      
+                                </ng-container>
+                        </div>
                     </td>
                 </ng-container>
-        
+
                 <tr class="mat-row p-2 w-100" *matNoDataRow col>
                     <td class="alert alert-danger text-center m-2 mt-2" colspan="10">No data found </td>
                 </tr>
@@ -151,7 +151,7 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'highlightedRow ':highlightedRow == row.id}" >
                 </tr>
             </table>
-        </div>
+          </div>
         <ng-container *ngIf="totalRows > 10">
             <mat-paginator [pageSizeOptions]="[10]" [length]="totalRows" showFirstLastButtons
                 (page)="pageChanged($event)">
@@ -169,14 +169,14 @@
                 <div class="mb-3">
                     <mat-form-field class="w-100" appearance="outline">
                         <mat-label>User Type</mat-label>
-                        <mat-select formControlName="userTypeId" 
+                        <mat-select formControlName="userTypeId"
                         (selectionChange)="getSubUsers(userFrm.value.userTypeId);setValidators(userFrm.value.userTypeId);changeDepFlag = false" >
                             <mat-option *ngFor="let user of usersArray" [value]="user.userTypeId">
                                 {{user.userType}}
                             </mat-option>
                         </mat-select>
                         <mat-error *ngIf="f['userTypeId']?.errors">
-                            <span *ngIf="f['userTypeId']?.hasError('required')"> Please Select User 
+                            <span *ngIf="f['userTypeId']?.hasError('required')"> Please Select User
                                Type</span>
                         </mat-error>
 
@@ -192,7 +192,7 @@
                             </mat-option>
                         </mat-select>
                         <mat-error *ngIf="f['subUserTypeId']?.errors">
-                            <span *ngIf="f['subUserTypeId']?.hasError('required')"> Please Select Sub User 
+                            <span *ngIf="f['subUserTypeId']?.hasError('required')"> Please Select Sub User
                                Type</span>
                         </mat-error>
 
@@ -201,7 +201,7 @@
                 <div class="mb-3" *ngIf="userFrm.value.userTypeId !=2">
                     <mat-form-field class="w-100" appearance="outline">
                         <mat-label>Department</mat-label>
-                        <mat-select formControlName="deptId" [disabled]="!userFrm.value.userTypeId" 
+                        <mat-select formControlName="deptId" [disabled]="!userFrm.value.userTypeId"
                         (selectionChange)="getOffice(userFrm.value.deptId);changeDepFlag = false">
                             <mat-option *ngFor="let department of departmentByUserArray" [value]="department.deptId">
                                 {{department.departmentName}}
@@ -245,7 +245,7 @@
                          (keypress)="validation.acceptedOnlyNumbers($event)">
                         <mat-error *ngIf="f['mobileNo']?.errors">
                             <span *ngIf="f['mobileNo']?.hasError('required')"> Mobile No is required</span>
-                            <span 
+                            <span
                             *ngIf="f['mobileNo']?.hasError('pattern') || f['mobileNo']?.hasError('minlength')">
                             Please enter valid Mobile no </span>
                         </mat-error>
@@ -254,7 +254,7 @@
                 <div class="mb-3">
                     <mat-form-field class="w-100" appearance="outline">
                         <mat-label>Email ID</mat-label>
-                        <input matInput placeholder="Enter email id" formControlName="emailId"  maxlength="20"
+                        <input matInput placeholder="Enter email id" formControlName="emailId"  maxlength="100"
                         (keypress)="validation.alphaNumericWithSpacesAndSpecChars($event)">
                         <mat-error *ngIf="f['emailId']?.errors">
                             <span *ngIf="f['emailId']?.hasError('required')"> Email Id is required</span>
@@ -275,11 +275,11 @@
                 </div> -->
                 <div class="text-end">
                     <button mat-stroked-button class="btn-main-outline" type="button" (click)="onCancelRecord()">Cancel</button>
-                    <button mat-stroked-button class="btn-main ms-2" type="submit">{{isEdit ? 'Update':'Submit'}}</button>   
+                    <button mat-stroked-button class="btn-main ms-2" type="submit">{{isEdit ? 'Update':'Submit'}}</button>
                 </div>
             </form>
             </div>
-        
+
         </div>
     </div>
 </div>
