@@ -99,7 +99,7 @@ createOfficeForm() {
 
   //#region filterform end
 
-//#region ngAfterViewInit start
+//#region Search start
   ngAfterViewInit() {
     let formData: any = this.filterForm.controls['name'].valueChanges;
     formData.pipe(filter(() => this.filterForm.valid),
@@ -111,7 +111,7 @@ createOfficeForm() {
       });
     }
 
-  //#region ngAfterViewInit end
+  //#region Search end
    selection = new SelectionModel<any>(true, []);
 
 //#region Department Api start

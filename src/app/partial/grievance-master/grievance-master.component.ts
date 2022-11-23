@@ -72,7 +72,7 @@ export class GrievanceMasterComponent implements OnInit ,AfterViewInit, OnDestro
 
 //#region createGrievanceForm end
 
-//#region ngAfterViewInit Fun start
+//#region Search Fun start
 ngAfterViewInit() {
 let formData = this.filterForm.controls['grievanceType'].valueChanges;
 formData.pipe(filter(() => this.filterForm.valid),
@@ -84,7 +84,7 @@ distinctUntilChanged()).subscribe(() => {
 })
 }
 
-//#region ngAfterViewInit Fun end
+//#region Search Fun end
 
 //#region Filter Fun start
 filterMethod(){

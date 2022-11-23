@@ -25,12 +25,11 @@ export class CitizenMasterComponent implements OnInit {
   @ViewChild('formDirective') formDirective!: NgForm;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   // displayedColumns: string[] = [ 'srno', 'name', 'mobileNo','emailId', 'taluka','village','action','delete','select'];
-  displayedColumns: string[] = [ 'srno', 'name', 'mobileNo','emailId', 'taluka','village','action'];
+  displayedColumns: string[] = ['srno', 'name', 'mobileNo','emailId', 'taluka','village','action'];
   dataSource: any;
   frmCitizen!:FormGroup;
   filterForm!:FormGroup;
   isEdit: boolean = false;
-  totalRows: any;
   totalPages: any;
   pageNo = 1;
   pageSize = 10;
@@ -78,13 +77,12 @@ createCitizenForm(){
     })
   }
 
-
 //#endregion createCitizenForm and filterForm end
   get f() {
     return this.frmCitizen.controls;
   }
 
-//#region ngAfterViewInit Fun start
+//#region Search Fun start
   ngAfterViewInit() {
     let formData: any = this.filterForm.controls['textsearch'].valueChanges;
     formData.pipe(filter(() => this.filterForm.valid),
@@ -92,12 +90,11 @@ createCitizenForm(){
       distinctUntilChanged()).subscribe(() => {
         this.pageNo = 1;
         this.getData();
-        this.totalRows > 10 && this.pageNo == 1 ? this.paginator?.firstPage() : '';
+        this.totalPages > 10 && this.pageNo == 1 ? this.paginator?.firstPage() : '';
       });
     }
 
-
- //#endregion ngAfterViewInit Fun end
+//#endregion Search Fun end
 
 
 //#region Filter Fun start
@@ -367,21 +364,3 @@ ngOnDestroy() {
 }
 //#endregion ngOnDestroy end
 }
-
-
-// export interface PeriodicElement {
-//   srno:number;
-//   name: string;
-//   mobileno: number;
-//   emailId: any;
-//   taluka: string;
-//   village:string;
-//   action:any;
-// }
-
-// const ELEMENT_DATA: PeriodicElement[] = [
-//   {srno: 1, name: 'Hydrogen', mobileno: 8669264767, emailId: 'H@gmail.com',taluka:'Pune',village:'Rajgrurnagar',action:''},
-//   {srno: 2, name: 'Hydrogen', mobileno: 8669264767, emailId: 'H@gmail.com',taluka:'Pune',village:'Rajgrurnagar',action:''},
-//   {srno: 3, name: 'Hydrogen', mobileno: 8669264767, emailId: 'H@gmail.com',taluka:'Pune',village:'Rajgrurnagar',action:''},
-
-// ];

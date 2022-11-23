@@ -68,7 +68,10 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
       departmentName: ['',[Validators.required, Validators.pattern(this.validation.valName)],],
     });
   }
+
 //#endregion createDepartmentForm end
+
+
   get f() {
     return this.frmDepartment.controls;
   }
