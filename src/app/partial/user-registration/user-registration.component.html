@@ -247,7 +247,7 @@
                 <div class="mb-3">
                     <mat-form-field class="w-100" appearance="outline">
                         <mat-label>Mobile No.</mat-label>
-                        <input matInput  formControlName="mobileNo" maxlength="10" [readonly]="true"
+                        <input matInput  formControlName="mobileNo" maxlength="10" [readonly]="isEdit"
                          (keypress)="validation.acceptedOnlyNumbers($event)">
                         <mat-error *ngIf="f['mobileNo']?.errors">
                             <span *ngIf="f['mobileNo']?.hasError('required')"> Mobile No. is required</span>
