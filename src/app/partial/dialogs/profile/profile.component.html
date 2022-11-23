@@ -1,10 +1,10 @@
 <div class="dialog-header">
     <span>My Profile</span>
-    <button mat-icon-button (click)="closeDialog()">
+    <!-- <button mat-icon-button (click)="closeDialog()">
         <span class="material-symbols-outlined">
             close
         </span>
-    </button>
+    </button> -->
 </div>
 <div class="dialog-body">
     <form [formGroup]="profileFrom"  (ngSubmit)="onSubmit();">
@@ -35,12 +35,12 @@
         <div class="col-sm-4">
             <mat-form-field appearance="outline" class="w-100">
                 <mat-label>First Name</mat-label>
-                <input matInput placeholder="First Name" formControlName="name" maxlength="20"
+                <input matInput  formControlName="name" maxlength="20"
                 (keypress)="validation.noFirstSpaceAllow($event);validation.alphabetsWithSpaces($event)">
                 <mat-error *ngIf="f['name']?.errors">
                     <span *ngIf="f['name']?.hasError('required')"> Name is required</span>
                     <span  *ngIf="f['name'].hasError('pattern')">
-                       Pelase enter valid name</span>
+                       Pelase enter valid Name</span>
                 </mat-error>
             </mat-form-field>
         </div>
@@ -53,24 +53,24 @@
         <div class="col-sm-4">
             <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Mobile No.</mat-label>
-                <input matInput placeholder="Enter your mobile no." formControlName="mobileNo" maxlength="10"
+                <input matInput placeholder="Ex.1235444666" formControlName="mobileNo" maxlength="10"
                          (keypress)="validation.acceptedOnlyNumbers($event)">
                         <mat-error *ngIf="f['mobileNo']?.errors">
-                            <span *ngIf="f['mobileNo']?.hasError('required')"> Mobile No is required</span>
+                            <span *ngIf="f['mobileNo']?.hasError('required')"> Mobile No. is required</span>
                             <span 
                             *ngIf="f['mobileNo']?.hasError('pattern') || f['mobileNo']?.hasError('minlength')">
-                            Please enter valid Mobile no </span>
+                            Please enter valid Mobile No. </span>
                         </mat-error>
             </mat-form-field>
         </div>
         <div class="col-sm-4">
             <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Email ID</mat-label>
-                <input matInput placeholder="Enter email id" formControlName="emailId"  maxlength="100"
+                <input matInput placeholder="abc@gmail.com" formControlName="emailId"  maxlength="100"
                         (keypress)="validation.alphaNumericWithSpacesAndSpecChars($event)">
                         <mat-error *ngIf="f['emailId']?.errors">
-                            <span *ngIf="f['emailId']?.hasError('required')"> Email Id is required</span>
-                            <span  *ngIf="f['emailId']?.hasError('pattern')"> Please enter valid email id
+                            <span *ngIf="f['emailId']?.hasError('required')"> Email ID is required</span>
+                            <span  *ngIf="f['emailId']?.hasError('pattern')"> Please enter valid Email ID
                             </span>
                         </mat-error>
             </mat-form-field>
