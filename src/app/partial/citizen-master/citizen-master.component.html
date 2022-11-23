@@ -5,7 +5,7 @@
 
         <div class="col-sm-4">
           <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Taluka</mat-label>
+            <mat-label>All Taluka</mat-label>
             <mat-select formControlName="talukaId"
               (selectionChange)="clearFilter('taluka');filterData();getVillageName(filterForm.value.talukaId, false)">
               <mat-option value="0">All Taluka</mat-option>
@@ -16,7 +16,7 @@
 
         <div class="col-sm-4">
           <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Village</mat-label>
+            <mat-label>All Village</mat-label>
             <mat-select formControlName="villageId" (selectionChange)="clearFilter('village');filterData()"
               [disabled]='!filterForm.value.talukaId'>
               <mat-option value="0">All Village</mat-option>
