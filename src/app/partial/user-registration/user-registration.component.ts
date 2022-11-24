@@ -338,7 +338,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.highlightedRow = element.id;
     let Title: string, dialogText: string;
     event.checked == true ? Title = 'Block User' : Title = 'Unblock User';
-    event.checked == true ? dialogText = 'Do you want to Block the user ' : dialogText = 'Do you want to Unblock the user ';
+    event.checked == true ? dialogText = 'Do you want to Block the user?' : dialogText = 'Do you want to Unblock the user?';
     const dialogRef = this.dialog.open(ConfirmationComponent, {
       width: '340px',
       data: { p1: dialogText, p2: '', cardTitle: Title, successBtnText: 'Yes', dialogIcon: 'done_outline', cancelBtnText: 'No' },
