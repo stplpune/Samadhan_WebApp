@@ -51,8 +51,6 @@ export class ForgotPasswordComponent implements OnInit {
 
   get f() { return this.sendOTPForm.controls; }
 
-  get g() { return this.verifyOTPForm.controls; }
-
   get h() { return this.changePassword.controls; }
 
   sendOTP() {
@@ -114,11 +112,12 @@ export class ForgotPasswordComponent implements OnInit {
       this.apiService.getHttp().subscribe((res: any) => {
         if (res.statusCode == "200") {
           this.common.matSnackBar(res.statusMessage, 0)
-          // this.verifyOTPForm.reset();
+          this.verifyOTPForm.reset();
           this.changePassContainer = true;
           this.verifyOTPContainer = false;
         }
         else {
+          this.verifyOTPForm.reset();
           this.common.matSnackBar(res.statusMessage, 1)
         }
       }, (error: any) => {
