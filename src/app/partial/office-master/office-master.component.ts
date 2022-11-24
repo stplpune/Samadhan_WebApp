@@ -77,7 +77,7 @@ createOfficeForm() {
       deptId: ['', [Validators.required]],
       name: ['',[Validators.required, Validators.pattern(this.validation.valName)]],
       address: ['',[Validators.required, Validators.pattern('^[^[ ]+|[ ][gm]+$')]],
-      emailId: ['',[Validators.required, Validators.pattern(this.validation.valEmailId)],],
+      emailId: ['',[Validators.pattern(this.validation.valEmailId)],],
       contactPersonName: ['',[Validators.required, Validators.pattern(this.validation.valName)],],
       mobileNo: ['',[Validators.required,Validators.pattern(this.validation.valMobileNo),Validators.minLength(10),Validators.maxLength(10),],],
     });

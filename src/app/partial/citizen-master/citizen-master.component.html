@@ -176,7 +176,6 @@
               <input matInput placeholder="Enter email id" formControlName="emailId"
                 (keypress)="validation.noFirstSpaceAllow($event)"  maxlength="100">
               <mat-error *ngIf="f['emailId']?.errors">
-                <span *ngIf="f['emailId']?.hasError('required')"> Email Id is required</span>
                 <span *ngIf="f['emailId']?.hasError('pattern') || f['emailId']?.hasError('minlength')">
                   Please enter valid email id</span>
               </mat-error>
