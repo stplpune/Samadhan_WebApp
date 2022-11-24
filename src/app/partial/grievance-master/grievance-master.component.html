@@ -93,9 +93,9 @@
                 <mat-option *ngFor="let dept of departmentArr" [value]="dept.id">{{dept.departmentName}}</mat-option>
               </mat-select>
               <mat-error *ngIf="f['deptId']?.errors">
-                <span *ngIf="f['deptId']?.hasError('required')"> Please Select Department</span>
+                <span *ngIf="f['deptId']?.hasError('required')"> Please select Department</span>
                 <span *ngIf="f['deptId']?.hasError('pattern') || f['deptId']?.hasError('minlength')">
-                  Please Select Department</span>
+                  Please select Department</span>
               </mat-error>
             </mat-form-field>
           </div>
