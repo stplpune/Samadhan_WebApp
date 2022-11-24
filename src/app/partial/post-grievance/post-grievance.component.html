@@ -158,17 +158,16 @@
 
                         <ng-container matColumnDef="action">
                             <th mat-header-cell *matHeaderCellDef class="text-end srno"> ACTION <br>
-                                <!-- <button
-                                    [disabled]="this.selection.selected.length ==0" mat-icon-button
+                                <button [disabled]="this.selection.selected.length ==0" mat-icon-button
                                     (click)="deleteData()">
                                     <span class="material-symbols-outlined">
                                         delete
                                     </span>
                                 </button>
                                 <mat-checkbox (change)="$event ? masterToggle() : null"
-                                [checked]="selection.hasValue() && isAllSelected()">
-                                <!-- [indeterminate]="selection.hasValue() && !isAllSelected()">
-                            </mat-checkbox> -->
+                                    [checked]="selection.hasValue() && isAllSelected()">
+                                    <!-- [indeterminate]="selection.hasValue() && !isAllSelected()">---->
+                                </mat-checkbox>
                             </th>
                             <td mat-cell *matCellDef="let element" class="srno">
                                 <div>
@@ -177,12 +176,11 @@
                                             visibility
                                         </span>
                                     </button>
-                                    <!-- <mat-checkbox (click)="$event.stopPropagation()"
-                                    (change)="$event ? selection.toggle(element) : null"
-                                    [checked]="selection.isSelected(element)">
-                                </mat-checkbox> -->
+                                    <mat-checkbox (click)="$event.stopPropagation()"
+                                        (change)="$event ? selection.toggle(element) : null"
+                                        [checked]="selection.isSelected(element)">
+                                    </mat-checkbox>
                                 </div>
-
                             </td>
                         </ng-container>
 
@@ -201,7 +199,6 @@
                         (page)="pageChanged($event)">
                     </mat-paginator>
                 </ng-container>
-
             </div>
         </form>
     </div>
@@ -220,7 +217,7 @@
 
                 <form [formGroup]="postGrievanceForm" #formDirective="ngForm">
 
-                    <div class="mb-3"  [class.disabled-contenct]="ispatch">
+                    <div class="mb-3" [class.disabled-contenct]="ispatch">
                         <mat-form-field class="w-100" appearance="outline">
                             <mat-label>Name</mat-label>
                             <input matInput
@@ -232,7 +229,7 @@
                             </mat-error>
                         </mat-form-field>
                     </div>
-                    <div class="mb-3"  [class.disabled-contenct]="ispatch">
+                    <div class="mb-3" [class.disabled-contenct]="ispatch">
                         <mat-form-field class="w-100" appearance="outline">
                             <mat-label>Mobile Number</mat-label>
                             <input matInput placeholder="Ex.0236504789" maxlength="10"
@@ -246,7 +243,7 @@
                             </mat-error>
                         </mat-form-field>
                     </div>
-                    <div class="mb-3"  [class.disabled-contenct]="ispatch">
+                    <div class="mb-3" [class.disabled-contenct]="ispatch">
                         <mat-form-field class="w-100" appearance="legacy">
                             <mat-label>Address</mat-label>
                             <textarea matInput rows="4" (keypress)="validation.noFirstSpaceAllow($event)"

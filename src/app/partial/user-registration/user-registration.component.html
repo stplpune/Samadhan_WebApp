@@ -61,7 +61,7 @@
 
                 <ng-container matColumnDef="subUserType">
                     <th mat-header-cell *matHeaderCellDef> Sub User Type </th>
-                    <td mat-cell *matCellDef="let element">
+                    <!-- <td mat-cell *matCellDef="let element"> -->
                         <!-- <th mat-header-cell *matHeaderCellDef> DESIGNATION </th> -->
                     <td mat-cell *matCellDef="let element">
                         {{element.subUserType ? element.subUserType : '-'}} </td>
@@ -116,15 +116,16 @@
 
                 <ng-container matColumnDef="action">
                     <th mat-header-cell *matHeaderCellDef> ACTION <br>
-                        <!-- <button [disabled]="this.selection.selected.length ==0" mat-icon-button (click)="deleteUserData()">
+                        <button [disabled]="this.selection.selected.length ==0" mat-icon-button
+                            (click)="deleteUserData()">
                             <span class="material-symbols-outlined">
-                               delete
+                                delete
                             </span>
-                            </button>
-                            <mat-checkbox (change)="$event ? masterToggle() : null"
+                        </button>
+                        <mat-checkbox (change)="$event ? masterToggle() : null"
                             [checked]="selection.hasValue() && isAllSelected()">
-                            <!-- [indeterminate]="selection.hasValue() && !isAllSelected()"> --
-                        </mat-checkbox> -->
+                            <!-- [indeterminate]="selection.hasValue() && !isAllSelected()"> -->
+                        </mat-checkbox>
                     </th>
                     <td mat-cell *matCellDef="let element">
                         <div class="d-flex align-items-center">
@@ -142,11 +143,12 @@
                                 </span>
                             </button>
 
-                            <!-- <ng-container>
-                                    <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(element) : null"
-                                        [checked]="selection.isSelected(element)">
-                                    </mat-checkbox>
-                                </ng-container> -->
+                            <ng-container>
+                                <mat-checkbox (click)="$event.stopPropagation()"
+                                    (change)="$event ? selection.toggle(element) : null"
+                                    [checked]="selection.isSelected(element)">
+                                </mat-checkbox>
+                            </ng-container>
                         </div>
                     </td>
                 </ng-container>
@@ -247,7 +249,7 @@
                 <div class="mb-3">
                     <mat-form-field class="w-100" appearance="outline">
                         <mat-label>Mobile No.</mat-label>
-                        <input matInput  formControlName="mobileNo" maxlength="10" [readonly]="isEdit"
+                        <input matInput  formControlName="mobileNo" maxlength="10" 
                          (keypress)="validation.acceptedOnlyNumbers($event)">
                         <mat-error *ngIf="f['mobileNo']?.errors">
                             <span *ngIf="f['mobileNo']?.hasError('required')"> Mobile No. is required</span>
@@ -278,7 +280,6 @@
                     </div>
                 </form>
             </div>
-
         </div>
     </div>
 </div>
