@@ -55,52 +55,91 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
   }
 
   getUrl(id: any) {
-    console.log(id);
+    let fromdate!: any;
+    let todate!: any;
+    let checkFromDateFlag: boolean = true;
+    let checkToDateFlag: boolean = true;
     switch (id) {
-
-
       case '1':
         let deptHeader = ["SrNo", "Department Name", "Received", "Pending", "Resolved"];
-        let deptObjData = {
+        let deptObjData: any = {
           'topHedingName': 'Department Report',
-          'createdDate': this.datePipe.transform(new Date(), 'dd/MM/yyyy')
+          'createdDate': 'Created on : ' + this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a')
+        }
+
+        checkFromDateFlag = this.data[4].value == '' || this.data[4].value == null || this.data[4].value == 0 || this.data[4].value == undefined ? false : true;
+        checkToDateFlag = this.data[5].value == '' || this.data[5].value == null || this.data[5].value == 0 || this.data[5].value == undefined ? false : true;
+        if (this.data[4].value && this.data[5].value && checkFromDateFlag && checkToDateFlag) {
+          fromdate = new Date(this.data[4].value);
+          todate = new Date(this.data[5].value);
+          deptObjData.timePeriod = 'From Date:' + this.datePipe.transform(fromdate, 'dd/MM/yyyy') + ' To Date: ' + this.datePipe.transform(todate, 'dd/MM/yyyy');
         }
         this.getOfficerDepartmentReport(deptHeader, deptObjData);
         break;
 
       case '2':
         let offHeader = ["SrNo", "Department Name", "Office Name", "Received", "Pending", "Resolved"];
-        let offObjData = {
+        let offObjData:any = {
           'topHedingName': 'Office Report',
-          'createdDate': this.datePipe.transform(new Date(), 'dd/MM/yyyy')
+          'createdDate':'Created on : ' + this.datePipe.transform(new Date(),  'dd/MM/yyyy hh:mm a')
+        }
+        checkFromDateFlag = this.data[5].value == '' || this.data[5].value == null || this.data[5].value == 0 || this.data[5].value == undefined ? false : true;
+        checkToDateFlag = this.data[6].value == '' || this.data[6].value == null || this.data[6].value == 0 || this.data[6].value == undefined ? false : true;
+        if (this.data[5].value && this.data[6].value && checkFromDateFlag && checkToDateFlag) {
+          fromdate = new Date(this.data[5].value);
+          todate = new Date(this.data[6].value);
+          offObjData.timePeriod = 'From Date:' + this.datePipe.transform(fromdate, 'dd/MM/yyyy') + ' To Date: ' + this.datePipe.transform(todate, 'dd/MM/yyyy');
         }
         this.getOfficerOfficeReport(offHeader, offObjData);
         break;
 
       case '3':
-        let talHeader = ['SrNo', "Taluka Name","Received", "Pending", "Resolved"];
-        let talObjData = {
-          'topHedingName': 'taluka Report',
-          'createdDate': this.datePipe.transform(new Date(), 'dd/MM/yyyy')
+        let talHeader = ['SrNo', "Taluka Name", "Received", "Pending", "Resolved"];
+        let talObjData:any = {
+          'topHedingName': 'Taluka Report',
+          'createdDate':'Created on : ' + this.datePipe.transform(new Date(),  'dd/MM/yyyy hh:mm a')
+        }
+
+        checkFromDateFlag = this.data[4].value == '' || this.data[4].value == null || this.data[4].value == 0 || this.data[4].value == undefined ? false : true;
+        checkToDateFlag = this.data[5].value == '' || this.data[5].value == null || this.data[5].value == 0 || this.data[5].value == undefined ? false : true;
+        if (this.data[4].value && this.data[5].value && checkFromDateFlag && checkToDateFlag) {
+          fromdate = new Date(this.data[4].value);
+          todate = new Date(this.data[5].value);
+          talObjData.timePeriod = 'From Date:' + this.datePipe.transform(fromdate, 'dd/MM/yyyy') + ' To Date: ' + this.datePipe.transform(todate, 'dd/MM/yyyy');
         }
         this.getOfficerTalukaReport(talHeader, talObjData);
         break;
 
       case '4':
-        let penHeader = ['SrNo', 'Department Name','Received', 'Pending','Approvedless7','Approvedless15','Approvedless30','Approvedgrt30'];
-        let penObjData = {
+        let penHeader = ['SrNo', 'Department Name', 'Received', 'Pending', 'Approvedless7', 'Approvedless15', 'Approvedless30', 'Approvedgrt30'];
+        let penObjData:any = {
           'topHedingName': 'Pendency Report',
-          'createdDate': this.datePipe.transform(new Date(), 'dd/MM/yyyy')
+          'createdDate': 'Created on : ' + this.datePipe.transform(new Date(),  'dd/MM/yyyy hh:mm a')
+        }
+
+        checkFromDateFlag = this.data[4].value == '' || this.data[4].value == null || this.data[4].value == 0 || this.data[4].value == undefined ? false : true;
+        checkToDateFlag = this.data[5].value == '' || this.data[5].value == null || this.data[5].value == 0 || this.data[5].value == undefined ? false : true;
+        if (this.data[4].value && this.data[5].value && checkFromDateFlag && checkToDateFlag) {
+          fromdate = new Date(this.data[4].value);
+          todate = new Date(this.data[5].value);
+          penObjData.timePeriod = 'From Date:' + this.datePipe.transform(fromdate, 'dd/MM/yyyy') + ' To Date: ' + this.datePipe.transform(todate, 'dd/MM/yyyy');
         }
         this.getPendencyReport(penHeader, penObjData);
         break;
 
 
       case '5':
-        let sastisfiedHeader = ['SrNo', "Department Name", "Received", "Resolved","satisfied","unSatisfied"];
-        let sastisfiedObjData = {
+        let sastisfiedHeader = ['SrNo', "Department Name", "Received", "Resolved", "satisfied", "unSatisfied"];
+        let sastisfiedObjData:any = {
           'topHedingName': 'Satisfied Report',
-          'createdDate': this.datePipe.transform(new Date(), 'dd/MM/yyyy')
+          'createdDate':'Created on : ' + this.datePipe.transform(new Date(),  'dd/MM/yyyy hh:mm a')
+        }
+        checkFromDateFlag = this.data[4].value == '' || this.data[4].value == null || this.data[4].value == 0 || this.data[4].value == undefined ? false : true;
+        checkToDateFlag = this.data[5].value == '' || this.data[5].value == null || this.data[5].value == 0 || this.data[5].value == undefined ? false : true;
+        if (this.data[4].value && this.data[5].value && checkFromDateFlag && checkToDateFlag) {
+          fromdate = new Date(this.data[4].value);
+          todate = new Date(this.data[5].value);
+          sastisfiedObjData.timePeriod = 'From Date:' + this.datePipe.transform(fromdate, 'dd/MM/yyyy') + ' To Date: ' + this.datePipe.transform(todate, 'dd/MM/yyyy');
         }
         this.getOfficerIsSatisfiedReport(sastisfiedHeader, sastisfiedObjData);
         break;
@@ -196,7 +235,6 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
   }
 
   getOfficerIsSatisfiedReport(keyPDFHeader: any, objData: any) {
-
     let obj = this.data[2].value + '&userid=' + this.data[3].value + '&fromDate=' + this.data[4].value + '&toDate=' + this.data[5].value
     this.apiService.setHttp('get', 'api/ShareGrievances/OfficerIsSatisfiedReport?searchdeptId=' + obj, false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
