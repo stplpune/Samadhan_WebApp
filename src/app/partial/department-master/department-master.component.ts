@@ -174,7 +174,7 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
     });
   }
 
-//#endregion Submit Fun End
+//#endregion Submit Fun end
 
  //#region Edit Fun start
  editRecord(data: any) {
