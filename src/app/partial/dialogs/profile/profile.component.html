@@ -53,7 +53,7 @@
         <div class="col-sm-4">
             <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Mobile No.</mat-label>
-                <input matInput placeholder="Ex.1235444666" formControlName="mobileNo" maxlength="10"
+                <input matInput formControlName="mobileNo" maxlength="10"
                          (keypress)="validation.acceptedOnlyNumbers($event)">
                         <mat-error *ngIf="f['mobileNo']?.errors">
                             <span *ngIf="f['mobileNo']?.hasError('required')"> Mobile No. is required</span>
@@ -66,7 +66,7 @@
         <div class="col-sm-4">
             <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Email ID</mat-label>
-                <input matInput placeholder="abc@gmail.com" formControlName="emailId"  maxlength="100"
+                <input matInput formControlName="emailId"  maxlength="100"
                         (keypress)="validation.alphaNumericWithSpacesAndSpecChars($event)">
                         <mat-error *ngIf="f['emailId']?.errors">
                             <span *ngIf="f['emailId']?.hasError('required')"> Email ID is required</span>
