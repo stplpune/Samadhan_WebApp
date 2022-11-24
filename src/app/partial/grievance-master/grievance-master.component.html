@@ -93,19 +93,19 @@
                 <mat-option *ngFor="let dept of departmentArr" [value]="dept.id">{{dept.departmentName}}</mat-option>
               </mat-select>
               <mat-error *ngIf="f['deptId']?.errors">
-                <span *ngIf="f['deptId']?.hasError('required')"> Please Select Department</span>
+                <span *ngIf="f['deptId']?.hasError('required')"> Please select Department</span>
                 <span *ngIf="f['deptId']?.hasError('pattern') || f['deptId']?.hasError('minlength')">
-                  Please Select Department</span>
+                  Please select Department</span>
               </mat-error>
             </mat-form-field>
           </div>
           <div class="mb-3">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Grievance Type</mat-label>
-              <input matInput placeholder="grievance type" formControlName="grievanceType"
+              <input matInput formControlName="grievanceType"
                 (keypress)="validation.noFirstSpaceAllow($event)">
               <mat-error *ngIf="f['grievanceType']?.errors">
-                <span *ngIf="f['grievanceType']?.hasError('required')"> Grievance is required</span>
+                <span *ngIf="f['grievanceType']?.hasError('required')"> Grievance Type is required</span>
                 <span *ngIf="f['grievanceType']?.hasError('pattern') || f['grievanceType']?.hasError('minlength')">
                   Grievance Type is required</span>
               </mat-error>

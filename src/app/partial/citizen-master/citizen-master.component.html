@@ -126,7 +126,7 @@
       </ng-container>
 
       <tr class="mat-row p-2 w-100" *matNoDataRow col>
-        <td class="alert alert-danger text-center m-2 mt-2" colspan="9">No data found </td>
+        <td class="alert alert-danger text-center m-2 mt-2" colspan="9">No Data Found </td>
       </tr>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"
@@ -138,6 +138,7 @@
       </mat-paginator>
     </ng-container>
   </div>
+
   <div class="col-sm-4" [class.disabled-contenct]="!isdisable">
     <div class="card form-card">
       <div class="card-header" dis>
@@ -148,36 +149,36 @@
           <div class="row mb-3">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Name</mat-label>
-              <input matInput placeholder="Enter Name" formControlName="name" maxlength="50"
+              <input matInput formControlName="name" maxlength="50"
                 (keypress)="validation.noFirstSpaceAllow($event);validation.alphabetsWithSpaces($event)">
               <mat-error *ngIf="f['name']?.errors">
                 <span *ngIf="f['name']?.hasError('required')"> Name is required</span>
                 <span *ngIf="f['name']?.hasError('pattern') || f['name']?.hasError('minlength')">
-                  Please enter name</span>
+                  Please enter Name</span>
               </mat-error>
             </mat-form-field>
           </div>
           <div class="row mb-3">
             <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Mobile Number</mat-label>
-              <input matInput placeholder="Enter Mobile Number" [readonly]="true" formControlName="mobileNo"
+              <mat-label>Mobile No.</mat-label>
+              <input matInput [readonly]="true" formControlName="mobileNo"
                 [class.disabled-contenct]="true" maxlength="10"
                 (keypress)="validation.noFirstSpaceAllow($event);validation.noFirstSpaceAllow($event);validation.acceptedOnlyNumbers($event)">
               <mat-error *ngIf="f['mobileNo']?.errors">
-                <span *ngIf="f['mobileNo']?.hasError('required')"> Mobile No is required</span>
+                <span *ngIf="f['mobileNo']?.hasError('required')"> Mobile No. is required</span>
                 <span *ngIf="f['mobileNo']?.hasError('pattern') || f['mobileNo']?.hasError('minlength')">
-                  Please enter Mobile No</span>
+                  Please enter Mobile No.</span>
               </mat-error>
             </mat-form-field>
           </div>
           <div class="row mb-3">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Email ID</mat-label>
-              <input matInput placeholder="Enter email id" formControlName="emailId"
+              <input matInput formControlName="emailId"
                 (keypress)="validation.noFirstSpaceAllow($event)" maxlength="100">
               <mat-error *ngIf="f['emailId']?.errors">
                 <span *ngIf="f['emailId']?.hasError('pattern') || f['emailId']?.hasError('minlength')">
-                  Please enter valid email id</span>
+                  Please enter valid Email ID</span>
               </mat-error>
             </mat-form-field>
           </div>
@@ -189,9 +190,9 @@
                 <mat-option *ngFor="let tal of talukaArr" [value]="tal.id">{{tal.taluka}}</mat-option>
               </mat-select>
               <mat-error *ngIf="f['talukaId']?.errors">
-                <span *ngIf="f['talukaId']?.hasError('required')"> Please Select Taluka</span>
+                <span *ngIf="f['talukaId']?.hasError('required')"> Please select Taluka</span>
                 <span *ngIf="f['talukaId']?.hasError('pattern') || f['talukaId']?.hasError('minlength')">
-                  Please Select Taluka</span>
+                  Please select Taluka</span>
               </mat-error>
             </mat-form-field>
           </div>
@@ -202,9 +203,9 @@
                 <mat-option *ngFor="let vill of villageArr" [value]="vill.id">{{vill.village}}</mat-option>
               </mat-select>
               <mat-error *ngIf="f['villageId']?.errors">
-                <span *ngIf="f['villageId']?.hasError('required')"> Please Select Village</span>
+                <span *ngIf="f['villageId']?.hasError('required')"> Please select Village</span>
                 <span *ngIf="f['villageId']?.hasError('pattern') || f['villageId']?.hasError('minlength')">
-                  Please Select Village</span>
+                  Please select Village</span>
               </mat-error>
             </mat-form-field>
           </div>

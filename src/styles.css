@@ -279,3 +279,6 @@ input:-webkit-autofill:active {
     font-size: 0.85rem;
     font-weight: 600;
 }
+.mat-paginator-page-size{
+    display: none !important;
+}
