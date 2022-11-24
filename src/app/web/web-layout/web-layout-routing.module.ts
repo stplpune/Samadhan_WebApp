@@ -14,6 +14,9 @@ const routes: Routes = [
   { path: 'satisfied-report/:id', loadChildren: () => import('../../partial/reports/satisfied-report/satisfied-report.module').then(m => m.SatisfiedReportModule), data: { title: 'Satisfied Report' }  },
   { path: 'pendency-report/:id', loadChildren: () => import('../../partial/reports/pendency-report/pendency-report.module').then(m => m.PendencyReportModule), data: { title: 'Pendency Report' }  },
   { path: 'document-download-for-android/:id', loadChildren: () => import('../../web/document-download-for-android/document-download-for-android.module').then(m => m.DocumentDownloadForAndroidModule) },
+  { path: 'contact-us', loadChildren: () => import('../../web/contact-us/contact-us.module').then(m => m.ContactUsModule) },
+  { path: 'privacy-policy', loadChildren: () => import('../../web/privacy-policy/privacy-policy.module').then(m => m.PrivacyPolicyModule) },
+  
 ];
 
 @NgModule({
