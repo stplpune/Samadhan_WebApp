@@ -5,20 +5,26 @@
 
 /* post grievance status color css */
 .open{
-    color:#0171F1
+    background-color:#d6e9ff;
+    color:#0171F1;
 }
 .resolved{
-    color:#2BBE00
+    background-color:#ddffd2;
+    color:#218e00;
 }
 .accepted{
-    color:#d6b57c
+    background-color:#ffedce;
+    color:#d6b57c;
 }
 .partial{
-    color:#FFBB86FC
+    background-color:#ffe9d7fc;
+    color:#8b3c00fc;
 }
 .rejected{
-    color:#CC4B4C
+    background-color:#ffd5d5;
+    color:#CC4B4C;
 }
 .transferred{
-    color:#FF69B4
+    background-color:#ffddee;
+    color:#c50063;
 }
