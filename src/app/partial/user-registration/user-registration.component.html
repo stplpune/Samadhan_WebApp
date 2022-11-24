@@ -262,7 +262,7 @@
                 <div class="mb-3">
                     <mat-form-field class="w-100" appearance="outline">
                         <mat-label>Email ID</mat-label>
-                        <input matInput placeholder="Enter email id" formControlName="emailId"  maxlength="100"
+                        <input matInput formControlName="emailId"  maxlength="100"
                         (keypress)="validation.alphaNumericWithSpacesAndSpecChars($event)">
                         <mat-error *ngIf="f['emailId']?.errors">
                             <span *ngIf="f['emailId']?.hasError('required')"> Email Id is required</span>
