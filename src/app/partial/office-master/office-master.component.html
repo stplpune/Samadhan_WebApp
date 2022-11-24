@@ -139,7 +139,7 @@
 
           <div class="mb-3">
             <mat-form-field appearance="outline" class="w-100 ">
-              <mat-label>Office Name</mat-label>
+              <mat-label>Office Head Designation </mat-label>
               <input matInput formControlName="name" maxlength="50" (keyup)="validation.removeSpaceAtBegining($event)"
                 (keypress)="validation.alphabetsWithSpaces($event)">
               <mat-error *ngIf="f['name']?.errors">
@@ -182,12 +182,11 @@
 
           <div class="mb-3">
             <mat-form-field appearance="outline" class="w-100 ">
-              <mat-label>Office Email ID</mat-label>
+              <mat-label>Official Email ID</mat-label>
               <input matInput formControlName="emailId" (keyup)="validation.removeSpaceAtBegining($event)"  maxlength="100">
               <mat-error *ngIf="f['emailId']?.errors">
-                <span *ngIf="f['emailId']?.hasError('required')">Email ID is required</span>
                 <span *ngIf="f['emailId'].hasError('pattern')">
-                  Pelase enter valid Email ID</span>
+                  Pelase enter valid Official Email ID</span>
               </mat-error>
             </mat-form-field>
           </div>
@@ -207,7 +206,7 @@
 
           <div class="mb-3">
             <mat-form-field appearance="outline" class="w-100 ">
-              <mat-label>Contact Person Mobile No.</mat-label>
+              <mat-label>Office Landline</mat-label>
               <input matInput formControlName="mobileNo" maxlength="10"
                 (keyup)="validation.removeSpaceAtBegining($event)" (keypress)="validation.acceptedOnlyNumbers($event)">
               <mat-error *ngIf="f['mobileNo']?.errors">

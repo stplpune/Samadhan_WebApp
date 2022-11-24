@@ -38,6 +38,7 @@ export class HeaderComponent implements OnInit {
     const dialogRef = this.dialog.open(ChangePasswordComponent, {
       width: '650px',
       data: '',
+      disableClose: true,
     });
     dialogRef.afterClosed().subscribe((_result: any) => {
     });
