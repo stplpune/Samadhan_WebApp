@@ -2,3 +2,23 @@
     pointer-events: none;
     opacity: .6;
 }
+
+/* post grievance status color css */
+.open{
+    color:#0171F1
+}
+.resolved{
+    color:#2BBE00
+}
+.accepted{
+    color:#d6b57c
+}
+.partial{
+    color:#FFBB86FC
+}
+.rejected{
+    color:#CC4B4C
+}
+.transferred{
+    color:#FF69B4
+}
