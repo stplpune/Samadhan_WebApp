@@ -13,7 +13,6 @@ import { ConfigService } from 'src/app/configs/config.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { WebStorageService } from 'src/app/core/service/web-storage.service';
-import { MatSort } from '@angular/material/sort';
 import { CommonApiService } from 'src/app/core/service/common-api.service';
 
 @Component({
@@ -24,7 +23,6 @@ import { CommonApiService } from 'src/app/core/service/common-api.service';
 export class DepartmentMasterComponent implements OnInit, OnDestroy {
   @ViewChild('formDirective') formDirective!: NgForm;
   @ViewChild('paginator') paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
 // displayedColumns: string[] = ['srNo','departmentName','weight','delete','select',];
   displayedColumns: string[] = ['srNo','departmentName','action'];
   dataSource: any;
@@ -64,28 +62,32 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
 
   }
 
-//-------------------------------------------------------------------------Start Form-----------------------------------------------------------------------------------------
+//#region createDepartmentForm start
   createDepartmentForm() {
     this.frmDepartment = this.fb.group({
       departmentName: ['',[Validators.required, Validators.pattern(this.validation.valName)],],
     });
   }
 
+//#endregion createDepartmentForm end
+
+
   get f() {
     return this.frmDepartment.controls;
   }
 
-//------------------------------------------------------------------------------FilterForm--------------------------------------------------------------------------
-  filterMethod() {
+ //#region FilterForm start
+   filterMethod() {
     this.filterForm = this.fb.group({
       deptId: [0],
     });
   }
 
+  //#endregion FilterForm end
 
   selection = new SelectionModel<any>(true, []);
 
-//-------------------------------------------------------------------------Department---------------------------------------------------------------------------
+ //#region Department Bind Fun start
   getDepartmentName() {
     this.departmentArr = [];
     this.commonService.getAllDepartment().subscribe({
@@ -96,8 +98,11 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
     })
 }
 
-//-----------------------------------------------------------------------Display Table --------------------------------------------------------------------------------
-  getData() {
+//#endregion Department Bind Fun end
+
+
+ //#region Table Bind Fun start
+ getData() {
      this.spinner.show();
     let formData = this.filterForm.value;
     this.apiService.setHttp('get','samdhan/Department/GetAllDepartments?Id=' +formData.deptId +'&pageno=' +this.pageNo +'&pagesize=' +this.pageSize,false,false,false,'samadhanMiningService');
@@ -106,7 +111,6 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
         if (res.statusCode == 200) {
           let dataSet = res.responseData;
           this.dataSource = new MatTableDataSource(dataSet);
-          this.dataSource.sort = this.sort;
           this.totalPages = res.responseData1.pageCount;
           this.pageNo == 1 ? this.paginator?.firstPage() : '';
           this.spinner.hide();
@@ -116,12 +120,20 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
           this.totalPages = 0;
         }
 
+      },  error: (error: any) => {
+        this.dataSource = [];
+        this.error.handelError(error.status);
+        this.spinner.hide();
+
       },
     });
   }
 
-//----------------------------------------------------------------------Submit----------------------------------------------------------------------------------
-  onSubmitDepartment() {
+ //#endregion Table Bind Fun end
+
+
+ //#region Submit Fun start
+ onSubmitDepartment() {
     // this.spinner.show();
     if (this.frmDepartment.invalid) {
       return;
@@ -146,9 +158,7 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
           // this.spinner.hide();
           this.getData();
           this.onCancelRecord();
-          this.commonMethod.checkDataType(res.statusMessage) == false
-            ? this.error.handelError(res.statusCode)
-            : this.commonMethod.matSnackBar(res.statusMessage, 0);
+          this.commonMethod.matSnackBar(res.statusMessage, 0);
         } else {
           this.commonMethod.checkDataType(res.statusMessage) == false
             ? this.error.handelError(res.statusCode)
@@ -163,8 +173,11 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
       },
     });
   }
-//----------------------------------------------------------------------------Update--------------------------------------------------------------------------------
-  editRecord(data: any) {
+
+//#endregion Submit Fun end
+
+ //#region Edit Fun start
+ editRecord(data: any) {
     this.highlightedRow = data.id;
     this.isEdit = true;
     this.updatedObj = data;
@@ -172,34 +185,35 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
       departmentName: this.updatedObj.departmentName,
     });
   }
-//--------------------------------------------------------------------------Pagination-----------------------------------------------------------------------------
-  pageChanged(event: any) {
+
+//#endregion Fun end
+
+ //#region Pagination Fun start
+   pageChanged(event: any) {
     this.pageNo = event.pageIndex + 1;
     this.getData();
     this.onCancelRecord();
     this.selection.clear();
-
-
   }
-//---------------------------------------------------------------------------cancle------------------------------------------------------------------------------
-  onCancelRecord() {
+//#endregion Pagination Fun end
+
+ //#region CancleRecord Fun start
+   onCancelRecord() {
     this.formDirective.resetForm();
     this.isEdit = false;
   }
+//#endregion CancleRecord Fun end
 
-//---------------------------------------------------------------------------filter-----------------------------------------------------------------------------------------------
-  filterRecord() {
-    this.getData();
-
-  }
-
+  //#region Filter Fun start
   filterData() {
     this.pageNo = 1;
     this.getData();
     this.onCancelRecord();
   }
-//---------------------------------------------------------------------------Delete---------------------------------------------------------------------------------------
-  isAllSelected() {
+
+//#endregion Filter Fun end
+
+isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
@@ -221,10 +235,11 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
         successBtnText: 'Delete',
         dialogIcon: '',
         cancelBtnText: 'Cancel',
+        inputType:false
       },
       disableClose: this.apiService.disableCloseFlag,
     });
-    dialog.afterClosed().subscribe((res) => {
+    dialog.afterClosed().subscribe((res) => {;
       if (res == 'Yes') {
         this.deleteUser();
       } else {
@@ -234,6 +249,7 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
   }
 
   deleteUser() {
+
     let selDelArray = this.selection.selected;
     let delArray = new Array();
     let userId = this.webStorage.getUserId();
@@ -258,15 +274,15 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
     this.apiService.getHttp().subscribe(
       {
         next: (res: any) => {
-          if (res.statusCode === '200') {
+          if (res.statusCode == '200') {
             this.highlightedRow = 0;
             this.getData();
             this.commonMethod.matSnackBar(res.statusMessage, 0);
-            this.selection.clear();
+            // this.selection.clear();
           } else {
-            if (res.statusCode != '404') {
-              this.error.handelError(res.statusMessage);
-            }
+            this.commonMethod.checkDataType(res.statusMessage) == false
+            ? this.error.handelError(res.statusCode)
+            : this.commonMethod.matSnackBar(res.statusMessage, 1);
           }
         },
       },
@@ -281,5 +297,8 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscription?.unsubscribe();
   }
+
+
+
 }
 

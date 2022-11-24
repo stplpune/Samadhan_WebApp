@@ -61,15 +61,18 @@ export class GrievanceMasterComponent implements OnInit ,AfterViewInit, OnDestro
 
   }
   get f() { return this.frmGrievance.controls };
-//------------------------------------------------------------------------------Form---------------------------------------------------------------------------------------
-createGrievanceForm(){
+
+//#region createGrievanceForm start
+    createGrievanceForm(){
   this.frmGrievance = this.fb.group({
     deptId: ['', [Validators.required]],
     grievanceType:['',[Validators.required,Validators.pattern]]
   })
 }
 
-//---------------------------------------------------------------------------AfterViewInit--------------------------------------------------------------------
+//#region createGrievanceForm end
+
+//#region Search Fun start
 ngAfterViewInit() {
 let formData = this.filterForm.controls['grievanceType'].valueChanges;
 formData.pipe(filter(() => this.filterForm.valid),
@@ -81,18 +84,22 @@ distinctUntilChanged()).subscribe(() => {
 })
 }
 
-//-------------------------------------------------------------------------FilterForm--------------------------------------------------------------------------------
+//#region Search Fun end
+
+//#region Filter Fun start
 filterMethod(){
      this.filterForm = this.fb.group({
       deptId:[0],
       grievanceType:['']
   })
 }
+
+//#region Filter Fun end
+
   selection = new SelectionModel<any>(true, []);
 
 
-//------------------------------------------------------------------------Display Table-------------------------------------------------------------------------------
-
+//#region Bind table Fun start
   getData(){
   this.spinner.show();
   let formData = this.filterForm.value;
@@ -108,13 +115,22 @@ filterMethod(){
       }else{
        this.spinner.hide();
         this.dataSource=[];
+        this.totalPages = 0;
       }
-      }
+      },
+      error: (error: any) => {
+        this.dataSource = [];
+        this.error.handelError(error.status);
+        this.spinner.hide();
+
+      },
 
       });
     }
-  //------------------------------------------------------------------------Get Department--------------------------------------------------------------------------------
 
+    //#region Bind table Fun end
+
+//#region Department Api start
   getDepartmentName(){
     this.departmentArr = [];
     this.commonService.getAllDepartment().subscribe({
@@ -125,7 +141,10 @@ filterMethod(){
     })
 
   }
-//------------------------------------------------------------------------Submit-------------------------------------------------------------------------------------------
+
+  //#region Department Api end
+
+//#region Submit Form start
 onSubmitGrievance(){
     // this.spinner.show();
     if (this.frmGrievance.invalid) {
@@ -154,7 +173,7 @@ onSubmitGrievance(){
           this.getData();
           this.onCancelRecord();
           this.selection.clear();
-          this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 0);
+          this.commonMethod.matSnackBar(res.statusMessage, 0);
         } else {
           this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
         }
@@ -164,7 +183,9 @@ onSubmitGrievance(){
     })
   }
 
- //------------------------------------------------------------------------------Edit-----------------------------------------------------------------------------
+  //#region Submit Form end
+
+//#region Patch Value fun start
  editRecord(data:any){
   this.highlightedRow = data.grievanceTypeId;
   this.isEdit = true;
@@ -175,7 +196,9 @@ onSubmitGrievance(){
   });
  }
 
-//------------------------------------------------------------------------------Pagination-----------------------------------------------------------------------------
+ //#region Patch Value fun end
+
+//#region Pagination fun start
 pageChanged(event: any) {
   this.pageNo = event.pageIndex + 1;
   this.getData();
@@ -184,17 +207,18 @@ pageChanged(event: any) {
 
 }
 
-//-----------------------------------------------------------------------------Cancle Record------------------------------------------------------------------------------------
+//#region Pagination fun end
+
+//#region CancleRecord Fun start
 onCancelRecord() {
   this.formDirective.resetForm();
   this.isEdit = false;
 }
 
-//--------------------------------------------------------------------------------filter----------------------------------------------------------------------------------------
-  filterRecord() {
-    this.getData();
-  }
+//#region CancleRecord Fun end
 
+
+//#region Filter Fun start
   filterData(){
     this.pageNo = 1;
     this.getData();
@@ -202,7 +226,9 @@ onCancelRecord() {
 
   }
 
-//---------------------------------------------------------------------------------Delete-------------------------------------------------------------------------------
+  //#region Filter Fun end
+
+//#region Delete Fun start
 isAllSelected() {
   const numSelected = this.selection.selected.length;
   const numRows = this.dataSource.data.length;
@@ -281,9 +307,15 @@ deleteUser() {
   );
   this.onCancelRecord();
 }
+
+//#region Delete Fun end
+
+//#region ngOnDestroy start
 ngOnDestroy() {
   this.subscription?.unsubscribe();
 }
+
+//#region ngOnDestroy end
   }
 
 
