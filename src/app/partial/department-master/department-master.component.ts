@@ -27,7 +27,6 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['srNo','departmentName','action'];
   dataSource: any;
   frmDepartment!: FormGroup;
-  totalRows: any;
   filterForm!: FormGroup;
   isEdit: boolean = false;
   totalPages: any;
@@ -242,8 +241,10 @@ isAllSelected() {
     dialog.afterClosed().subscribe((res) => {;
       if (res == 'Yes') {
         this.deleteUser();
+        this.onCancelRecord();
       } else {
         this.selection.clear();
+        this.onCancelRecord();
       }
     });
   }
@@ -278,11 +279,13 @@ isAllSelected() {
             this.highlightedRow = 0;
             this.getData();
             this.commonMethod.matSnackBar(res.statusMessage, 0);
-            // this.selection.clear();
+            this.selection.clear();
           } else {
             this.commonMethod.checkDataType(res.statusMessage) == false
             ? this.error.handelError(res.statusCode)
             : this.commonMethod.matSnackBar(res.statusMessage, 1);
+            this.selection.clear();
+            this.getData();
           }
         },
       },

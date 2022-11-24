@@ -30,10 +30,15 @@ export class ExcelService {
         doc.addImage('../../../../assets/images/samadhanLogo.jpeg', 'JPEG', 2, -3, imgWidth, height);
 
         doc.setFontSize(13);
-        doc.text(objData.topHedingName, 105, 10, "center");
+        doc.text(objData.topHedingName, 40, 10, "left");
 
+        if(objData?.timePeriod != null){
         doc.setFontSize(10);
-        doc.text(objData.createdDate, 200, 10, "right");
+        doc.text(objData.timePeriod, 40, 14, "left");
+        }
+       
+         doc.setFontSize(10);
+         doc.text(objData.createdDate, 200, 10, "right");
 
         doc.setLineWidth(0.2);
         doc.line(12, 15, 200, 15);
