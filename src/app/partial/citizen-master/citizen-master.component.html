@@ -165,9 +165,9 @@
                 [class.disabled-contenct]="true" maxlength="10"
                 (keypress)="validation.noFirstSpaceAllow($event);validation.noFirstSpaceAllow($event);validation.acceptedOnlyNumbers($event)">
               <mat-error *ngIf="f['mobileNo']?.errors">
-                <span *ngIf="f['mobileNo']?.hasError('required')"> Mobile No. is required</span>
+                <!-- <span *ngIf="f['mobileNo']?.hasError('required')"> Mobile No. is required</span> -->
                 <span *ngIf="f['mobileNo']?.hasError('pattern') || f['mobileNo']?.hasError('minlength')">
-                  Please enter Mobile No.</span>
+                  Please enter valid Mobile No.</span>
               </mat-error>
             </mat-form-field>
           </div>

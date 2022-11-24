@@ -234,7 +234,7 @@ this.updatedObj = ele;
 this.frmCitizen.patchValue({
   name: this.updatedObj.name,
   emailId: this.updatedObj.emailId,
-  mobileNo: this.updatedObj.mobileNo,
+  mobileNo: this.updatedObj.mobileNo.trim(),
 });
 this.getTalukaName(this.isEdit);
 
