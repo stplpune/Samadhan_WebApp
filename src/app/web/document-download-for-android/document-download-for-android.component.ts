@@ -20,6 +20,7 @@ import { WebStorageService } from 'src/app/core/service/web-storage.service';
 export class DocumentDownloadForAndroidComponent implements OnInit {
   data: any = new Array();
   pair: any;
+  docId:any;
   officeDepReportArray: any;
   officeOffReportArray: any;
   OfficerTalukaReportArray: any;
@@ -50,6 +51,7 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
     // this.getOfficerDepartmentReport();
     this.getUrl(this.data[0].value);
     console.log(this.data);
+    this.docId=this.data[1].value
   }
 
   getUrl(id: any) {
@@ -107,7 +109,7 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
   }
 
   getOfficerDepartmentReport(keyPDFHeader: any, objData: any) {
-    let obj = this.data[1].value + '&userid=' + this.data[2].value + '&fromDate=' + this.data[3].value + '&toDate=' + this.data[4].value
+    let obj = this.data[2].value + '&userid=' + this.data[3].value + '&fromDate=' + this.data[4].value + '&toDate=' + this.data[5].value
     this.apiService.setHttp('get', 'api/ShareGrievances/OfficerDepartmentReport?searchdeptId=' + obj, false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
@@ -118,8 +120,7 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
             return ele
           });
 
-          this.downloadPdf(keyPDFHeader, objData, this.officeDepReportArray);
-          this.downloadExcel(keyPDFHeader, objData, this.officeDepReportArray);
+        this.docId==1? this.downloadPdf(keyPDFHeader, objData, this.officeDepReportArray) :this.docId==2? this.downloadExcel(keyPDFHeader, objData, this.officeDepReportArray):'';         
         } else {
         }
       },
@@ -131,7 +132,7 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
 
 
   getOfficerOfficeReport(keyPDFHeader: any, objData: any) {
-    let obj = this.data[1].value + '&searchofcId' + this.data[2].value + '&userid=' + this.data[3].value + '&fromDate=' + this.data[4].value + '&toDate=' + this.data[5].value
+    let obj = this.data[2].value + '&searchofcId' + this.data[3].value + '&userid=' + this.data[4].value + '&fromDate=' + this.data[5].value + '&toDate=' + this.data[6].value
     this.apiService.setHttp('get', 'api/ShareGrievances/OfficerOfficeReport?searchdeptId=' + obj, false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
@@ -140,8 +141,7 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
             ele.deptId = index + 1; delete ele.isDeleted; delete ele.officeId
             return ele
           });
-          this.downloadPdf(keyPDFHeader, objData, this.officeOffReportArray);
-          this.downloadExcel(keyPDFHeader, objData, this.officeOffReportArray);
+          this.docId==1? this.downloadPdf(keyPDFHeader, objData, this.officeOffReportArray) :this.docId==2? this.downloadExcel(keyPDFHeader, objData, this.officeOffReportArray):'';         
         } else {
         }
       },
@@ -153,7 +153,7 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
 
 
   getOfficerTalukaReport(keyPDFHeader: any, objData: any) {
-    let obj = this.data[1].value + '&userid=' + this.data[2].value + '&fromDate=' + this.data[3].value + '&toDate=' + this.data[4].value
+    let obj = this.data[2].value + '&userid=' + this.data[3].value + '&fromDate=' + this.data[4].value + '&toDate=' + this.data[5].value
     this.apiService.setHttp('get', 'api/ShareGrievances/OfficerTalukaReport?TalukaId=' + obj, false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
@@ -162,8 +162,7 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
             ele.talukaId = index + 1; delete ele.isDeleted;
             return ele
           });
-          this.downloadPdf(keyPDFHeader, objData, this.OfficerTalukaReportArray);
-          this.downloadExcel(keyPDFHeader, objData, this.OfficerTalukaReportArray);
+          this.docId==1? this.downloadPdf(keyPDFHeader, objData, this.OfficerTalukaReportArray) :this.docId==2? this.downloadExcel(keyPDFHeader, objData, this.OfficerTalukaReportArray):'';                
 
         } else {
         }
@@ -176,7 +175,7 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
   }
 
   getPendencyReport(keyPDFHeader: any, objData: any) {
-    let obj = this.data[1].value + '&userid=' + this.data[2].value + '&fromDate=' + this.data[3].value + '&toDate=' + this.data[4].value
+    let obj = this.data[2].value + '&userid=' + this.data[3].value + '&fromDate=' + this.data[4].value + '&toDate=' + this.data[5].value
     this.apiService.setHttp('get', 'api/ShareGrievances/OfficerPendencyReport?searchdeptId=' + obj, false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
@@ -186,8 +185,7 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
             delete ele.isDeleted
             return ele
           });
-          this.downloadPdf(keyPDFHeader, objData, this.pendencyReportArray);
-          this.downloadExcel(keyPDFHeader, objData, this.pendencyReportArray);
+          this.docId==1? this.downloadPdf(keyPDFHeader, objData, this.pendencyReportArray) :this.docId==2? this.downloadExcel(keyPDFHeader, objData, this.pendencyReportArray):'';         
         } else {
         }
       },
@@ -199,7 +197,7 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
 
   getOfficerIsSatisfiedReport(keyPDFHeader: any, objData: any) {
 
-    let obj = this.data[1].value + '&userid=' + this.data[2].value + '&fromDate=' + this.data[3].value + '&toDate=' + this.data[4].value
+    let obj = this.data[2].value + '&userid=' + this.data[3].value + '&fromDate=' + this.data[4].value + '&toDate=' + this.data[5].value
     this.apiService.setHttp('get', 'api/ShareGrievances/OfficerIsSatisfiedReport?searchdeptId=' + obj, false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
@@ -208,9 +206,7 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
             ele.deptId = index + 1; delete ele.isDeleted;
             return ele
           });
-          this.downloadPdf(keyPDFHeader, objData, this.officeIsSatisfiedReportArray);
-          this.downloadExcel(keyPDFHeader, objData, this.officeIsSatisfiedReportArray);
-
+          this.docId==1? this.downloadPdf(keyPDFHeader, objData, this.officeIsSatisfiedReportArray) :this.docId==2? this.downloadExcel(keyPDFHeader, objData, this.officeIsSatisfiedReportArray):'';         
         } else {
         }
       },
