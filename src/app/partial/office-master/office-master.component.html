@@ -73,16 +73,14 @@
 
       <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef class="srno">Action
-          <!-- <button [disabled]="this.selection.selected.length ==0"
-          mat-icon-button (click)="deleteUserData()">
-          <span class="material-symbols-outlined">
-            delete
-          </span>
-        </button>
-        <mat-checkbox (change)="$event ? masterToggle() : null"
-        [checked]="selection.hasValue() && isAllSelected()">
-        <!-- [indeterminate]="selection.hasValue() && !isAllSelected()"> --
-        </mat-checkbox> -->
+          <button [disabled]="this.selection.selected.length ==0" mat-icon-button (click)="deleteUserData()">
+            <span class="material-symbols-outlined">
+              delete
+            </span>
+          </button>
+          <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()">
+            <!-- [indeterminate]="selection.hasValue() && !isAllSelected()"> -->
+          </mat-checkbox>
         </th>
         <td mat-cell *matCellDef="let element">
           <div>
@@ -91,13 +89,10 @@
                 edit_square
               </span>
             </button>
-
-            <!-- <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(element) : null"
+            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(element) : null"
               [checked]="selection.isSelected(element)">
-            </mat-checkbox> -->
-
+            </mat-checkbox>
           </div>
-
         </td>
       </ng-container>
       <tr class="mat-row p-2 w-100" *matNoDataRow col>
@@ -183,7 +178,8 @@
           <div class="mb-3">
             <mat-form-field appearance="outline" class="w-100 ">
               <mat-label>Official Email ID</mat-label>
-              <input matInput formControlName="emailId" (keyup)="validation.removeSpaceAtBegining($event)"  maxlength="100">
+              <input matInput formControlName="emailId" (keyup)="validation.removeSpaceAtBegining($event)"
+                maxlength="100">
               <mat-error *ngIf="f['emailId']?.errors">
                 <span *ngIf="f['emailId'].hasError('pattern')">
                   Pelase enter valid Official Email ID</span>
@@ -220,7 +216,6 @@
           <div class="text-end">
             <button mat-stroked-button class="btn-main-outline" type="button" (click)="onCancelRecord()">Cancel</button>
             <button mat-stroked-button class="btn-main ms-2" type="submit">{{isEdit ? 'Update':'Submit'}}</button>
-
           </div>
         </div>
       </form>
