@@ -18,12 +18,12 @@ export class FormsValidationService {
 
    //------------------------------- validation Pattern use for globally-------------------------- //
 
-   
+
    valUserName = '^[^\\s\\[\\[`&-._@#%*!-+"\'\/\\]\\]{}][a-zA-Z@0-9.\\s]+$';
-    
+
    valPassword = '^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z0-9\d@$!%*?&]{8,20}$';
-   
-   
+
+   valLandlineNo = '(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{3,4})';
    valMobileNo = '[6-9]\\d{9}';
    valOtp = '[0-9]\\d{6}';
    valName = '^[^\\s0-9\\[\\[`&._@#%*!+"\'\/\\]\\]{}][a-zA-Z.\\s]+$'; // fname, mname, lname
@@ -175,7 +175,7 @@ emailRegex(event: any) { //Email Validation
     if (event.target.selectionStart === 0 && (event.keyCode==46)) return false;  // starting .Dot not accept
     if (event.target.selectionStart === 0 && (event.keyCode==64)) return false;  // starting @ not accept
     let key = parseInt(event.key); if (event.target.selectionStart === 0 && (!isNaN(key))) return false; // starting Number not accept
-    const maskSeperator = new RegExp('^([a-zA-Z0-9 .@])', 'g'); // only Accept A-Z & 0-9 & .@ 
+    const maskSeperator = new RegExp('^([a-zA-Z0-9 .@])', 'g'); // only Accept A-Z & 0-9 & .@
     return maskSeperator.test(event.key);
 }
 
@@ -189,7 +189,7 @@ acceptedOnlyNumbers_floatValue(event: any) {
  noFirstSpaceAllow(event: any) {  // for First Space Not Allow
     if (event.target.selectionStart === 0 && (event.code === 'Space')){
         event.preventDefault();
-    } 
+    }
 }
 
 }

@@ -139,7 +139,7 @@
 
           <div class="mb-3">
             <mat-form-field appearance="outline" class="w-100 ">
-              <mat-label>Office Head Designation </mat-label>
+              <mat-label>Office Name</mat-label>
               <input matInput formControlName="name" maxlength="50" (keyup)="validation.removeSpaceAtBegining($event)"
                 (keypress)="validation.alphabetsWithSpaces($event)">
               <mat-error *ngIf="f['name']?.errors">
@@ -193,7 +193,7 @@
 
           <div class="mb-3">
             <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Contact Person Name</mat-label>
+              <mat-label>Office Head Designation</mat-label>
               <input matInput formControlName="contactPersonName" maxlength="50"
                 (keyup)="validation.removeSpaceAtBegining($event)" (keypress)="validation.alphabetsWithSpaces($event)">
               <mat-error *ngIf="f['contactPersonName']?.errors">
@@ -210,9 +210,8 @@
               <input matInput formControlName="mobileNo" maxlength="10"
                 (keyup)="validation.removeSpaceAtBegining($event)" (keypress)="validation.acceptedOnlyNumbers($event)">
               <mat-error *ngIf="f['mobileNo']?.errors">
-                <span *ngIf="f['mobileNo']?.hasError('required')"> Mobile No. is required</span>
                 <span *ngIf="f['mobileNo']?.hasError('pattern') || f['mobileNo']?.hasError('minlength')">
-                  Please enter valid Mobile No. </span>
+                  Please enter valid Landline No.</span>
               </mat-error>
             </mat-form-field>
           </div>
