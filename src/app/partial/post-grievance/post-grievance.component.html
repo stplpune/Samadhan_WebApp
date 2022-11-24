@@ -232,7 +232,7 @@
                     <div class="mb-3" [class.disabled-contenct]="ispatch">
                         <mat-form-field class="w-100" appearance="outline">
                             <mat-label>Mobile Number</mat-label>
-                            <input matInput placeholder="Ex.0236504789" maxlength="10"
+                            <input matInput maxlength="10"
                                 (keypress)="validation.acceptedOnlyNumbers($event)"
                                 formControlName="otherCitizenMobileNo" [readonly]="ispatch">
                             <mat-error *ngIf="f['otherCitizenMobileNo']?.errors">
