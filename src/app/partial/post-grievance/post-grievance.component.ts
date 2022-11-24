@@ -328,35 +328,35 @@ export class PostGrievanceComponent implements OnInit {
     this.formDirective.resetForm();
     this.ispatch = false;
     this.grievanceImageArray=[];
-    this.postGrievanceType(1);
+    // this.postGrievanceType(1);
     this.districtArray.length == 1 ? this.postGrievanceForm.controls['districtId'].setValue(this.districtArray[0].id) : '';
   }
 
 
-  postGrievanceType(flag:any) {
-    this.formDirective && this.formDirective.resetForm();
-    this.districtArray.length == 1 ? this.postGrievanceForm.controls['districtId'].setValue(this.districtArray[0].id) : '';
-    if (flag == 0) {
-      this.postGrievanceForm.controls["otherCitizenName"].setValidators([Validators.required,Validators.pattern('^[^\\s0-9\\[\\[`&._@#%*!+"\'\/\\]\\]{}][a-zA-Z.\\s]+$')]);
-      this.postGrievanceForm.controls["otherCitizenName"].updateValueAndValidity();
-      this.postGrievanceForm.controls["otherCitizenMobileNo"].setValidators([Validators.required,Validators.pattern('[6-9]\\d{9}')]);
-      this.postGrievanceForm.controls["otherCitizenMobileNo"].updateValueAndValidity();
-      this.postGrievanceForm.controls["otherCitizenAddress"].setValidators([Validators.required,Validators.pattern('^[^[ ]+|[ ][gm]+$')]);
-      this.postGrievanceForm.controls["otherCitizenAddress"].updateValueAndValidity();
-      this.grievanceImageArray = [];
-    } else {
-      this.postGrievanceForm.controls['otherCitizenName'].setValue('');
-      this.postGrievanceForm.controls['otherCitizenName'].clearValidators();
-      this.postGrievanceForm.controls['otherCitizenName'].updateValueAndValidity();
-      this.postGrievanceForm.controls['otherCitizenMobileNo'].setValue('');
-      this.postGrievanceForm.controls['otherCitizenMobileNo'].clearValidators();
-      this.postGrievanceForm.controls['otherCitizenMobileNo'].updateValueAndValidity();
-      this.postGrievanceForm.controls['otherCitizenAddress'].setValue('');
-      this.postGrievanceForm.controls['otherCitizenAddress'].clearValidators();
-      this.postGrievanceForm.controls['otherCitizenAddress'].updateValueAndValidity();
-      this.grievanceImageArray = [];
-    }
-  }
+  // postGrievanceType(flag:any) {
+  //   this.formDirective && this.formDirective.resetForm();
+  //   this.districtArray.length == 1 ? this.postGrievanceForm.controls['districtId'].setValue(this.districtArray[0].id) : '';
+  //   if (flag == 0) {
+  //     this.postGrievanceForm.controls["otherCitizenName"].setValidators([Validators.required,Validators.pattern('^[^\\s0-9\\[\\[`&._@#%*!+"\'\/\\]\\]{}][a-zA-Z.\\s]+$')]);
+  //     this.postGrievanceForm.controls["otherCitizenName"].updateValueAndValidity();
+  //     this.postGrievanceForm.controls["otherCitizenMobileNo"].setValidators([Validators.required,Validators.pattern('[6-9]\\d{9}')]);
+  //     this.postGrievanceForm.controls["otherCitizenMobileNo"].updateValueAndValidity();
+  //     this.postGrievanceForm.controls["otherCitizenAddress"].setValidators([Validators.required,Validators.pattern('^[^[ ]+|[ ][gm]+$')]);
+  //     this.postGrievanceForm.controls["otherCitizenAddress"].updateValueAndValidity();
+  //     this.grievanceImageArray = [];
+  //   } else {
+  //     this.postGrievanceForm.controls['otherCitizenName'].setValue('');
+  //     this.postGrievanceForm.controls['otherCitizenName'].clearValidators();
+  //     this.postGrievanceForm.controls['otherCitizenName'].updateValueAndValidity();
+  //     this.postGrievanceForm.controls['otherCitizenMobileNo'].setValue('');
+  //     this.postGrievanceForm.controls['otherCitizenMobileNo'].clearValidators();
+  //     this.postGrievanceForm.controls['otherCitizenMobileNo'].updateValueAndValidity();
+  //     this.postGrievanceForm.controls['otherCitizenAddress'].setValue('');
+  //     this.postGrievanceForm.controls['otherCitizenAddress'].clearValidators();
+  //     this.postGrievanceForm.controls['otherCitizenAddress'].updateValueAndValidity();
+  //     this.grievanceImageArray = [];
+  //   }
+  // }
 
   onSubmitForm() {
     console.log(this.postGrievanceForm.controls)
@@ -383,7 +383,7 @@ export class PostGrievanceComponent implements OnInit {
         "concern_OfficeId": formData.officeId,
         "natureGrievanceId": formData.natureGrievanceId,
         "grievanceDescription": formData.grievanceDescription,
-        "isSelfGrievance": this.isSelfGrievance.value,
+        "isSelfGrievance":3,
         "otherCitizenName": formData.otherCitizenName,
         "otherCitizenMobileNo": formData.otherCitizenMobileNo,
         "otherCitizenAddress": formData.otherCitizenAddress,

@@ -209,18 +209,18 @@
         <div class="card form-card">
             <div class="card-header"> {{updatedObj ? 'View Grievance' : 'Post Grievance'}}</div>
             <div class="card-body">
-                <div class="mb-3">
+                <!-- <div class="mb-3">
                     <mat-radio-group aria-label="Select an option" [formControl]="isSelfGrievance">
                         <mat-radio-button *ngFor="let reg of registerBy" [value]="reg.value" class="me-4"
                             (change)="postGrievanceType(reg?.value)" [disabled]="ispatch">
                             {{reg.type}}
                         </mat-radio-button>
                     </mat-radio-group>
-                </div>
+                </div> -->
 
                 <form [formGroup]="postGrievanceForm" #formDirective="ngForm">
 
-                    <div class="mb-3" *ngIf="isSelfGrievance.value == 0" [class.disabled-contenct]="ispatch">
+                    <div class="mb-3"  [class.disabled-contenct]="ispatch">
                         <mat-form-field class="w-100" appearance="outline">
                             <mat-label>Name</mat-label>
                             <input matInput
@@ -232,7 +232,7 @@
                             </mat-error>
                         </mat-form-field>
                     </div>
-                    <div class="mb-3" *ngIf="isSelfGrievance.value == 0" [class.disabled-contenct]="ispatch">
+                    <div class="mb-3"  [class.disabled-contenct]="ispatch">
                         <mat-form-field class="w-100" appearance="outline">
                             <mat-label>Mobile Number</mat-label>
                             <input matInput placeholder="Ex.0236504789" maxlength="10"
@@ -246,7 +246,7 @@
                             </mat-error>
                         </mat-form-field>
                     </div>
-                    <div class="mb-3" *ngIf="isSelfGrievance.value == 0" [class.disabled-contenct]="ispatch">
+                    <div class="mb-3"  [class.disabled-contenct]="ispatch">
                         <mat-form-field class="w-100" appearance="legacy">
                             <mat-label>Address</mat-label>
                             <textarea matInput rows="4" (keypress)="validation.noFirstSpaceAllow($event)"
