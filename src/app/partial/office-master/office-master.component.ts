@@ -79,7 +79,7 @@ createOfficeForm() {
       address: ['',[Validators.required, Validators.pattern('^[^[ ]+|[ ][gm]+$')]],
       emailId: ['',[Validators.pattern(this.validation.valEmailId)],],
       contactPersonName: ['',[Validators.required, Validators.pattern(this.validation.valName)],],
-      mobileNo: ['',[Validators.pattern(this.validation.valLandlineNo),Validators.minLength(10),Validators.maxLength(10),],],
+      mobileNo: ['',[Validators.pattern(this.validation.valMobileNo),Validators.minLength(10),Validators.maxLength(10),],],
     });
   }
 
