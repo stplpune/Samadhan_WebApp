@@ -21,6 +21,7 @@ import { CommonApiService } from 'src/app/core/service/common-api.service';
   templateUrl: './citizen-master.component.html',
   styleUrls: ['./citizen-master.component.css']
 })
+
 export class CitizenMasterComponent implements OnInit {
   @ViewChild('formDirective') formDirective!: NgForm;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -78,6 +79,7 @@ createCitizenForm(){
   }
 
 //#endregion createCitizenForm and filterForm end
+
   get f() {
     return this.frmCitizen.controls;
   }
@@ -119,13 +121,13 @@ createCitizenForm(){
 
     })
 }
+
 //#endregion Taluka Api end
 
 
 //#region Village Api start
 getVillageName(talukaId:number, editFlag:any) {
   this.frmCitizen.controls['villageId'].setValue('');
-  console.log(this.frmCitizen.controls);
   this.villageArr = [];
   if(talukaId !=0){
     this.commonService.getVillageByTalukaId(talukaId).subscribe({
@@ -249,7 +251,7 @@ onCancelRecord() {
 //#endregion CancelRecord fun end
 
 
-//#region paginaion fun start
+//#region pagination fun start
 pageChanged(event: any){
   this.pageNo = event.pageIndex + 1;
   this.getData();
@@ -257,7 +259,7 @@ pageChanged(event: any){
   this.selection.clear();
 }
 
-//#endregion paginaion fun end
+//#endregion pagination fun end
 
 
 //#region clearFilter Fun start
