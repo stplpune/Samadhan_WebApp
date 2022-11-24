@@ -62,28 +62,32 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
 
   }
 
-//-------------------------------------------------------------------------Start Form-----------------------------------------------------------------------------------------
+//#region createDepartmentForm start
   createDepartmentForm() {
     this.frmDepartment = this.fb.group({
       departmentName: ['',[Validators.required, Validators.pattern(this.validation.valName)],],
     });
   }
 
+//#endregion createDepartmentForm end
+
+
   get f() {
     return this.frmDepartment.controls;
   }
 
-//------------------------------------------------------------------------------FilterForm--------------------------------------------------------------------------
-  filterMethod() {
+ //#region FilterForm start
+   filterMethod() {
     this.filterForm = this.fb.group({
       deptId: [0],
     });
   }
 
+  //#endregion FilterForm end
 
   selection = new SelectionModel<any>(true, []);
 
-//-------------------------------------------------------------------------Department---------------------------------------------------------------------------
+ //#region Department Bind Fun start
   getDepartmentName() {
     this.departmentArr = [];
     this.commonService.getAllDepartment().subscribe({
@@ -94,8 +98,11 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
     })
 }
 
-//-----------------------------------------------------------------------Display Table --------------------------------------------------------------------------------
-  getData() {
+//#endregion Department Bind Fun end
+
+
+ //#region Table Bind Fun start
+ getData() {
      this.spinner.show();
     let formData = this.filterForm.value;
     this.apiService.setHttp('get','samdhan/Department/GetAllDepartments?Id=' +formData.deptId +'&pageno=' +this.pageNo +'&pagesize=' +this.pageSize,false,false,false,'samadhanMiningService');
@@ -122,8 +129,11 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
     });
   }
 
-//----------------------------------------------------------------------Submit----------------------------------------------------------------------------------
-  onSubmitDepartment() {
+ //#endregion Table Bind Fun end
+
+
+ //#region Submit Fun start
+ onSubmitDepartment() {
     // this.spinner.show();
     if (this.frmDepartment.invalid) {
       return;
@@ -163,8 +173,11 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
       },
     });
   }
-//----------------------------------------------------------------------------Update--------------------------------------------------------------------------------
-  editRecord(data: any) {
+
+//#endregion Submit Fun end
+
+ //#region Edit Fun start
+ editRecord(data: any) {
     this.highlightedRow = data.id;
     this.isEdit = true;
     this.updatedObj = data;
@@ -172,33 +185,35 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
       departmentName: this.updatedObj.departmentName,
     });
   }
-//--------------------------------------------------------------------------Pagination-----------------------------------------------------------------------------
-  pageChanged(event: any) {
+
+//#endregion Fun end
+
+ //#region Pagination Fun start
+   pageChanged(event: any) {
     this.pageNo = event.pageIndex + 1;
     this.getData();
     this.onCancelRecord();
     this.selection.clear();
-
-
   }
-//---------------------------------------------------------------------------cancle------------------------------------------------------------------------------
-  onCancelRecord() {
+//#endregion Pagination Fun end
+
+ //#region CancleRecord Fun start
+   onCancelRecord() {
     this.formDirective.resetForm();
     this.isEdit = false;
   }
+//#endregion CancleRecord Fun end
 
-//---------------------------------------------------------------------------filter-----------------------------------------------------------------------------------------------
-  // filterRecord() {
-  //   this.getData();
-  // }
-
+  //#region Filter Fun start
   filterData() {
     this.pageNo = 1;
     this.getData();
     this.onCancelRecord();
   }
-//---------------------------------------------------------------------------Delete---------------------------------------------------------------------------------------
-  isAllSelected() {
+
+//#endregion Filter Fun end
+
+isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
@@ -282,5 +297,8 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscription?.unsubscribe();
   }
+
+
+
 }
 

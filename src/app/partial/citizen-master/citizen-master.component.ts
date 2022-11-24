@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {SelectionModel} from '@angular/cdk/collections';
-import {MatTableDataSource} from '@angular/material/table';
+import { SelectionModel } from '@angular/cdk/collections';
+import { MatTableDataSource } from '@angular/material/table';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { ErrorHandlerService } from 'src/app/core/service/error-handler.service';
@@ -21,16 +21,16 @@ import { CommonApiService } from 'src/app/core/service/common-api.service';
   templateUrl: './citizen-master.component.html',
   styleUrls: ['./citizen-master.component.css']
 })
+
 export class CitizenMasterComponent implements OnInit {
   @ViewChild('formDirective') formDirective!: NgForm;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   // displayedColumns: string[] = [ 'srno', 'name', 'mobileNo','emailId', 'taluka','village','action','delete','select'];
-  displayedColumns: string[] = [ 'srno', 'name', 'mobileNo','emailId', 'taluka','village','action'];
+  displayedColumns: string[] = ['srno', 'name', 'mobileNo','emailId', 'taluka','village','action'];
   dataSource: any;
   frmCitizen!:FormGroup;
   filterForm!:FormGroup;
   isEdit: boolean = false;
-  totalRows: any;
   totalPages: any;
   pageNo = 1;
   pageSize = 10;
@@ -61,8 +61,8 @@ export class CitizenMasterComponent implements OnInit {
     this.getData();
   }
 
-//----------------------------------------------------------------FormStart---------------------------------------------------------------------------------------
-  createCitizenForm(){
+//#region createCitizenForm and filterForm start
+createCitizenForm(){
     this.frmCitizen = this.fb.group({
      name :['',[Validators.required, Validators.pattern(this.validation.valName)],],
      mobileNo :['',[Validators.required,Validators.pattern(this.validation.valMobileNo),Validators.minLength(10),Validators.maxLength(10),],],
@@ -78,11 +78,13 @@ export class CitizenMasterComponent implements OnInit {
     })
   }
 
+//#endregion createCitizenForm and filterForm end
+
   get f() {
     return this.frmCitizen.controls;
   }
 
-//-------------------------------------------------------------------------AfterViewInit------------------------------------------------------------------
+//#region Search Fun start
   ngAfterViewInit() {
     let formData: any = this.filterForm.controls['textsearch'].valueChanges;
     formData.pipe(filter(() => this.filterForm.valid),
@@ -90,22 +92,25 @@ export class CitizenMasterComponent implements OnInit {
       distinctUntilChanged()).subscribe(() => {
         this.pageNo = 1;
         this.getData();
-        this.totalRows > 10 && this.pageNo == 1 ? this.paginator?.firstPage() : '';
+        this.totalPages > 10 && this.pageNo == 1 ? this.paginator?.firstPage() : '';
       });
     }
-//---------------------------------------------------------------------------Filter-------------------------------------------------------------------------
+
+//#endregion Search Fun end
+
+
+//#region Filter Fun start
   filterData(){
     this.pageNo = 1;
     this.getData();
     this.onCancelRecord();
   }
 
- filterRecord() {
-  this.getData();
-}
+//#endregion Filter Fun end
   selection = new SelectionModel<any>(true, []);
-//----------------------------------------------------------------------------Taluka-------------------------------------------------------------------------------------------
-getTalukaName(editFlag:any ) {
+
+//#region Taluka Api start
+  getTalukaName(editFlag:any ) {
     this.talukaArr = [];
     this.commonService.getAllTaluka().subscribe({
       next: (response: any) => {
@@ -117,10 +122,12 @@ getTalukaName(editFlag:any ) {
     })
 }
 
-//----------------------------------------------------------------------------Village---------------------------------------------------------------------------------------------
+//#endregion Taluka Api end
+
+
+//#region Village Api start
 getVillageName(talukaId:number, editFlag:any) {
   this.frmCitizen.controls['villageId'].setValue('');
-  console.log(this.frmCitizen.controls);
   this.villageArr = [];
   if(talukaId !=0){
     this.commonService.getVillageByTalukaId(talukaId).subscribe({
@@ -136,7 +143,10 @@ getVillageName(talukaId:number, editFlag:any) {
 
 }
 
-//---------------------------------------------------------------------------Dispaly Table-----------------------------------------------------------------------------
+//#endregion Village Api end
+
+
+//#region Bind table Fun start
 getData() {
 this.spinner.show()
 let formData = this.filterForm.value;
@@ -154,9 +164,19 @@ this.apiService.getHttp().subscribe({
       this.totalPages = 0;
     }
   },
+  error: (error: any) => {
+    this.dataSource = [];
+    this.error.handelError(error.status);
+    this.spinner.hide();
+
+  },
 });
 }
-//-----------------------------------------------------------------------Submit----------------------------------------------------------------------------------------------------
+
+//#endregion Bind table Fun end
+
+
+//#region update fun start
 onUpdateCitizen() {
 if (this.frmCitizen.invalid) {
   return;
@@ -173,8 +193,8 @@ let obj = {
   "modifiedDate": new Date()
 };
 
-let method = this.isEdit ? 'PUT':'';
-let url = this.isEdit ? 'UpdateCitizen' : '';
+let method = 'PUT';
+let url = 'UpdateCitizen';
 this.apiService.setHttp(
   method,
   'samadhan/user-registration/' + url,
@@ -189,7 +209,7 @@ this.subscription = this.apiService.getHttp().subscribe({
       this.highlightedRow = 0;
       this.getData();
       this.onCancelRecord();
-      this.commonMethod.checkDataType(res.statusMessage) == false? this.error.handelError(res.statusCode): this.commonMethod.matSnackBar(res.statusMessage, 0);
+      this.commonMethod.matSnackBar(res.statusMessage, 0);
     } else {
       this.commonMethod.checkDataType(res.statusMessage) == false? this.error.handelError(res.statusCode): this.commonMethod.matSnackBar(res.statusMessage, 1);
     }
@@ -201,7 +221,11 @@ this.subscription = this.apiService.getHttp().subscribe({
   },
 });
 }
-//----------------------------------------------------------------------------Edit---------------------------------------------------------------------------------
+
+//#endregion update fun end
+
+
+//#region patchValue start
 editRecord(ele: any) {
 this.isdisable = true;
 this.highlightedRow = ele.id;
@@ -215,14 +239,19 @@ this.frmCitizen.patchValue({
 this.getTalukaName(this.isEdit);
 
 }
-//-------------------------------------------------------------------------CancleRecord-----------------------------------------------------------------------
+//#endregion patchValue end
+
+//#region CancelRecord fun start
 onCancelRecord() {
   this.formDirective.resetForm();
   this.isEdit = false;
   this.isdisable= false;
 }
 
-//-------------------------------------------------------------------------Pagination-------------------------------------------------------------------------------
+//#endregion CancelRecord fun end
+
+
+//#region pagination fun start
 pageChanged(event: any){
   this.pageNo = event.pageIndex + 1;
   this.getData();
@@ -230,7 +259,10 @@ pageChanged(event: any){
   this.selection.clear();
 }
 
-//---------------------------------------------------------------------------Clear---------------------------------------------------------------------------------
+//#endregion pagination fun end
+
+
+//#region clearFilter Fun start
  clearFilter(flag: any) {
   switch (flag) {
     case 'taluka':
@@ -244,7 +276,10 @@ pageChanged(event: any){
   }
 }
 
-//------------------------------------------------------------------------------Delete----------------------------------------------------------------------------------
+//#endregion clearFilter Fun end
+
+
+//#region delete fun start
 isAllSelected() {
   const numSelected = this.selection.selected.length;
   const numRows = this.dataSource.data.length;
@@ -323,25 +358,11 @@ deleteUser() {
   this.onCancelRecord();
 }
 
+//#endregion Delete fun end
+
+//#region ngOnDestroy start
 ngOnDestroy() {
   this.subscription?.unsubscribe();
 }
+//#endregion ngOnDestroy end
 }
-
-
-// export interface PeriodicElement {
-//   srno:number;
-//   name: string;
-//   mobileno: number;
-//   emailId: any;
-//   taluka: string;
-//   village:string;
-//   action:any;
-// }
-
-// const ELEMENT_DATA: PeriodicElement[] = [
-//   {srno: 1, name: 'Hydrogen', mobileno: 8669264767, emailId: 'H@gmail.com',taluka:'Pune',village:'Rajgrurnagar',action:''},
-//   {srno: 2, name: 'Hydrogen', mobileno: 8669264767, emailId: 'H@gmail.com',taluka:'Pune',village:'Rajgrurnagar',action:''},
-//   {srno: 3, name: 'Hydrogen', mobileno: 8669264767, emailId: 'H@gmail.com',taluka:'Pune',village:'Rajgrurnagar',action:''},
-
-// ];
