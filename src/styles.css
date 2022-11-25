@@ -8,7 +8,7 @@ body {
 
 body {
     margin: 0;
-    font-family: "Rubik", sans-serif !important;
+    font-family: "Poppins", sans-serif !important;
     background-color: #eee;
 }
 
@@ -21,17 +21,17 @@ body {
 .bg-main {
     background-color: var(--main-color);
     color: #fff;
-    font-family: "Rubik", sans-serif !important;
+    font-family: "Poppins", sans-serif !important;
 }
 
 .bg-main-light {
     background-color: var(--main-light-color);
-    font-family: "Rubik", sans-serif !important;
+    font-family: "Poppins", sans-serif !important;
 }
 
 .bg-main-dark {
     background-color: var(--main-dark-color);
-    font-family: "Rubik", sans-serif !important;
+    font-family: "Poppins", sans-serif !important;
 }
 
 .text-main {
@@ -41,7 +41,7 @@ body {
     background-color: transparent;
     color: var(--main-color);
     border: solid 1px var(--main-color) !important;
-    font-family: "Rubik", sans-serif !important;
+    font-family: "Poppins", sans-serif !important;
 }
 
 .btn-main:hover {
@@ -53,7 +53,7 @@ body {
     color: #808080;
     border: solid 1px #808080 !important;
     background-color: transparent;
-    font-family: "Rubik", sans-serif !important;
+    font-family: "Poppins", sans-serif !important;
 }
 
 .btn-main-outline:hover {
@@ -130,7 +130,7 @@ body {
 
 .btn-main,
 .dashboard-table {
-    font-family: "Rubik", sans-serif !important;
+    font-family: "Poppins", sans-serif !important;
 }
 
 
@@ -233,7 +233,7 @@ body {
     background: #eeeeee !important;
 }
 .mat-simple-snack-bar-content{
-  font-family: "Rubik", sans-serif !important;
+  font-family: "Poppins", sans-serif !important;
   font-size: 0.85rem;
 }
 .snack-warning {
