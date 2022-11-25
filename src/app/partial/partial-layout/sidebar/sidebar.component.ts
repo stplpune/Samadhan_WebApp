@@ -41,7 +41,7 @@ export class SidebarComponent implements OnInit {
         this.menus[existingIndex].pageURL = this.menus[existingIndex].pageURL.concat(item.pageURL);
         // this.menus[existingIndex].pageNameView = this.menus[existingIndex].pageNameView.concat(item.pageNameView);
         this.menus[existingIndex].pageName = this.menus[existingIndex].pageName.concat(item.pageName);
-        this.menus[existingIndex].menuIcon = this.menus[existingIndex].menuIcon.concat(item.menuIcon);
+        // this.menus[existingIndex].menuIcon = this.menus[existingIndex].menuIcon.concat(item.menuIcon);
         this.menus[existingIndex].type = 'dropdown';
       } else {
         if (typeof item.pageNameView == 'string')
@@ -51,8 +51,7 @@ export class SidebarComponent implements OnInit {
           item.menuIcon = [item.menuIcon];
           this.menus.push(item);
       }
-    });
-    
+    });    
   }
   
   getSideBarState() {

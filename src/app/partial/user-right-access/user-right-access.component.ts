@@ -23,10 +23,10 @@ export class UserRightAccessComponent implements OnInit {
   SubUserTypeArr = new Array();
   userRightFrm !: FormGroup;
   pageNumber: number = 1;
-  pageSize: number = 15;
+  pageSize: number = 10;
   dataSource: any;
   displayedColumns: string[] = ['srno', 'pageName', 'pageURL', 'select'];
-  totalRows: number = 0;
+  totalRows: any;
   highlightedRow!: number;
   initialLoadFlag: boolean = true;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -90,6 +90,8 @@ export class UserRightAccessComponent implements OnInit {
   }
 
   getUserRightPageList(){
+    console.log(this.pageNumber);
+    
     this.spinner.show()
     let paramList: string = "?UserTypeId=" + this.userRightFrm.value.userType + "&SubUserTypeId=" + this.userRightFrm.value.subUserType + "&Textsearch=" + this.userRightFrm.value.pageName.trim() + "&pageno=" + this.pageNumber + "&pagesize=" + this.pageSize;
     this.apiService.setHttp('get', "samadhan/user-pages/GetByCriteria" + paramList, false, false, false, 'samadhanMiningService');
@@ -98,8 +100,9 @@ export class UserRightAccessComponent implements OnInit {
         if (res.statusCode == 200) {
           this.dataSource = new MatTableDataSource(res.responseData.responseData1);
           this.dataSource.sort = this.sort;
-          this.totalRows = res.responseData.responseData2.pageCount;
-          this.pageNumber == 1 ? this.paginator?.firstPage() : '';
+          this.totalRows = res.responseData?.responseData2[0]?.pageCount;
+          console.log(this.totalRows);
+          this.pageNumber = 1;
           this.spinner.hide();
         } else {
 
@@ -121,7 +124,7 @@ export class UserRightAccessComponent implements OnInit {
   }
 
   onSubmit() {
-    this.pageNumber == 1 ? this.paginator?.firstPage() : '';
+    this.pageNumber = 1;
     this.getUserRightPageList();
   }
 
@@ -156,6 +159,7 @@ export class UserRightAccessComponent implements OnInit {
   resetFilter(){
     this.assignUserRightsForm();
     this.getUserType();
+    this.pageNumber == 1;
     this.initialLoadFlag = true;
   }
 
