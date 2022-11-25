@@ -152,6 +152,9 @@ body {
 .dashboard-table .srno {
     width: 80px;
 }
+.dashboard-table .action {
+    width: 120px;
+}
 
 .dashboard-table .checkbox {
     width: 40px;
