@@ -79,7 +79,7 @@ createOfficeForm() {
       address: ['',[Validators.required, Validators.pattern('^[^[ ]+|[ ][gm]+$')]],
       emailId: ['',[Validators.pattern(this.validation.valEmailId)],],
       contactPersonName: ['',[Validators.required, Validators.pattern(this.validation.valName)],],
-      mobileNo: ['',[Validators.pattern,Validators.minLength(11),Validators.maxLength(11),],],
+      landlineNo: ['',[Validators.pattern,Validators.minLength(11),Validators.maxLength(11),],],
     });
   }
 
@@ -179,7 +179,7 @@ createOfficeForm() {
       address: formData.address,
       emailId: formData.emailId,
       contactPersonName: formData.contactPersonName,
-      mobileNo: formData.mobileNo,
+      landlineNo: formData.landlineNo,
     };
 
     let method = this.isEdit ? 'PUT' : 'POST';
@@ -226,7 +226,7 @@ createOfficeForm() {
       address: this.updatedObj.officeAddress,
       emailId: this.updatedObj.officeEmailId,
       contactPersonName: this.updatedObj.contactPersonName,
-      mobileNo: this.updatedObj.contactPersonMobileNo,
+      landlineNo: this.updatedObj.landlineNo,
     });
   }
 
