@@ -65,7 +65,7 @@
                 <div class="col-sm-4">
                     <div class="mb-2">
                         <mat-form-field class="w-100" appearance="outline">
-                            <mat-label>Grievance ID / Name</mat-label>
+                            <mat-label>Grievance No / Name</mat-label>
                             <input matInput placeholder="Search" formControlName="textSearch">
                         </mat-form-field>
                     </div>
@@ -80,13 +80,13 @@
                                 1)-20}}</td>
                         </ng-container>
                         <ng-container matColumnDef="grievanceNo">
-                            <th mat-header-cell *matHeaderCellDef>Grievance ID</th>
+                            <th mat-header-cell *matHeaderCellDef>Grievance No</th>
                             <td mat-cell *matCellDef="let element"> {{element.grievanceNo}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="name">
                             <th mat-header-cell *matHeaderCellDef>Name</th>
-                            <td mat-cell *matCellDef="let element"> {{element.isSelfGrievance == 0 ?
+                            <td mat-cell *matCellDef="let element"> {{element.isSelfGrievance == 3 ?
                                 (element.otherCitizenName | titlecase) : element.name | titlecase}} </td>
                         </ng-container>
                         <ng-container matColumnDef="taluka">
