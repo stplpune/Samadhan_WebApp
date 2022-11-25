@@ -85,8 +85,8 @@ export class PostGrievanceComponent implements OnInit {
 
   defaultForm() {
     this.postGrievanceForm = this.fb.group({
-      otherCitizenName: [''],
-      otherCitizenMobileNo: [''],
+      otherCitizenName: ['',[Validators.required,Validators.pattern(this.validation.alphabetsWithSpace)]],
+      otherCitizenMobileNo: ['',[Validators.pattern(this.validation.valMobileNo),Validators.minLength(10),Validators.maxLength(10)]],
       otherCitizenAddress: [''],
       districtId: ['', [Validators.required]],
       talukaId: ['', [Validators.required]],
@@ -419,7 +419,7 @@ export class PostGrievanceComponent implements OnInit {
       this.grievanceImageArray=this.updatedObj.citizenGrievanceImages;
       this.isSelfGrievance.patchValue(ele.isSelfGrievance);
       this.postGrievanceForm.patchValue({
-        otherCitizenName: this.updatedObj.otherCitizenName,
+        otherCitizenName: this.updatedObj.otherCitizenName?this.updatedObj.otherCitizenName:this.updatedObj.name,
         otherCitizenMobileNo: this.updatedObj.otherCitizenMobileNo,
         otherCitizenAddress: this.updatedObj.otherCitizenAddress,
         grievanceDescription:this.updatedObj.grievanceDescription,
