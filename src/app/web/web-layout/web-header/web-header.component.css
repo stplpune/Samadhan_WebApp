@@ -2,7 +2,6 @@
     font-size:0.7rem;
     background-color: #545454;
     color:#fff;
-    padding-block:5px ;
 }
 #topbar .top-content{
     display: flex;
@@ -54,18 +53,18 @@
     background-color:var(--main-color);
     border-radius: 0.375rem;
 }
-
-.right-logo div{
-    margin-inline: 5px;
-    padding: 10px;
+#logos{
+    padding-block: 5px;
 }
-.right-logo button{
-    background-color:#D8D6D4;
-    color: #000;
-    font-weight: 700;
-    border: transparent;
-    border-radius: 5px;
-    padding: 5px 15px;
+#logos .samadhan-logo{
+    width:250px;
+}
+#logos .india75{
+    width:80px;
+}
+#logos .clean-india{
+    width:120px;
+    margin-inline: 15px;
 }
 
 #menubar .navbar{
@@ -73,13 +72,16 @@
     background-color: var(--main-color) !important;
     padding: 0 !important;
 }
+.navbar .nav-item{
+    color: #fff;
+}
 .navbar .nav-item a{
     color: #fff;
-    font-size: 14px;
+    font-size: 0.85rem;
+    padding: 12px 35px;
 }
+.navbar .nav-item a:hover,
 .navbar .nav-item a.active{
     background-color: #F5A837;
     color: #000;
-    padding: 10px 25px;
-    font-size: 14px;
 }
