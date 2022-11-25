@@ -114,7 +114,7 @@ export class SatisfiedReportComponent implements OnInit {
     );// Value Name
     let objData:any = {
       'topHedingName' : 'Satisfied Report',
-      'createdDate':'Created on:'+ this.datePipe.transform(new Date(), 'dd/MM/yyyy')
+      'createdDate':'Created on:'+this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a')
     }
     let keyPDFHeader = ['SrNo', "Department Name", "Received", "satisfied", "unSatisfied"];
 
