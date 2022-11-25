@@ -58,7 +58,12 @@ export class ExcelService {
     worksheet.getCell('C4').value = objData.topHedingName
     worksheet.getCell('C4').font = { name: 'Corbel', family: 3, size: 13, bold: true, };
 
-    worksheet.getCell('E5').value = 'Date:' + objData.createdDate
+    if(objData?.timePeriod != null){
+    worksheet.getCell('C5').value = objData.timePeriod
+    worksheet.getCell('C5').font = { name: 'Corbel', family: 3, size: 13, bold: true, };
+    }
+
+    worksheet.getCell('E5').value = objData.createdDate
     worksheet.getCell('E5').font = { name: 'Corbel', family: 3, size: 12, bold: true, };
 
     const response = await fetch('../../../../assets/images/samadhanLogo.jpeg');
