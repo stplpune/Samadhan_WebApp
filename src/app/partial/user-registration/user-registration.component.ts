@@ -68,7 +68,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.getData();
     this.getUsers(this.localStrorageData.getUserId());
     // this.getDepartment();
-    this.getDepartmentByUser(this.localStrorageData.getUserId());
+    this.getDepartment();
   }
 
   //#region  filter form fn Start here
@@ -141,7 +141,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.usersArray = [];
     this.commonService.getAllUserByUserId(userId).subscribe({
       next: (response: any) => {
-        this.usersArray.push(...response); 
+        this.usersArray.push(...response);
         this.changeDepFlag == true ? (this.userFrm.controls['userTypeId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.userTypeId) == false ? '' : this.updatedObj?.userTypeId),
          this.getSubUsers(this.commonMethod.checkDataType(this.updatedObj?.userTypeId) == false ? '' : this.updatedObj?.userTypeId)) : '';
       },
@@ -153,7 +153,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.subUsersArray = [];
     this.commonService.getAllSubUser(usertypeId).subscribe({
       next: (response: any) => {
-        this.subUsersArray.push(...response); 
+        this.subUsersArray.push(...response);
         this.changeDepFlag == true ? (this.userFrm.controls['subUserTypeId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.subUserTypeId) == false ? '' : this.updatedObj?.subUserTypeId)) :this.userFrm.controls['subUserTypeId'].setValue('');
       },
       error: ((error: any) => { this.error.handelError(error.status) })
@@ -176,9 +176,9 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   // }
   //#endregiondrop down department bind fn end here
 
-  getDepartmentByUser(userId:number) {
+  getDepartment() {
     this.departmentByUserArray = [];
-    this.commonService.getAllDepartmentByUserId(userId).subscribe({
+    this.commonService.getAllDepartment().subscribe({
       next: (response: any) => {
         this.departmentByUserArray.push(...response);
         this.changeDepFlag == true ? (this.userFrm.controls['deptId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.deptId) == false ? '' : this.updatedObj?.deptId),
@@ -197,7 +197,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.commonService.getOfficeByDeptId(deptNo).subscribe({
       next: (response: any) => {
         this.officeArray.push(...response);
-        
+
         this.changeDepFlag == true ? (this.userFrm.controls['officeId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.officeId) == false ? '' : this.updatedObj?.officeId)) : '';
       },
       error: ((error: any) => { this.error.handelError(error.status) })
@@ -213,9 +213,9 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   }
 
   setValidators(flag: any) {
-    
+
     switch (flag) {
-      case 2: 
+      case 2:
               this.userFrm.controls['deptId'].setValue('');
               this.userFrm.controls['deptId'].clearValidators();
               this.userFrm.controls['deptId'].updateValueAndValidity();
@@ -223,8 +223,8 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
               this.userFrm.controls['officeId'].clearValidators();
               this.userFrm.controls['officeId'].updateValueAndValidity();
               break;
-        
-       case 3: 
+
+       case 3:
                 this.userFrm.controls["deptId"].setValidators([Validators.required]);
                 this.userFrm.controls["deptId"].updateValueAndValidity();
                 this.userFrm.controls['officeId'].setValue('');
@@ -392,7 +392,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
       emailId: this.updatedObj.emailId,
     });
     // this.getDepartment();
-    this.getDepartmentByUser(this.localStrorageData.getUserId());
+    this.getDepartment();
     this.getUsers(this.localStrorageData.getUserId());
     this.setValidators(this.updatedObj?.userTypeId);
   }
@@ -415,7 +415,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
 
   //#endregiondrop reset form value fn end here
 
-  //#region single or multiple user delete fn Start here 
+  //#region single or multiple user delete fn Start here
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
