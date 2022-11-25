@@ -35,12 +35,7 @@
 #grievance-status{
     padding: 50px;
 }
-h5.page-heading
-{
-    padding: 10px 15px ;
-    border-left: 10px solid #F5A837;
-    margin-bottom: 1rem;
-}
+
 
 #grievance-status .card{
     border: transparent;

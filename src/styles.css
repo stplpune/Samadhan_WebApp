@@ -155,7 +155,12 @@ body {
     color: #fff;
     padding: 10px;
 }
-
+h5.page-heading
+{
+    padding: 10px 15px ;
+    border-left: 10px solid #F5A837;
+    margin-bottom: 1rem;
+}
 .dashboard-table {
     border: solid 1px rgba(0, 0, 0, .12);
 }
