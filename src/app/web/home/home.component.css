@@ -35,8 +35,43 @@
 #grievance-status{
     padding: 50px;
 }
+#about-banner{
+    background-image: url("../../../assets/images/home-banner.png");
+    height: 380px;
+    background-size:cover ;
+    display: flex;
+    align-items: center;
+}
+.left-content{
+    padding-block: 2rem;
+}
+.left-content .redress{
+    color: var(--main-color);
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 2.5rem;
+}
 
+.left-content .complaint{
+    color: #000000;
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
 
+.left-content .lodge{
+    color: var(--main-color);
+    font-weight: 600;
+    font-size: 1.4rem;
+}
+.left-content .store-icons{
+    display:flex;
+    align-items:center;
+}
+.left-content .store-icons img{
+    width: 180px;
+    margin-left: 1rem;
+}
 #grievance-status .card{
     border: transparent;
     border-bottom: 3px solid #B83058;
