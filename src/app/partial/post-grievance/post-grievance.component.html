@@ -162,7 +162,7 @@
                         </ng-container> -->
 
                         <ng-container matColumnDef="action">
-                            <th mat-header-cell *matHeaderCellDef class="text-end srno"> ACTION <br>
+                            <th mat-header-cell *matHeaderCellDef class="srno"> ACTION <br>
                                 <button [disabled]="this.selection.selected.length ==0" mat-icon-button
                                     (click)="deleteData()">
                                     <span class="material-symbols-outlined">
@@ -190,7 +190,7 @@
                         </ng-container>
 
                         <tr class="mat-row p-2 w-100" *matNoDataRow col>
-                            <td class="alert alert-danger text-center m-2 mt-2" colspan="9">No data found </td>
+                            <td class="alert alert-danger text-center m-2 mt-2" colspan="9">No Data Found </td>
                         </tr>
 
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
