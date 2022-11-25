@@ -18,11 +18,11 @@
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>From Date/To Date</mat-label>
                         <mat-date-range-input [rangePicker]="picker">
-                            <input matStartDate placeholder="Start date" formControlName="fromDate">
-                            <input matEndDate placeholder="End date" formControlName="toDate">
+                            <input matStartDate placeholder="Start date" formControlName="fromDate" [disabled]="true">
+                            <input matEndDate placeholder="End date" formControlName="toDate" [disabled]="true">
                         </mat-date-range-input>
-                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-date-range-picker #picker></mat-date-range-picker>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker" [disabled]="false"></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker [disabled]="false"></mat-date-range-picker>
                     </mat-form-field>
                 </div>
                 

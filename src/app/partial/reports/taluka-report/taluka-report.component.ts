@@ -77,6 +77,15 @@ export class TalukaReportComponent implements OnInit {
     let formData = this.filterForm.value;
     formData.fromDate = formData.fromDate ? this.datePipe.transform(formData.fromDate, 'yyyy/MM/dd') : '';
     formData.toDate = formData.toDate ? this.datePipe.transform(formData.toDate, 'yyyy/MM/dd') : '';
+
+    if(formData.fromDate){
+      if(!formData.toDate){
+        this.commonMethod.matSnackBar('Please select end date', 1);
+        this.spinner.hide();
+        return
+      } 
+    }
+    
     let obj = formData.TalukaId + '&userid=' + this.localStrorageData.getUserId() + '&fromDate=' + formData.fromDate + '&toDate=' + formData.toDate
     this.apiService.setHttp('get', 'api/ShareGrievances/OfficerTalukaReport?TalukaId=' + obj, false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
