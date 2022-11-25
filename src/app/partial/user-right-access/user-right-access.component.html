@@ -64,8 +64,8 @@
         [ngClass]="{'highlightedRow ':highlightedRow == row.id}">
       </tr>
     </table>
-    <!-- *ngIf="totalRows>10" -->
-    <ng-container *ngIf="totalRows > 10">
+
+    <ng-container>
       <mat-paginator [pageSizeOptions]="[10]" [length]="totalRows" showFirstLastButtons (page)="pageChanged($event)">
       </mat-paginator>
     </ng-container>

@@ -23,7 +23,7 @@ export class UserRightAccessComponent implements OnInit {
   SubUserTypeArr = new Array();
   userRightFrm !: FormGroup;
   pageNumber: number = 1;
-  pageSize: number = 10;
+  pageSize: number = 15;
   dataSource: any;
   displayedColumns: string[] = ['srno', 'pageName', 'pageURL', 'select'];
   totalRows: number = 0;
