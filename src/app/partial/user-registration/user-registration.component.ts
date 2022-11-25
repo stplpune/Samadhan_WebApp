@@ -298,7 +298,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
       "emailId": formData.emailId,
       "userTypeId": formData.userTypeId,
       "subUserTypeId": formData.subUserTypeId,
-      "userName": formData.mobileNo,
+      "userName": "",
       "password": "",
       "deptId": formData.deptId || 0,
       "officeId": formData.officeId || 0,
