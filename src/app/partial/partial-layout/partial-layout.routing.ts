@@ -17,4 +17,6 @@ export const PartialLayoutRoutes: Routes = [
   { path: 'satisfied-report', loadChildren: () => import('../../partial/reports/satisfied-report/satisfied-report.module').then(m => m.SatisfiedReportModule), data: { title: 'Satisfied Report' }, canActivate: [ExpenseGuard] },
   { path: 'pendency-report', loadChildren: () => import('../../partial/reports/pendency-report/pendency-report.module').then(m => m.PendencyReportModule), data: { title: 'Pendency Report' }, canActivate: [ExpenseGuard] },
   { path: 'grievance-details/:id', loadChildren: () => import('../../web/grievance-details/grievance-details.module').then(m => m.GrievanceDetailsModule), data: { title: 'Grievance Details' }, canActivate: [ExpenseGuard]  },
+
+  { path: 'samadhan-report', loadChildren: () => import('../../partial/reports/samadhan-report/samadhan-report.module').then(m => m.SamadhanReportModule),data: { title: 'Samadhan Report' }, canActivate: [ExpenseGuard]  },
 ];

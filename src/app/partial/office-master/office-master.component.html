@@ -203,10 +203,10 @@
           <div class="mb-3">
             <mat-form-field appearance="outline" class="w-100 ">
               <mat-label>Office Landline</mat-label>
-              <input matInput formControlName="mobileNo" maxlength="11"
+              <input matInput formControlName="landlineNo" maxlength="11"
                 (keyup)="validation.removeSpaceAtBegining($event)" (keypress)="validation.acceptedOnlyNumbers($event)">
-              <mat-error *ngIf="f['mobileNo']?.errors">
-                <span *ngIf="f['mobileNo']?.hasError('pattern') || f['mobileNo']?.hasError('minlength')">
+              <mat-error *ngIf="f['landlineNo']?.errors">
+                <span *ngIf="f['landlineNo']?.hasError('pattern') || f['landlineNo']?.hasError('minlength')">
                   Please enter valid Landline No.</span>
               </mat-error>
             </mat-form-field>
