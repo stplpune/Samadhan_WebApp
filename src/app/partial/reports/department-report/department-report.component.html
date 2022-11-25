@@ -23,7 +23,18 @@
                 </mat-select>
               </mat-form-field>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-3">
+              <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>From Date/To Date</mat-label>
+                  <mat-date-range-input [rangePicker]="picker">
+                      <input matStartDate placeholder="Start date" formControlName="fromDate">
+                      <input matEndDate placeholder="End date" formControlName="toDate">
+                  </mat-date-range-input>
+                  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-date-range-picker #picker></mat-date-range-picker>
+              </mat-form-field>
+          </div>
+            <!-- <div class="col-sm-2">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>From Date</mat-label>
                 <input matInput [matDatepicker]="picker" formControlName="fromDate">
@@ -38,7 +49,7 @@
                 <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
                 <mat-datepicker #picker2 color="primary"></mat-datepicker>
               </mat-form-field>
-            </div>
+            </div> -->
           </div>
         </div>
         <div class="col-sm-3 text-end">
