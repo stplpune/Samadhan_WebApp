@@ -18,19 +18,10 @@
     text-decoration: none;
     color: #B83058;
 }
-#about-us .ias_osmanabad{
-    bottom: 0px;
-    text-align: center;
-    left: 80px;
-    background-color: #B83058;
-    width: 252px;
-    overflow: hidden;
-    color: #fff;
-    padding: 10px;
+#about-us{
+    padding-block: 3rem;
 }
-#about-us .collector img{
-    width: 250px;
-}
+
 #samadhan-app-info{
     background-color: #874D5E;
     padding: 50px 50px 0px 50px;
@@ -38,18 +29,13 @@
 #samadhan-app-info h3 .samadhan{
     color: #FCAC34 !important;
 }
-#samadhan-app-info .app-description h3,p{
+#samadhan-app-info .app-description h3{
     color: #fff !important;
 }
 #grievance-status{
     padding: 50px;
 }
-.grievance-status-title h5,
-#about-us h5
-{
-    padding: 10px 15px ;
-    border-left: 10px solid #F5A837;
-}
+
 
 #grievance-status .card{
     border: transparent;

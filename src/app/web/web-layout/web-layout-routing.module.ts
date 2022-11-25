@@ -17,7 +17,7 @@ const routes: Routes = [
   { path: 'document-download-for-android/:id', loadChildren: () => import('../../web/document-download-for-android/document-download-for-android.module').then(m => m.DocumentDownloadForAndroidModule) },
   { path: 'contact-us', loadChildren: () => import('../../web/contact-us/contact-us.module').then(m => m.ContactUsModule) },
   { path: 'privacy-policy', loadChildren: () => import('../../web/privacy-policy/privacy-policy.module').then(m => m.PrivacyPolicyModule) },
-  
+  { path: 'faq', loadChildren: () => import('../../web/faq/faq.module').then(m => m.FaqModule) },
 ];
 
 @NgModule({

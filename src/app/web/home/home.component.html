@@ -1,44 +1,29 @@
 <div class="container-fluid p-0">
-    <div class="">
-        <div class=" mb-3">
-            <div class="home-img position-relative">
-                <img src="../../../assets/images/Samadhan-Banner.png" alt="citizen grievance">
-                <!-- <h4>{{'Home.citizen' | translate}} <br> {{'Home.grievance' | translate}}</h4> -->
-            </div>
-        </div>
+    <div class="home-img position-relative">
+        <img src="../../../assets/images/Samadhan-Banner.png" alt="citizen grievance">
     </div>
 </div>
-<div class="container-fluid" id="about-us">
+<div class="container-fluid bg-white" id="about-us">
     <div class="container">
         <div class="row mb-3">
             <div class="col-sm-8">
-                <div class="about-us mb-3">
-
-                    <h5>{{'Home.about' | translate}}</h5>
-                    <span>
+                <div class="mb-3">
+                    <h5 class="page-heading">{{'Home.about' | translate}}</h5>
+                    <p class="about-text">
                         The resolution of Public Grievances has always been a top priority of the Government. District
                         Administration Osmanabad took advantage of ICT enhancements and came up with "SAMADHAN” Mobile
                         APP Online Public Grievance Monitoring System. Citizen can submit new application and can also
                         track already submitted application to know the latest status. SAMADHAN Mobile APP also provides
                         feedback facility.
-                    </span>
+                    </p>
                 </div>
-
-                <!-- <div class="text-end view_more">
-                    <button mat-stroked-button>
-                        <a routerLink="">
-                            {{'Home.view_more' | translate}}
-                        </a>
-                    </button>
-                </div> -->
             </div>
-            <div class="col-sm-4">
-                <div class="text-center collector position-relative">
-                    <img src="../../../assets/images/Collector-DM-Osmanabad.png" alt="dr.Sachin Ombase"
-                        class="img-fluid">
-                    <div class="ias_osmanabad position-absolute">
-                        <span>{{'Home.collector_&_DM_osmanabad' | translate}}</span> <br>
-                        <span>{{'Home.dr_sachin_ombase' | translate}}</span>
+            <div class="col-sm-4 text-center">
+                <div class="dm-detail shadow-lg">
+                    <img src="../../../assets/images/Collector-DM-Osmanabad.png" alt="dr.Sachin Ombase">
+                    <div class="dm-info">
+                        <p class="mb-0 fw-bold">{{'Home.dr_sachin_ombase' | translate}}</p>
+                        <span class="small">{{'Home.collector_&_DM_osmanabad' | translate}}</span>                        
                     </div>
                 </div>
             </div>
@@ -54,15 +39,7 @@
             </div>
             <div class="col-sm-6">
                 <div class="app-description">
-
                     <h3> <span class="samadhan">SAMADHAN </span> Comes With Many Awesome Features.</h3>
-                    <!-- <p>
-                        Lorem Ipsum Dolor Sit Amet, Consectetuer Adipiscing Elit. Aenean Commodo Ligula Eget Dolor.
-                        Aenean
-                        Massa. Cum Sociis Natoque Penatibus Et Magnis Dis Parturient Montes, Nascetur Ridiculus Mus.
-                        Donec
-                        Quam Felis, Ultricies Nec, Pellentesque Eu, Pretium Quis, Sem.
-                    </p> -->
                 </div>
 
                 <div class="d-flex">
@@ -80,9 +57,7 @@
 
 <div class="container-fluid" id="grievance-status">
     <div class="container">
-        <div class="grievance-status-title">
-            <h5>{{'Home.grievance_status' | translate}}</h5>
-        </div>
+        <h5 class="page-heading">{{'Home.grievance_status' | translate}}</h5>
         <div class="row px-3">
             <div class="col-sm">
                 <div class="card">
@@ -92,7 +67,7 @@
                                 <img src="../../../assets/web-icons/Received-Grievances.svg" alt="Revieved grievance">
                             </div>
                             <div>
-                                <span>{{data?.receievedGrievances}}</span>
+                                <h4>{{data?.receievedGrievances}}</h4>
                             </div>
                             <div>
                                 <span>{{'Home.received_grievances' | translate}}</span>
@@ -109,7 +84,7 @@
                                 <img src="../../../assets/web-icons/Resolved-Grievances.svg" alt="Revieved grievance">
                             </div>
                             <div>
-                                <span>{{data?.resolvedGrievances}}</span>
+                                <h4>{{data?.resolvedGrievances}}</h4>
                             </div>
                             <div>
                                 <span>{{'Home.resolved_grievances' | translate}}</span>
@@ -126,7 +101,7 @@
                                 <img src="../../../assets/web-icons/Registered-Citizen.svg" alt="Revieved grievance">
                             </div>
                             <div>
-                                <span>{{data?.registeredCitizen}}</span>
+                                <h4>{{data?.registeredCitizen}}</h4>
                             </div>
                             <div>
                                 <span>{{'Home.registered_grievances' | translate}}</span>
@@ -143,7 +118,7 @@
                                 <img src="../../../assets/web-icons/Satisfied-Citizen.svg" alt="Revieved grievance">
                             </div>
                             <div>
-                                <span>{{data?.satisfiedCitizen}}</span>
+                                <h4>{{data?.satisfiedCitizen}}</h4>
                             </div>
                             <div>
                                 <span>{{'Home.satisfied_citizen' | translate}}</span>

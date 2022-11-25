@@ -2,6 +2,7 @@
     font-size:0.7rem;
     background-color: #545454;
     color:#fff;
+    padding-block: 5px;
 }
 #topbar .top-content{
     display: flex;
