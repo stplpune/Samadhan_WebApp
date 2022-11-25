@@ -68,7 +68,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.getData();
     this.getUsers(this.localStrorageData.getUserId());
     // this.getDepartment();
-    this.getDepartmentByUser();
+    this.getDepartment();
   }
 
   //#region  filter form fn Start here
@@ -176,7 +176,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   // }
   //#endregiondrop down department bind fn end here
 
-  getDepartmentByUser() {
+  getDepartment() {
     this.departmentByUserArray = [];
     this.commonService.getAllDepartment().subscribe({
       next: (response: any) => {
@@ -392,7 +392,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
       emailId: this.updatedObj.emailId,
     });
     // this.getDepartment();
-    this.getDepartmentByUser();
+    this.getDepartment();
     this.getUsers(this.localStrorageData.getUserId());
     this.setValidators(this.updatedObj?.userTypeId);
   }
