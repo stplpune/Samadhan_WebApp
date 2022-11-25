@@ -13,7 +13,7 @@ const routes: Routes = [
   // { path: 'taluka-report/:id', loadChildren: () => import('../../partial/reports/taluka-report/taluka-report.module').then(m => m.TalukaReportModule), data: { title: 'Taluka Report' }  },
   // { path: 'satisfied-report/:id', loadChildren: () => import('../../partial/reports/satisfied-report/satisfied-report.module').then(m => m.SatisfiedReportModule), data: { title: 'Satisfied Report' }  },
   // { path: 'pendency-report/:id', loadChildren: () => import('../../partial/reports/pendency-report/pendency-report.module').then(m => m.PendencyReportModule), data: { title: 'Pendency Report' }  },
-  { path: 'samadhan-report', loadChildren: () => import('../../partial/reports/samadhan-report/samadhan-report.module').then(m => m.SamadhanReportModule) },
+  // { path: 'samadhan-report', loadChildren: () => import('../../partial/reports/samadhan-report/samadhan-report.module').then(m => m.SamadhanReportModule) },
   { path: 'document-download-for-android/:id', loadChildren: () => import('../../web/document-download-for-android/document-download-for-android.module').then(m => m.DocumentDownloadForAndroidModule) },
   { path: 'contact-us', loadChildren: () => import('../../web/contact-us/contact-us.module').then(m => m.ContactUsModule) },
   { path: 'privacy-policy', loadChildren: () => import('../../web/privacy-policy/privacy-policy.module').then(m => m.PrivacyPolicyModule) },
