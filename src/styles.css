@@ -138,6 +138,10 @@ body {
 .dashboard-table {
     border: solid 1px rgba(0, 0, 0, .12);
 }
+.dashboard-table th.mat-header-cell,
+.dashboard-table td.mat-cell{
+    padding-inline: 10px;
+}
 
 .dashboard-table th {
     background-color: #F2F2F2;
@@ -146,7 +150,10 @@ body {
 }
 
 .dashboard-table .srno {
-    width: 90px;
+    width: 80px;
+}
+.dashboard-table .action {
+    width: 120px;
 }
 
 .dashboard-table .checkbox {
