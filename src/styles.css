@@ -315,3 +315,7 @@ input:-webkit-autofill:active {
 .mat-paginator-page-size{
     display: none !important;
 }
+.card-height{
+    height: 80vh;
+    max-height: 80vh;
+}
