@@ -10,7 +10,7 @@
                             <mat-select formControlName="deptId"
                                 (selectionChange)="clearFilter('department');filterData();getOffice(filterFrm.value.deptId)">
                                 <mat-option value="0">All Department</mat-option>
-                                <mat-option *ngFor="let department of departmentByUserArray" [value]="department.deptId">
+                                <mat-option *ngFor="let department of departmentByUserArray" [value]="department.id">
                                     {{department.departmentName}}
                                 </mat-option>
                             </mat-select>
