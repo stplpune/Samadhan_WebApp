@@ -1,4 +1,4 @@
-#about-banner{
+/* #about-banner{
     background-image: url("../../../assets/images/Samadhan-Banner_2.png");
     height: 380px;
     background-size:cover ;
@@ -6,7 +6,7 @@
     justify-content: space-between;
     flex-direction: column-reverse;
     padding-block: 1rem;
-}
+} */
 .left-content{
     padding-block: 2rem;
 }
