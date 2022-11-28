@@ -16,6 +16,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { debounceTime, distinctUntilChanged, filter, Subscription } from 'rxjs';
 import { FileUploadService } from 'src/app/core/service/file-upload.service';
 import { ConfirmationComponent } from '../dialogs/confirmation/confirmation.component';
+import { GrievanceDetailsComponent } from 'src/app/web/grievance-details/grievance-details.component';
 // import { FileUploadService } from 'src/app/core/service/file-upload.service';
 @Component({
   selector: 'app-post-grievance',
@@ -485,6 +486,20 @@ export class PostGrievanceComponent implements OnInit {
   ngOnDestroy() {
     this.subscription?.unsubscribe();
   }
+
+  grievanceDetails(grievanceId:any){
+    const dialogRef = this.dialog.open(GrievanceDetailsComponent, {
+      width: '700px',
+      data:{
+        id:grievanceId
+      } ,
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe((_result: any) => {
+      this.onCancelRecord();
+    });
+  }
+  
 
 
 }

@@ -3,8 +3,16 @@
     <app-sidebar *ngIf="!getSideBarState()"></app-sidebar>
     <main class="page-content">
         <div class="main-content scrollbar">
-            <div class="card card-body border-0">
-                <router-outlet></router-outlet>
+            <div class="card border-0">
+                <div class="card-header bg-transparent text-main fw-bold">
+                    <span class="breadcrumb-item active" *ngFor="let breadcrumb of this.breadcrumbs[0]?.label; let last = last"
+                      [ngClass]="{ 'active' : last }">
+                         <a>{{breadcrumb.title}}</a>
+                    </span>
+                </div>
+                <div class="card-body">
+                    <router-outlet></router-outlet>
+                </div>
             </div>
             <footer>
                 <app-footer></app-footer>

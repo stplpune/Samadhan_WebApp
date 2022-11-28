@@ -26,7 +26,7 @@
                                 User Name
                             </label>
                             <mat-form-field class="w-100" appearance="outline">
-                                <input matInput placeholder="Ex. AbCde12345" formControlName="username" maxlength="10" autocomplete="off"
+                                <input matInput placeholder="User Name" formControlName="username" maxlength="10" autocomplete="off"
                                     (keypress)="validation.noSpaces($event)" (keyup)="validation.onlyDigits($event)">
                                 <mat-error *ngIf="f['username'].errors">
                                     <span *ngIf="f['username'].hasError('required')"> Please enter

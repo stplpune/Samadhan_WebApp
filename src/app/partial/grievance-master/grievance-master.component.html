@@ -1,122 +1,125 @@
-<div class="row">
-  <div class="col-sm-8">
-    <form [formGroup]="filterForm">
-      <div class="row">
-        <div class="col-sm-6">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Select Department</mat-label>
-            <mat-select formControlName="deptId" (selectionChange)="filterData();">
-              <mat-option value="0">All Department</mat-option>
-              <mat-option *ngFor="let dept of departmentArr" [value]="dept.id">{{dept.departmentName}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="col-sm-6">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Grievance Type</mat-label>
-            <input matInput placeholder="Search" formControlName="grievanceType"
-              (keypress)="validation.noFirstSpaceAllow($event)">
-          </mat-form-field>
-        </div>
-      </div>
-    </form>
-    <div class="">
-      <table mat-table [dataSource]="dataSource" class="w-100 dashboard-table">
-
-        <ng-container matColumnDef="srNo">
-          <th mat-header-cell *matHeaderCellDef class="srno"> Sr.No. </th>
-          <td mat-cell *matCellDef="let element let i= index"> {{((pageNo + 1) * 10 + i + 1)-20}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="departmentName">
-          <th mat-header-cell *matHeaderCellDef> DEPARTMENT </th>
-          <td mat-cell *matCellDef="let element"> {{element.departmentName | titlecase}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="grievanceType">
-          <th mat-header-cell *matHeaderCellDef> GRIEVANCE TYPE </th>
-          <td mat-cell *matCellDef="let element"> {{element.grievanceType | titlecase}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef class="srno"> ACTION
-            <button [disabled]="this.selection.selected.length == 0" mat-icon-button (click)="deleteUserData()">
-              <span class="material-symbols-outlined">
-                delete
-              </span>
-            </button>
-            <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()">
-              <!-- [indeterminate]="selection.hasValue() && !isAllSelected()"> -->
-            </mat-checkbox>
-          </th>
-          <td mat-cell *matCellDef="let element">
-            <div>
-              <button mat-icon-button (click)="editRecord(element)">
-                <span class="material-symbols-outlined">
-                  edit_square
-                </span>
-              </button>
-              <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(element) : null"
-                [checked]="selection.isSelected(element)">
-              </mat-checkbox>
-            </div>
-
-          </td>
-        </ng-container>
-        <tr class="mat-row p-2 w-100" *matNoDataRow col>
-          <td class="alert alert-danger text-center m-2 mt-2" colspan="9">No data found </td>
-        </tr>
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
-          [ngClass]="{'highlightedRow ':highlightedRow == row.grievanceTypeId}">
-        </tr>
-      </table>
-
-      <ng-container *ngIf="totalPages>10">
-        <mat-paginator [pageSize]="10" [length]="totalPages" (page)="pageChanged($event)" showFirstLastButtons>
-        </mat-paginator>
-      </ng-container>
-
-    </div>
-  </div>
-  <div class="col-sm-4">
-    <div class="card form-card">
-      <div class="card-header ">
-        {{isEdit?'Update' : 'Add'}} Grievance Master
-      </div>
-      <form [formGroup]="frmGrievance" #formDirective="ngForm" (ngSubmit)="onSubmitGrievance()" autocomplete="off">
-        <div class="card-body">
-          <div class="mb-3">
-            <mat-form-field class="w-100" appearance="outline">
+<div class="card-height">
+  <div class="row">
+    <div class="col-sm-8">
+      <form [formGroup]="filterForm">
+        <div class="row">
+          <div class="col-sm-6">
+            <mat-form-field appearance="outline" class="w-100">
               <mat-label>Select Department</mat-label>
-              <mat-select formControlName="deptId">
+              <mat-select formControlName="deptId" (selectionChange)="filterData();">
+                <mat-option value="0">All Department</mat-option>
                 <mat-option *ngFor="let dept of departmentArr" [value]="dept.id">{{dept.departmentName}}</mat-option>
               </mat-select>
-              <mat-error *ngIf="f['deptId']?.errors">
-                <span *ngIf="f['deptId']?.hasError('required')"> Please select Department</span>
-                <span *ngIf="f['deptId']?.hasError('pattern') || f['deptId']?.hasError('minlength')">
-                  Please select Department</span>
-              </mat-error>
             </mat-form-field>
           </div>
-          <div class="mb-3">
-            <mat-form-field class="w-100" appearance="outline">
+          <div class="col-sm-6">
+            <mat-form-field appearance="outline" class="w-100">
               <mat-label>Grievance Type</mat-label>
-              <input matInput formControlName="grievanceType"
+              <input matInput placeholder="Search" formControlName="grievanceType"
                 (keypress)="validation.noFirstSpaceAllow($event)">
-              <mat-error *ngIf="f['grievanceType']?.errors">
-                <span *ngIf="f['grievanceType']?.hasError('required')"> Grievance Type is required</span>
-                <span *ngIf="f['grievanceType']?.hasError('pattern') || f['grievanceType']?.hasError('minlength')">
-                  Grievance Type is required</span>
-              </mat-error>
             </mat-form-field>
-          </div>
-          <div class="text-end">
-            <button mat-stroked-button class="btn-main-outline" type="button" (click)="onCancelRecord()">Cancel</button>
-            <button mat-stroked-button class="btn-main ms-2" type="submit">{{isEdit ? 'Update':'Submit'}}</button>
           </div>
         </div>
       </form>
+      <div class="">
+        <table mat-table [dataSource]="dataSource" class="w-100 dashboard-table">
+
+          <ng-container matColumnDef="srNo">
+            <th mat-header-cell *matHeaderCellDef class="srno"> Sr.No. </th>
+            <td mat-cell *matCellDef="let element let i= index"> {{((pageNo + 1) * 10 + i + 1)-20}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="departmentName">
+            <th mat-header-cell *matHeaderCellDef> DEPARTMENT </th>
+            <td mat-cell *matCellDef="let element"> {{element.departmentName | titlecase}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="grievanceType">
+            <th mat-header-cell *matHeaderCellDef> GRIEVANCE TYPE </th>
+            <td mat-cell *matCellDef="let element"> {{element.grievanceType | titlecase}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef class="action"> ACTION
+              <button [disabled]="this.selection.selected.length == 0" mat-icon-button (click)="deleteUserData()">
+                <span class="material-symbols-outlined">
+                  delete
+                </span>
+              </button>
+              <mat-checkbox (change)="$event ? masterToggle() : null"
+                [checked]="selection.hasValue() && isAllSelected()">
+                <!-- [indeterminate]="selection.hasValue() && !isAllSelected()"> -->
+              </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let element" class="action">
+              <div>
+                <button mat-icon-button (click)="editRecord(element)" class="btn-edit">
+                  <span class="material-symbols-outlined">
+                    edit_square
+                  </span>
+                </button>
+                <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(element) : null"
+                  [checked]="selection.isSelected(element)">
+                </mat-checkbox>
+              </div>
+
+            </td>
+          </ng-container>
+          <tr class="mat-row p-2 w-100" *matNoDataRow col>
+            <td class="alert alert-danger text-center m-2 mt-2" colspan="9">No Data Found! </td>
+          </tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+            [ngClass]="{'highlightedRow ':highlightedRow == row.grievanceTypeId}">
+          </tr>
+        </table>
+
+        <ng-container *ngIf="totalPages>10">
+          <mat-paginator [pageSize]="10" [length]="totalPages" (page)="pageChanged($event)" showFirstLastButtons>
+          </mat-paginator>
+        </ng-container>
+
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="card form-card">
+        <div class="card-header ">
+          {{isEdit?'Update' : 'Add'}} Grievance Master
+        </div>
+        <form [formGroup]="frmGrievance" #formDirective="ngForm" (ngSubmit)="onSubmitGrievance()" autocomplete="off">
+          <div class="card-body">
+            <div class="mb-3">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Select Department</mat-label>
+                <mat-select formControlName="deptId">
+                  <mat-option *ngFor="let dept of departmentArr" [value]="dept.id">{{dept.departmentName}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="f['deptId']?.errors">
+                  <span *ngIf="f['deptId']?.hasError('required')"> Please select Department</span>
+                  <span *ngIf="f['deptId']?.hasError('pattern') || f['deptId']?.hasError('minlength')">
+                    Please select Department</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="mb-3">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Grievance Type</mat-label>
+                <input matInput formControlName="grievanceType" (keypress)="validation.noFirstSpaceAllow($event)">
+                <mat-error *ngIf="f['grievanceType']?.errors">
+                  <span *ngIf="f['grievanceType']?.hasError('required')"> Grievance Type is required</span>
+                  <span *ngIf="f['grievanceType']?.hasError('pattern') || f['grievanceType']?.hasError('minlength')">
+                    Grievance Type is required</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="text-end">
+              <button mat-stroked-button class="btn-main-outline" type="button"
+                (click)="onCancelRecord()">Cancel</button>
+              <button mat-stroked-button class="btn-main ms-2" type="submit">{{isEdit ? 'Update':'Submit'}}</button>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>

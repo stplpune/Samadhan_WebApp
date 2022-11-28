@@ -1,84 +1,81 @@
 <div class="container-fluid" id="topbar">
-    <div class="container">
-        <div class="row justify-content-end" >
-            <div class="col-sm-auto text-end px-0">
-                <div class="d-flex align-items-center w-100">
-                    <div class="top-content border-end"><a>{{'Home.screen_reader_access' | translate}}</a></div>
-                    <div class="top-content border-end"><a (click)="skipToMainContent()" style="cursor: grab;">{{'Home.skip_to_main_content' | translate}}</a></div>
-                    <div class="top-content border-end">
-                        <span>Color</span>
-                        <button class="btn-color btn-main" (click)="onClickThemeChange('main')"></button>
-                        <button class="btn-color btn-blue" (click)="onClickThemeChange('blue')"></button>
-                        <button class="btn-color btn-black" (click)="onClickThemeChange('black')"></button>
-                    </div>
-                    <div class="top-content border-end">
-                        <span>Font</span>
-                        <button class="btn-font" (click)="onChangeFontSize('sm')">A-</button>
-                        <button class="btn-font" (click)="onChangeFontSize('md')">A</button>
-                        <button class="btn-font" (click)="onChangeFontSize('lg')">A+</button>
-                    </div>
-                    <div class="top-content">
-                        <span>Language</span>
-                        <select class="form-select" [(ngModel)]="selectedLanguage" (change)="translateLanguageTo(selectedLanguage)">
-                            <option value="English">English</option>
-                            <option value="Marathi">Marathi</option>
-                        </select>
-                    </div>
-                </div>
+  <div class="container">
+    <div class="row justify-content-end">
+      <div class="col-sm-auto text-end px-0">
+        <div class="d-flex align-items-center w-100">
+          <div class="top-content border-end"><a>{{'Home.screen_reader_access' | translate}}</a></div>
+          <div class="top-content border-end"><a (click)="skipToMainContent()"
+              style="cursor: grab;">{{'Home.skip_to_main_content' | translate}}</a></div>
+          <div class="top-content border-end">
+            <!-- <span>Color</span> -->
+            <button class="btn-color btn-main" (click)="onClickThemeChange('main')"></button>
+            <button class="btn-color btn-blue" (click)="onClickThemeChange('blue')"></button>
+            <button class="btn-color btn-black" (click)="onClickThemeChange('black')"></button>
+          </div>
+          <div class="top-content border-end">
+            <!-- <span>Font</span> -->
+            <button class="btn-font" (click)="onChangeFontSize('sm')">A-</button>
+            <button class="btn-font" (click)="onChangeFontSize('md')">A</button>
+            <button class="btn-font" (click)="onChangeFontSize('lg')">A+</button>
+          </div>
+          <div class="top-content">
+            <!-- <span>Language</span> -->
+            <div class="btn-group ms-2" role="group" aria-label="Basic radio toggle button group">
+              <input type="radio" class="btn-check" name="btnradio" id="btnEnglish" autocomplete="off" checked (change)="translateLanguageTo('English')">
+              <label class="btn btn-outline-language" for="btnEnglish">English</label>
+
+              <input type="radio" class="btn-check" name="btnradio" id="btnMarathi" autocomplete="off" (change)="translateLanguageTo('Marathi')">
+              <label class="btn btn-outline-language" for="btnMarathi">Marathi</label>
             </div>
+            <!-- <select class="form-select" [(ngModel)]="selectedLanguage" (change)="translateLanguageTo(selectedLanguage)">
+              <option value="English">English</option>
+              <option value="Marathi">Marathi</option>
+            </select> -->
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <div class="container-fluid">
-    <div class="container">
-        <div class="d-flex justify-content-between align-items-center">
-            <div class="logo">
-              <a routerLink="/home">
-                <img src="../../../../assets/web-icons/SAMADHAN-logo.svg" alt="">
-              </a>
-
-            </div>
-            <div class="right-logo d-flex align-items-center">
-                <div>
-                    <img src="../../../../assets/web-icons/75-logo-india.svg" alt="">
-                </div>
-                <div>
-                    <img src="../../../../assets/web-icons/clean-india.svg" alt="">
-                </div>
-                <div class="">
-                    <button mat-stroked-button routerLink="../login">{{'Home.login' | translate}}</button>
-                </div>
-            </div>
-        </div>
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center" id="logos">
+      <a routerLink="/home">
+        <img src="../../../../assets/web-icons/SAMADHAN-logo.svg" alt="" class="samadhan-logo">
+      </a>
+      <div class="right-logo d-flex align-items-center">
+        <img src="../../../../assets/images/75-logo-india.png" alt="" class="india75">
+        <img src="../../../../assets/web-icons/clean-india.svg" alt="" class="clean-india">
+        <button class="btn btn-light btn-sm fw-bold px-3 py-2 rounded" routerLink="../login">{{'Home.login' | translate}}</button>
+      </div>
     </div>
+  </div>
 </div>
 
 <div class="container-fluid p-0" id="menubar">
-    <nav class="navbar navbar-expand-lg bg-light">
-        <div class="container">
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">{{'Home.home' | translate}}</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">{{'Home.about' | translate}}</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">{{'Home.policy' | translate}}</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">{{'Home.help' | translate}}</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">{{'Home.contact' | translate}}</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+  <nav class="navbar navbar-expand-lg bg-light">
+    <div class="container">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" routerLink="home" routerLinkActive="active">{{'Home.home' | translate}}</a>
+          </li>
+          <!-- <li class="nav-item">
+            <a class="nav-link" routerLink="about-us" routerLinkActive="active">{{'Home.about' | translate}}</a>
+          </li> -->
+          <li class="nav-item">
+            <a class="nav-link" routerLink="faq" routerLinkActive="active">{{'Home.help' | translate}}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="contact-us" routerLinkActive="active">{{'Home.contact' | translate}}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 </div>

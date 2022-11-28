@@ -79,6 +79,15 @@ export class DepartmentReportComponent implements OnInit {
     let formData = this.filterForm.value;
     formData.fromDate = formData.fromDate ? this.datePipe.transform(formData.fromDate, 'yyyy/MM/dd') : '';
     formData.toDate = formData.toDate ? this.datePipe.transform(formData.toDate, 'yyyy/MM/dd') : '';
+
+    if(formData.fromDate){
+      if(!formData.toDate){
+        this.commonMethod.matSnackBar('Please select end date', 1);
+        this.spinner.hide();
+        return
+      } 
+    }
+
     let obj = formData.searchdeptId + '&userid='+ this.userId + '&fromDate='+ formData.fromDate + '&toDate='+ formData.toDate
     this.apiService.setHttp('get','api/ShareGrievances/OfficerDepartmentReport?searchdeptId=' + obj,false,false,false,'samadhanMiningService');
     this.apiService.getHttp().subscribe({
@@ -120,30 +129,62 @@ export class DepartmentReportComponent implements OnInit {
     // let keyValue = this.officeDepReportArray.map((value: any) => Object.keys(value));
     // let keyData = keyValue[0]; // key Name
 
+    let fromdate:any;
+    let todate:any;
+    let checkFromDateFlag: boolean = true;
+    let checkToDateFlag: boolean = true;
+    let formData = this.filterForm.value;
+    formData.fromDate = formData.fromDate ? this.datePipe.transform(formData.fromDate, 'yyyy/MM/dd') : '';
+    formData.toDate = formData.toDate ? this.datePipe.transform(formData.toDate, 'yyyy/MM/dd') : '';
+
     let ValueData = this.officeDepReportArray.reduce(
       (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
       []
     );// Value Name
     let keyPDFHeader = ["SrNo", "Department Name", "Received", "Pending", "Resolved"];
 
-    let objData = {
+    let objData:any = {
       'topHedingName': 'Department Report',
-      'createdDate': this.datePipe.transform(new Date(), 'dd/MM/yyyy')
+      'createdDate': 'Created on:'+this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a')
+    }
+
+    checkFromDateFlag = formData.fromDate == '' || formData.fromDate == null || formData.fromDate == 0 || formData.fromDate == undefined ? false : true;
+    checkToDateFlag =  formData.toDate == '' ||  formData.toDate == null ||  formData.toDate == 0 ||  formData.toDate == undefined ? false : true;
+    if (formData.fromDate &&  formData.toDate && checkFromDateFlag && checkToDateFlag) {
+      fromdate = new Date(formData.fromDate);
+      todate = new Date( formData.toDate);
+      objData.timePeriod = 'From Date:' + this.datePipe.transform(fromdate, 'dd/MM/yyyy') + ' To Date: ' + this.datePipe.transform(todate, 'dd/MM/yyyy');
     }
 
     this.pdf_excelService.generateExcel(keyPDFHeader, ValueData, objData);
   }
 
   downloadPdf() {
+    let fromdate:any;
+    let todate:any;
+    let checkFromDateFlag: boolean = true;
+    let checkToDateFlag: boolean = true;
+    let formData = this.filterForm.value;
+    formData.fromDate = formData.fromDate ? this.datePipe.transform(formData.fromDate, 'yyyy/MM/dd') : '';
+    formData.toDate = formData.toDate ? this.datePipe.transform(formData.toDate, 'yyyy/MM/dd') : '';
+
     let keyPDFHeader = ["SrNo", "Department Name", "Received", "Pending", "Resolved"];
     let ValueData = this.officeDepReportArray.reduce(
       (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
       []
     );// Value Name
 
-    let objData = {
+    let objData:any = {
       'topHedingName': 'Department Report',
-      'createdDate': this.datePipe.transform(new Date(), 'dd/MM/yyyy')
+      'createdDate': 'Created on:'+this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a')
+    }
+
+    checkFromDateFlag = formData.fromDate == '' || formData.fromDate == null || formData.fromDate == 0 || formData.fromDate == undefined ? false : true;
+    checkToDateFlag =  formData.toDate == '' ||  formData.toDate == null ||  formData.toDate == 0 ||  formData.toDate == undefined ? false : true;
+    if (formData.fromDate &&  formData.toDate && checkFromDateFlag && checkToDateFlag) {
+      fromdate = new Date(formData.fromDate);
+      todate = new Date( formData.toDate);
+      objData.timePeriod = 'From Date:' + this.datePipe.transform(fromdate, 'dd/MM/yyyy') + ' To Date: ' + this.datePipe.transform(todate, 'dd/MM/yyyy');
     }
     this.pdf_excelService.downLoadPdf(keyPDFHeader, ValueData, objData);
   }

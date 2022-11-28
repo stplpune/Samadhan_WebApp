@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 
 
 @Component({
@@ -12,7 +12,7 @@ export class WebLayoutComponent implements OnInit {
   hideFooter: boolean = true;
 
   constructor(private router: Router) {
-    if (this.router.url == '/login' || this.router.url == '/forgot-password' || this.router.url == '/grievance-details') {
+    if (this.router.url == '/login' || this.router.url == '/forgot-password' || this.router.url.includes('/grievance-details')) {
       this.hideHeader = false;
       this.hideFooter = false;
     }
@@ -20,13 +20,15 @@ export class WebLayoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.router.events.subscribe((event: any) => {
-      if (event.url === '/login' || this.router.url == '/forgot-password' || this.router.url == '/grievance-details') {
+      if(event instanceof NavigationEnd) {
+      if (event.url === '/login' || this.router.url == '/forgot-password' || this.router.url.includes('/grievance-details')) {
         this.hideHeader = false;
         this.hideFooter = false;
       } else {
         this.hideHeader = true;
         this.hideFooter = true;
       }
+    }
     })
   }
 

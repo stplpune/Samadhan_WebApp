@@ -82,8 +82,7 @@ export class ProfileComponent implements OnInit {
      this.profileFrom.patchValue({
       name:data.name,
       mobileNo:data.mobileNo,
-      emailId:data.emailId,
-      
+      emailId:data.emailId,   
      })
   }
 
@@ -134,35 +133,16 @@ export class ProfileComponent implements OnInit {
    
     console.log(formValue);
     let obj={
-      "createdBy": this.loginObj.createdBy,
-      "modifiedBy": this.loginObj.modifiedBy,
-      "createdDate": new Date(),
-      "modifiedDate": new Date(),
-      "isDeleted": false,
       "id": this.localstorageService.getLoggedInLocalstorageData()?.responseData.id,
       "name": formValue.name,
-      "mobileNo": formValue.mobileNo,
-      "stateId": this.loginObj.stateId,
-      "districtId": this.loginObj.districtId,
-      "talukaId": this.loginObj.talukaId,
-      "villageId": this.loginObj.villageId,
+      "mobileNo": formValue.mobileNo,     
       "emailId": formValue.emailId,
-      "userTypeId": this.loginObj.userTypeId,
-      "subUserTypeId": this.loginObj.subUserTypeId,
-      "userName": "",
-      "password": "",
-      "deptId": this.loginObj.deptId,
-      "officeId": this.loginObj.officeId,
-      "isBlock": false,
-      "blockDate":new Date(),
-      "blockBy": this.loginObj.blockBy,
-      "keyExpireDate": new Date(),
-      "deviceTypeId": 0,
-      "fcmId": "",
-      "profilePhoto": this.profileImg
+      "profilePhoto": this.profileImg,
+      "modifiedBy": this.loginObj.modifiedBy,    
+      "modifiedDate": new Date(),    
     }
    
-    this.apiService.setHttp('PUT', "samadhan/user-registration/UpdateRecord", false, obj, false, 'samadhanMiningService');
+    this.apiService.setHttp('PUT', "samadhan/user-registration/UpdateProfile", false, obj, false, 'samadhanMiningService');
     this.subscription = this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {

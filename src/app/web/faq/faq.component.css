@@ -1,0 +1,20 @@
+.accordion-item{
+    border-radius: 0;
+    margin-bottom: 10px;
+}
+.accordion-button{
+    box-shadow: none;
+    border-radius: 0;
+}
+.accordion-body{
+    font-size: 0.85rem;
+}
+.accordion-button:not(.collapsed){
+    background-color: var(--main-color);
+    color: #fff !important;
+    box-shadow: none;
+    border-radius: 0;
+}
+.accordion-button:not(.collapsed)::after{
+    filter: invert(1);
+}

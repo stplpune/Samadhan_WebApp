@@ -137,6 +137,7 @@ export class DashboardComponent implements OnInit {
     categoryAxis.renderer.labels.template.rotation = -90;
     categoryAxis.renderer.labels.template.horizontalCenter = "left";
     categoryAxis.renderer.labels.template.location = 0;
+    categoryAxis.renderer.labels.template.fontSize = 12;
 
     let valueAxis: any = chart.yAxes.push(new am4charts.ValueAxis());
     valueAxis.tooltip.disabled = true;

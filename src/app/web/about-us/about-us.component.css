@@ -1,65 +1,42 @@
-
-.about-us-banner img{
-    width: 100%;
+/* #about-banner{
+    background-image: url("../../../assets/images/Samadhan-Banner_2.png");
+    height: 380px;
+    background-size:cover ;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column-reverse;
+    padding-block: 1rem;
+} */
+.left-content{
+    padding-block: 2rem;
 }
-.about-us-banner .process-flow{
-    top: 50px;
-    left: 90px;
-    font-size: 25px;
+.left-content .redress{
+    color: var(--main-color);
+    text-transform: uppercase;
     font-weight: 700;
+    font-size: 2.5rem;
 }
-.about-us-banner .process-flow span:nth-child(1){
-    top: 50px;
-    left: 90px;
-    font-size: 30px;
-    color: #B83058;
+.right-content .redirect{
+    color: #000000;
     font-weight: 700;
+    font-size: 1.3rem;
 }
-.about-us-banner .redirection-authority span{
-    right: 0px;
-}
-#about-us .ias_osmanabad{
-    bottom: 0px;
-    text-align: center;
-    left: 80px;
-    background-color: #B83058;
-    width: 252px;
-    overflow: hidden;
-    color: #fff;
-    padding: 10px;
-}
-
-#about-us  img{
-    width: 250px;
-}
-.about-us-banner .lodge-grievance{
-    bottom: 50px;
-    left: 90px;
-    font-size: 18px;
+.left-content .complaint{
+    color: #000000;
     font-weight: 700;
+    font-size: 1.5rem;
 }
- .concerned-authority span {
-    top: -55px;
-    right: 0;
-    left: 120px;
-    font-size: 1.40rem;
-    font-weight: 700;
- }
-.about-us-banner .lodge-grievance span:last-child{
-    bottom: 20px;
-    left: 90px;
-    font-size: 20px;
-    color: #B83058;
-    font-weight: 700;
+.left-content .services{
+    color: #000000;
+    font-weight: 500;
+    font-size: 1.2rem;
+    line-height: 1.8rem;
 }
-
-.view_more button{
-    background-color: #E4E4E4;
-    border: none;
-    border-radius: 8px;
-    padding: 8px 20px;
+.left-content .lodge{
+    color: var(--main-color);
+    font-weight: 600;
+    font-size: 1.4rem;
 }
-.view_more button a{
-    text-decoration: none;
-    color: #B83058;
+#about-us{
+    padding-block: 3rem;
 }

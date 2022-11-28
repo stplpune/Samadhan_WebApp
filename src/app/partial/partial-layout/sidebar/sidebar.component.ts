@@ -34,14 +34,14 @@ export class SidebarComponent implements OnInit {
     let items = data.filter((x:any) => x.isSideBarMenu == true)
     items.forEach((item: any) => {
       let existing: any = this.menus.filter((v: any) => {
-        return v.pageName == item.pageName;
+        return v.pageNameView == item.pageNameView;
       });
       if (existing.length) {
         let existingIndex: any = this.menus.indexOf(existing[0]);
         this.menus[existingIndex].pageURL = this.menus[existingIndex].pageURL.concat(item.pageURL);
-        this.menus[existingIndex].pageNameView = this.menus[existingIndex].pageNameView.concat(item.pageNameView);
+        // this.menus[existingIndex].pageNameView = this.menus[existingIndex].pageNameView.concat(item.pageNameView);
         this.menus[existingIndex].pageName = this.menus[existingIndex].pageName.concat(item.pageName);
-        this.menus[existingIndex].menuIcon = this.menus[existingIndex].menuIcon.concat(item.menuIcon);
+        // this.menus[existingIndex].menuIcon = this.menus[existingIndex].menuIcon.concat(item.menuIcon);
         this.menus[existingIndex].type = 'dropdown';
       } else {
         if (typeof item.pageNameView == 'string')
@@ -51,7 +51,7 @@ export class SidebarComponent implements OnInit {
           item.menuIcon = [item.menuIcon];
           this.menus.push(item);
       }
-    });
+    });    
   }
   
   getSideBarState() {

@@ -26,19 +26,19 @@ export class ExcelService {
       didDrawPage: function (_data: any) {
 
         var imgWidth = 33;
-        var height = 25;
+        var height = 20;
         doc.addImage('../../../../assets/images/samadhanLogo.jpeg', 'JPEG', 2, -3, imgWidth, height);
 
         doc.setFontSize(13);
-        doc.text(objData.topHedingName, 40, 10, "left");
+        doc.text(objData.topHedingName, 100, 8, "center");
 
         if(objData?.timePeriod != null){
-        doc.setFontSize(10);
-        doc.text(objData.timePeriod, 40, 14, "left");
+        doc.setFontSize(8);
+        doc.text(objData.timePeriod, 11, 14, "left");
         }
        
-         doc.setFontSize(10);
-         doc.text(objData.createdDate, 200, 10, "right");
+         doc.setFontSize(8);
+         doc.text(objData.createdDate, 200, 14, "right");
 
         doc.setLineWidth(0.2);
         doc.line(12, 15, 200, 15);
@@ -58,7 +58,12 @@ export class ExcelService {
     worksheet.getCell('C4').value = objData.topHedingName
     worksheet.getCell('C4').font = { name: 'Corbel', family: 3, size: 13, bold: true, };
 
-    worksheet.getCell('E5').value = 'Date:' + objData.createdDate
+    if(objData?.timePeriod != null){
+    worksheet.getCell('C5').value = objData.timePeriod
+    worksheet.getCell('C5').font = { name: 'Corbel', family: 3, size: 13, bold: true, };
+    }
+
+    worksheet.getCell('E5').value = objData.createdDate
     worksheet.getCell('E5').font = { name: 'Corbel', family: 3, size: 12, bold: true, };
 
     const response = await fetch('../../../../assets/images/samadhanLogo.jpeg');

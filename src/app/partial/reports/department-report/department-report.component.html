@@ -1,86 +1,115 @@
-<div class="row">
+<div class="card-height scrollbar">
+  <div class="row">
     <div class="col-sm-12">
-        <div class="d-flex justify-content-end gap-2">
-                <button mat-mini-fab color="accent" (click)="downloadExcel()">
-                    <i class="fa-solid fa-file-excel"></i>
-                </button>
-                  <button mat-mini-fab color="accent" (click)="downloadPdf()">
-                    <i class="fa-solid fa-file-pdf"></i>
-                  </button>
-        </div>
-        <form [formGroup]="filterForm">
-            <div class="row gx-2">
-                <div class="col-sm-3">
-                    <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Select Department</mat-label>
-                        <mat-select formControlName="searchdeptId">
-                            <mat-option value="0">All Department</mat-option>
-                        <mat-option *ngFor="let department of departmentArray" [value]="department.id">
-                            {{department.departmentName}}
-                        </mat-option>
-                    </mat-select>
-                    </mat-form-field>
-                </div>
-                <div class="col-sm-2">
-                    <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>From Date</mat-label>
-                        <input matInput [matDatepicker]="picker" formControlName="fromDate">
-                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field>
-
-                </div>
-                <div class="col-sm-2">
-                    <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>To Date</mat-label>
-                        <input matInput [matDatepicker]="picker2" formControlName="toDate">
-                        <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
-                        <mat-datepicker #picker2 color="primary"></mat-datepicker>
-                      </mat-form-field>
-                </div>
-                <div class="col-sm-auto">
-                    <button mat-stroked-button class="btn-main me-2" type="submit" (click)="pageNo = 1;getOfficerDepartmentReport()">Search</button>
-                    <button mat-stroked-button class="btn-main-outline" type="button" (click)="clearFilter()">Clear</button>
-                </div>
+      <!-- <div class="d-flex justify-content-end gap-2">
+        <button mat-mini-fab color="accent" (click)="downloadExcel()">
+          <i class="fa-solid fa-file-excel"></i>
+        </button>
+        <button mat-mini-fab color="accent" (click)="downloadPdf()">
+          <i class="fa-solid fa-file-pdf"></i>
+        </button>
+      </div> -->
+      <form [formGroup]="filterForm">
+        <div class="row gx-2">
+          <div class="col-sm-9">
+            <div class="row">
+              <div class="col-sm-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Select Department</mat-label>
+                  <mat-select formControlName="searchdeptId">
+                    <mat-option value="0">All Department</mat-option>
+                    <mat-option *ngFor="let department of departmentArray" [value]="department.id">
+                      {{department.departmentName}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-sm-3">
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>From Date/To Date</mat-label>
+                    <mat-date-range-input [rangePicker]="picker">
+                        <input matStartDate placeholder="Start date" formControlName="fromDate" [disabled]="true">
+                        <input matEndDate placeholder="End date" formControlName="toDate" [disabled]="true">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker" [disabled]="false"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker [disabled]="false"></mat-date-range-picker>
+                </mat-form-field>
             </div>
-        </form>
-
+              <!-- <div class="col-sm-2">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>From Date</mat-label>
+                  <input matInput [matDatepicker]="picker" formControlName="fromDate">
+                  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="col-sm-2">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>To Date</mat-label>
+                  <input matInput [matDatepicker]="picker2" formControlName="toDate">
+                  <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                  <mat-datepicker #picker2 color="primary"></mat-datepicker>
+                </mat-form-field>
+              </div> -->
+            </div>
+          </div>
+          <div class="col-sm-3 text-end">
+            <button mat-stroked-button class="btn-main me-2" type="submit"
+              (click)="pageNo = 1;getOfficerDepartmentReport()">Search</button>
+            <button mat-stroked-button class="btn-main-outline me-2" type="button" (click)="clearFilter()">Clear</button>
+            <button mat-stroked-button [matMenuTriggerFor]="menu" class="btn-main-outline ">Download</button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="downloadExcel()">
+                <i class="fa-solid fa-file-excel text-success me-2"></i>
+                <span>Excel</span>
+              </button>
+              <button mat-menu-item (click)="downloadPdf()"> 
+                <i class="fa-solid fa-file-pdf text-danger me-2"></i>
+                <span>Pdf</span>
+              </button>
+            </mat-menu>
+          </div>
+        </div>
+      </form>
+      <div class="table-responsive">
         <table mat-table [dataSource]="dataSource" class="dashboard-table w-100">
-
-            <ng-container matColumnDef="srNo">
-              <th mat-header-cell *matHeaderCellDef> Sr.No </th>
-              <td mat-cell *matCellDef="let element let i= index"> {{((pageNo + 1) * 10 + i + 1)-20}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="departmentname">
-              <th mat-header-cell *matHeaderCellDef> Department Name </th>
-              <td mat-cell *matCellDef="let element"> {{element.departmentname}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="received">
-              <th mat-header-cell *matHeaderCellDef> Received </th>
-              <td mat-cell *matCellDef="let element"> {{element.received}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="pending">
-              <th mat-header-cell *matHeaderCellDef> Pending </th>
-              <td mat-cell *matCellDef="let element"> {{element.pending}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="resolved">
-                <th mat-header-cell *matHeaderCellDef> Resolved </th>
-                <td mat-cell *matCellDef="let element"> {{element.resolved}} </td>
-              </ng-container>
-
-              <tr class="mat-row p-2 w-100" *matNoDataRow col>
-                <td class="alert alert-danger text-center m-2 mt-2" colspan="9">No data found </td>
-            </tr>
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-          </table>
-          <ng-container *ngIf="totalPages>10">
-            <mat-paginator [pageSize]="10" [length]="totalPages" showFirstLastButtons (page)="pageChanged($event)">
-            </mat-paginator>
+  
+          <ng-container matColumnDef="srNo">
+            <th mat-header-cell *matHeaderCellDef> Sr.No </th>
+            <td mat-cell *matCellDef="let element let i= index"> {{((pageNo + 1) * 10 + i + 1)-20}} </td>
           </ng-container>
+    
+          <ng-container matColumnDef="departmentname">
+            <th mat-header-cell *matHeaderCellDef> Department Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.departmentname}} </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="received">
+            <th mat-header-cell *matHeaderCellDef> Received </th>
+            <td mat-cell *matCellDef="let element"> {{element.received}} </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="pending">
+            <th mat-header-cell *matHeaderCellDef> Pending </th>
+            <td mat-cell *matCellDef="let element"> {{element.pending}} </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="resolved">
+            <th mat-header-cell *matHeaderCellDef> Resolved </th>
+            <td mat-cell *matCellDef="let element"> {{element.resolved}} </td>
+          </ng-container>
+    
+          <tr class="mat-row p-2 w-100" *matNoDataRow col>
+            <td class="alert alert-danger text-center m-2 mt-2" colspan="9">No data found </td>
+          </tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+      <ng-container *ngIf="totalPages>10">
+        <mat-paginator [pageSize]="10" [length]="totalPages" showFirstLastButtons (page)="pageChanged($event)">
+        </mat-paginator>
+      </ng-container>
     </div>
+  </div>
 </div>
