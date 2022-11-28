@@ -25,7 +25,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   userFrm!: FormGroup;
   filterFrm: FormGroup | any;
   // displayedColumns: string[] = ['srno', 'name', 'departmentName', 'officeName', 'userType', 'mobileNo', 'isBlock', 'action', 'button', 'select'];
-  displayedColumns: string[] = ['srno', 'name', 'departmentName', 'officeName', 'subUserType', 'mobileNo', 'action'];
+  displayedColumns: string[] = ['srno', 'name','userName', 'departmentName', 'officeName', 'subUserType', 'mobileNo', 'action'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('formDirective') formDirective!: NgForm;
