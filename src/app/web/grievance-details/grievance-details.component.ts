@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Inject, Optional } from '@angular/core';
 import { CommonMethodService } from 'src/app/core/service/common-method.service';
 import { ApiService } from 'src/app/core/service/api.service';
 import { ErrorHandlerService } from 'src/app/core/service/error-handler.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ConfigService } from 'src/app/configs/config.service';
 import { CommonApiService } from 'src/app/core/service/common-api.service';
 import { WebStorageService } from 'src/app/core/service/web-storage.service';
@@ -24,10 +24,16 @@ export class GrievanceDetailsComponent implements OnInit {
     public configService: ConfigService,
     public commonService: CommonApiService,
     private route: ActivatedRoute,
-    public localStrorageData: WebStorageService) { }
+    public localStrorageData: WebStorageService,
+    @Optional() public dialogRef: MatDialogRef<GrievanceDetailsComponent>,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: any
+    ) { }
 
   ngOnInit(): void {
-    this.getGrievance_App(this.route.snapshot.params['id']);
+    console.log(this.data);
+    this.data? this.getGrievance_App(this.data.id): this.getGrievance_App(this.route.snapshot.params['id']);
+     
+   
   }
 
   getGrievance_App(grievanceId: any) {
@@ -51,4 +57,7 @@ export class GrievanceDetailsComponent implements OnInit {
     window.open(ele, '_blank');
   }
 
+  closeDialog() {
+    this.dialogRef.close('Yes');
+  }
 }
