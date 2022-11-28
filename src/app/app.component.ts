@@ -17,13 +17,22 @@ export class AppComponent {
   }
 
   ngOnInit() {
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd),
+    // this.router.events.pipe(
+    //   filter(event => event instanceof NavigationEnd),
+    // ).subscribe(() => {
+    //   const rt = this.getChild({ activatedRoute: this.activatedRoute });
+    //   rt.data.subscribe((data: { title: string; }) => {
+    //     this.titleService.setTitle(data.title)
+    //   });
+    // });
+
+    this.router.events.pipe(filter(event => event instanceof NavigationEnd),  // set title dynamic
     ).subscribe(() => {
-      const rt = this.getChild({ activatedRoute: this.activatedRoute });
-      rt.data.subscribe((data: { title: string; }) => {
-        this.titleService.setTitle(data.title)
-      });
+      var rt = this.getChild({ activatedRoute: this.activatedRoute });
+      let titleName = rt?.data._value?.breadcrumb[rt.data?._value?.breadcrumb?.length - 1]?.title;
+      rt.data.subscribe(() => {
+        this.titleService.setTitle(titleName)
+      })
     });
   }
 

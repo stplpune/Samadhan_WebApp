@@ -5,7 +5,10 @@
         <div class="main-content scrollbar">
             <div class="card border-0">
                 <div class="card-header bg-transparent text-main fw-bold">
-                    Page Name
+                    <li class="breadcrumb-item active" *ngFor="let breadcrumb of this.breadcrumbs[0]?.label; let last = last"
+                      [ngClass]="{ 'active' : last }">
+                         <a>{{breadcrumb.title}}</a>
+              </li>
                 </div>
                 <div class="card-body">
                     <router-outlet></router-outlet>
