@@ -20,7 +20,7 @@ export class ApiService {
 
   getBaseurl(url: string) {
     switch (url) {
-      case 'samadhanMiningService': return 'http://samadhan-api.mahamining.com/'; break;
+      case 'samadhanMiningService': return 'http://samadhanwebservice.samadhanosmanabad.in/'; break;
 
       default: return ''; break;
     }
