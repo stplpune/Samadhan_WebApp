@@ -318,6 +318,8 @@ input:-webkit-autofill:active {
 .card-height{
     height: 80vh;
     max-height: 80vh;
+    overflow-y: auto;
+    overflow-x:hidden !important;
 }
 .btn-edit:hover{
     color: var(--main-color);
