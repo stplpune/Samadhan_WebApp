@@ -7,19 +7,19 @@
           <div class="top-content border-end"><a (click)="skipToMainContent()"
               style="cursor: grab;">{{'Home.skip_to_main_content' | translate}}</a></div>
           <div class="top-content border-end">
-            <span>Color</span>
+            <!-- <span>Color</span> -->
             <button class="btn-color btn-main" (click)="onClickThemeChange('main')"></button>
             <button class="btn-color btn-blue" (click)="onClickThemeChange('blue')"></button>
             <button class="btn-color btn-black" (click)="onClickThemeChange('black')"></button>
           </div>
           <div class="top-content border-end">
-            <span>Font</span>
+            <!-- <span>Font</span> -->
             <button class="btn-font" (click)="onChangeFontSize('sm')">A-</button>
             <button class="btn-font" (click)="onChangeFontSize('md')">A</button>
             <button class="btn-font" (click)="onChangeFontSize('lg')">A+</button>
           </div>
           <div class="top-content">
-            <span>Language</span>
+            <!-- <span>Language</span> -->
             <div class="btn-group ms-2" role="group" aria-label="Basic radio toggle button group">
               <input type="radio" class="btn-check" name="btnradio" id="btnEnglish" autocomplete="off" checked (change)="translateLanguageTo('English')">
               <label class="btn btn-outline-language" for="btnEnglish">English</label>
