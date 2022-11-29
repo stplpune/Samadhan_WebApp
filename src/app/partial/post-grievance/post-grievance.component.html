@@ -82,7 +82,7 @@
                             </ng-container>
                             <ng-container matColumnDef="grievanceNo">
                                 <th mat-header-cell *matHeaderCellDef>Grievance No</th>
-                                <td mat-cell *matCellDef="let element"><a (click)="grievanceDetails(element.id)">{{element.grievanceNo}}</a></td>
+                                <td mat-cell *matCellDef="let element"><a class="text-primary" (click)="grievanceDetails(element.id)">{{element.grievanceNo}}</a></td>
                             </ng-container>
     
                             <ng-container matColumnDef="name">
