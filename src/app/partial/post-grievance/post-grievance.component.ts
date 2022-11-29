@@ -490,6 +490,7 @@ export class PostGrievanceComponent implements OnInit {
   grievanceDetails(grievanceId:any){
     const dialogRef = this.dialog.open(GrievanceDetailsComponent, {
       width: '700px',
+      height:'700px',
       data:{
         id:grievanceId
       } ,
