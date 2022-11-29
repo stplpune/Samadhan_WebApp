@@ -20,8 +20,11 @@ export class ApiService {
 
   getBaseurl(url: string) {
     switch (url) {
+      // For Demo
       case 'samadhanMiningService': return 'https://samadhan-api.mahamining.com/'; break;
-      // case 'samadhanMiningService': return 'http://samadhanwebservice.samadhanosmanabad.in/'; break; //for live
+
+      // For Live
+      // case 'samadhanMiningService': return 'http://samadhanwebservice.samadhanosmanabad.in/'; break;
 
       default: return ''; break;
     }
