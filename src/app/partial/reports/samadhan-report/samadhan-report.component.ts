@@ -1,4 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { Component, OnInit, Optional, Inject } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+// import { MatTableDataSource } from '@angular/material/table';
+// import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ConfigService } from 'src/app/configs/config.service';
+import { ApiService } from 'src/app/core/service/api.service';
+import { CommonApiService } from 'src/app/core/service/common-api.service';
+import { CommonMethodService } from 'src/app/core/service/common-method.service';
+import { ErrorHandlerService } from 'src/app/core/service/error-handler.service';
+import { ExcelService } from 'src/app/core/service/excel_Pdf.service';
+import { FormsValidationService } from 'src/app/core/service/forms-validation.service';
+import { WebStorageService } from 'src/app/core/service/web-storage.service';
 
 @Component({
   selector: 'app-samadhan-report',
@@ -6,26 +21,208 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./samadhan-report.component.css']
 })
 export class SamadhanReportComponent implements OnInit {
-  displayedColumns: string[] = ['position', 'GrievanceNo', 'Name', 'Department','office','GrievanceType','Status'];
-  dataSource = ELEMENT_DATA;
+  displayedColumns=new Array();
+  filterForm!: FormGroup;
+  dataSource: any;
+  totalPages!: number;
+  url: any;
+  userId: any;
+  urlString: any;
+  columns = new Array();
+  reportData: any;
+  header = new Array();
+  departmentArray=new Array();
+  reportArray=new Array();
 
-  constructor() { }
+  constructor(
+    private apiService: ApiService,
+    public error: ErrorHandlerService,
+    private spinner: NgxSpinnerService,
+    public configService: ConfigService,
+    public validation: FormsValidationService,
+    public localStrorageData: WebStorageService,
+    public commonService: CommonApiService,
+    public dialog: MatDialog,
+    public commonMethod: CommonMethodService,
+    private fb: FormBuilder,
+    private datePipe: DatePipe,
+    private pdf_excelService : ExcelService,
+    // private router:Router,
+    @Optional() public dialogRef: MatDialogRef<SamadhanReportComponent>,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
+    this.userId = this.localStrorageData.getUserId();
+  }
 
   ngOnInit(): void {
+    console.log(this.data);
+    this.filterform();
+    this.getUrl();
+    this.getdepartment(this.userId);
+  }
+
+  filterform() {
+    this.filterForm = this.fb.group({
+      searchdeptId: [0],
+      fromDate: [''],
+      toDate: ['']
+    })
+  }
+
+  getdepartment(id:any){
+    this.departmentArray = [];
+    this.commonService.getAllDepartmentByUserId(id).subscribe({
+      next: (response: any) => {
+        this.departmentArray.push(...response);
+      },
+      error: ((error: any) => { this.error.handelError(error.status) })
+    })
+  }
+
+  getUrl() {
+   
+    switch (this.data.url) {
+      case 'department-report':
+        this.url = 'samadhan/OnClickDetailReports/OnClickDepartmentRPTDetails?'
+        this.urlString = 'flag=' + this.data.flag + '&searchdeptId=' + this.data.deptId;
+        this.columns = [{ header: "Sr No.", column:'index' , flag: true }, { header: "Grievance No.", column: 'grievanceNo', flag: true }, { header: "Name", column: 'userName', flag: true }, { header: "Department Name", column: 'deptName', flag: true },
+        { header: "Office", column: 'officeName', flag: true }, { header: "Grievance Type", column: 'grievanceType', flag: true }, { header: "Status", column: 'statusName', flag: true }];
+        this.getReport();
+        break;
+    }
+  }
+
+  getReport() {
+    this.spinner.show();
+    let formData = this.filterForm.value;
+    formData.fromDate = formData.fromDate ? this.datePipe.transform(formData.fromDate, 'yyyy/MM/dd') : '';
+    formData.toDate = formData.toDate ? this.datePipe.transform(formData.toDate, 'yyyy/MM/dd') : '';
+
+    if(formData.fromDate){
+      if(!formData.toDate){
+        this.commonMethod.matSnackBar('Please select end date', 1);
+        this.spinner.hide();
+        return
+      } 
+    }
+
+    this.apiService.setHttp('get', this.url + this.urlString + '&userid=' + this.userId + '&fromDate='+ formData.fromDate + '&toDate='+ formData.toDate, false, false, false, 'samadhanMiningService');
+    this.apiService.getHttp().subscribe({
+      next: (res: any) => {
+        if (res.statusCode == 200) {
+          console.log(res.responseData);
+          // this.dataSource = new MatTableDataSource(res.responseData);
+          this.reportData = res.responseData
+          this.dataSource = this.reportData;
+
+          this.reportData.map((ele: any, index: any) => {
+            let obj={
+              'srno':index+1,
+              'grievance No':ele.grievanceNo,
+              'name':ele.userName,
+              'departmentName':ele.deptName,
+              'office':ele.officeName,
+              'grievanceType':ele.grievanceType,
+              'status':ele.statusName
+            }
+              this.reportArray.push(obj);
+           });
+          this.totalPages = res.responseData1.pageCount;
+          this.selecteColumn();
+          this.spinner.hide();
+        } else {
+          this.spinner.hide();
+          this.dataSource = [];
+          this.totalPages = 0;
+        }
+      },
+      error: (error: any) => {
+        this.error.handelError(error.status);
+        this.spinner.hide();
+      },
+    });
+  }
+
+  selecteColumn() {
+    this.displayedColumns = [];
+    this.header = [];
+    this.columns.map((x: any) => {
+      if (x.flag == true) {
+        this.displayedColumns.push(x.column);
+        this.header.push(x.header);
+      }
+    })
+  }
+
+  downloadPdf() {
+    let fromdate:any;
+    let todate:any;
+    let checkFromDateFlag: boolean = true;
+    let checkToDateFlag: boolean = true;
+    let formData = this.filterForm.value;
+    formData.fromDate = formData.fromDate ? this.datePipe.transform(formData.fromDate, 'yyyy/MM/dd') : '';
+    formData.toDate = formData.toDate ? this.datePipe.transform(formData.toDate, 'yyyy/MM/dd') : '';
+
+    let keyPDFHeader=new Array();
+     this.columns.map((ele:any)=>{
+           keyPDFHeader.push(ele.header);
+    })
+
+    console.log(keyPDFHeader);
+    let ValueData = this.reportArray.reduce(
+      (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
+      []
+    );// Value Name
+
+    let objData:any = {
+      'topHedingName': 'Department Report',
+      'createdDate': 'Created on:'+this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a')
+    }
+
+    checkFromDateFlag = formData.fromDate == '' || formData.fromDate == null || formData.fromDate == 0 || formData.fromDate == undefined ? false : true;
+    checkToDateFlag =  formData.toDate == '' ||  formData.toDate == null ||  formData.toDate == 0 ||  formData.toDate == undefined ? false : true;
+    if (formData.fromDate &&  formData.toDate && checkFromDateFlag && checkToDateFlag) {
+      fromdate = new Date(formData.fromDate);
+      todate = new Date( formData.toDate);
+      objData.timePeriod = 'From Date:' + this.datePipe.transform(fromdate, 'dd/MM/yyyy') + ' To Date: ' + this.datePipe.transform(todate, 'dd/MM/yyyy');
+    }
+    this.pdf_excelService.downLoadPdf(keyPDFHeader, ValueData, objData);
+  }
+
+  downloadExcel() {
+    let fromdate:any;
+    let todate:any;
+    let checkFromDateFlag: boolean = true;
+    let checkToDateFlag: boolean = true;
+    let formData = this.filterForm.value;
+    formData.fromDate = formData.fromDate ? this.datePipe.transform(formData.fromDate, 'yyyy/MM/dd') : '';
+    formData.toDate = formData.toDate ? this.datePipe.transform(formData.toDate, 'yyyy/MM/dd') : '';
+
+    let ValueData = this.reportArray.reduce(
+      (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
+      []
+    );// Value Name
+    let keyPDFHeader=new Array();
+    this.columns.map((ele:any)=>{
+          keyPDFHeader.push(ele.header);
+   })
+
+    let objData:any = {
+      'topHedingName': 'Department Report',
+      'createdDate': 'Created on:'+this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a')
+    }
+
+    checkFromDateFlag = formData.fromDate == '' || formData.fromDate == null || formData.fromDate == 0 || formData.fromDate == undefined ? false : true;
+    checkToDateFlag =  formData.toDate == '' ||  formData.toDate == null ||  formData.toDate == 0 ||  formData.toDate == undefined ? false : true;
+    if (formData.fromDate &&  formData.toDate && checkFromDateFlag && checkToDateFlag) {
+      fromdate = new Date(formData.fromDate);
+      todate = new Date( formData.toDate);
+      objData.timePeriod = 'From Date:' + this.datePipe.transform(fromdate, 'dd/MM/yyyy') + ' To Date: ' + this.datePipe.transform(todate, 'dd/MM/yyyy');
+    }
+
+    this.pdf_excelService.generateExcel(keyPDFHeader, ValueData, objData);
   }
 
 }
-export interface PeriodicElement {
-  position:any;
-  GrievanceNo:any;
-  Name:any;
-  Department:any;
-  office:any;
-  GrievanceType:any;
-  Status:any;
-}
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, GrievanceNo: 'Hydrogen', Name: 1.0079, Department: 'H', office: 'shahu office', GrievanceType:'local', Status:'yes',},
-  
-];
+
