@@ -320,6 +320,8 @@ input:-webkit-autofill:active {
     max-height: 80vh;
     overflow-y: auto;
     overflow-x:hidden !important;
+    margin-top: -5px;
+    padding-top: 5px;
 }
 .btn-edit:hover{
     color: var(--main-color);
