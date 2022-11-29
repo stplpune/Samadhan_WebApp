@@ -13,6 +13,7 @@ import { ErrorHandlerService } from 'src/app/core/service/error-handler.service'
 import { ExcelService } from 'src/app/core/service/excel_Pdf.service';
 import { FormsValidationService } from 'src/app/core/service/forms-validation.service';
 import { WebStorageService } from 'src/app/core/service/web-storage.service';
+import { SamadhanReportComponent } from '../samadhan-report/samadhan-report.component';
 
 @Component({
   selector: 'app-department-report',
@@ -27,9 +28,11 @@ export class DepartmentReportComponent implements OnInit {
   totalPages: any;
   pageNo = 1;
   pageSize = 10;
-  officeDepReportArray: any;
+  officeDepReportArray=new Array();
   departmentArray = new Array();
   userId:any;
+  getUrl:any;
+  reportArray=new Array();
   
   constructor(
     private apiService: ApiService,
@@ -48,8 +51,8 @@ export class DepartmentReportComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    let getUrl = this.router.url.split('/');
-    this.userId = getUrl.length == 3 ?  getUrl[getUrl.length -1] : this.localStrorageData.getUserId();
+     this.getUrl = this.router.url.split('/')[1];
+    this.userId = this.localStrorageData.getUserId();
     this.filterform();
     this.getOfficerDepartmentReport();
     this.getDepartment();
@@ -93,12 +96,27 @@ export class DepartmentReportComponent implements OnInit {
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {
-          this.officeDepReportArray = res.responseData.map((ele: any, index: any) => {
-            ele.deptId = index + 1;
-            delete ele.isDeleted
-            return ele
-          });
-          this.dataSource = new MatTableDataSource(res.responseData);
+          this.reportArray=res.responseData
+          this.dataSource = new MatTableDataSource(this.reportArray);
+          // this.officeDepReportArray = res.responseData.map((ele: any, index: any) => {
+          //   ele.deptId = index + 1;
+          //   delete ele.isDeleted
+          //   return ele
+          // });
+
+        this.reportArray.map((ele: any, index: any) => {
+          let obj={
+            'srno':index+1,
+            'depertmentName':ele.departmentname,
+            'received':ele.received,
+            'pending':ele.pending,
+            'resolved':ele.resolved
+          }
+            this.officeDepReportArray.push(obj);
+         });
+              
+
+          
           this.totalPages = res.responseData1.pageCount;
           this.spinner.hide();
         } else {
@@ -189,5 +207,23 @@ export class DepartmentReportComponent implements OnInit {
     this.pdf_excelService.downLoadPdf(keyPDFHeader, ValueData, objData);
   }
 
+  getDetailsReport(ele:any,eleFlag:any){
+    console.log(ele);
+    let obj={
+      'url':this.getUrl,
+      'flag':eleFlag,
+      'deptId':ele.deptId
+    }
+
+    const dialogRef = this.dialog.open(SamadhanReportComponent, {
+      width: '900px',
+      height:'650px',
+      data:obj,
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe((_result: any) => {
+      
+    }); 
+  }
 
 }
