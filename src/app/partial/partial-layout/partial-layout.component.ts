@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, PRIMARY_OUTLET, Router } from '@angular/router';
+import { filter, map } from 'rxjs';
 import { SidebarService } from './sidebar/sidebar.service';
 
 @Component({
@@ -8,7 +10,8 @@ import { SidebarService } from './sidebar/sidebar.service';
 })
 export class PartialLayoutComponent implements OnInit {
 
-  constructor(public sidebarservice: SidebarService) { }
+  breadcrumbs:any;
+  constructor(public sidebarservice: SidebarService, private router:Router,private activatedRoute:ActivatedRoute) {  this.addBreadcrumbs();}
   toggleSidebar() {
     this.sidebarservice.setSidebarState(!this.sidebarservice.getSidebarState());
   }
@@ -23,6 +26,30 @@ export class PartialLayoutComponent implements OnInit {
     this.sidebarservice.setSidebarState(true);
   }
   ngOnInit(): void {
+  }
+
+  addBreadcrumbs() {
+    this.router.events.pipe(filter(event => event instanceof NavigationEnd)).pipe(map(() => this.activatedRoute))
+      .pipe(map((route) => {
+        while (route.firstChild) { route = route.firstChild; }
+        return route;
+      }))
+      .pipe(filter(route => route.outlet === PRIMARY_OUTLET))
+      .subscribe(route => {
+
+        let snapshot = this.router.routerState.snapshot;
+        this.breadcrumbs = [];
+        let url = snapshot.url;
+        let routeData = route.snapshot.data;
+        let label = routeData['breadcrumb'];
+        let params = snapshot.root.params;
+
+        this.breadcrumbs.push({
+          url: url,
+          label: label,
+          params: params
+        });
+      });
   }
 
 }

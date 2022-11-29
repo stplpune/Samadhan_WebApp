@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { GrievanceDetailsRoutingModule } from './grievance-details-routing.module';
 import { GrievanceDetailsComponent } from './grievance-details.component';
+import { MaterialModule } from 'src/app/shared/AngularMaterialModule/material.module';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { GrievanceDetailsComponent } from './grievance-details.component';
   ],
   imports: [
     CommonModule,
-    GrievanceDetailsRoutingModule
+    GrievanceDetailsRoutingModule,
+    MaterialModule,
   ]
 })
 export class GrievanceDetailsModule { }
