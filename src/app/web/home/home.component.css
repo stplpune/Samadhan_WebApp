@@ -35,14 +35,14 @@
 #grievance-status{
     padding: 50px;
 }
-#about-banner{
+/* #about-banner{
     background-image: url("../../../assets/images/home-banner.png");
     height: 380px;
     background-size:cover ;
     display: flex;
     align-items: center;
-}
-.left-content{
+} */
+/* .left-content{
     padding-block: 2rem;
 }
 .left-content .redress{
@@ -71,13 +71,21 @@
 .left-content .store-icons img{
     width: 180px;
     margin-left: 1rem;
-}
+} */
 #grievance-status .card{
     border: transparent;
     border-bottom: 3px solid #B83058;
     width: 250px;
     height: 180px;
 }
-#grievance-status .card .card-body img,span{
+#grievance-status .card .card-body img{
     margin-bottom: 20px;
+}
+.carousel-control-prev,
+.carousel-control-next{
+    width: 50px;
+    height:50px;
+    line-height:50px;
+    background-color: rgba(0,0,0,0.5);
+    top: 40%;
 }
