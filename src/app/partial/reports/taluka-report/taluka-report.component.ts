@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ConfigService } from 'src/app/configs/config.service';
 import { ApiService } from 'src/app/core/service/api.service';
@@ -12,6 +13,7 @@ import { ErrorHandlerService } from 'src/app/core/service/error-handler.service'
 import { ExcelService } from 'src/app/core/service/excel_Pdf.service';
 import { FormsValidationService } from 'src/app/core/service/forms-validation.service';
 import { WebStorageService } from 'src/app/core/service/web-storage.service';
+import { SamadhanReportComponent } from '../samadhan-report/samadhan-report.component';
 
 @Component({
   selector: 'app-taluka-report',
@@ -27,7 +29,7 @@ export class TalukaReportComponent implements OnInit {
   pageNo = 1;
   talukaArray = new Array();
   reportArray=new Array();
-
+  getUrl:any;
 
   constructor(
     private apiService: ApiService,
@@ -42,11 +44,13 @@ export class TalukaReportComponent implements OnInit {
     private fb: FormBuilder,
     private datePipe: DatePipe,
     private pdf_excelService: ExcelService,
+    private router:Router
   ){
 
   }
 
   ngOnInit(): void { 
+    this.getUrl = this.router.url.split('/')[1];
     this.getTaluka(1);
     this.filterform();
     this.getOfficerTalukaReport();
@@ -196,6 +200,25 @@ export class TalukaReportComponent implements OnInit {
     this.filterform();
     this.pageNo = 1;
     this.getOfficerTalukaReport();
+  }
+
+  getDetailsReport(ele:any,eleFlag:any){
+    console.log(ele);
+    let obj={
+      'url':this.getUrl,
+      'flag':eleFlag,
+      'talukaId':ele.talukaId
+    }
+
+    const dialogRef = this.dialog.open(SamadhanReportComponent, {
+      width: '100%',
+      height:'650px',
+      data:obj,
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe((_result: any) => {
+      
+    }); 
   }
 
 
