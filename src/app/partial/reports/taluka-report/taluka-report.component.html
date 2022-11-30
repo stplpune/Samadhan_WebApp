@@ -26,27 +26,11 @@
                             <mat-date-range-picker #picker [disabled]="false"></mat-date-range-picker>
                         </mat-form-field>
                     </div>
-                    
-                    <!-- <div class="col-sm-2">
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>From Date</mat-label>
-                            <input matInput [matDatepicker]="picker" formControlName="fromDate">
-                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                            <mat-datepicker #picker></mat-datepicker>
-                        </mat-form-field>
-    
-                    </div>
-                    <div class="col-sm-2">
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>To Date</mat-label>
-                            <input matInput [matDatepicker]="picker2" formControlName="toDate">
-                            <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
-                            <mat-datepicker #picker2 color="primary"></mat-datepicker>
-                        </mat-form-field>
-                    </div> -->
-                    <div class="col-sm text-end">
+                    <div class="col-sm-auto">
                         <button mat-stroked-button class="btn-main me-2" type="submit" (click)="pageNo = 1;getOfficerTalukaReport()">Search</button>
                         <button mat-stroked-button class="btn-main-outline me-2" type="button" (click)="clearFilter()">Clear</button>
+                    </div>
+                    <div class="col-sm text-end">
                         <button mat-stroked-button [matMenuTriggerFor]="menu" class="btn-main">Download</button>
                         <mat-menu #menu="matMenu">
                             <button mat-menu-item (click)="downloadExcel()"><i class="fa-solid fa-file-excel text-success me-2"></i><span>Excel</span></button>
@@ -69,18 +53,18 @@
                     </ng-container>
         
                     <ng-container matColumnDef="Received">
-                        <th mat-header-cell *matHeaderCellDef> Received </th>
-                        <td mat-cell *matCellDef="let element"> {{element.received}} </td>
+                        <th mat-header-cell *matHeaderCellDef class="text-primary"> Received </th>
+                        <td mat-cell *matCellDef="let element" class="text-primary fw-bold"> {{element.received}} </td>
                     </ng-container>
         
                     <ng-container matColumnDef="Pending">
-                        <th mat-header-cell *matHeaderCellDef> Pending </th>
-                        <td mat-cell *matCellDef="let element"> {{element.pending}} </td>
+                        <th mat-header-cell *matHeaderCellDef class="text-info"> Pending </th>
+                        <td mat-cell *matCellDef="let element" class="text-info fw-bold"> {{element.pending}} </td>
                     </ng-container>
         
                     <ng-container matColumnDef="Resolved">
-                        <th mat-header-cell *matHeaderCellDef> Resolved </th>
-                        <td mat-cell *matCellDef="let element"> {{element.resolved}} </td>
+                        <th mat-header-cell *matHeaderCellDef class="text-success"> Resolved </th>
+                        <td mat-cell *matCellDef="let element" class="text-success fw-bold"> {{element.resolved}} </td>
                     </ng-container>
     
                     <tr class="mat-row p-2 w-100" *matNoDataRow col>
@@ -91,9 +75,6 @@
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                 </table>
             </div>
-            <!-- <ng-container *ngIf="dataSource?.length!=0">
-                <mat-paginator #paginator [pageSizeOptions]="[10]" showFirstLastButtons></mat-paginator>
-            </ng-container> -->
         </div>
     </div>
 </div>
