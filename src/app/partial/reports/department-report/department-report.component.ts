@@ -225,7 +225,7 @@ export class DepartmentReportComponent implements OnInit {
     }
 
     const dialogRef = this.dialog.open(SamadhanReportComponent, {
-      width: '900px',
+      width: '100%',
       height:'650px',
       data:obj,
       disableClose: true,
