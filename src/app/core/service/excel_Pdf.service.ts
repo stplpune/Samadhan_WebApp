@@ -46,8 +46,8 @@ export class ExcelService {
         doc.setLineWidth(0.2);
         doc.line(12, 286, 200, 286);
 
-        doc.setFontSize(11);
-        doc.text('designed By ShauryaTechnosoft year@sdg2022', 200, 290, "right");
+        doc.setFontSize(10);
+        doc.text('This is a system generated File.', 200, 290, "right");
 
       }
     });
