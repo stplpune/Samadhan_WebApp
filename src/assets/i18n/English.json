@@ -18,11 +18,14 @@
         "resolved_grievances": "Resolved Grievances",
         "registered_grievances": "Registered Citizen",
         "satisfied_citizen": "Satisfied Citizen",
-        "dissatisfied_citizen": "Dissatisfied Citizen",
+        "unsatisfied_citizen": "Unsatisfied Citizen",
         "copyright": "Copyright © 2022 Samadhan All Rights Reserved.",
         "website_policies": "Website Policies",
         "feedback": "Feedback",
         "content_owned": "Content Owned By District Administration",
-        "powered_by": "Powered By"
+        "powered_by": "Powered By",
+        "about-us":" The resolution of Public Grievances has always been a top priority of the Government. District  Administration Osmanabad took advantage of ICT enhancements and came up with 'SAMADHAN' Mobile APP  Online Public Grievance Monitoring System. Citizen can submit new application and can also track already submitted application to know the latest status. SAMADHAN Mobile APP also provides feedback  facility",
+        "Samadhan":"SAMADHAN",
+        "features":"Comes With Many Awesome Features."
     }
 }

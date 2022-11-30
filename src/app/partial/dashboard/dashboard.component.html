@@ -1,40 +1,37 @@
-
-<div class="card-height">
-  <div class="row mb-3">
-    <div class="col-sm">
-      <div class="card dashboard-icon-card ">
-        <div class="text-center">
-          <img src="../../../assets/dashboard-icon/Received Grievances.svg" alt="">
-          <h2>{{data?.receievedGrievances}}</h2>
-          <p>Received Grievances</p>
-        </div>
+<div class="row mb-3">
+  <div class="col-sm">
+    <div class="card dashboard-icon-card ">
+      <div class="text-center">
+        <img src="../../../assets/dashboard-icon/Received Grievances.svg" alt="">
+        <h2>{{data?.receievedGrievances}}</h2>
+        <p>Received Grievances</p>
       </div>
     </div>
-    <div class="col-sm">
-      <div class="card dashboard-icon-card ">
-        <div class="text-center">
-          <img src="../../../assets/dashboard-icon/Resolved Grievances.svg" alt="">
-          <h2>{{data?.resolvedGrievances}}</h2>
-          <p>Resolved Grievances</p>
-        </div>
+  </div>
+  <div class="col-sm">
+    <div class="card dashboard-icon-card ">
+      <div class="text-center">
+        <img src="../../../assets/dashboard-icon/Resolved Grievances.svg" alt="">
+        <h2>{{data?.resolvedGrievances}}</h2>
+        <p>Resolved Grievances</p>
       </div>
     </div>
-    <div class="col-sm">
-      <div class="card dashboard-icon-card ">
-        <div class="text-center">
-          <img src="../../../assets/dashboard-icon/Registered Citizen.svg" alt="">
-          <h2>{{data?.registeredCitizen}}</h2>
-          <p>Registered Citizens</p>
-        </div>
+  </div>
+  <div class="col-sm">
+    <div class="card dashboard-icon-card ">
+      <div class="text-center">
+        <img src="../../../assets/dashboard-icon/Registered Citizen.svg" alt="">
+        <h2>{{data?.registeredCitizen}}</h2>
+        <p>Registered Citizens</p>
       </div>
     </div>
-    <div class="col-sm">
-      <div class="card dashboard-icon-card">
-        <div class="text-center">
-          <img src="../../../assets/dashboard-icon/Satisfied-Citizen.svg" alt="">
-          <h2>{{data?.satisfiedCitizen}}</h2>
-          <p>Satisfied Citizens</p>
-        </div>
+  </div>
+  <div class="col-sm">
+    <div class="card dashboard-icon-card">
+      <div class="text-center">
+        <img src="../../../assets/dashboard-icon/Satisfied-Citizen.svg" alt="">
+        <h2>{{data?.satisfiedCitizen}}</h2>
+        <p>Satisfied Citizens</p>
       </div>
     </div>
     <div class="col-sm">
@@ -48,70 +45,71 @@
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-sm-6">
-      <div class="card plain-card">
-        <div class="card-header">
-          Total Status wise Grievances Received
-        </div>
-        <div class="card-body">
-          <div class="table-responsive">
-            <table mat-table [dataSource]="dataSource" class="w-100 dashboard-table">
-              <ng-container matColumnDef="srNo">
-                <th mat-header-cell *matHeaderCellDef class="srno"> Sr.No. </th>
-                <td mat-cell *matCellDef="let element;let i=index"> {{((pageNumber + 1) * 10 + i +
-                  1)-20}} </td>
-              </ng-container>
-    
-              <ng-container matColumnDef="department">
-                <th mat-header-cell *matHeaderCellDef> Department </th>
-                <td mat-cell *matCellDef="let element"> {{element.department |titlecase}} </td>
-              </ng-container>
-    
-              <ng-container matColumnDef="totalGrievances">
-                <th mat-header-cell *matHeaderCellDef> Total Grievances </th>
-                <td mat-cell *matCellDef="let element"> {{element.totalGrievances}} </td>
-              </ng-container>
-    
-              <ng-container matColumnDef="open">
-                <th mat-header-cell *matHeaderCellDef class="text-primary"> Open </th>
-                <td mat-cell *matCellDef="let element" class="text-primary"> {{element.open_}} </td>
-              </ng-container>
-    
-              <ng-container matColumnDef="accepted">
-                <th mat-header-cell *matHeaderCellDef class="text-success"> Accepted </th>
-                <td mat-cell *matCellDef="let element" class="text-success"> {{element.accepted}} </td>
-              </ng-container>
-    
-              <ng-container matColumnDef="resolved">
-                <th mat-header-cell *matHeaderCellDef class="text-info"> Resolved </th>
-                <td mat-cell *matCellDef="let element" class="text-info"> {{element.resolved}} </td>
-              </ng-container>
-    
-              <ng-container matColumnDef="rejected">
-                <th mat-header-cell *matHeaderCellDef class="text-danger"> Rejected </th>
-                <td mat-cell *matCellDef="let element" class="text-danger"> {{element.rejected}} </td>
-              </ng-container>
-    
-              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
-            <ng-container *ngIf="totalRows > 10">
-              <mat-paginator [pageSizeOptions]="[10]" [length]="totalRows" showFirstLastButtons
-                (page)="pageChanged($event)">
-              </mat-paginator>
+</div>
+<div class="row">
+  <div class="col-sm-6">
+    <div class="card plain-card">
+      <div class="card-header">
+        Total Status wise Grievances Received
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table mat-table [dataSource]="dataSource" class="w-100 dashboard-table">
+            <ng-container matColumnDef="srNo">
+              <th mat-header-cell *matHeaderCellDef class="srno"> Sr.No. </th>
+              <td mat-cell *matCellDef="let element;let i=index"> {{((pageNumber + 1) * 10 + i +
+                1)-20}} </td>
             </ng-container>
-          </div>
+
+            <ng-container matColumnDef="department">
+              <th mat-header-cell *matHeaderCellDef> Department </th>
+              <td mat-cell *matCellDef="let element"> {{element.department |titlecase}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="totalGrievances">
+              <th mat-header-cell *matHeaderCellDef> Total Grievances </th>
+              <td mat-cell *matCellDef="let element"> {{element.totalGrievances}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="open">
+              <th mat-header-cell *matHeaderCellDef class="text-primary"> Open </th>
+              <td mat-cell *matCellDef="let element" class="text-primary"> {{element.open_}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="accepted">
+              <th mat-header-cell *matHeaderCellDef class="text-success"> Accepted </th>
+              <td mat-cell *matCellDef="let element" class="text-success"> {{element.accepted}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="resolved">
+              <th mat-header-cell *matHeaderCellDef class="text-info"> Resolved </th>
+              <td mat-cell *matCellDef="let element" class="text-info"> {{element.resolved}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="rejected">
+              <th mat-header-cell *matHeaderCellDef class="text-danger"> Rejected </th>
+              <td mat-cell *matCellDef="let element" class="text-danger"> {{element.rejected}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+          <ng-container *ngIf="totalRows > 10">
+            <mat-paginator [pageSizeOptions]="[10]" [length]="totalRows" showFirstLastButtons
+              (page)="pageChanged($event)">
+            </mat-paginator>
+          </ng-container>
         </div>
       </div>
     </div>
-    <div class="col-sm-6">
-      <div class="card plain-card">
-        <div class="card-header">Total Grievances Received</div>
-        <!-- <div class="card-body">
+  </div>
+  <div class="col-sm-6">
+    <div class="card plain-card">
+      <div class="card-header">Total Grievances Received</div>
+      <!-- <div class="card-body">
             Chart
           </div> -->
-        <!-- <div id="chart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto">
+      <!-- <div id="chart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto">
             <apx-chart
               [series]="chartOptions.series"
               [chart]="chartOptions.chart"
@@ -121,8 +119,7 @@
               [plotOptions]="chartOptions.plotOptions"
               ></apx-chart>
           </div> -->
-        <div id="chartdiv" style="height:424px">
-        </div>
+      <div id="chartdiv" style="height:424px">
       </div>
     </div>
   </div>
