@@ -110,6 +110,13 @@ export class SamadhanReportComponent implements OnInit {
         this.getReport();
         // this.objData.topHedingName='Department Report';
         break;
+
+      case 'pendency-report':
+        this.url = 'samadhan/OnClickDetailReports/OnClicPendancykRPTDetails?'
+        this.urlString =  'searchdeptId=' + this.data.deptId + '&flag=' + this.data.flag +'&DateFlag='+this.data.dateFlag;
+        this.getReport();
+        // this.objData.topHedingName='Department Report';
+        break;
     }
   }
 
