@@ -129,6 +129,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     switch (flag) {
       case 'department':
         this.filterFrm.controls['officeId'].setValue(0);
+        this.filterFrm.controls['subUserTypeId'].setValue(0);
         this.filterFrm.controls['textSearch'].setValue('');
         break;
       case 'office':
