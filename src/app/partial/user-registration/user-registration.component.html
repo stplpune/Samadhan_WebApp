@@ -28,7 +28,18 @@
                 </div>
                 <div class="col-sm-4">
                     <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Name / Mobile No.</mat-label>
+                        <mat-label>Select Designation</mat-label>
+                        <mat-select formControlName="subUserTypeId" (selectionChange)="filterData()">
+                            <mat-option value="0">All Designation</mat-option>
+                            <mat-option *ngFor="let subUser of subUserTypeArray" [value]="subUser.userTypeId">
+                                {{subUser.userType}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-4">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Name / Mobile No./User Name</mat-label>
                         <input matInput placeholder="Search" formControlName="textSearch">
                     </mat-form-field>
                 </div>
@@ -113,9 +124,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="subUserType">
-                    <th mat-header-cell *matHeaderCellDef> Sub User Type </th>
-                    <!-- <td mat-cell *matCellDef="let element"> -->
-                    <!-- <th mat-header-cell *matHeaderCellDef> DESIGNATION </th> -->
+                    <th mat-header-cell *matHeaderCellDef> DESIGNATION </th>
                     <td mat-cell *matCellDef="let element">
                         {{element.subUserType ? element.subUserType : '-'}} </td>
                 </ng-container>

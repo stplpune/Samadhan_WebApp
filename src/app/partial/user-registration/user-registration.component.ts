@@ -248,7 +248,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   getData() {
     this.spinner.show()
     let formValue = this.filterFrm.value;
-    let paramList: string = "?DeptId=" + formValue.deptId + "&OfficeId=" + formValue.officeId +'&SubUserTypeId='+ formValue.subUserTypeId + "&pageno=" + this.pageNumber + "&pagesize=" + 10;
+    let paramList: string = "?DeptId=" + formValue.deptId + "&OfficeId=" + formValue.officeId +'&SubUserTypeId='+ formValue.subUserTypeId + "&pageno=" + this.pageNumber + "&pagesize=" + 10 + '&userid=' + this.localStrorageData.getUserId();
     this.commonMethod.checkDataType(formValue.textSearch.trim()) == true ? paramList += "&Textsearch=" + formValue.textSearch : '';
     this.apiService.setHttp('get', "samadhan/user-registration/GetAll" + paramList, false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
