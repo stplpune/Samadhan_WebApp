@@ -28,6 +28,7 @@ export class PendencyReportComponent implements OnInit {
   pendencyReportArray:any;
   pendencyArray = new Array();
   minDate=new Date();
+  reportArray=new Array();
 
   constructor(
     private apiService: ApiService,
@@ -82,16 +83,35 @@ export class PendencyReportComponent implements OnInit {
         return
       } 
     }
+    this.pendencyReportArray=[];
     let obj = formData.searchdeptId + '&userid='+ this.localStrorageData.getUserId() + '&fromDate='+ formData.fromDate + '&toDate='+ formData.toDate
     this.apiService.setHttp('get','api/ShareGrievances/OfficerPendencyReport?searchdeptId=' + obj,false,false,false,'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {
-          this.pendencyReportArray = res.responseData.map((ele:any,index:any)=>{
-            ele.deptId=index +1;
-            delete ele.isDeleted
-            return ele});
-          this.dataSource = new MatTableDataSource(res.responseData);
+
+          this.reportArray=res.responseData;
+          this.dataSource = new MatTableDataSource(this.reportArray);
+          // this.pendencyReportArray = res.responseData.map((ele:any,index:any)=>{
+          //   ele.deptId=index +1;
+          //   delete ele.isDeleted
+          //   return ele});
+          // this.dataSource = new MatTableDataSource(res.responseData);
+
+          this.reportArray.map((ele: any, index: any) => {
+            let obj={
+              'srno':index+1,
+              'depertmentName':ele.departmentname,
+              'received':ele.received,
+              'pending':ele.pending,
+              'approvedless7':ele.approvedless7,
+              'approvedless15':ele.approvedless15,
+              'approvedless30':ele.approvedless30,
+              'approvedgrt30':ele.approvedgrt30
+            }
+              this.pendencyReportArray.push(obj);
+           });
+
           this.spinner.hide();
         } else {
           this.spinner.hide();
@@ -122,7 +142,7 @@ export class PendencyReportComponent implements OnInit {
     formData.fromDate = formData.fromDate ? this.datePipe.transform(formData.fromDate, 'yyyy/MM/dd') : '';
     formData.toDate = formData.toDate ? this.datePipe.transform(formData.toDate, 'yyyy/MM/dd') : '';
 
-    let keyPDFHeader = ['srNo', 'departmentname','received', 'pending','approvedless7','approvedless15','approvedless30','approvedgrt30'];
+    let keyPDFHeader = ['srNo', 'departmentname','received', 'pending','ApprovedLess < 7 days','ApprovedLess 8-15 days','ApprovedLess 16-30 days','ApprovedGrt > 30 days'];
     let ValueData = this.pendencyReportArray.reduce(
       (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
       []
@@ -151,7 +171,7 @@ export class PendencyReportComponent implements OnInit {
     formData.toDate = formData.toDate ? this.datePipe.transform(formData.toDate, 'yyyy/MM/dd') : '';
 
 
-    let keyPDFHeader = ['SrNo', 'Department Name','Received', 'Pending','Approvedless7','Approvedless15','Approvedless30','Approvedgrt30'];
+    let keyPDFHeader = ['SrNo', 'Department Name','Received', 'Pending','ApprovedLess < 7 days','ApprovedLess 8-15 days','ApprovedLess 16-30 days','ApprovedGrt > 30 days'];
     let ValueData = this.pendencyReportArray.reduce(
       (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
       []
