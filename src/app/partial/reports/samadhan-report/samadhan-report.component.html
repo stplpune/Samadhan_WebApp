@@ -21,11 +21,11 @@
                                 <mat-form-field appearance="outline" class="w-100">
                                     <mat-label>From Date To End Date</mat-label>
                                     <mat-date-range-input [rangePicker]="picker">
-                                        <input matStartDate placeholder="Start date" formControlName="fromDate">
-                                        <input matEndDate placeholder="End date" formControlName="toDate">
+                                        <input matStartDate placeholder="Start date" formControlName="fromDate" [disabled]="true">
+                                        <input matEndDate placeholder="End date" formControlName="toDate" [disabled]="true">
                                     </mat-date-range-input>
-                                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                                    <mat-date-range-picker #picker></mat-date-range-picker>
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker" [disabled]="false"></mat-datepicker-toggle>
+                                    <mat-date-range-picker #picker [disabled]="false"></mat-date-range-picker>
                                 </mat-form-field>
                             </div>
                         </div>
@@ -33,12 +33,12 @@
                     <div class="col-sm-4">
                         <div class="row">
                             <div class="col-sm text-end">
-                                <button mat-stroked-button class="btn-main me-2" type="submit" (click)="getReport()">Search</button>
+                                <button mat-stroked-button class="btn-main me-2" type="submit" (click)="pageNo = 1;getReport()">Search</button>
                                 <button mat-stroked-button class="btn-main-outline me-2" type="button">Clear</button>
-                                <button mat-stroked-button [matMenuTriggerFor]="menu" class="btn-main-outline">Download</button>
+                                <button mat-stroked-button [matMenuTriggerFor]="menu" class="btn-main-outline" *ngIf="reportData.length!=0">Download</button>
                                 <mat-menu #menu="matMenu">
-                                    <button mat-menu-item [disabled]="reportData.length==0" (click)="downloadExcel()"><i class="fa-solid fa-file-excel text-success me-2"></i><span>Excel</span></button>
-                                    <button mat-menu-item [disabled]="reportData.length==0" (click)="downloadPdf()"> <i class="fa-solid fa-file-pdf text-danger me-2"></i><span>Pdf</span></button>
+                                    <button mat-menu-item  (click)="downloadExcel()"><i class="fa-solid fa-file-excel text-success me-2"></i><span>Excel</span></button>
+                                    <button mat-menu-item  (click)="downloadPdf()"> <i class="fa-solid fa-file-pdf text-danger me-2"></i><span>Pdf</span></button>
                                 </mat-menu>
                             </div>
                         </div>
