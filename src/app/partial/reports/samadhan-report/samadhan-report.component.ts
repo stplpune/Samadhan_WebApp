@@ -21,21 +21,21 @@ import { WebStorageService } from 'src/app/core/service/web-storage.service';
   styleUrls: ['./samadhan-report.component.css']
 })
 export class SamadhanReportComponent implements OnInit {
-  displayedColumns=new Array();
+  displayedColumns = new Array();
   filterForm!: FormGroup;
   dataSource: any;
   totalPages!: number;
   url: any;
   userId: any;
   urlString: any;
-  columns = [{ header: "Sr No.", column:'index' , flag: true }, { header: "Grievance No.", column: 'grievanceNo', flag: true }, { header: "Name", column: 'userName', flag: true }, { header: "Department Name", column: 'deptName', flag: true },
-        { header: "Office", column: 'officeName', flag: true }, { header: "Grievance Type", column: 'grievanceType', flag: true }, { header: "Status", column: 'statusName', flag: true }];
-  reportData= new Array();
+  columns = [{ header: "Sr No.", column: 'index', flag: true }, { header: "Grievance No.", column: 'grievanceNo', flag: true }, { header: "Name", column: 'userName', flag: true }, { header: "Department Name", column: 'deptName', flag: true },
+  { header: "Office", column: 'officeName', flag: true }, { header: "Grievance Type", column: 'grievanceType', flag: true }, { header: "Status", column: 'statusName', flag: true }];
+  reportData = new Array();
   header = new Array();
-  departmentArray=new Array();
-  reportArray=new Array();
-  pageNo=1;
-  objData:any;
+  departmentArray = new Array();
+  reportArray = new Array();
+  pageNo = 1;
+  objData: any;
 
   constructor(
     private apiService: ApiService,
@@ -49,7 +49,7 @@ export class SamadhanReportComponent implements OnInit {
     public commonMethod: CommonMethodService,
     private fb: FormBuilder,
     private datePipe: DatePipe,
-    private pdf_excelService : ExcelService,
+    private pdf_excelService: ExcelService,
     // private router:Router,
     @Optional() public dialogRef: MatDialogRef<SamadhanReportComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any
@@ -72,7 +72,7 @@ export class SamadhanReportComponent implements OnInit {
     })
   }
 
-  getdepartment(id:any){
+  getdepartment(id: any) {
     this.departmentArray = [];
     this.commonService.getAllDepartmentByUserId(id).subscribe({
       next: (response: any) => {
@@ -83,7 +83,7 @@ export class SamadhanReportComponent implements OnInit {
   }
 
   getUrl() {
-    
+
     switch (this.data.url) {
       case 'department-report':
         this.url = 'samadhan/OnClickDetailReports/OnClickDepartmentRPTDetails?'
@@ -93,16 +93,23 @@ export class SamadhanReportComponent implements OnInit {
         break;
 
       case 'office-report':
-          this.url = 'samadhan/OnClickDetailReports/OnClickOfficeRPTDetails?'
-          this.urlString = 'flag=' + this.data.flag + '&searchdeptId=' + this.data.deptId + '&searchofcId=' + this.data.officeId;         
-          this.getReport();
-          break;
+        this.url = 'samadhan/OnClickDetailReports/OnClickOfficeRPTDetails?'
+        this.urlString = 'flag=' + this.data.flag + '&searchdeptId=' + this.data.deptId + '&searchofcId=' + this.data.officeId;
+        this.getReport();
+        break;
 
       case 'taluka-report':
-          this.url = 'samadhan/OnClickDetailReports/OnClickTalukaRPTDetails?'
-          this.urlString = 'flag=' + this.data.flag + '&searchtalukaId=' + this.data.talukaId;
-          this.getReport();
-           break;
+        this.url = 'samadhan/OnClickDetailReports/OnClickTalukaRPTDetails?'
+        this.urlString = 'flag=' + this.data.flag + '&searchtalukaId=' + this.data.talukaId;
+        this.getReport();
+        break;
+
+      case 'satisfied-report':
+        this.url = 'samadhan/OnClickDetailReports/OnClicIsSatisfiedkRPTDetails?'
+        this.urlString = 'flag=' + this.data.flag + '&searchdeptId=' + this.data.deptId;
+        this.getReport();
+        // this.objData.topHedingName='Department Report';
+        break;
     }
   }
 
@@ -112,16 +119,16 @@ export class SamadhanReportComponent implements OnInit {
     formData.fromDate = formData.fromDate ? this.datePipe.transform(formData.fromDate, 'yyyy/MM/dd') : '';
     formData.toDate = formData.toDate ? this.datePipe.transform(formData.toDate, 'yyyy/MM/dd') : '';
 
-    if(formData.fromDate){
-      if(!formData.toDate){
+    if (formData.fromDate) {
+      if (!formData.toDate) {
         this.commonMethod.matSnackBar('Please select end date', 1);
         this.spinner.hide();
         return
-      } 
+      }
     }
-    
-    this.reportArray=[];
-    this.apiService.setHttp('get', this.url + this.urlString + '&userid=' + this.userId + '&fromDate='+ formData.fromDate + '&toDate='+ formData.toDate, false, false, false, 'samadhanMiningService');
+
+    this.reportArray = [];
+    this.apiService.setHttp('get', this.url + this.urlString + '&userid=' + this.userId + '&fromDate=' + formData.fromDate + '&toDate=' + formData.toDate, false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {
@@ -131,25 +138,25 @@ export class SamadhanReportComponent implements OnInit {
           this.dataSource = this.reportData;
 
           this.reportData.map((ele: any, index: any) => {
-            let obj={
-              'srno':index+1,
-              'grievance No':ele.grievanceNo,
-              'name':ele.userName,
-              'departmentName':ele.deptName,
-              'office':ele.officeName,
-              'grievanceType':ele.grievanceType,
-              'status':ele.statusName
+            let obj = {
+              'srno': index + 1,
+              'grievance No': ele.grievanceNo,
+              'name': ele.userName,
+              'departmentName': ele.deptName,
+              'office': ele.officeName,
+              'grievanceType': ele.grievanceType,
+              'status': ele.statusName
             }
-              this.reportArray.push(obj);
-           });
-           console.log(this.reportArray);
+            this.reportArray.push(obj);
+          });
+          console.log(this.reportArray);
           this.totalPages = res.responseData1.pageCount;
           this.selecteColumn();
           this.spinner.hide();
         } else {
           this.spinner.hide();
           this.dataSource = [];
-          this.reportData=[];
+          this.reportData = [];
           this.totalPages = 0;
         }
       },
@@ -164,24 +171,24 @@ export class SamadhanReportComponent implements OnInit {
     this.displayedColumns = [];
     this.header = [];
     this.columns.map((x: any) => {
-        this.displayedColumns.push(x.column);
-        this.header.push(x.header);
+      this.displayedColumns.push(x.column);
+      this.header.push(x.header);
     })
   }
 
   downloadPdf() {
-    let heading=this.data.url.split('-');
-    let fromdate:any;
-    let todate:any;
+    let heading = this.data.url.split('-');
+    let fromdate: any;
+    let todate: any;
     let checkFromDateFlag: boolean = true;
     let checkToDateFlag: boolean = true;
     let formData = this.filterForm.value;
     formData.fromDate = formData.fromDate ? this.datePipe.transform(formData.fromDate, 'yyyy/MM/dd') : '';
     formData.toDate = formData.toDate ? this.datePipe.transform(formData.toDate, 'yyyy/MM/dd') : '';
 
-    let keyPDFHeader=new Array();
-     this.columns.map((ele:any)=>{
-           keyPDFHeader.push(ele.header);
+    let keyPDFHeader = new Array();
+    this.columns.map((ele: any) => {
+      keyPDFHeader.push(ele.header);
     })
 
     console.log(keyPDFHeader);
@@ -190,26 +197,26 @@ export class SamadhanReportComponent implements OnInit {
       []
     );
 
-     console.log(ValueData);
-    this.objData={
-      'topHedingName':heading[0] +' '+ heading[1] ,
-      'createdDate': 'Created on:'+this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a')
+    console.log(ValueData);
+    this.objData = {
+      'topHedingName': heading[0] + ' ' + heading[1],
+      'createdDate': 'Created on:' + this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a')
     }
 
     checkFromDateFlag = formData.fromDate == '' || formData.fromDate == null || formData.fromDate == 0 || formData.fromDate == undefined ? false : true;
-    checkToDateFlag =  formData.toDate == '' ||  formData.toDate == null ||  formData.toDate == 0 ||  formData.toDate == undefined ? false : true;
-    if (formData.fromDate &&  formData.toDate && checkFromDateFlag && checkToDateFlag) {
+    checkToDateFlag = formData.toDate == '' || formData.toDate == null || formData.toDate == 0 || formData.toDate == undefined ? false : true;
+    if (formData.fromDate && formData.toDate && checkFromDateFlag && checkToDateFlag) {
       fromdate = new Date(formData.fromDate);
-      todate = new Date( formData.toDate);
+      todate = new Date(formData.toDate);
       this.objData.timePeriod = 'From Date:' + this.datePipe.transform(fromdate, 'dd/MM/yyyy') + ' To Date: ' + this.datePipe.transform(todate, 'dd/MM/yyyy');
     }
     this.pdf_excelService.downLoadPdf(keyPDFHeader, ValueData, this.objData);
   }
 
   downloadExcel() {
-    let heading=this.data.url.split('-');
-    let fromdate:any;
-    let todate:any;
+    let heading = this.data.url.split('-');
+    let fromdate: any;
+    let todate: any;
     let checkFromDateFlag: boolean = true;
     let checkToDateFlag: boolean = true;
     let formData = this.filterForm.value;
@@ -220,21 +227,21 @@ export class SamadhanReportComponent implements OnInit {
       (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
       []
     );
-    let keyPDFHeader=new Array();
-    this.columns.map((ele:any)=>{
-          keyPDFHeader.push(ele.header);
-   })
+    let keyPDFHeader = new Array();
+    this.columns.map((ele: any) => {
+      keyPDFHeader.push(ele.header);
+    })
 
     this.objData = {
-      'topHedingName':heading[0] +' '+ heading[1] ,
-      'createdDate': 'Created on:'+this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a')
+      'topHedingName': heading[0] + ' ' + heading[1],
+      'createdDate': 'Created on:' + this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a')
     }
 
     checkFromDateFlag = formData.fromDate == '' || formData.fromDate == null || formData.fromDate == 0 || formData.fromDate == undefined ? false : true;
-    checkToDateFlag =  formData.toDate == '' ||  formData.toDate == null ||  formData.toDate == 0 ||  formData.toDate == undefined ? false : true;
-    if (formData.fromDate &&  formData.toDate && checkFromDateFlag && checkToDateFlag) {
+    checkToDateFlag = formData.toDate == '' || formData.toDate == null || formData.toDate == 0 || formData.toDate == undefined ? false : true;
+    if (formData.fromDate && formData.toDate && checkFromDateFlag && checkToDateFlag) {
       fromdate = new Date(formData.fromDate);
-      todate = new Date( formData.toDate);
+      todate = new Date(formData.toDate);
       this.objData.timePeriod = 'From Date:' + this.datePipe.transform(fromdate, 'dd/MM/yyyy') + ' To Date: ' + this.datePipe.transform(todate, 'dd/MM/yyyy');
     }
 
