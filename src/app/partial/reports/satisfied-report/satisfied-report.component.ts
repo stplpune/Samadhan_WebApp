@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ConfigService } from 'src/app/configs/config.service';
 import { ApiService } from 'src/app/core/service/api.service';
@@ -12,6 +13,7 @@ import { ErrorHandlerService } from 'src/app/core/service/error-handler.service'
 import { ExcelService } from 'src/app/core/service/excel_Pdf.service';
 import { FormsValidationService } from 'src/app/core/service/forms-validation.service';
 import { WebStorageService } from 'src/app/core/service/web-storage.service';
+import { SamadhanReportComponent } from '../samadhan-report/samadhan-report.component';
 
 @Component({
   selector: 'app-satisfied-report',
@@ -19,7 +21,7 @@ import { WebStorageService } from 'src/app/core/service/web-storage.service';
   styleUrls: ['./satisfied-report.component.css']
 })
 export class SatisfiedReportComponent implements OnInit {
-  displayedColumns: string[] = ['position', 'name','Received','satisfied','unSatisfied'];
+  displayedColumns: string[] = ['position', 'name','received', 'resolved','satisfied','unSatisfied'];
   filterForm!:FormGroup;
   dataSource:any;
   totalPages: any;
@@ -28,6 +30,7 @@ export class SatisfiedReportComponent implements OnInit {
   officeIsSatisfiedReportArray=new Array();
   departmentArray=new Array();
   reportArray=new Array();
+  getUrl:any;
 
   constructor(
     private apiService: ApiService,
@@ -42,10 +45,12 @@ export class SatisfiedReportComponent implements OnInit {
     private fb: FormBuilder,
     private datePipe: DatePipe,
     private pdf_excelService: ExcelService,
+    private router:Router
   ){
 
   }
   ngOnInit(): void {
+    this.getUrl = this.router.url.split('/')[1];
     this.filterform();
     this.getDepartment();
     this.getOfficerIsSatisfiedReport();
@@ -103,6 +108,7 @@ export class SatisfiedReportComponent implements OnInit {
               'srno':index+1,
               'depertmentName':ele.departmentname,
               'received':ele.received,
+              'resolved':ele.resolved,
               'satisfied':ele.satisfied,
               'unSatisfied':ele.unSatisfied,
             }
@@ -142,7 +148,7 @@ export class SatisfiedReportComponent implements OnInit {
       'topHedingName' : 'Satisfied Report',
       'createdDate':'Created on:'+this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a')
     }
-    let keyPDFHeader = ['SrNo', "Department Name", "Received", "satisfied", "unSatisfied"];
+    let keyPDFHeader = ['SrNo', "Department Name", "Received","Resolved", "Satisfied", "UnSatisfied"];
 
     checkFromDateFlag = formData.fromDate == '' || formData.fromDate == null || formData.fromDate == 0 || formData.fromDate == undefined ? false : true;
         checkToDateFlag =  formData.toDate == '' ||  formData.toDate == null ||  formData.toDate == 0 ||  formData.toDate == undefined ? false : true;
@@ -164,7 +170,7 @@ export class SatisfiedReportComponent implements OnInit {
     formData.fromDate = formData.fromDate ? this.datePipe.transform(formData.fromDate, 'yyyy/MM/dd') : '';
     formData.toDate = formData.toDate ? this.datePipe.transform(formData.toDate, 'yyyy/MM/dd') : '';
 
-    let keyPDFHeader = ['SrNo', "Department Name", "Received", "satisfied", "unSatisfied"];
+    let keyPDFHeader = ['SrNo', "Department Name", "Received", "Resolved", "Satisfied", "UnSatisfied"];
     let ValueData =
       this.officeIsSatisfiedReportArray.reduce(
         (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
@@ -192,6 +198,25 @@ export class SatisfiedReportComponent implements OnInit {
     this.filterform();
     this.pageNo = 1;
     this.getOfficerIsSatisfiedReport();
+  }
+
+  getDetailsReport(ele:any,eleFlag:any){
+    console.log(ele);
+    let obj={
+      'url':this.getUrl,
+      'flag':eleFlag,
+      'deptId':ele.deptId
+    }
+
+    const dialogRef = this.dialog.open(SamadhanReportComponent, {
+      width: '100%',
+      height:'650px',
+      data:obj,
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe((_result: any) => {
+      
+    }); 
   }
 
 }
