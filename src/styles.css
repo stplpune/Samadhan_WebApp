@@ -168,6 +168,7 @@ h5.page-heading
 .dashboard-table th.mat-header-cell,
 .dashboard-table td.mat-cell{
     padding-inline: 10px;
+    font-size: 0.85rem;
 }
 
 .dashboard-table th {
@@ -316,7 +317,6 @@ input:-webkit-autofill:active {
     display: none !important;
 }
 .card-height{
-    height: 80vh;
     max-height: 80vh;
     overflow-y: auto;
     overflow-x:hidden !important;
