@@ -75,8 +75,10 @@
 #grievance-status .card{
     border: transparent;
     border-bottom: 3px solid #B83058;
-    width: 250px;
-    height: 180px;
+    /* width: 250px;
+    height: 180px; */
+    min-height: 180px;
+    height: 100%;
 }
 #grievance-status .card .card-body img{
     margin-bottom: 20px;
