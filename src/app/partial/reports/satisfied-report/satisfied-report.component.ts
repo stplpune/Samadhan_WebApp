@@ -27,6 +27,7 @@ export class SatisfiedReportComponent implements OnInit {
   pageSize = 10;
   officeIsSatisfiedReportArray=new Array();
   departmentArray=new Array();
+  reportArray=new Array();
 
   constructor(
     private apiService: ApiService,
@@ -81,17 +82,33 @@ export class SatisfiedReportComponent implements OnInit {
         return
       } 
     }
-    
+
+     this.officeIsSatisfiedReportArray=[];
     let obj = formData.searchdeptId + '&userid=' + this.localStrorageData.getUserId() + '&fromDate=' + formData.fromDate + '&toDate=' + formData.toDate
     this.apiService.setHttp('get', 'api/ShareGrievances/OfficerIsSatisfiedReport?searchdeptId=' + obj, false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {
-          this.officeIsSatisfiedReportArray = res.responseData.map((ele: any, index: any) => {
-            ele.deptId = index + 1; delete ele.isDeleted; 
-            return ele
-          });
-          this.dataSource = new MatTableDataSource(res.responseData);
+          this.reportArray=res.responseData;
+          this.dataSource = new MatTableDataSource(this.reportArray);
+
+          // this.officeIsSatisfiedReportArray = res.responseData.map((ele: any, index: any) => {
+          //   ele.deptId = index + 1; delete ele.isDeleted; 
+          //   return ele
+          // });
+
+           
+          this.reportArray.map((ele: any, index: any) => {
+            let obj={
+              'srno':index+1,
+              'depertmentName':ele.departmentname,
+              'received':ele.received,
+              'satisfied':ele.satisfied,
+              'unSatisfied':ele.unSatisfied,
+            }
+              this.officeIsSatisfiedReportArray.push(obj);
+           });
+          
           // this.totalPages = res.responseData1.pageCount;
           this.spinner.hide();
         } else {
