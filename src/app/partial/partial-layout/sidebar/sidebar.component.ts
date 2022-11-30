@@ -81,7 +81,7 @@ export class SidebarComponent implements OnInit {
   getState(currentMenu:any) {
 
     if (currentMenu.active) {
-      return 'down';
+      return  this.mouseOutFlag  ? 'up' : 'down';
     } else {
       return 'up';
     }
