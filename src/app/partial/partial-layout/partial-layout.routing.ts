@@ -15,7 +15,7 @@ export const PartialLayoutRoutes: Routes = [
   { path: 'office-report', loadChildren: () => import('../../partial/reports/office-report/office-report.module').then(m => m.OfficeReportModule), data: { breadcrumb: [{ title: 'Office Reports', active: true }]}, canActivate: [ExpenseGuard] },
   { path: 'taluka-report', loadChildren: () => import('../../partial/reports/taluka-report/taluka-report.module').then(m => m.TalukaReportModule), data: { breadcrumb: [{ title: 'Taluka Reports', active: true }]}, canActivate: [ExpenseGuard] },
   { path: 'satisfied-report', loadChildren: () => import('../../partial/reports/satisfied-report/satisfied-report.module').then(m => m.SatisfiedReportModule), data: { breadcrumb: [{ title: 'Satisfied Reports', active: true }]}, canActivate: [ExpenseGuard] },
-  { path: 'pendency-report', loadChildren: () => import('../../partial/reports/pendency-report/pendency-report.module').then(m => m.PendencyReportModule), data: { breadcrumb: [{ title: 'pendancy Reports', active: true }]}, canActivate: [ExpenseGuard] },
+  { path: 'pendency-report', loadChildren: () => import('../../partial/reports/pendency-report/pendency-report.module').then(m => m.PendencyReportModule), data: { breadcrumb: [{ title: 'Pendency Reports', active: true }]}, canActivate: [ExpenseGuard] },
   { path: 'grievance-details/:id', loadChildren: () => import('../../web/grievance-details/grievance-details.module').then(m => m.GrievanceDetailsModule), data: { title: 'Grievance Details' }, canActivate: [ExpenseGuard]  },
 
   { path: 'samadhan-report', loadChildren: () => import('../../partial/reports/samadhan-report/samadhan-report.module').then(m => m.SamadhanReportModule),data: { title: 'Samadhan Report' }, canActivate: [ExpenseGuard]  },
