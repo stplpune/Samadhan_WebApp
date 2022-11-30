@@ -319,3 +319,8 @@ input:-webkit-autofill:active {
 .btn-edit:hover{
     color: var(--main-color);
 }
+.table-height {
+    height: 69vh;
+    overflow-y: auto;
+    max-height: 69vh;
+}

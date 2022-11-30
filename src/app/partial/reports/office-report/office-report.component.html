@@ -1,122 +1,129 @@
-<div class="card-height scrollbar">
-    <div class="row">
-        <div class="col-sm-12">
-            <form [formGroup]="filterForm">
-                <div class="row gx-2">
-                    <div class="col-sm-2">
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Select Department ID</mat-label>
-                            <mat-select formControlName="searchdeptId" (selectionChange)="getOffice(filterForm.value.searchdeptId)">
-                                <mat-option value="0">All Department</mat-option>
+<div class="row">
+    <div class="col-sm-12">
+        <form [formGroup]="filterForm">
+            <div class="row gx-2">
+                <div class="col-sm-2">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Select Department ID</mat-label>
+                        <mat-select formControlName="searchdeptId"
+                            (selectionChange)="getOffice(filterForm.value.searchdeptId)">
+                            <mat-option value="0">All Department</mat-option>
                             <mat-option *ngFor="let department of departmentArray" [value]="department.id">
                                 {{department.departmentName}}
                             </mat-option>
                         </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <div class="col-sm-2">
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Select Office</mat-label>
-                            <mat-select formControlName="searchofcId"
-                            [disabled]='!filterForm.value.searchdeptId'>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-2">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Select Office</mat-label>
+                        <mat-select formControlName="searchofcId" [disabled]='!filterForm.value.searchdeptId'>
                             <mat-option value="0">All Office</mat-option>
                             <mat-option *ngFor="let office of officeArray" [value]="office.id">
                                 {{office.name}}
                             </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <div class="col-sm-2">
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>From Date To End Date</mat-label>
-                            <mat-date-range-input [rangePicker]="picker">
-                                <input matStartDate placeholder="Start date" formControlName="fromDate" [disabled]="true">
-                                <input matEndDate placeholder="End date" formControlName="toDate" [disabled]="true">
-                            </mat-date-range-input>
-                            <mat-datepicker-toggle matIconSuffix [for]="picker" [disabled]="false"></mat-datepicker-toggle>
-                            <mat-date-range-picker #picker [disabled]="false"></mat-date-range-picker>
-                        </mat-form-field>
-                    </div>
-                    <div class="col-sm-auto">
-                        <button mat-stroked-button class="btn-main me-2" type="submit" (click)="pageNo = 1;getOfficerOfficeReport()">Search</button>
-                        <button mat-stroked-button class="btn-main-outline me-2" type="button"  (click)="clearFilter()">Clear</button>
-                    </div>
-                    <div class="col-sm text-end">
-                        <button mat-stroked-button [matMenuTriggerFor]="menu" class="btn-main">Download</button>
-                        <mat-menu #menu="matMenu">
-                            <button mat-menu-item (click)="downloadExcel()"><i class="fa-solid fa-file-excel text-success me-2"></i><span>Excel</span></button>
-                            <button mat-menu-item (click)="downloadPdf()"> <i class="fa-solid fa-file-pdf text-danger me-2"></i><span>Pdf</span></button>
-                        </mat-menu>
-                    </div>
+                        </mat-select>
+                    </mat-form-field>
                 </div>
-            </form>
-            <div class="table-responsive">
-                <table mat-table [dataSource]="dataSource" class="dashboard-table w-100">
-    
-                    <ng-container matColumnDef="position">
-                        <th mat-header-cell *matHeaderCellDef> Sr.No </th>
-                        <td mat-cell *matCellDef="let element let i= index"> {{((pageNo + 1) * 10 + i + 1)-20}} </td>
-                    </ng-container>
-        
-                    <ng-container matColumnDef="name">
-                        <th mat-header-cell *matHeaderCellDef> Department Name </th>
-                        <td mat-cell *matCellDef="let element"> {{element.departmentname}} </td>
-                    </ng-container>
-        
-                    <ng-container matColumnDef="OfficeName">
-                        <th mat-header-cell *matHeaderCellDef>Office Name </th>
-                        <td mat-cell *matCellDef="let element"> {{element.officeName}} </td>
-                    </ng-container>
-        
-                    <ng-container matColumnDef="Received">
-                        <th mat-header-cell *matHeaderCellDef class="text-primary"> Received </th>
-                        <td mat-cell *matCellDef="let element" class="text-primary fw-bold"> {{element.received}} </td>
-                    </ng-container>
-        
-                    <ng-container matColumnDef="Pending">
-                        <th mat-header-cell *matHeaderCellDef class="text-info"> Pending </th>
-                        <td mat-cell *matCellDef="let element" class="text-info fw-bold"> {{element.pending}} </td>
-                    </ng-container>
-        
-                    <ng-container matColumnDef="Resolved">
-                        <th mat-header-cell *matHeaderCellDef class="text-success"> Resolved </th>
-                        <td mat-cell *matCellDef="let element" class="text-success fw-bold"> {{element.resolved}} </td>
-                    </ng-container>
-        
-                    <ng-container matColumnDef="accepted">
-                        <th mat-header-cell *matHeaderCellDef> Accepted </th>
-                        <td mat-cell *matCellDef="let element"><a class="text-primary" (click)="getDetailsReport(element,2)"> {{element.accepted}} </a></td>
-                      </ng-container>
-                
-                      <ng-container matColumnDef="resolved">
-                        <th mat-header-cell *matHeaderCellDef> Resolved </th>
-                        <td mat-cell *matCellDef="let element"><a class="text-primary" (click)="getDetailsReport(element,3)"> {{element.resolved}} </a></td>
-                      </ng-container>
-                      <ng-container matColumnDef="rejected">
-                        <th mat-header-cell *matHeaderCellDef> Rejected</th>
-                        <td mat-cell *matCellDef="let element"><a class="text-primary" (click)="getDetailsReport(element,3)"> {{element.rejected}} </a></td>
-                      </ng-container>
-                      <ng-container matColumnDef="partialResolved">
-                        <th mat-header-cell *matHeaderCellDef> Partial Resolved </th>
-                        <td mat-cell *matCellDef="let element"><a class="text-primary" (click)="getDetailsReport(element,3)"> {{element.partialResloved}} </a></td>
-                      </ng-container>
-                      <ng-container matColumnDef="transfered">
-                        <th mat-header-cell *matHeaderCellDef> Transfered </th>
-                        <td mat-cell *matCellDef="let element"><a class="text-primary" (click)="getDetailsReport(element,3)"> {{element.transfered}} </a></td>
-                      </ng-container>
-    
-                    <tr class="mat-row p-2 w-100" *matNoDataRow col>
-                        <td class="alert alert-danger text-center m-2 mt-2" colspan="6">No data found </td>
-                    </tr>
-        
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                </table>
+                <div class="col-sm-2">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>From Date To End Date</mat-label>
+                        <mat-date-range-input [rangePicker]="picker">
+                            <input matStartDate placeholder="Start date" formControlName="fromDate" [disabled]="true">
+                            <input matEndDate placeholder="End date" formControlName="toDate" [disabled]="true">
+                        </mat-date-range-input>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker" [disabled]="false"></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker [disabled]="false"></mat-date-range-picker>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-auto">
+                    <button mat-stroked-button class="btn-main me-2" type="submit"
+                        (click)="pageNo = 1;getOfficerOfficeReport()">Search</button>
+                    <button mat-stroked-button class="btn-main-outline me-2" type="button"
+                        (click)="clearFilter()">Clear</button>
+                </div>
+                <div class="col-sm text-end">
+                    <button mat-stroked-button [matMenuTriggerFor]="menu" class="btn-main">Download</button>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="downloadExcel()"><i
+                                class="fa-solid fa-file-excel text-success me-2"></i><span>Excel</span></button>
+                        <button mat-menu-item (click)="downloadPdf()"> <i
+                                class="fa-solid fa-file-pdf text-danger me-2"></i><span>Pdf</span></button>
+                    </mat-menu>
+                </div>
             </div>
-           
-            <!-- <ng-container *ngIf="dataSource?.length!=0">
+        </form>
+        <div class="table-responsive  table-height scrollbar">
+            <table mat-table [dataSource]="dataSource" class="dashboard-table w-100">
+
+                <ng-container matColumnDef="position">
+                    <th mat-header-cell *matHeaderCellDef> Sr.No </th>
+                    <td mat-cell *matCellDef="let element let i= index"> {{((pageNo + 1) * 10 + i + 1)-20}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef> Department Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.departmentname}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="OfficeName">
+                    <th mat-header-cell *matHeaderCellDef>Office Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.officeName}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Received">
+                    <th mat-header-cell *matHeaderCellDef class="text-dark"> Received </th>
+                    <td mat-cell *matCellDef="let element" class="text-dark fw-bold"> {{element.received}} </td>
+                </ng-container>
+
+                <!-- <ng-container matColumnDef="Pending">
+                    <th mat-header-cell *matHeaderCellDef class="text-warning"> Pending </th>
+                    <td mat-cell *matCellDef="let element" class="text-warning fw-bold"> {{element.pending}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Resolved">
+                    <th mat-header-cell *matHeaderCellDef class="text-success"> Resolved </th>
+                    <td mat-cell *matCellDef="let element" class="text-success fw-bold"> {{element.resolved}} </td>
+                </ng-container> -->
+
+                <ng-container matColumnDef="accepted">
+                    <th mat-header-cell *matHeaderCellDef class="text-info"> Accepted </th>
+                    <td mat-cell *matCellDef="let element"><a class="text-info fw-bold"
+                            (click)="getDetailsReport(element,2)"> {{element.accepted}} </a></td>
+                </ng-container>
+
+                <ng-container matColumnDef="resolved">
+                    <th mat-header-cell *matHeaderCellDef class="text-success"> Resolved </th>
+                    <td mat-cell *matCellDef="let element"><a class="text-success fw-bold"
+                            (click)="getDetailsReport(element,3)"> {{element.resolved}} </a></td>
+                </ng-container>
+                <ng-container matColumnDef="rejected">
+                    <th mat-header-cell *matHeaderCellDef class="text-danger"> Rejected</th>
+                    <td mat-cell *matCellDef="let element"><a class="text-danger fw-bold"
+                            (click)="getDetailsReport(element,3)"> {{element.rejected}} </a></td>
+                </ng-container>
+                <ng-container matColumnDef="partialResolved">
+                    <th mat-header-cell *matHeaderCellDef class="text-warning"> Partial Resolved </th>
+                    <td mat-cell *matCellDef="let element"><a class="text-warning"
+                            (click)="getDetailsReport(element,3)"> {{element.partialResloved}} </a></td>
+                </ng-container>
+                <ng-container matColumnDef="transfered">
+                    <th mat-header-cell *matHeaderCellDef class="text-primary"> Transfered </th>
+                    <td mat-cell *matCellDef="let element"><a class="text-primary fw-bold"
+                            (click)="getDetailsReport(element,3)"> {{element.transfered}} </a></td>
+                </ng-container>
+
+                <tr class="mat-row p-2 w-100" *matNoDataRow col>
+                    <td class="alert alert-danger text-center m-2 mt-2" colspan="6">No data found </td>
+                </tr>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+
+        <!-- <ng-container *ngIf="dataSource?.length!=0">
                 <mat-paginator #paginator [pageSizeOptions]="[10]" showFirstLastButtons></mat-paginator>
             </ng-container> -->
-        </div>
     </div>
 </div>
