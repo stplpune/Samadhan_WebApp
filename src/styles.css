@@ -190,6 +190,7 @@ h5.page-heading
 .dashboard-table a {
     color: var(--main-color);
     text-decoration: none;
+    cursor: pointer;
 }
 
 .dashboard-table a:hover {

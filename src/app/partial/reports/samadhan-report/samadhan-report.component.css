@@ -1,0 +1,5 @@
+.table-height {
+    height: 69vh;
+    overflow-y: auto;
+    max-height: 69vh;
+}
