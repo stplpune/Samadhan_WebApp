@@ -101,7 +101,7 @@
 <div class="container-fluid" id="grievance-status">
     <div class="container">
         <h5 class="page-heading">{{'Home.grievance_status' | translate}}</h5>
-        <div class="row px-3">
+        <div class="row g-3 d-flex align-items-stretch">
             <div class="col-sm">
                 <div class="card">
                     <div class="card-body text-center">
@@ -165,6 +165,23 @@
                             </div>
                             <div>
                                 <span>{{'Home.satisfied_citizen' | translate}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <div class="d-block">
+                            <div>
+                                <img src="../../../assets/web-icons/Unsatisfied-Citizen.svg" alt="Revieved grievance">
+                            </div>
+                            <div>
+                                <h4>{{data?.UnsatisfiedCitizen}}</h4>
+                            </div>
+                            <div>
+                                <span>{{'Home.dissatisfied_citizen' | translate}}</span>
                             </div>
                         </div>
                     </div>
