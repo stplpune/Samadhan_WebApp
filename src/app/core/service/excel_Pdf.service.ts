@@ -42,6 +42,13 @@ export class ExcelService {
 
         doc.setLineWidth(0.2);
         doc.line(12, 15, 200, 15);
+
+        doc.setLineWidth(0.2);
+        doc.line(12, 286, 200, 286);
+
+        doc.setFontSize(11);
+        doc.text('designed By ShauryaTechnosoft year@sdg2022', 200, 290, "right");
+
       }
     });
 
