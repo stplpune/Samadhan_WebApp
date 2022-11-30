@@ -93,6 +93,9 @@ export class ExcelService {
     worksheet.getColumn(4).width = 30;
     worksheet.getColumn(5).width = 30;
     worksheet.getColumn(6).width = 30;
+    worksheet.getColumn(7).width = 30;
+    worksheet.getColumn(8).width = 30;
+    worksheet.getColumn(9).width = 30;
     worksheet.addRow([]);
 
     // Generate Excel File with given name

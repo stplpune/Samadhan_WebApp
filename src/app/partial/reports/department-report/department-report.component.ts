@@ -23,7 +23,7 @@ import { SamadhanReportComponent } from '../samadhan-report/samadhan-report.comp
 export class DepartmentReportComponent implements OnInit {
 
   filterForm!: FormGroup;
-  displayedColumns: string[] = ['srNo', 'departmentname', 'received', 'pending', 'resolved'];
+  displayedColumns: string[] = ['srNo', 'departmentname', 'received', 'accepted', 'resolved','rejected','partialResolved','transfered'];
   dataSource: any;
   totalPages: any;
   pageNo = 1;
@@ -91,37 +91,44 @@ export class DepartmentReportComponent implements OnInit {
       } 
     }
 
+    this.officeDepReportArray=[];
     let obj = formData.searchdeptId + '&userid='+ this.userId + '&fromDate='+ formData.fromDate + '&toDate='+ formData.toDate
     this.apiService.setHttp('get','api/ShareGrievances/OfficerDepartmentReport?searchdeptId=' + obj,false,false,false,'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {
-          this.reportArray=res.responseData
-          this.dataSource = new MatTableDataSource(this.reportArray);
+           this.reportArray=res.responseData;
+           this.dataSource = new MatTableDataSource(this.reportArray);
+          // this.dataSource = new MatTableDataSource(this.reportArray);
           // this.officeDepReportArray = res.responseData.map((ele: any, index: any) => {
           //   ele.deptId = index + 1;
           //   delete ele.isDeleted
           //   return ele
           // });
-
-        this.reportArray.map((ele: any, index: any) => {
+          
+          this.reportArray.map((ele: any, index: any) => {
           let obj={
             'srno':index+1,
             'depertmentName':ele.departmentname,
             'received':ele.received,
-            'pending':ele.pending,
-            'resolved':ele.resolved
+            'rejected':ele.rejected,
+            'resolved':ele.resolved,
+            'accepted':ele.accepted,
+            'partialResloved':ele.partialResloved,
+            'transfered':ele.transfered
           }
             this.officeDepReportArray.push(obj);
          });
               
-
-          
+          console.log(this.officeDepReportArray);
           this.totalPages = res.responseData1.pageCount;
+          this.reportArray=[];
           this.spinner.hide();
         } else {
           this.spinner.hide();
           this.dataSource = [];
+          this.reportArray=[];
+         
           this.totalPages = 0;
         }
       },
@@ -159,7 +166,8 @@ export class DepartmentReportComponent implements OnInit {
       (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
       []
     );// Value Name
-    let keyPDFHeader = ["SrNo", "Department Name", "Received", "Pending", "Resolved"];
+    let keyPDFHeader = ["SrNo", "Department Name", "Received", "Accepted", "Resolved","Rejected","Partial Resolved","Transfered"];
+    
 
     let objData:any = {
       'topHedingName': 'Department Report',
@@ -186,11 +194,12 @@ export class DepartmentReportComponent implements OnInit {
     formData.fromDate = formData.fromDate ? this.datePipe.transform(formData.fromDate, 'yyyy/MM/dd') : '';
     formData.toDate = formData.toDate ? this.datePipe.transform(formData.toDate, 'yyyy/MM/dd') : '';
 
-    let keyPDFHeader = ["SrNo", "Department Name", "Received", "Pending", "Resolved"];
+    let keyPDFHeader = ["SrNo", "Department Name", "Received", "Accepted", "Resolved","Rejected","Partial Resolved","Transfered"];
     let ValueData = this.officeDepReportArray.reduce(
       (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
       []
     );// Value Name
+ 
 
     let objData:any = {
       'topHedingName': 'Department Report',

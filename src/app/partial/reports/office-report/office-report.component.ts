@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ConfigService } from 'src/app/configs/config.service';
 import { ApiService } from 'src/app/core/service/api.service';
@@ -12,6 +13,7 @@ import { ErrorHandlerService } from 'src/app/core/service/error-handler.service'
 import { ExcelService } from 'src/app/core/service/excel_Pdf.service';
 import { FormsValidationService } from 'src/app/core/service/forms-validation.service';
 import { WebStorageService } from 'src/app/core/service/web-storage.service';
+import { SamadhanReportComponent } from '../samadhan-report/samadhan-report.component';
 
 @Component({
   selector: 'app-office-report',
@@ -25,8 +27,10 @@ export class OfficeReportComponent implements OnInit {
   pageNo = 1;
   departmentArray = new Array();
   officeArray = new Array();
-  displayedColumns: string[] = ['position', 'name', 'OfficeName', 'Received', 'Pending', 'Resolved'];
-  minDate = new Date()
+  displayedColumns: string[] = ['position', 'name', 'OfficeName', 'Received', 'accepted', 'resolved','rejected','partialResolved','transfered'];
+  minDate = new Date();
+  reportArray = new Array();
+  getUrl:any;
   constructor(
     private apiService: ApiService,
     public error: ErrorHandlerService,
@@ -40,9 +44,11 @@ export class OfficeReportComponent implements OnInit {
     private fb: FormBuilder,
     private datePipe: DatePipe,
     private pdf_excelService: ExcelService,
+    private router:Router
   ) { }
 
   ngOnInit(): void {
+    this.getUrl = this.router.url.split('/')[1];
     this.filterform();
     this.getDepartment();
     this.getOfficerOfficeReport();
@@ -95,16 +101,37 @@ export class OfficeReportComponent implements OnInit {
         return
       } 
     }
+
+    this.officeOffReportArray=[];
     let obj = formData.searchdeptId + '&userid=' + this.localStrorageData.getUserId() + '&fromDate=' + formData.fromDate + '&toDate=' + formData.toDate
     this.apiService.setHttp('get', 'api/ShareGrievances/OfficerOfficeReport?searchdeptId=' + obj, false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {
-          this.officeOffReportArray = res.responseData.map((ele: any, index: any) => {
-            ele.deptId = index + 1; delete ele.isDeleted; delete ele.officeId
-            return ele
-          });
-          this.dataSource = new MatTableDataSource(res.responseData);
+          this.reportArray=res.responseData
+          this.dataSource = new MatTableDataSource(this.reportArray);
+
+          // this.officeOffReportArray = res.responseData.map((ele: any, index: any) => {
+          //   ele.deptId = index + 1; delete ele.isDeleted; delete ele.officeId
+          //   return ele
+          // });
+
+          this.reportArray.map((ele: any, index: any) => {
+            let obj={
+              'srno':index+1,
+              'depertmentName':ele.departmentname,
+              'officeName':ele.officeName,
+              'received':ele.received,
+              'rejected':ele.rejected,
+              'resolved':ele.resolved,
+              'accepted':ele.accepted,
+              'partialResloved':ele.partialResloved,
+              'transfered':ele.transfered
+            }
+              this.officeOffReportArray.push(obj);
+           });
+                
+         
           // this.totalPages = res.responseData1.pageCount;
           this.spinner.hide();
         } else {
@@ -143,7 +170,7 @@ export class OfficeReportComponent implements OnInit {
       'topHedingName': 'Office Taluka Report',
       'createdDate':'Created on:'+this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a')
     }
-    let keyPDFHeader = ['SrNo', "Department Name", "Office Name", "Received", "Pending", "Resolved"];
+    let keyPDFHeader = ['SrNo', "Department Name", "Office Name", "Received", "Accepted", "Resolved","Rejected","Partial Resolved","Transfered"];
 
     checkFromDateFlag = formData.fromDate == '' || formData.fromDate == null || formData.fromDate == 0 || formData.fromDate == undefined ? false : true;
         checkToDateFlag =  formData.toDate == '' ||  formData.toDate == null ||  formData.toDate == 0 ||  formData.toDate == undefined ? false : true;
@@ -164,7 +191,7 @@ export class OfficeReportComponent implements OnInit {
     formData.fromDate = formData.fromDate ? this.datePipe.transform(formData.fromDate, 'yyyy/MM/dd') : '';
     formData.toDate = formData.toDate ? this.datePipe.transform(formData.toDate, 'yyyy/MM/dd') : '';
 
-    let keyPDFHeader = ['SrNo', "Department Name", "Office Name", "Received", "Pending", "Resolved"];
+    let keyPDFHeader = ['SrNo', "Department Name", "Office Name", "Received", "Accepted", "Resolved","Rejected","Partial Resolved","Transfered"];
     let ValueData =
       this.officeOffReportArray.reduce(
         (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
@@ -183,6 +210,27 @@ export class OfficeReportComponent implements OnInit {
       objData.timePeriod = 'From Date:' + this.datePipe.transform(fromdate, 'dd/MM/yyyy') + ' To Date: ' + this.datePipe.transform(todate, 'dd/MM/yyyy');
     }
     this.pdf_excelService.downLoadPdf(keyPDFHeader, ValueData, objData);
+  }
+
+
+  getDetailsReport(ele:any,eleFlag:any){
+    console.log(ele);
+    let obj={
+      'url':this.getUrl,
+      'flag':eleFlag,
+      'deptId':ele.deptId,
+      'officeId':ele.officeId
+    }
+
+    const dialogRef = this.dialog.open(SamadhanReportComponent, {
+      width: '900px',
+      height:'650px',
+      data:obj,
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe((_result: any) => {
+      
+    }); 
   }
 
 }
