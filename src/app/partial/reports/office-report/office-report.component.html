@@ -100,18 +100,30 @@
         
                     <ng-container matColumnDef="Received">
                         <th mat-header-cell *matHeaderCellDef> Received </th>
-                        <td mat-cell *matCellDef="let element"> {{element.received}} </td>
+                        <td mat-cell *matCellDef="let element"><a class="text-primary" (click)="getDetailsReport(element,1)"> {{element.received}} </a></td>
                     </ng-container>
         
-                    <ng-container matColumnDef="Pending">
-                        <th mat-header-cell *matHeaderCellDef> Pending </th>
-                        <td mat-cell *matCellDef="let element"> {{element.pending}} </td>
-                    </ng-container>
-        
-                    <ng-container matColumnDef="Resolved">
+                    <ng-container matColumnDef="accepted">
+                        <th mat-header-cell *matHeaderCellDef> Accepted </th>
+                        <td mat-cell *matCellDef="let element"><a class="text-primary" (click)="getDetailsReport(element,2)"> {{element.accepted}} </a></td>
+                      </ng-container>
+                
+                      <ng-container matColumnDef="resolved">
                         <th mat-header-cell *matHeaderCellDef> Resolved </th>
-                        <td mat-cell *matCellDef="let element"> {{element.resolved}} </td>
-                    </ng-container>
+                        <td mat-cell *matCellDef="let element"><a class="text-primary" (click)="getDetailsReport(element,3)"> {{element.resolved}} </a></td>
+                      </ng-container>
+                      <ng-container matColumnDef="rejected">
+                        <th mat-header-cell *matHeaderCellDef> Rejected</th>
+                        <td mat-cell *matCellDef="let element"><a class="text-primary" (click)="getDetailsReport(element,3)"> {{element.rejected}} </a></td>
+                      </ng-container>
+                      <ng-container matColumnDef="partialResolved">
+                        <th mat-header-cell *matHeaderCellDef> Partial Resolved </th>
+                        <td mat-cell *matCellDef="let element"><a class="text-primary" (click)="getDetailsReport(element,3)"> {{element.partialResloved}} </a></td>
+                      </ng-container>
+                      <ng-container matColumnDef="transfered">
+                        <th mat-header-cell *matHeaderCellDef> Transfered </th>
+                        <td mat-cell *matCellDef="let element"><a class="text-primary" (click)="getDetailsReport(element,3)"> {{element.transfered}} </a></td>
+                      </ng-container>
     
                     <tr class="mat-row p-2 w-100" *matNoDataRow col>
                         <td class="alert alert-danger text-center m-2 mt-2" colspan="9">No data found </td>
