@@ -41,7 +41,7 @@
                 <div class="col-sm-4">
                     <div class="mb-2">
                         <mat-form-field class="w-100" appearance="outline">
-                            <mat-label>Grievance No / Name</mat-label>
+                            <mat-label>Grievance No. / Name</mat-label>
                             <input matInput placeholder="Search" formControlName="textSearch">
                         </mat-form-field>
                     </div>
@@ -56,7 +56,7 @@
                                 1)-20}}</td>
                         </ng-container>
                         <ng-container matColumnDef="grievanceNo">
-                            <th mat-header-cell *matHeaderCellDef>Grievance No</th>
+                            <th mat-header-cell *matHeaderCellDef>Grievance No.</th>
                             <td mat-cell *matCellDef="let element"><a class="text-primary"
                                     (click)="grievanceDetails(element.id)">{{element.grievanceNo}}</a></td>
                         </ng-container>
