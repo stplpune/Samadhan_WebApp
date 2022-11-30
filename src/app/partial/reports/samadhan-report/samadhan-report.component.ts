@@ -97,6 +97,12 @@ export class SamadhanReportComponent implements OnInit {
           this.urlString = 'flag=' + this.data.flag + '&searchdeptId=' + this.data.deptId + '&searchofcId=' + this.data.officeId;         
           this.getReport();
           break;
+
+      case 'taluka-report':
+          this.url = 'samadhan/OnClickDetailReports/OnClickTalukaRPTDetails?'
+          this.urlString = 'flag=' + this.data.flag + '&searchtalukaId=' + this.data.talukaId;
+          this.getReport();
+           break;
     }
   }
 
