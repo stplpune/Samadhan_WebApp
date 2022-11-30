@@ -190,6 +190,7 @@ h5.page-heading
 .dashboard-table a {
     color: var(--main-color);
     text-decoration: none;
+    cursor: pointer;
 }
 
 .dashboard-table a:hover {
@@ -317,4 +318,9 @@ input:-webkit-autofill:active {
 }
 .btn-edit:hover{
     color: var(--main-color);
+}
+.table-height {
+    height: 69vh;
+    overflow-y: auto;
+    max-height: 69vh;
 }
