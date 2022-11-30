@@ -40,7 +40,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   departmentByUserArray=new Array();
   officeArray = new Array();
   highlightedRow!: number;
-  userTypeArray: any[] = [{ "userTypeId": 1, "userType": "HOD" }, { "userTypeId": 2, "userType": "Nodal Officer" }, { "userTypeId": 3, "userType": "Clerk" }]
+  subUserTypeArray: any[] = [{ "userTypeId": 2, "userType": "SubAdmin" }, { "userTypeId": 3, "userType": "DeptAdmin" }, { "userTypeId": 4, "userType": "HOD" },{ "userTypeId": 5, "userType": "NodalOfficer" },{ "userTypeId": 6, "userType": "Clerk" }]
   blockStsArr: any[] = [{ value: true, status: 'Block' }, { value: false, status: 'Unblock' }];
   subscription!: Subscription;
   isEdit: boolean = false;
@@ -48,7 +48,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   users: any;
   selection = new SelectionModel<Element>(true, []);
   changeDepFlag:boolean = false;
-
+  data:any;
 
   constructor(public commonMethod: CommonMethodService,
     public apiService: ApiService,
@@ -60,7 +60,9 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     public localStrorageData: WebStorageService,
     private fb: FormBuilder,
     private webStorage: WebStorageService,
-    private spinner: NgxSpinnerService) { }
+    private spinner: NgxSpinnerService) {
+     this.data=this.localStrorageData. getLoggedInLocalstorageData();
+     }
 
   ngOnInit(): void {
     this.defaultForm();
@@ -79,7 +81,8 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.filterFrm = this.fb.group({
       deptId: [0],
       officeId: [0],
-      textSearch: ['']
+      textSearch: [''],
+      subUserTypeId:[0]
     })
   }
 
@@ -244,7 +247,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   getData() {
     this.spinner.show()
     let formValue = this.filterFrm.value;
-    let paramList: string = "?DeptId=" + formValue.deptId + "&OfficeId=" + formValue.officeId + "&pageno=" + this.pageNumber + "&pagesize=" + 10;
+    let paramList: string = "?DeptId=" + formValue.deptId + "&OfficeId=" + formValue.officeId +'&SubUserTypeId='+ formValue.subUserTypeId + "&pageno=" + this.pageNumber + "&pagesize=" + 10;
     this.commonMethod.checkDataType(formValue.textSearch.trim()) == true ? paramList += "&Textsearch=" + formValue.textSearch : '';
     this.apiService.setHttp('get', "samadhan/user-registration/GetAll" + paramList, false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
