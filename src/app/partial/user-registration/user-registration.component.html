@@ -2,7 +2,7 @@
     <div class="col-sm-8">
         <form [formGroup]="filterFrm" class="">
             <div class="row gx-2">
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Select Department</mat-label>
                         <mat-select formControlName="deptId"
@@ -14,7 +14,7 @@
                         </mat-select>
                     </mat-form-field>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Select Office</mat-label>
                         <mat-select formControlName="officeId" (selectionChange)="clearFilter('office');filterData()"
@@ -26,7 +26,7 @@
                         </mat-select>
                     </mat-form-field>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Select Designation</mat-label>
                         <mat-select formControlName="subUserTypeId" (selectionChange)="filterData()">
@@ -37,7 +37,7 @@
                         </mat-select>
                     </mat-form-field>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Name / Mobile No./User Name</mat-label>
                         <input matInput placeholder="Search" formControlName="textSearch">
@@ -96,7 +96,7 @@
                 </div> -->
             </div>
         </form>
-        <div class="table-responsive">
+        <div class="table-responsive  table-height scrollbar">
             <table mat-table [dataSource]="dataSource" class="w-100 dashboard-table">
                 <ng-container matColumnDef="srno">
                     <th mat-header-cell *matHeaderCellDef class="srno"> Sr.No. </th>
