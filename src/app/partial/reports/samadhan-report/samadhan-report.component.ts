@@ -28,11 +28,14 @@ export class SamadhanReportComponent implements OnInit {
   url: any;
   userId: any;
   urlString: any;
-  columns = new Array();
-  reportData: any;
+  columns = [{ header: "Sr No.", column:'index' , flag: true }, { header: "Grievance No.", column: 'grievanceNo', flag: true }, { header: "Name", column: 'userName', flag: true }, { header: "Department Name", column: 'deptName', flag: true },
+        { header: "Office", column: 'officeName', flag: true }, { header: "Grievance Type", column: 'grievanceType', flag: true }, { header: "Status", column: 'statusName', flag: true }];
+  reportData= new Array();
   header = new Array();
   departmentArray=new Array();
   reportArray=new Array();
+  pageNo=1;
+  objData:any;
 
   constructor(
     private apiService: ApiService,
@@ -63,7 +66,7 @@ export class SamadhanReportComponent implements OnInit {
 
   filterform() {
     this.filterForm = this.fb.group({
-      searchdeptId: [0],
+      // searchdeptId: [0],
       fromDate: [''],
       toDate: ['']
     })
@@ -80,15 +83,20 @@ export class SamadhanReportComponent implements OnInit {
   }
 
   getUrl() {
-   
+    
     switch (this.data.url) {
       case 'department-report':
         this.url = 'samadhan/OnClickDetailReports/OnClickDepartmentRPTDetails?'
         this.urlString = 'flag=' + this.data.flag + '&searchdeptId=' + this.data.deptId;
-        this.columns = [{ header: "Sr No.", column:'index' , flag: true }, { header: "Grievance No.", column: 'grievanceNo', flag: true }, { header: "Name", column: 'userName', flag: true }, { header: "Department Name", column: 'deptName', flag: true },
-        { header: "Office", column: 'officeName', flag: true }, { header: "Grievance Type", column: 'grievanceType', flag: true }, { header: "Status", column: 'statusName', flag: true }];
         this.getReport();
+        // this.objData.topHedingName='Department Report';
         break;
+
+      case 'office-report':
+          this.url = 'samadhan/OnClickDetailReports/OnClickOfficeRPTDetails?'
+          this.urlString = 'flag=' + this.data.flag + '&searchdeptId=' + this.data.deptId + '&searchofcId=' + this.data.officeId;         
+          this.getReport();
+          break;
     }
   }
 
@@ -105,7 +113,8 @@ export class SamadhanReportComponent implements OnInit {
         return
       } 
     }
-
+    
+    this.reportArray=[];
     this.apiService.setHttp('get', this.url + this.urlString + '&userid=' + this.userId + '&fromDate='+ formData.fromDate + '&toDate='+ formData.toDate, false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
@@ -127,12 +136,14 @@ export class SamadhanReportComponent implements OnInit {
             }
               this.reportArray.push(obj);
            });
+           console.log(this.reportArray);
           this.totalPages = res.responseData1.pageCount;
           this.selecteColumn();
           this.spinner.hide();
         } else {
           this.spinner.hide();
           this.dataSource = [];
+          this.reportData=[];
           this.totalPages = 0;
         }
       },
@@ -147,14 +158,13 @@ export class SamadhanReportComponent implements OnInit {
     this.displayedColumns = [];
     this.header = [];
     this.columns.map((x: any) => {
-      if (x.flag == true) {
         this.displayedColumns.push(x.column);
         this.header.push(x.header);
-      }
     })
   }
 
   downloadPdf() {
+    let heading=this.data.url.split('-');
     let fromdate:any;
     let todate:any;
     let checkFromDateFlag: boolean = true;
@@ -172,10 +182,11 @@ export class SamadhanReportComponent implements OnInit {
     let ValueData = this.reportArray.reduce(
       (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
       []
-    );// Value Name
+    );
 
-    let objData:any = {
-      'topHedingName': 'Department Report',
+     console.log(ValueData);
+    this.objData={
+      'topHedingName':heading[0] +' '+ heading[1] ,
       'createdDate': 'Created on:'+this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a')
     }
 
@@ -184,12 +195,13 @@ export class SamadhanReportComponent implements OnInit {
     if (formData.fromDate &&  formData.toDate && checkFromDateFlag && checkToDateFlag) {
       fromdate = new Date(formData.fromDate);
       todate = new Date( formData.toDate);
-      objData.timePeriod = 'From Date:' + this.datePipe.transform(fromdate, 'dd/MM/yyyy') + ' To Date: ' + this.datePipe.transform(todate, 'dd/MM/yyyy');
+      this.objData.timePeriod = 'From Date:' + this.datePipe.transform(fromdate, 'dd/MM/yyyy') + ' To Date: ' + this.datePipe.transform(todate, 'dd/MM/yyyy');
     }
-    this.pdf_excelService.downLoadPdf(keyPDFHeader, ValueData, objData);
+    this.pdf_excelService.downLoadPdf(keyPDFHeader, ValueData, this.objData);
   }
 
   downloadExcel() {
+    let heading=this.data.url.split('-');
     let fromdate:any;
     let todate:any;
     let checkFromDateFlag: boolean = true;
@@ -201,14 +213,14 @@ export class SamadhanReportComponent implements OnInit {
     let ValueData = this.reportArray.reduce(
       (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
       []
-    );// Value Name
+    );
     let keyPDFHeader=new Array();
     this.columns.map((ele:any)=>{
           keyPDFHeader.push(ele.header);
    })
 
-    let objData:any = {
-      'topHedingName': 'Department Report',
+    this.objData = {
+      'topHedingName':heading[0] +' '+ heading[1] ,
       'createdDate': 'Created on:'+this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a')
     }
 
@@ -217,10 +229,10 @@ export class SamadhanReportComponent implements OnInit {
     if (formData.fromDate &&  formData.toDate && checkFromDateFlag && checkToDateFlag) {
       fromdate = new Date(formData.fromDate);
       todate = new Date( formData.toDate);
-      objData.timePeriod = 'From Date:' + this.datePipe.transform(fromdate, 'dd/MM/yyyy') + ' To Date: ' + this.datePipe.transform(todate, 'dd/MM/yyyy');
+      this.objData.timePeriod = 'From Date:' + this.datePipe.transform(fromdate, 'dd/MM/yyyy') + ' To Date: ' + this.datePipe.transform(todate, 'dd/MM/yyyy');
     }
 
-    this.pdf_excelService.generateExcel(keyPDFHeader, ValueData, objData);
+    this.pdf_excelService.generateExcel(keyPDFHeader, ValueData, this.objData);
   }
 
 }
