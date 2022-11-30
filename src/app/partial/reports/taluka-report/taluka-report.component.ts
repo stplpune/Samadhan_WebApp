@@ -19,13 +19,14 @@ import { WebStorageService } from 'src/app/core/service/web-storage.service';
   styleUrls: ['./taluka-report.component.css']
 })
 export class TalukaReportComponent implements OnInit {
-  displayedColumns: string[] = ['position', 'name','Received', 'Pending','Resolved'];
+  displayedColumns: string[] = ['position', 'name','received', 'accepted', 'resolved','rejected','partialResolved','transfered'];
   dataSource:any;
 
   filterForm!: FormGroup;
   OfficerTalukaReportArray = new Array();  
   pageNo = 1;
   talukaArray = new Array();
+  reportArray=new Array();
 
 
   constructor(
@@ -86,16 +87,35 @@ export class TalukaReportComponent implements OnInit {
       } 
     }
     
+    this.OfficerTalukaReportArray=[];
     let obj = formData.TalukaId + '&userid=' + this.localStrorageData.getUserId() + '&fromDate=' + formData.fromDate + '&toDate=' + formData.toDate
     this.apiService.setHttp('get', 'api/ShareGrievances/OfficerTalukaReport?TalukaId=' + obj, false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {
-          this.OfficerTalukaReportArray = res.responseData.map((ele: any, index: any) => {
-            ele.talukaId = index + 1; delete ele.isDeleted;
-            return ele
-          });
-          this.dataSource = new MatTableDataSource(res.responseData);
+          this.reportArray=res.responseData;
+          this.dataSource = new MatTableDataSource(this.reportArray);
+
+          // this.OfficerTalukaReportArray = res.responseData.map((ele: any, index: any) => {
+          //   ele.talukaId = index + 1; delete ele.isDeleted;
+          //   return ele
+          // });
+         
+
+          this.reportArray.map((ele: any, index: any) => {
+            let obj={
+              'srno':index+1,
+              'talukaName':ele.taluka,
+              'received':ele.received,
+              'rejected':ele.rejected,
+              'resolved':ele.resolved,
+              'accepted':ele.accepted,
+              'partialResloved':ele.partialResloved,
+              'transfered':ele.transfered
+            }
+              this.OfficerTalukaReportArray.push(obj);
+           });
+
           // this.totalPages = res.responseData1.pageCount;
           this.spinner.hide();
         } else {
@@ -111,7 +131,7 @@ export class TalukaReportComponent implements OnInit {
     });
   }
 
-  keyPDFHeader = ['SrNo', "Taluka Name","Received", "Pending", "Resolved"];
+  keyPDFHeader = ['SrNo', "Taluka Name","Received", "Accepted", "Resolved","Rejected","Partial Resolved","Transfered"];
 
   downloadExcel() {
     let fromdate:any;
