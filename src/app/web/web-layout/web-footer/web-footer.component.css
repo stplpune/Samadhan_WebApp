@@ -17,3 +17,18 @@
 {
     font-size: 0.8rem;
 }
+.gotop {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    font-size: 0.9rem;
+    text-align: center;
+    border-radius: 5px;
+    outline: none;
+    border: none !important;
+    background-color: rgba(var(--main-color), var(--opacity-1));
+    color: #000;
+    width: 40px;
+    height:40px;
+    line-height:40px;
+  }

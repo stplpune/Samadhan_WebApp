@@ -23,7 +23,7 @@ import { SamadhanReportComponent } from '../samadhan-report/samadhan-report.comp
 export class DepartmentReportComponent implements OnInit {
 
   filterForm!: FormGroup;
-  displayedColumns: string[] = ['srNo', 'departmentname', 'received', 'accepted', 'resolved','rejected','partialResolved','transfered'];
+  displayedColumns: string[] = ['srNo', 'departmentname', 'received', 'open', 'accepted', 'resolved','rejected','partialResolved','transfered'];
   dataSource: any;
   totalPages: any;
   pageNo = 1;
@@ -111,6 +111,7 @@ export class DepartmentReportComponent implements OnInit {
             'srno':index+1,
             'depertmentName':ele.departmentname,
             'received':ele.received,
+            'opened':ele.openn,
             'rejected':ele.rejected,
             'resolved':ele.resolved,
             'accepted':ele.accepted,
@@ -166,7 +167,7 @@ export class DepartmentReportComponent implements OnInit {
       (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
       []
     );// Value Name
-    let keyPDFHeader = ["SrNo", "Department Name", "Received", "Accepted", "Resolved","Rejected","Partial Resolved","Transfered"];
+    let keyPDFHeader = ["SrNo", "Department Name","Receive","Open", "Accept", "Resolve","Reject","Partial Resolve","Transfer"];
     
 
     let objData:any = {
@@ -194,7 +195,7 @@ export class DepartmentReportComponent implements OnInit {
     formData.fromDate = formData.fromDate ? this.datePipe.transform(formData.fromDate, 'yyyy/MM/dd') : '';
     formData.toDate = formData.toDate ? this.datePipe.transform(formData.toDate, 'yyyy/MM/dd') : '';
 
-    let keyPDFHeader = ["SrNo", "Department Name", "Received", "Accepted", "Resolved","Rejected","Partial Resolved","Transfered"];
+    let keyPDFHeader = ["SrNo", "Department Name", "Receive","Open", "Accept", "Resolve","Reject","Partial Resolve","Transfer"];
     let ValueData = this.officeDepReportArray.reduce(
       (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
       []
