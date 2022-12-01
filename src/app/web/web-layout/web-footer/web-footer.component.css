@@ -26,7 +26,7 @@
     border-radius: 5px;
     outline: none;
     border: none !important;
-    background-color: var(--main-color);
+    background-color: rgba(var(--main-color), var(--opacity-1));
     color: #000;
     width: 40px;
     height:40px;

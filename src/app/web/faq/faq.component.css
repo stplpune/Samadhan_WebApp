@@ -10,7 +10,7 @@
     font-size: 0.85rem;
 }
 .accordion-button:not(.collapsed){
-    background-color: var(--main-color);
+    background-color: rgba(var(--main-color), var(--opacity-1));
     color: #fff !important;
     box-shadow: none;
     border-radius: 0;

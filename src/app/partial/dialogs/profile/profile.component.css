@@ -18,5 +18,5 @@
     font-size: 0.85rem;
     text-align: center;
     padding: 0;
-    border-color: var(--main-color);
+    border-color: rgba(var(--main-color), var(--opacity-1));
 }
