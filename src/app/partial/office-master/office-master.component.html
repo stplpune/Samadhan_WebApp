@@ -44,7 +44,7 @@
             </button>
           </td>
         </ng-container>
-  
+
         <ng-container matColumnDef="delete">
           <th mat-header-cell *matHeaderCellDef class="srno"> <button [disabled]="this.selection.selected.length ==0"
             mat-icon-button (click)="deleteUserData()" style="margin-left: 2rem;">
@@ -135,7 +135,7 @@
           <div class="mb-3">
             <mat-form-field appearance="outline" class="w-100 ">
               <mat-label>Office Name</mat-label>
-              <input matInput formControlName="name" maxlength="50" (keyup)="validation.removeSpaceAtBegining($event)"
+              <input matInput formControlName="name" maxlength="200" (keyup)="validation.removeSpaceAtBegining($event)"
                 (keypress)="validation.alphabetsWithSpaces($event)">
               <mat-error *ngIf="f['name']?.errors">
                 <span *ngIf="f['name']?.hasError('required')"> Office Name is required</span>
@@ -178,8 +178,8 @@
           <div class="mb-3">
             <mat-form-field appearance="outline" class="w-100 ">
               <mat-label>Official Email ID</mat-label>
-              <input matInput formControlName="emailId" (keyup)="validation.removeSpaceAtBegining($event)"
-                maxlength="100">
+              <input matInput formControlName="emailId" (keypress)="validation.noFirstSpaceAllow($event);validation.emailRegex($event)"
+              maxlength="200">
               <mat-error *ngIf="f['emailId']?.errors">
                 <span *ngIf="f['emailId'].hasError('pattern')">
                   Please enter valid Official Email ID</span>

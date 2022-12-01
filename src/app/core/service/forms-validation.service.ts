@@ -170,7 +170,7 @@ acceptedOnlyNumbers(event: any) {
 
 emailRegex(event: any) { //Email Validation
     if (!this.noSpacesAtStart(event)) return false; // First Space not Accept
-    if(event.currentTarget.value.split('.').length-1 == 1 && (event.keyCode==46)) return false;  // double .Dot not accept
+    if(event.currentTarget.value.split('..').length-1 == 1 && (event.keyCode==46)) return false;  // double .Dot not accept
     if(event.currentTarget.value.split('@').length-1 == 1 && (event.keyCode==64)) return false;  // double @ not accept
     if (event.target.selectionStart === 0 && (event.keyCode==46)) return false;  // starting .Dot not accept
     if (event.target.selectionStart === 0 && (event.keyCode==64)) return false;  // starting @ not accept
