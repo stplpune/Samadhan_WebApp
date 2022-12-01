@@ -7,8 +7,8 @@
 }
 .vehicle-buttons{
     position: absolute;
-    bottom: -2px;
-    right: 58px;
+    bottom: 0px;
+    right: 20px;
 }
 .vehicle-buttons .btn{
     border-radius: 50%;
@@ -18,4 +18,5 @@
     font-size: 0.85rem;
     text-align: center;
     padding: 0;
+    border-color: var(--main-color);
 }
