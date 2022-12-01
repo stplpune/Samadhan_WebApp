@@ -21,7 +21,7 @@ import { SamadhanReportComponent } from '../samadhan-report/samadhan-report.comp
   styleUrls: ['./taluka-report.component.css']
 })
 export class TalukaReportComponent implements OnInit {
-  displayedColumns: string[] = ['position', 'name','received', 'accepted', 'resolved','rejected','partialResolved','transfered'];
+  displayedColumns: string[] = ['position', 'name','received','open', 'accepted', 'resolved','rejected','partialResolved','transfered'];
   dataSource:any;
 
   filterForm!: FormGroup;
@@ -111,6 +111,7 @@ export class TalukaReportComponent implements OnInit {
               'srno':index+1,
               'talukaName':ele.taluka,
               'received':ele.received,
+              'opened':ele.openn,
               'rejected':ele.rejected,
               'resolved':ele.resolved,
               'accepted':ele.accepted,
@@ -135,7 +136,7 @@ export class TalukaReportComponent implements OnInit {
     });
   }
 
-  keyPDFHeader = ['SrNo', "Taluka Name","Received", "Accepted", "Resolved","Rejected","Partial Resolved","Transfered"];
+  keyPDFHeader = ['SrNo', "Taluka Name","Receive","Open", "Accept", "Resolve","Reject","Partial Resolve","Transfer"];
 
   downloadExcel() {
     let fromdate:any;
