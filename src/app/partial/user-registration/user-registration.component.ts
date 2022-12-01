@@ -45,10 +45,11 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   subscription!: Subscription;
   isEdit: boolean = false;
   updatedObj: any;
-  users: any;
+  users=new Array();
   selection = new SelectionModel<Element>(true, []);
   changeDepFlag:boolean = false;
   data:any;
+  isDisabled:boolean=false;
 
   constructor(public commonMethod: CommonMethodService,
     public apiService: ApiService,
@@ -61,7 +62,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     private fb: FormBuilder,
     private webStorage: WebStorageService,
     private spinner: NgxSpinnerService) {
-     this.data=this.localStrorageData. getLoggedInLocalstorageData();
+     this.data=this.localStrorageData. getLoggedInLocalstorageData().responseData;
      }
 
   ngOnInit(): void {
@@ -97,7 +98,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
       officeId: ['', [Validators.required]],
       name: ['', [Validators.required, Validators.pattern(this.validation.valName)]],
       mobileNo: ['', [Validators.required, Validators.pattern(this.validation.valMobileNo), Validators.minLength(10), Validators.maxLength(10)]],
-      emailId: ['', [Validators.required, Validators.pattern(this.validation.valEmailId)]],
+      emailId: ['', [Validators.required, Validators.email]],
     })
   }
   //#endregion filter form fn end heare
@@ -111,7 +112,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   ngAfterViewInit() {
     let formValue: any = this.filterFrm.controls.textSearch.valueChanges;
     formValue.pipe(filter(() => this.filterFrm.valid),
-      debounceTime(0),
+      debounceTime(1000),
       distinctUntilChanged()).subscribe(() => {
         this.pageNumber = 1;
         this.getData();
@@ -258,12 +259,14 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
           this.dataSource = new MatTableDataSource(this.users);
           this.dataSource.sort = this.sort;
           this.totalRows = res.responseData.responseData2.pageCount;
-          this.pageNumber == 1 ? this.paginator?.firstPage() : '';
+           this.pageNumber == 1 ? this.paginator?.firstPage() : ''; 
+           this.isDisabled=false;
           this.spinner.hide();
         } else {
 
           this.spinner.hide();
-          this.dataSource = []
+          this.dataSource = [];
+          this.isDisabled=true;
           this.totalRows = 0;
           if (res.statusCode != "404") {
             this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
@@ -320,9 +323,10 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.apiService.setHttp(method, "samadhan/user-registration/" + url, false, obj, false, 'samadhanMiningService');
     this.subscription = this.apiService.getHttp().subscribe({
       next: (res: any) => {
-        if (res.statusCode == 200) {
+        if (res.statusCode == 200) { 
           this.highlightedRow = 0;
           // this.spinner.hide();
+          this.pageNumber=1;
           this.getData();
           this.onCancelRecord();
           this.selection.clear();

@@ -209,7 +209,7 @@
                                 delete
                             </span>
                         </button>
-                        <mat-checkbox (change)="$event ? masterToggle() : null"
+                        <mat-checkbox [disabled]="isDisabled" (change)="$event ? masterToggle() : null"
                             [checked]="selection.hasValue() && isAllSelected()">
                             <!-- [indeterminate]="selection.hasValue() && !isAllSelected()"> -->
                         </mat-checkbox>
@@ -350,11 +350,11 @@
                     <div class="mb-3">
                         <mat-form-field class="w-100" appearance="outline">
                             <mat-label>Email ID</mat-label>
-                            <input matInput formControlName="emailId" maxlength="100"
-                                (keypress)="validation.alphaNumericWithSpacesAndSpecChars($event)">
+                            <input matInput  formControlName="emailId" maxlength="100"
+                                (keypress)="validation.emailRegex($event)">
                             <mat-error *ngIf="f['emailId']?.errors">
                                 <span *ngIf="f['emailId']?.hasError('required')"> Email ID is required</span>
-                                <span *ngIf="f['emailId']?.hasError('pattern')"> Please enter valid Email ID
+                                <span *ngIf="f['emailId']?.hasError('email')"> Please enter valid Email ID
                                 </span>
                             </mat-error>
                         </mat-form-field>
