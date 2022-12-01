@@ -44,6 +44,9 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
   longitude: any;
   pinCode: any;
   geocoder: any;
+  loggedUserTypeId:any; 
+  loggedUserDeptID:any;
+  dropdownDisable:boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -63,6 +66,8 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   ngOnInit(): void {
+   this.loggedUserTypeId= this.localStrorageData.getLoggedInLocalstorageData().responseData?.userTypeId;
+   this.loggedUserDeptID= this.localStrorageData.getLoggedInLocalstorageData().responseData?.deptId;
     this.createOfficeForm();
     this.filterform();
     this.getDepartmentName();
@@ -120,10 +125,30 @@ createOfficeForm() {
     this.commonService.getAllDepartment().subscribe({
       next: (response: any) => {
         this.departmentArr.push(...response);
+        if(this.loggedUserTypeId ==3){       //  3 logged user userTypeId
+          this.filterForm.controls['deptId'].setValue(this.loggedUserDeptID);
+          this.frmOffice.controls['deptId'].setValue(this.loggedUserDeptID);
+          this.dropdownDisable=true;
+        } 
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
   }
+
+
+  // setDepartment(){ 
+  //   let loggedUserTypeId=
+  //   console.log(loggedUserTypeId);
+  //   if(loggedUserTypeId == 3){
+  //     let userDeptId = this.localStrorageData.getLoggedInLocalstorageData().responseData?.deptId;
+  //     console.log(userDeptId);
+  //     const selectedObj=this.departmentArr.find((ele:any)=>{
+  //       if (ele.id == userDeptId) { return ele }
+  //     });
+  //     console.log(selectedObj);
+  //      // this.filterForm.controls['deptId'].setValue(sortedDeptId.deptId);
+  //   }    
+  // }
 
 //#region Department Api end
 
@@ -132,7 +157,7 @@ createOfficeForm() {
   getData() {
     this.spinner.show()
     let formData = this.filterForm.value;
-    this.apiService.setHttp('get','samadhan/office/GetAll?pageno=' +this.pageNo+'&pagesize=' +this.pageSize+'&DeptId='+ formData.deptId +'&Name='+formData.name,false,false,false,'samadhanMiningService');
+    this.apiService.setHttp('get','samadhan/office/GetAll?pageno=' +this.pageNo+'&pagesize=' +this.pageSize+'&DeptId='+ this.loggedUserDeptID +'&Name='+formData.name,false,false,false,'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {

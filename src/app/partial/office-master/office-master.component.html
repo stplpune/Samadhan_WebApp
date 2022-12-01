@@ -5,7 +5,7 @@
         <div class="col-sm-6">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Select Department</mat-label>
-            <mat-select formControlName="deptId" (selectionChange)="filterData();">
+            <mat-select formControlName="deptId" (selectionChange)="filterData();" [disabled]="dropdownDisable">
               <mat-option value="0">All Department</mat-option>
               <mat-option *ngFor="let dept of departmentArr" [value]="dept.id">{{dept.departmentName}}</mat-option>
             </mat-select>
@@ -120,7 +120,7 @@
           <div class="mb-3">
             <mat-form-field appearance="outline" class="w-100 ">
               <mat-label>Select Department</mat-label>
-              <mat-select formControlName="deptId">
+              <mat-select formControlName="deptId" [disabled]="dropdownDisable">
                 <mat-option *ngFor="let dept of departmentArr" [value]="dept.id">{{dept.departmentName}}
                 </mat-option>
               </mat-select>
