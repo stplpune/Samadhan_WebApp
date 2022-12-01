@@ -30,7 +30,7 @@ export type ChartOptions = {
 
 export class DashboardComponent implements OnInit {
 
-  displayedColumns: string[] = ['srNo', 'department', 'totalGrievances', 'open','accepted','resolved','rejected'];
+  displayedColumns: string[] = ['srNo', 'department', 'totalGrievances', 'open','accepted','resolved','rejected','partialResolved','transferred'];
   dataSource:any;
   data:any;
   pageNumber:number=1;
