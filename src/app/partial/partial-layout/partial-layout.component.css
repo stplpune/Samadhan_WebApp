@@ -43,7 +43,7 @@
 }
 .main-content {
     padding: 10px 10px 0 10px;
-    height: calc(100vh - 62px);
+    height: calc(100vh - 65px);
     overflow-y: auto;
 }
 footer {

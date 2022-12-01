@@ -16,6 +16,12 @@
             <mat-label>Office</mat-label>
             <input matInput placeholder="Search" formControlName="name"
               (keypress)="validation.noFirstSpaceAllow($event)">
+            <button mat-icon-button matSuffix *ngIf="filterForm.value.name" matTooltip="close" aria-label="tooltip"
+              (click)="filterForm.controls['name'].setValue('')">
+              <span class="material-symbols-outlined">
+                close
+              </span>
+            </button>
           </mat-form-field>
         </div>
       </div>
@@ -78,9 +84,11 @@
               delete
             </span>
           </button>
-          <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()">
+          <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+            [disabled]="!totalPages">
             <!-- [indeterminate]="selection.hasValue() && !isAllSelected()"> -->
           </mat-checkbox>
+
         </th>
         <td mat-cell *matCellDef="let element" class="action">
           <div>
@@ -178,8 +186,8 @@
           <div class="mb-3">
             <mat-form-field appearance="outline" class="w-100 ">
               <mat-label>Official Email ID</mat-label>
-              <input matInput formControlName="emailId" (keypress)="validation.noFirstSpaceAllow($event);validation.emailRegex($event)"
-              maxlength="200">
+              <input matInput formControlName="emailId"
+                (keypress)="validation.noFirstSpaceAllow($event);validation.emailRegex($event)" maxlength="200">
               <mat-error *ngIf="f['emailId']?.errors">
                 <span *ngIf="f['emailId'].hasError('pattern')">
                   Please enter valid Official Email ID</span>
