@@ -7,7 +7,7 @@
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Taluka</mat-label>
             <mat-select formControlName="talukaId"
-              (selectionChange)="clearFilter('taluka');filterData();getVillageName(filterForm.value.talukaId, false)">
+              (selectionChange)=" getVillageFilter(filterForm.value.talukaId);filterData()">
               <mat-option value="0">All Taluka</mat-option>
               <mat-option *ngFor="let tal of talukaArr" [value]="tal.id">{{tal.taluka}}</mat-option>
             </mat-select>
@@ -17,10 +17,10 @@
         <div class="col-sm-4">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Village</mat-label>
-            <mat-select formControlName="villageId" (selectionChange)="clearFilter('village');filterData()"
-              [disabled]='!filterForm.value.talukaId'>
-              <mat-option value="0">All Village</mat-option>
-              <mat-option *ngFor="let vill of villageArr" [value]="vill.id">{{vill.village}}</mat-option>
+            <mat-select formControlName="villageId" (selectionChange)="filterData()"
+              [disabled]=' filterForm.value.talukaId == "0"'>
+              <!-- <mat-option value="0">All Village</mat-option> -->
+              <mat-option *ngFor="let vill of filterVillageArry" [value]="vill.id">{{vill.village}}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -30,6 +30,12 @@
             <mat-label>Name / Mobile Number</mat-label>
             <input matInput placeholder="Search" formControlName="textsearch"
               (keypress)="validation.noFirstSpaceAllow($event)">
+              <button mat-icon-button matSuffix *ngIf="filterForm.value.textsearch" matTooltip="close" aria-label="tooltip"
+              (click)="filterForm.controls['textsearch'].setValue('')">
+              <span class="material-symbols-outlined">
+                close
+              </span>
+            </button>
           </mat-form-field>
         </div>
       </div>
@@ -109,7 +115,7 @@
                 delete
               </span>
             </button>
-            <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()">
+            <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [disabled]="!this.totalPages">
               <!-- [indeterminate]="selection.hasValue() && !isAllSelected()"> -->
             </mat-checkbox>
           </th>
@@ -126,7 +132,10 @@
         </ng-container>
 
         <tr class="mat-row p-2 w-100" *matNoDataRow col>
-          <td class="alert alert-danger text-center m-2 mt-2" colspan="9">No Data Found </td>
+          <td  colspan="9">
+            <div class="alert alert-danger text-center m-2 mt-2">
+            No Data Found!
+          </div> </td>
         </tr>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"

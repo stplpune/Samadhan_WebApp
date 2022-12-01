@@ -200,6 +200,7 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
    onCancelRecord() {
     this.formDirective.resetForm();
     this.isEdit = false;
+    this.highlightedRow = 0;
   }
 //#endregion CancleRecord Fun end
 
