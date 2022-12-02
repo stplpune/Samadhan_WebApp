@@ -1,6 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { WebStorageService } from 'src/app/core/service/web-storage.service';
 import { ThemeService } from 'src/app/core/theme/theme.service';
 
 @Component({
@@ -15,6 +16,7 @@ export class WebHeaderComponent implements OnInit {
 
   constructor(@Inject(DOCUMENT) private document: any,
     private ThemeService: ThemeService,
+    private webStorageService : WebStorageService,
     public translate: TranslateService) {
     translate.addLangs(['English', 'Marathi']);
   }
@@ -31,6 +33,7 @@ export class WebHeaderComponent implements OnInit {
     this.selectedLanguage = lang;
     sessionStorage.setItem('language', lang);
     this.translate.use(lang);
+    this.webStorageService.sendlangType(lang);
   }
 
   skipToMainContent(){

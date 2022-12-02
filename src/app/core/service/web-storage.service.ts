@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -50,4 +51,13 @@ getUserName(){
   let userName = this.getLoggedInLocalstorageData().responseData?.userName;
   return userName;
 }
+
+private langName = new BehaviorSubject('');
+langNameOnChange = this.langName.asObservable();
+
+sendlangType(type: string) {
+    this.langName.next(type);
+}
+
+
 }

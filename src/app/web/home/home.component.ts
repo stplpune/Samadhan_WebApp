@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/core/service/api.service';
 import { CommonMethodService } from 'src/app/core/service/common-method.service';
 import { ErrorHandlerService } from 'src/app/core/service/error-handler.service';
+import { WebStorageService } from 'src/app/core/service/web-storage.service';
 
 
 @Component({
@@ -12,15 +13,25 @@ import { ErrorHandlerService } from 'src/app/core/service/error-handler.service'
 export class HomeComponent implements OnInit {
 
   data:any;
+  langTypeName:any;
+
   constructor(
     private apiService:ApiService,
     private commonMethod:CommonMethodService,
     private error:ErrorHandlerService,   
-   
+    private webStorageService:WebStorageService, 
   ) { }
 
   ngOnInit(): void {
     this.getData();
+
+
+
+    this.webStorageService.langNameOnChange.subscribe(message => {
+     this.langTypeName = message;
+    });
+
+
   }
 
 
