@@ -14,7 +14,7 @@ import { CommonMethodService } from 'src/app/core/service/common-method.service'
 import { debounceTime, distinctUntilChanged, filter, Subscription } from 'rxjs';
 import { ConfirmationComponent } from './../dialogs/confirmation/confirmation.component';
 import { CommonApiService } from 'src/app/core/service/common-api.service';
-
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-citizen-master',
@@ -42,7 +42,7 @@ export class CitizenMasterComponent implements OnInit {
   updatedObj: any;
   changevillFlag: boolean = false;
   isdisable = false;
-
+  langTypeName:any;
   constructor(
     private fb: FormBuilder,
     private apiService: ApiService,
@@ -53,7 +53,8 @@ export class CitizenMasterComponent implements OnInit {
     public localStrorageData: WebStorageService,
     public commonService: CommonApiService,
     public dialog: MatDialog,
-    public commonMethod: CommonMethodService
+    public commonMethod: CommonMethodService,
+    public translate: TranslateService, 
   ) { }
 
   ngOnInit(): void {
@@ -61,6 +62,10 @@ export class CitizenMasterComponent implements OnInit {
     this.getTalukaName(false);
     this.getVillageFilter(0);
     this.getData();
+
+    this.localStrorageData.langNameOnChange.subscribe(message => {
+      this.langTypeName = message;
+     });
   }
 
   //#region createCitizenForm and filterForm start
@@ -153,14 +158,14 @@ export class CitizenMasterComponent implements OnInit {
       this.commonService.getVillageByTalukaId(talukaId).subscribe({
         next: (response: any) => {
           this.filterVillageArry.push(...response);
-          this.filterVillageArry.unshift({ "id": 0, "village": "All Village" });
+          this.filterVillageArry.unshift({ "id": 0, "village": "All Village" ,"m_Village": "सर्व गाव"});
           this.filterForm.controls['villageId'].setValue(0);
           this.filterData();
         },
         error: ((error: any) => { this.error.handelError(error.status) })
       })
     } else {
-      this.filterVillageArry.unshift({ "id": 0, "village": "All Village" });
+      this.filterVillageArry.unshift({ "id": 0, "village": "All Village" ,"m_Village": "सर्व गाव"});
       this.filterForm.controls['villageId'].setValue(0);
     }
   }
