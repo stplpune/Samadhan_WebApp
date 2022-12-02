@@ -46,8 +46,8 @@ export class ExcelService {
         doc.setLineWidth(0.2);
         doc.line(12, 286, 200, 286);
 
-        doc.setFontSize(11);
-        doc.text('designed By ShauryaTechnosoft year@sdg2022', 200, 290, "right");
+        doc.setFontSize(8);
+        doc.text('Note:This is a system generated File.', 200, 290, "right");
 
       }
     });
@@ -97,12 +97,13 @@ export class ExcelService {
 
     worksheet.getColumn(2).width = 30;
     worksheet.getColumn(3).width = 30;
-    worksheet.getColumn(4).width = 30;
-    worksheet.getColumn(5).width = 30;
-    worksheet.getColumn(6).width = 30;
-    worksheet.getColumn(7).width = 30;
-    worksheet.getColumn(8).width = 30;
-    worksheet.getColumn(9).width = 30;
+    worksheet.getColumn(4).width = 10;
+    worksheet.getColumn(5).width = 10;
+    worksheet.getColumn(6).width = 10;
+    worksheet.getColumn(7).width = 10;
+    worksheet.getColumn(8).width = 10;
+    worksheet.getColumn(9).width = 10;
+    worksheet.getColumn(10).width = 10;
     worksheet.addRow([]);
 
     // Generate Excel File with given name

@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
       this.apiService.setHttp('get', 'samadhan/user-registration/' + this.loginData.username.trim() + '/' + this.loginData.password.trim(), false, false, false, 'samadhanMiningService');
       this.apiService.getHttp().subscribe((res: any) => {
         if (res.statusCode == "200") {
-          this.common.matSnackBar(res.statusMessage, 0);
+          // this.common.matSnackBar(res.statusMessage, 0);
           sessionStorage.setItem('loggedIn', 'true');
           localStorage.setItem('loggedInData', JSON.stringify(res));
           this.router.navigate(['../dashboard'])

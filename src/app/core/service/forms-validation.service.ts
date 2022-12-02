@@ -161,7 +161,7 @@ noWhiteSpace(control: AbstractControl): ValidationErrors | null {
 //Latest Added
 
 acceptedOnlyNumbers(event: any) {
-    const pattern = /[0-9]/;
+  const pattern = /[0-9\s]/;
     let inputChar = String.fromCharCode(event.charCode);
     if (!pattern.test(inputChar)) {
         event.preventDefault();
@@ -170,7 +170,7 @@ acceptedOnlyNumbers(event: any) {
 
 emailRegex(event: any) { //Email Validation
     if (!this.noSpacesAtStart(event)) return false; // First Space not Accept
-    if(event.currentTarget.value.split('.').length-1 == 1 && (event.keyCode==46)) return false;  // double .Dot not accept
+    if(event.currentTarget.value.split('..').length-1 == 1 && (event.keyCode==46)) return false;  // double .Dot not accept
     if(event.currentTarget.value.split('@').length-1 == 1 && (event.keyCode==64)) return false;  // double @ not accept
     if (event.target.selectionStart === 0 && (event.keyCode==46)) return false;  // starting .Dot not accept
     if (event.target.selectionStart === 0 && (event.keyCode==64)) return false;  // starting @ not accept
@@ -191,5 +191,21 @@ acceptedOnlyNumbers_floatValue(event: any) {
         event.preventDefault();
     }
 }
+
+notAllowMoreThenOneSpace(e:any){
+  var input = e.target;
+  var val = input.value;
+  var end = input.selectionEnd;
+  if(e.keyCode == 32 && (val[end - 1] == " " || val[end] == " ")) {
+    e.preventDefault();
+    return false;
+ }else {
+  return true
+ }
+}
+    unicodeMarathiValidation(event: any) {
+        const maskSeperator = new RegExp('[^\u0900-\u0965 ]+', 'm');
+        return !maskSeperator.test(event.key);
+    }
 
 }

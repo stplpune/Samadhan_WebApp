@@ -5,6 +5,7 @@ import { DepartmentMasterRoutingModule } from './department-master-routing.modul
 import { DepartmentMasterComponent } from './department-master.component';
 import { MaterialModule } from 'src/app/shared/AngularMaterialModule/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -14,8 +15,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     DepartmentMasterRoutingModule,
     MaterialModule,
-    ReactiveFormsModule
-
+    ReactiveFormsModule,
+    TranslateModule
   ]
 })
 export class DepartmentMasterModule { }

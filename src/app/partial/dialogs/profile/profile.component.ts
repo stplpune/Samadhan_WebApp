@@ -21,8 +21,6 @@ export class ProfileComponent implements OnInit {
   file: any;
   ImgUrl: any;
   selectedFile:any;
-  profilePhotoChange:any;
-  getImgPath:any;
   subscription!:Subscription;
   @ViewChild(FormGroupDirective) formGroupDirective!: FormGroupDirective;
   @ViewChild('fileInput') fileInput!: ElementRef;
@@ -53,7 +51,7 @@ export class ProfileComponent implements OnInit {
       name:['',[Validators.required,Validators.pattern(this.validation.valName)]],
       mobileNo:['',[Validators.required,Validators.pattern(this.validation.valMobileNo), Validators.minLength(10), Validators.maxLength(10)]],
       emailId:['',[Validators.required,Validators.pattern(this.validation.valEmailId)]],
-      // profilePhoto:[]
+      profilePhoto:['']
     })
   }
 
@@ -82,7 +80,8 @@ export class ProfileComponent implements OnInit {
      this.profileFrom.patchValue({
       name:data.name,
       mobileNo:data.mobileNo,
-      emailId:data.emailId,   
+      emailId:data.emailId, 
+      profilePhoto:data.profilePhoto  
      })
   }
 
@@ -114,11 +113,10 @@ export class ProfileComponent implements OnInit {
   }
 
   deleteImg() {
-    localStorage.setItem('imgUrl', '');
     this.file = "";
     this.ImgUrl = '';
     this.fileInput.nativeElement.value = '';
-    this.profileImg = '';
+    this.profileFrom.controls['profilePhoto'].setValue('');
   }
 
   onSubmit(){
@@ -137,7 +135,7 @@ export class ProfileComponent implements OnInit {
       "name": formValue.name,
       "mobileNo": formValue.mobileNo,     
       "emailId": formValue.emailId,
-      "profilePhoto": this.profileImg,
+      "profilePhoto": this.commonService.checkDataType(formValue.profilePhoto) == false ? '' : formValue.profilePhoto,
       "modifiedBy": this.loginObj.modifiedBy,    
       "modifiedDate": new Date(),    
     }
@@ -164,7 +162,7 @@ export class ProfileComponent implements OnInit {
         if (ele == 'error') {
           this.fileInput.nativeElement.value = '';
         }
-        this.profileImg = ele.responseData;
+         this.profileFrom.controls['profilePhoto'].setValue(ele.responseData);
         this.updateProfile();
       } else {
         this.commonService.matSnackBar('Profile img is not uploaded', 1)

@@ -25,7 +25,7 @@
                         </mat-select>
                     </mat-form-field>
                 </div>
-                <div class="col-sm-2">
+                <div class="col-sm-3">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>From Date To End Date</mat-label>
                         <mat-date-range-input [rangePicker]="picker">
@@ -72,8 +72,15 @@
                 </ng-container>
 
                 <ng-container matColumnDef="Received">
-                    <th mat-header-cell *matHeaderCellDef class="text-dark"> Received </th>
-                    <td mat-cell *matCellDef="let element" class="text-dark fw-bold"> {{element.received}} </td>
+                    <th mat-header-cell *matHeaderCellDef class="text-dark">Total</th>
+                    <td mat-cell *matCellDef="let element"><a class="text-dark fw-bold"
+                        > {{element.received}} </a></td>
+                </ng-container>
+
+                <ng-container matColumnDef="Open">
+                    <th mat-header-cell *matHeaderCellDef class="text-dark">Open </th>
+                    <td mat-cell *matCellDef="let element"><a class="text-dark fw-bold"
+                        (click)="getDetailsReport(element,1)"> {{element.openn}} </a></td>
                 </ng-container>
 
                 <!-- <ng-container matColumnDef="Pending">
@@ -97,20 +104,23 @@
                     <td mat-cell *matCellDef="let element"><a class="text-success fw-bold"
                             (click)="getDetailsReport(element,3)"> {{element.resolved}} </a></td>
                 </ng-container>
-                <ng-container matColumnDef="rejected">
-                    <th mat-header-cell *matHeaderCellDef class="text-danger"> Rejected</th>
-                    <td mat-cell *matCellDef="let element"><a class="text-danger fw-bold"
-                            (click)="getDetailsReport(element,3)"> {{element.rejected}} </a></td>
-                </ng-container>
+                
                 <ng-container matColumnDef="partialResolved">
                     <th mat-header-cell *matHeaderCellDef class="text-warning"> Partial Resolved </th>
                     <td mat-cell *matCellDef="let element"><a class="text-warning"
-                            (click)="getDetailsReport(element,3)"> {{element.partialResloved}} </a></td>
+                            (click)="getDetailsReport(element,4)"> {{element.partialResloved}} </a></td>
                 </ng-container>
+
+                <ng-container matColumnDef="rejected">
+                    <th mat-header-cell *matHeaderCellDef class="text-danger"> Rejected</th>
+                    <td mat-cell *matCellDef="let element"><a class="text-danger fw-bold"
+                            (click)="getDetailsReport(element,5)"> {{element.rejected}} </a></td>
+                </ng-container>
+                
                 <ng-container matColumnDef="transfered">
                     <th mat-header-cell *matHeaderCellDef class="text-primary"> Transfered </th>
                     <td mat-cell *matCellDef="let element"><a class="text-primary fw-bold"
-                            (click)="getDetailsReport(element,3)"> {{element.transfered}} </a></td>
+                            (click)="getDetailsReport(element,6)"> {{element.transfered}} </a></td>
                 </ng-container>
 
                 <tr class="mat-row p-2 w-100" *matNoDataRow col>

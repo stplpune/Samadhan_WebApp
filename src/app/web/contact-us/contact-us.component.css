@@ -1,0 +1,5 @@
+.contact-height{
+    min-height:calc(100vh - 266px) ;
+    display:flex;
+    align-items: center;
+}

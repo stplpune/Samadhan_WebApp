@@ -26,21 +26,22 @@ export class CitizenMasterComponent implements OnInit {
   @ViewChild('formDirective') formDirective!: NgForm;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   // displayedColumns: string[] = [ 'srno', 'name', 'mobileNo','emailId', 'taluka','village','action','delete','select'];
-  displayedColumns: string[] = ['srno', 'name', 'mobileNo','emailId', 'taluka','village','action'];
+  displayedColumns: string[] = ['srno', 'name', 'mobileNo', 'emailId', 'taluka', 'village', 'action'];
   dataSource: any;
-  frmCitizen!:FormGroup;
-  filterForm!:FormGroup;
+  frmCitizen!: FormGroup;
+  filterForm!: FormGroup;
   isEdit: boolean = false;
   totalPages: any;
   pageNo = 1;
   pageSize = 10;
-  highlightedRow!:number;
+  highlightedRow!: number;
   subscription!: Subscription;
   talukaArr = new Array();
-  villageArr = new Array ();
+  villageArr = new Array();
+  filterVillageArry = new Array();
   updatedObj: any;
-  changevillFlag:boolean=false;
-  isdisable=false;
+  changevillFlag: boolean = false;
+  isdisable = false;
 
   constructor(
     private fb: FormBuilder,
@@ -58,33 +59,34 @@ export class CitizenMasterComponent implements OnInit {
   ngOnInit(): void {
     this.createCitizenForm();
     this.getTalukaName(false);
+    this.getVillageFilter(0);
     this.getData();
   }
 
-//#region createCitizenForm and filterForm start
-createCitizenForm(){
+  //#region createCitizenForm and filterForm start
+  createCitizenForm() {
     this.frmCitizen = this.fb.group({
-     name :['',[Validators.required, Validators.pattern(this.validation.valName)],],
-     mobileNo :['',[Validators.required,Validators.pattern(this.validation.valMobileNo),Validators.minLength(10),Validators.maxLength(10),],],
-     emailId :['',[Validators.pattern(this.validation.valEmailId)],],
-     talukaId :['',[Validators.required]],
-     villageId :['',[Validators.required]]
+      name: ['', [Validators.required, Validators.pattern(this.validation.valName)],],
+      mobileNo: ['', [Validators.required, Validators.pattern(this.validation.valMobileNo), Validators.minLength(10), Validators.maxLength(10),],],
+      emailId: ['', [Validators.pattern(this.validation.valEmailId)],],
+      talukaId: ['', [Validators.required]],
+      villageId: ['', [Validators.required]]
     });
 
     this.filterForm = this.fb.group({
-      talukaId  : [0],
-      villageId : [0],
-      textsearch:[''],
+      talukaId: ['0'],
+      villageId: ["0"],
+      textsearch: [''],
     })
   }
 
-//#endregion createCitizenForm and filterForm end
+  //#endregion createCitizenForm and filterForm end
 
   get f() {
     return this.frmCitizen.controls;
   }
 
-//#region Search Fun start
+  //#region Search Fun start
   ngAfterViewInit() {
     let formData: any = this.filterForm.controls['textsearch'].valueChanges;
     formData.pipe(filter(() => this.filterForm.valid),
@@ -92,277 +94,297 @@ createCitizenForm(){
       distinctUntilChanged()).subscribe(() => {
         this.pageNo = 1;
         this.getData();
-        this.totalPages > 10 && this.pageNo == 1 ? this.paginator?.firstPage() : '';
+        this.selection.clear();
+
       });
-    }
+  }
 
-//#endregion Search Fun end
+  //#endregion Search Fun end
 
 
-//#region Filter Fun start
-  filterData(){
+  //#region Filter Fun start
+  filterData() {
     this.pageNo = 1;
     this.getData();
     this.onCancelRecord();
   }
 
-//#endregion Filter Fun end
+  //#endregion Filter Fun end
   selection = new SelectionModel<any>(true, []);
 
-//#region Taluka Api start
-  getTalukaName(editFlag:any ) {
+  //#region Taluka Api start
+  getTalukaName(editFlag: any) {
     this.talukaArr = [];
     this.commonService.getAllTaluka().subscribe({
       next: (response: any) => {
         this.talukaArr.push(...response);
-        editFlag == true ? (this.frmCitizen.controls['talukaId'].setValue(this.updatedObj?.talukaId), this.getVillageName(this.updatedObj?.talukaId, editFlag )) : '';
+        editFlag == true ? (this.frmCitizen.controls['talukaId'].setValue(this.updatedObj?.talukaId), this.getVillageName(this.updatedObj?.talukaId, editFlag)) : '';
       },
       error: ((error: any) => { this.error.handelError(error.status) })
 
     })
-}
-
-//#endregion Taluka Api end
-
-
-//#region Village Api start
-getVillageName(talukaId:number, editFlag:any) {
-  this.frmCitizen.controls['villageId'].setValue('');
-  this.villageArr = [];
-  if(talukaId !=0){
-    this.commonService.getVillageByTalukaId(talukaId).subscribe({
-      next: (response: any) => {
-        this.villageArr.push(...response);
-        editFlag == true ? (this.frmCitizen.controls['villageId'].setValue(this.updatedObj?.villageId)) : ''
-      },
-      error: ((error: any) => { this.error.handelError(error.status) })
-
-    })
-
   }
 
-}
-
-//#endregion Village Api end
+  //#endregion Taluka Api end
 
 
-//#region Bind table Fun start
-getData() {
-this.spinner.show()
-let formData = this.filterForm.value;
-this.apiService.setHttp('get','samadhan/user-registration/GetAllCitizen?TalukaId='+formData.talukaId+'&VillageId='+formData.villageId+'&Textsearch='+formData.textsearch+'&pageno='+this.pageNo+'&pagesize='+this.pageSize,false,false,false,'samadhanMiningService');
-this.apiService.getHttp().subscribe({
-  next: (res: any) => {
-    if (res.statusCode == 200) {
-      let dataSet = res.responseData.responseData1;
-      this.dataSource = new MatTableDataSource(dataSet);
-      this.totalPages = res.responseData.responseData2.pageCount;
-      this.spinner.hide();
-    } else {
-      this.spinner.hide();
-      this.dataSource = [];
-      this.totalPages = 0;
+  //#region Village Api start
+  getVillageName(talukaId: number, editFlag: any) {
+    this.frmCitizen.controls['villageId'].setValue('');
+    this.villageArr = [];
+    if (talukaId != 0) {
+      this.commonService.getVillageByTalukaId(talukaId).subscribe({
+        next: (response: any) => {
+          this.villageArr.push(...response);
+          this.villageArr.unshift({ "id": "", "village": "Select Village" });
+          editFlag == true ? (this.frmCitizen.controls['villageId'].setValue(this.updatedObj?.villageId)) : this.frmCitizen.controls['villageId'].setValue('')
+        },
+        error: ((error: any) => { this.error.handelError(error.status) })
+      })
     }
-  },
-  error: (error: any) => {
-    this.dataSource = [];
-    this.error.handelError(error.status);
-    this.spinner.hide();
+  }
 
-  },
-});
-}
+  //#endregion Village Api end
 
-//#endregion Bind table Fun end
-
-
-//#region update fun start
-onUpdateCitizen() {
-if (this.frmCitizen.invalid) {
-  return;
-}
-let formData = this.frmCitizen.value;
-let obj = {
-  "id": this.isEdit == true ? this.updatedObj.id : 0,
-  "name" : formData.name,
-  "mobileNo": formData.mobileNo,
-  "emailId": formData.emailId,
-  "talukaId": formData.talukaId,
-  "villageId": formData.villageId,
-  "modifiedBy": formData.modifiedBy,
-  "modifiedDate": new Date()
-};
-
-let method = 'PUT';
-let url = 'UpdateCitizen';
-this.apiService.setHttp(
-  method,
-  'samadhan/user-registration/' + url,
-  false,
-  obj,
-  false,
-  'samadhanMiningService'
-);
-this.subscription = this.apiService.getHttp().subscribe({
-  next: (res: any) => {
-    if (res.statusCode == 200) {
-      this.highlightedRow = 0;
-      this.getData();
-      this.onCancelRecord();
-      this.commonMethod.matSnackBar(res.statusMessage, 0);
+  //#region Village Api start
+  getVillageFilter(talukaId: number,) {
+    this.filterVillageArry = [];
+    if (talukaId != 0) {
+      this.commonService.getVillageByTalukaId(talukaId).subscribe({
+        next: (response: any) => {
+          this.filterVillageArry.push(...response);
+          this.filterVillageArry.unshift({ "id": 0, "village": "All Village" });
+          this.filterForm.controls['villageId'].setValue(0);
+          this.filterData();
+        },
+        error: ((error: any) => { this.error.handelError(error.status) })
+      })
     } else {
-      this.commonMethod.checkDataType(res.statusMessage) == false? this.error.handelError(res.statusCode): this.commonMethod.matSnackBar(res.statusMessage, 1);
-    }
-
-  },
-  error: (error: any) => {
-    this.error.handelError(error.status);
-    this.spinner.hide();
-  },
-});
-}
-
-//#endregion update fun end
-
-
-//#region patchValue start
-editRecord(ele: any) {
-this.isdisable = true;
-this.highlightedRow = ele.id;
-this.isEdit = true;
-this.updatedObj = ele;
-this.frmCitizen.patchValue({
-  name: this.updatedObj.name,
-  emailId: this.updatedObj.emailId,
-  mobileNo: this.updatedObj.mobileNo.trim(),
-});
-this.getTalukaName(this.isEdit);
-
-}
-//#endregion patchValue end
-
-//#region CancelRecord fun start
-onCancelRecord() {
-  this.formDirective.resetForm();
-  this.isEdit = false;
-  this.isdisable= false;
-}
-
-//#endregion CancelRecord fun end
-
-
-//#region pagination fun start
-pageChanged(event: any){
-  this.pageNo = event.pageIndex + 1;
-  this.getData();
-  this.onCancelRecord();
-  this.selection.clear();
-}
-
-//#endregion pagination fun end
-
-
-//#region clearFilter Fun start
- clearFilter(flag: any) {
-  switch (flag) {
-    case 'taluka':
+      this.filterVillageArry.unshift({ "id": 0, "village": "All Village" });
       this.filterForm.controls['villageId'].setValue(0);
-      this.filterForm.controls['textsearch'].setValue('');
-      break;
-    case 'village':
-      this.filterForm.controls['textsearch'].setValue('');
-      break;
-    default:
-  }
-}
-
-//#endregion clearFilter Fun end
-
-
-//#region delete fun start
-isAllSelected() {
-  const numSelected = this.selection.selected.length;
-  const numRows = this.dataSource.data.length;
-  return numSelected === numRows;
-}
-
-masterToggle() {
-  this.isAllSelected()
-    ? this.selection.clear()
-    : this.dataSource.data.forEach((row: any) => this.selection.select(row));
-}
-
-deleteUserData() {
-  const dialog = this.dialog.open(ConfirmationComponent, {
-    width: '400px',
-    data: {
-      p1: 'Are you sure you want to delete this record?',
-      p2: '',
-      cardTitle: 'Delete',
-      successBtnText: 'Delete',
-      dialogIcon: '',
-      cancelBtnText: 'Cancel',
-    },
-    disableClose: this.apiService.disableCloseFlag,
-  });
-  dialog.afterClosed().subscribe((res) => {
-    if (res == 'Yes') {
-      this.deleteUser();
-    } else {
-      this.selection.clear();
     }
-  });
-}
-
-deleteUser() {
-  let selDelArray = this.selection.selected;
-  let delArray = new Array();
-  if (selDelArray.length > 0) {
-    selDelArray.find((data: any) => {
-      let obj = {
-        id: data.id,
-        deletedBy: 0,
-        modifiedDate: new Date(),
-      };
-      delArray.push(obj);
-    });
   }
-  this.apiService.setHttp(
-    'DELETE',
-    'samadhan/user-registration/DeleteCitizen',
-    false,
-    delArray,
-    false,
-    'samadhanMiningService'
-  );
-  this.apiService.getHttp().subscribe(
-    {
+
+  //#endregion Village Api end
+
+
+  //#region Bind table Fun start
+  getData() {
+    this.spinner.show()
+    let formData = this.filterForm.value;
+    this.apiService.setHttp('get', 'samadhan/user-registration/GetAllCitizen?TalukaId=' + formData.talukaId + '&VillageId=' + formData.villageId + '&Textsearch=' + formData.textsearch + '&pageno=' + this.pageNo + '&pagesize=' + this.pageSize, false, false, false, 'samadhanMiningService');
+    this.apiService.getHttp().subscribe({
       next: (res: any) => {
-        if (res.statusCode === '200') {
-          this.highlightedRow = 0;
-          this.getData();
-          this.commonMethod.matSnackBar(res.statusMessage, 0);
-          this.selection.clear();
+        if (res.statusCode == 200) {
+          let dataSet = res.responseData.responseData1;
+          this.dataSource = new MatTableDataSource(dataSet);
+          this.totalPages = res.responseData.responseData2.pageCount;
+          this.spinner.hide();
         } else {
-          if (res.statusCode != '404') {
-            this.error.handelError(res.statusMessage);
-          }
+          this.spinner.hide();
+          this.dataSource = [];
+          this.totalPages = 0;
         }
       },
-    },
-    (error: any) => {
-      this.spinner.hide();
-      this.error.handelError(error.status);
+      error: (error: any) => {
+        this.dataSource = [];
+        this.error.handelError(error.status);
+        this.spinner.hide();
+
+      },
+    });
+  }
+
+  //#endregion Bind table Fun end
+
+
+  //#region update fun start
+  onUpdateCitizen() {
+    if (this.frmCitizen.invalid) {
+      return;
     }
-  );
-  this.onCancelRecord();
-}
+    let formData = this.frmCitizen.value;
+    let obj = {
+      "id": this.isEdit == true ? this.updatedObj.id : 0,
+      "name": formData.name,
+      "mobileNo": formData.mobileNo,
+      "emailId": formData.emailId,
+      "talukaId": formData.talukaId,
+      "villageId": formData.villageId,
+      "modifiedBy": formData.modifiedBy,
+      "modifiedDate": new Date()
+    };
 
-//#endregion Delete fun end
+    let method = 'PUT';
+    let url = 'UpdateCitizen';
+    this.apiService.setHttp(
+      method,
+      'samadhan/user-registration/' + url,
+      false,
+      obj,
+      false,
+      'samadhanMiningService'
+    );
+    this.subscription = this.apiService.getHttp().subscribe({
+      next: (res: any) => {
+        if (res.statusCode == 200) {
+          this.highlightedRow = 0;
+          this.getData();
+          this.onCancelRecord();
+          this.commonMethod.matSnackBar(res.statusMessage, 0);
+        } else {
+          this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
+        }
 
-//#region ngOnDestroy start
-ngOnDestroy() {
-  this.subscription?.unsubscribe();
-}
-//#endregion ngOnDestroy end
+      },
+      error: (error: any) => {
+        this.error.handelError(error.status);
+        this.spinner.hide();
+      },
+    });
+  }
+
+  //#endregion update fun end
+
+
+  //#region patchValue start
+  editRecord(ele: any) {
+    this.isdisable = true;
+    this.highlightedRow = ele.id;
+    this.isEdit = true;
+    this.updatedObj = ele;
+    this.frmCitizen.patchValue({
+      name: this.updatedObj.name,
+      emailId: this.updatedObj.emailId,
+      mobileNo: this.updatedObj.mobileNo.trim(),
+    });
+    this.getTalukaName(this.isEdit);
+
+  }
+  //#endregion patchValue end
+
+  //#region CancelRecord fun start
+  onCancelRecord() {
+    this.formDirective.resetForm();
+    this.isEdit = false;
+    this.isdisable = false;
+  }
+
+  //#endregion CancelRecord fun end
+
+
+  //#region pagination fun start
+  pageChanged(event: any) {
+    this.pageNo = event.pageIndex + 1;
+    this.getData();
+    this.onCancelRecord();
+    this.selection.clear();
+  }
+
+  //#endregion pagination fun end
+
+
+  //#region clearFilter Fun start
+  clearFilter(flag: any) {
+    switch (flag) {
+      case 'taluka':
+        this.filterForm.controls['villageId'].setValue(0);
+        this.filterForm.controls['textsearch'].setValue('');
+        break;
+      case 'village':
+        this.filterForm.controls['textsearch'].setValue('');
+        break;
+      default:
+    }
+  }
+
+  //#endregion clearFilter Fun end
+
+
+  //#region delete fun start
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  masterToggle() {
+    this.isAllSelected()
+      ? this.selection.clear()
+      : this.dataSource.data.forEach((row: any) => this.selection.select(row));
+  }
+
+  deleteUserData() {
+    const dialog = this.dialog.open(ConfirmationComponent, {
+      width: '400px',
+      data: {
+        p1: 'Are you sure you want to delete this record?',
+        p2: '',
+        cardTitle: 'Delete',
+        successBtnText: 'Delete',
+        dialogIcon: '',
+        cancelBtnText: 'Cancel',
+      },
+      disableClose: this.apiService.disableCloseFlag,
+    });
+    dialog.afterClosed().subscribe((res) => {
+      if (res == 'Yes') {
+        this.deleteUser();
+      } else {
+        this.selection.clear();
+      }
+    });
+  }
+
+  deleteUser() {
+    let selDelArray = this.selection.selected;
+    let delArray = new Array();
+    if (selDelArray.length > 0) {
+      selDelArray.find((data: any) => {
+        let obj = {
+          id: data.id,
+          deletedBy: 0,
+          modifiedDate: new Date(),
+        };
+        delArray.push(obj);
+      });
+    }
+    this.apiService.setHttp(
+      'DELETE',
+      'samadhan/user-registration/DeleteCitizen',
+      false,
+      delArray,
+      false,
+      'samadhanMiningService'
+    );
+    this.apiService.getHttp().subscribe(
+      {
+        next: (res: any) => {
+          if (res.statusCode === '200') {
+            this.highlightedRow = 0;
+            this.getData();
+            this.commonMethod.matSnackBar(res.statusMessage, 0);
+            this.selection.clear();
+          } else {
+            if (res.statusCode != '404') {
+              this.error.handelError(res.statusMessage);
+            }
+          }
+        },
+      },
+      (error: any) => {
+        this.spinner.hide();
+        this.error.handelError(error.status);
+      }
+    );
+    this.onCancelRecord();
+  }
+
+  //#endregion Delete fun end
+
+  //#region ngOnDestroy start
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
+  }
+  //#endregion ngOnDestroy end
 }

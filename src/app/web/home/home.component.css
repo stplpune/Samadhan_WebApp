@@ -3,7 +3,7 @@
 }
 .home-img h4{
     position: absolute;
-    color: var(--main-color) !important;;
+    color: rgba(var(--main-color), var(--opacity-1)) !important;;
     top: 80px;
     left: 100px;
     font-size: 50px;
@@ -23,7 +23,7 @@
 }
 
 #samadhan-app-info{
-    background-color: #874D5E;
+    background-color: rgba(var(--main-color), var(--opacity-1));
     padding: 50px 50px 0px 50px;
 }
 #samadhan-app-info h3 .samadhan{
@@ -46,7 +46,7 @@
     padding-block: 2rem;
 }
 .left-content .redress{
-    color: var(--main-color);
+    color: rgba(var(--main-color), var(--opacity-1));
     text-transform: uppercase;
     font-weight: 700;
     font-size: 2.5rem;
@@ -60,7 +60,7 @@
 }
 
 .left-content .lodge{
-    color: var(--main-color);
+    color: rgba(var(--main-color), var(--opacity-1));
     font-weight: 600;
     font-size: 1.4rem;
 }
@@ -74,7 +74,7 @@
 } */
 #grievance-status .card{
     border: transparent;
-    border-bottom: 3px solid #B83058;
+    border-bottom: 4px solid rgba(var(--main-color), var(--opacity-1));
     /* width: 250px;
     height: 180px; */
     min-height: 180px;

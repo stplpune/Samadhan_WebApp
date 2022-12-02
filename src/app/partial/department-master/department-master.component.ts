@@ -1,3 +1,4 @@
+
 import {Component,OnDestroy,OnInit,ViewChild} from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
@@ -14,6 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { WebStorageService } from 'src/app/core/service/web-storage.service';
 import { CommonApiService } from 'src/app/core/service/common-api.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-department-master',
@@ -31,17 +33,18 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
   isEdit: boolean = false;
   totalPages: any;
   pageNo = 1;
-  pageSize = 10;
   subscription!: Subscription;
   updatedObj: any;
   highlightedRow!: number;
   departmentArr: any;
-
+  selectedLang: any;
+  loggedUserTypeId:any;
+  loggedUserDeptID:any;
+  dropdownDisable:boolean=false;
 
   constructor(
     private fb: FormBuilder,
     public configService: ConfigService,
-    public localStrorageData: WebStorageService,
     private webStorage: WebStorageService,
     public dialog: MatDialog,
     private apiService: ApiService,
@@ -50,48 +53,62 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
     public validation: FormsValidationService,
     public commonMethod: CommonMethodService,
     public commonService: CommonApiService,
-
+    public translate: TranslateService
   ) {}
 
   ngOnInit(): void {
+    this.loggedUserTypeId= this.webStorage.getLoggedInLocalstorageData().responseData?.userTypeId;
+    this.loggedUserDeptID= this.webStorage.getLoggedInLocalstorageData().responseData?.deptId;
     this.createDepartmentForm();
-    this.filterMethod();
-    this.getDepartmentName();
+    this.getDepartmentName(this.webStorage.getUserId());
+    if( this.loggedUserTypeId ==3){
+      // this.frmDepartment.controls['deptId'].setValue(this.loggedUserDeptID);
+      this.filterForm.controls['deptId'].setValue(this.loggedUserDeptID);
+     }
     this.getData();
+    this.selectedLang = sessionStorage.getItem('language')
+    this.translateLanguageTo(this.selectedLang);
+  }
 
+  translateLanguageTo(lang: any) {
+    this.selectedLang = lang;
+    sessionStorage.setItem('language', lang);
+    this.translate.use(lang);
   }
 
 //#region createDepartmentForm start
   createDepartmentForm() {
     this.frmDepartment = this.fb.group({
       departmentName: ['',[Validators.required, Validators.pattern(this.validation.valName)],],
+      m_DepartmentName: ['', [Validators.required]],
+    });
+
+    this.filterForm = this.fb.group({
+      deptId: ['0'],
     });
   }
 
-//#endregion createDepartmentForm end
+//#endregion
 
 
   get f() {
     return this.frmDepartment.controls;
   }
 
- //#region FilterForm start
-   filterMethod() {
-    this.filterForm = this.fb.group({
-      deptId: [0],
-    });
-  }
-
-  //#endregion FilterForm end
 
   selection = new SelectionModel<any>(true, []);
 
  //#region Department Bind Fun start
-  getDepartmentName() {
+  getDepartmentName(id:number) {
     this.departmentArr = [];
-    this.commonService.getAllDepartment().subscribe({
+    this.commonService.getAllDepartmentByUserId(id).subscribe({
       next: (response: any) => {
         this.departmentArr.push(...response);
+        if( this.loggedUserTypeId ==3){       //  logged user userTypeId
+          this.filterForm.controls['deptId'].setValue(this.loggedUserDeptID);
+          this.frmDepartment.controls['deptId'].setValue(this.loggedUserDeptID);
+          this.dropdownDisable=true;
+        }        
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
@@ -103,8 +120,9 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
  //#region Table Bind Fun start
  getData() {
      this.spinner.show();
+     this.onCancelRecord();
     let formData = this.filterForm.value;
-    this.apiService.setHttp('get','samdhan/Department/GetAllDepartments?Id=' +formData.deptId +'&pageno=' +this.pageNo +'&pagesize=' +this.pageSize,false,false,false,'samadhanMiningService');
+    this.apiService.setHttp('get','samdhan/Department/GetAllDepartments?Id=' +formData.deptId +'&pageno=' +this.pageNo +'&pagesize=' +this.configService.pageSize,false,false,false,'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {
@@ -128,13 +146,14 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
     });
   }
 
- //#endregion Table Bind Fun end
+ //#endregion
 
 
  //#region Submit Fun start
  onSubmitDepartment() {
-    // this.spinner.show();
+    this.spinner.show();
     if (this.frmDepartment.invalid) {
+      this.spinner.hide();
       return;
     }
     let formData = this.frmDepartment.value;
@@ -143,9 +162,10 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
       modifiedBy: this.webStorage.getUserId(),
       createdDate: new Date(),
       modifiedDate: new Date(),
-      isDeleted: true,
+      isDeleted: false,
       id: this.isEdit == true ? this.updatedObj.id : 0,
       departmentName: formData.departmentName,
+      m_DepartmentName: formData.m_DepartmentName
     };
     let method = this.isEdit ? 'PUT' : 'POST';
     let url = this.isEdit ? 'UpdateDepartment' : 'AddDepartment';
@@ -153,17 +173,13 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
     this.subscription = this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {
-          this.highlightedRow = 0;
-          // this.spinner.hide();
+          this.spinner.hide();
           this.getData();
-          this.onCancelRecord();
           this.commonMethod.matSnackBar(res.statusMessage, 0);
         } else {
-          this.commonMethod.checkDataType(res.statusMessage) == false
-            ? this.error.handelError(res.statusCode)
-            : this.commonMethod.matSnackBar(res.statusMessage, 1);
+          !this.commonMethod.checkDataType(res.statusMessage) ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
         }
-        // this.spinner.hide();
+        this.spinner.hide();
       },
       error: (error: any) => {
         this.error.handelError(error.status);
@@ -173,33 +189,32 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
     });
   }
 
-//#endregion Submit Fun end
+//#endregion
 
  //#region Edit Fun start
  editRecord(data: any) {
     this.highlightedRow = data.id;
     this.isEdit = true;
     this.updatedObj = data;
-    this.frmDepartment.patchValue({
-      departmentName: this.updatedObj.departmentName,
-    });
+    this.frmDepartment.controls['departmentName'].setValue(this.updatedObj.departmentName);
+    this.frmDepartment.controls['m_DepartmentName'].setValue(this.updatedObj.m_DepartmentName);
   }
 
-//#endregion Fun end
+//#endregion
 
  //#region Pagination Fun start
    pageChanged(event: any) {
     this.pageNo = event.pageIndex + 1;
     this.getData();
-    this.onCancelRecord();
-    this.selection.clear();
   }
-//#endregion Pagination Fun end
+//#endregion
 
  //#region CancleRecord Fun start
    onCancelRecord() {
-    this.formDirective.resetForm();
+    this.formDirective?.resetForm();
     this.isEdit = false;
+    this.highlightedRow = 0;
+    this.selection.clear();
   }
 //#endregion CancleRecord Fun end
 
@@ -207,7 +222,6 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
   filterData() {
     this.pageNo = 1;
     this.getData();
-    this.onCancelRecord();
   }
 
 //#endregion Filter Fun end
@@ -219,9 +233,7 @@ isAllSelected() {
   }
 
   masterToggle() {
-    this.isAllSelected()
-      ? this.selection.clear()
-      : this.dataSource.data.forEach((row: any) => this.selection.select(row));
+    this.isAllSelected() ? this.selection.clear() : this.dataSource.data.forEach((row: any) => this.selection.select(row));
   }
 
   deleteUserData() {
@@ -243,7 +255,6 @@ isAllSelected() {
         this.deleteUser();
         this.onCancelRecord();
       } else {
-        this.selection.clear();
         this.onCancelRecord();
       }
     });

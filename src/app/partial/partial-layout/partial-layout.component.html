@@ -7,7 +7,7 @@
                 <div class="card-header bg-transparent text-main fw-bold">
                     <span class="breadcrumb-item active" *ngFor="let breadcrumb of this.breadcrumbs[0]?.label; let last = last"
                       [ngClass]="{ 'active' : last }">
-                         <a>{{breadcrumb.title}}</a>
+                         <a>{{ selectedLang == 'English' ? breadcrumb.title : breadcrumb.titleMarathi}}</a>
                     </span>
                 </div>
                 <div class="card-body">

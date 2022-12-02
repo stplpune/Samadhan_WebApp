@@ -5,9 +5,9 @@
         <div class="col-sm-6">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Select Department</mat-label>
-            <mat-select formControlName="deptId" (selectionChange)="filterData();">
+            <mat-select formControlName="deptId" (selectionChange)="filterData();" [disabled]="dropdownDisable">
               <mat-option value="0">All Department</mat-option>
-              <mat-option *ngFor="let dept of departmentArr" [value]="dept.id">{{dept.departmentName}}</mat-option>
+              <mat-option *ngFor="let dept of departmentArr" [value]="dept.deptId">{{dept.departmentName}}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -16,6 +16,12 @@
             <mat-label>Grievance Type</mat-label>
             <input matInput placeholder="Search" formControlName="grievanceType"
               (keypress)="validation.noFirstSpaceAllow($event)">
+              <button mat-icon-button matSuffix *ngIf="filterForm.value.grievanceType" matTooltip="close" aria-label="tooltip"
+              (click)="filterForm.controls['grievanceType'].setValue('')">
+              <span class="material-symbols-outlined">
+                close
+              </span>
+            </button>
           </mat-form-field>
         </div>
       </div>
@@ -45,7 +51,7 @@
                 delete
               </span>
             </button>
-            <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()">
+            <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [disabled]="!totalPages">
               <!-- [indeterminate]="selection.hasValue() && !isAllSelected()"> -->
             </mat-checkbox>
           </th>
@@ -64,7 +70,12 @@
           </td>
         </ng-container>
         <tr class="mat-row p-2 w-100" *matNoDataRow col>
-          <td class="alert alert-danger text-center m-2 mt-2" colspan="9">No Data Found! </td>
+          <td colspan="9">
+            <div class="alert alert-danger text-center m-2 mt-2">
+              No Data Found!
+            </div>
+
+          </td>
         </tr>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"
@@ -89,8 +100,8 @@
           <div class="mb-3">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Select Department</mat-label>
-              <mat-select formControlName="deptId">
-                <mat-option *ngFor="let dept of departmentArr" [value]="dept.id">{{dept.departmentName}}</mat-option>
+              <mat-select formControlName="deptId" [disabled]="dropdownDisable">
+                <mat-option *ngFor="let dept of departmentArr" [value]="dept.deptId">{{dept.departmentName}}</mat-option>
               </mat-select>
               <mat-error *ngIf="f['deptId']?.errors">
                 <span *ngIf="f['deptId']?.hasError('required')"> Please select Department</span>
@@ -102,7 +113,7 @@
           <div class="mb-3">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Grievance Type</mat-label>
-              <input matInput formControlName="grievanceType" (keypress)="validation.noFirstSpaceAllow($event)">
+              <input matInput formControlName="grievanceType" (keypress)="validation.noFirstSpaceAllow($event)" (keydown)="validation.notAllowMoreThenOneSpace($event)">
               <mat-error *ngIf="f['grievanceType']?.errors">
                 <span *ngIf="f['grievanceType']?.hasError('required')"> Grievance Type is required</span>
                 <span *ngIf="f['grievanceType']?.hasError('pattern') || f['grievanceType']?.hasError('minlength')">

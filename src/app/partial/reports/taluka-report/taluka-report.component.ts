@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ConfigService } from 'src/app/configs/config.service';
 import { ApiService } from 'src/app/core/service/api.service';
@@ -12,6 +13,7 @@ import { ErrorHandlerService } from 'src/app/core/service/error-handler.service'
 import { ExcelService } from 'src/app/core/service/excel_Pdf.service';
 import { FormsValidationService } from 'src/app/core/service/forms-validation.service';
 import { WebStorageService } from 'src/app/core/service/web-storage.service';
+import { SamadhanReportComponent } from '../samadhan-report/samadhan-report.component';
 
 @Component({
   selector: 'app-taluka-report',
@@ -19,7 +21,7 @@ import { WebStorageService } from 'src/app/core/service/web-storage.service';
   styleUrls: ['./taluka-report.component.css']
 })
 export class TalukaReportComponent implements OnInit {
-  displayedColumns: string[] = ['position', 'name','received', 'accepted', 'resolved','rejected','partialResolved','transfered'];
+  displayedColumns: string[] = ['position', 'name','received','open', 'accepted', 'resolved','rejected','partialResolved','transfered'];
   dataSource:any;
 
   filterForm!: FormGroup;
@@ -27,7 +29,7 @@ export class TalukaReportComponent implements OnInit {
   pageNo = 1;
   talukaArray = new Array();
   reportArray=new Array();
-
+  getUrl:any;
 
   constructor(
     private apiService: ApiService,
@@ -42,11 +44,13 @@ export class TalukaReportComponent implements OnInit {
     private fb: FormBuilder,
     private datePipe: DatePipe,
     private pdf_excelService: ExcelService,
+    private router:Router
   ){
 
   }
 
   ngOnInit(): void { 
+    this.getUrl = this.router.url.split('/')[1];
     this.getTaluka(1);
     this.filterform();
     this.getOfficerTalukaReport();
@@ -107,6 +111,7 @@ export class TalukaReportComponent implements OnInit {
               'srno':index+1,
               'talukaName':ele.taluka,
               'received':ele.received,
+              'opened':ele.openn,
               'rejected':ele.rejected,
               'resolved':ele.resolved,
               'accepted':ele.accepted,
@@ -131,7 +136,7 @@ export class TalukaReportComponent implements OnInit {
     });
   }
 
-  keyPDFHeader = ['SrNo', "Taluka Name","Received", "Accepted", "Resolved","Rejected","Partial Resolved","Transfered"];
+  keyPDFHeader = ['SrNo', "Taluka Name","Total","Open", "Accept", "Resolve","Reject","Partial Resolve","Transfer"];
 
   downloadExcel() {
     let fromdate:any;
@@ -196,6 +201,25 @@ export class TalukaReportComponent implements OnInit {
     this.filterform();
     this.pageNo = 1;
     this.getOfficerTalukaReport();
+  }
+
+  getDetailsReport(ele:any,eleFlag:any){
+    console.log(ele);
+    let obj={
+      'url':this.getUrl,
+      'flag':eleFlag,
+      'talukaId':ele.talukaId
+    }
+
+    const dialogRef = this.dialog.open(SamadhanReportComponent, {
+      width: '100%',
+      height:'650px',
+      data:obj,
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe((_result: any) => {
+      
+    }); 
   }
 
 
