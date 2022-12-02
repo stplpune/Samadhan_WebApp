@@ -40,6 +40,9 @@ export class GrievanceMasterComponent implements OnInit, AfterViewInit, OnDestro
   subscription!: Subscription;
   updatedObj: any;
   highlightedRow!: number;
+  loggedUserTypeId:any;
+  loggedUserDeptID:any;
+  dropdownDisable:boolean=false;
 
   constructor(private fb: FormBuilder, private apiService: ApiService,
     public configService: ConfigService,
@@ -53,11 +56,16 @@ export class GrievanceMasterComponent implements OnInit, AfterViewInit, OnDestro
     public commonMethod: CommonMethodService,) { }
 
   ngOnInit(): void {
+    this.loggedUserTypeId= this.localStrorageData.getLoggedInLocalstorageData().responseData?.userTypeId;
+    this.loggedUserDeptID= this.localStrorageData.getLoggedInLocalstorageData().responseData?.deptId;
     this.createGrievanceForm();
     this.filterMethod();
-    this.getDepartmentName();
-    this.getData();
-
+    this.getDepartmentName(this.localStrorageData.getUserId());
+    if( this.loggedUserTypeId ==3 || this.loggedUserTypeId ==4){
+      this.frmGrievance.controls['deptId'].setValue(this.loggedUserDeptID);
+      this.filterForm.controls['deptId'].setValue(this.loggedUserDeptID);
+     }
+     this.getData();
 
   }
   get f() { return this.frmGrievance.controls };
@@ -105,6 +113,7 @@ export class GrievanceMasterComponent implements OnInit, AfterViewInit, OnDestro
   getData() {
     this.spinner.show();
     let formData = this.filterForm.value;
+   
     this.apiService.setHttp('get', "api/Grievance/GetAll?Id=" + formData.deptId + '&GrievanceType=' + formData.grievanceType + '&pageno=' + this.pageNo + '&pagesize=' + this.pageSize, false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
@@ -137,11 +146,16 @@ export class GrievanceMasterComponent implements OnInit, AfterViewInit, OnDestro
   //#region Bind table Fun end
 
   //#region Department Api start
-  getDepartmentName() {
+  getDepartmentName(id:number) {
     this.departmentArr = [];
-    this.commonService.getAllDepartment().subscribe({
+    this.commonService.getAllDepartmentByUserId(id).subscribe({
       next: (response: any) => {
         this.departmentArr.push(...response);
+        if( this.loggedUserTypeId ==3 || this.loggedUserTypeId ==4){       //  2 logged user userTypeId
+          this.filterForm.controls['deptId'].setValue(this.loggedUserDeptID);
+          this.frmGrievance.controls['deptId'].setValue(this.loggedUserDeptID);
+          this.dropdownDisable=true;
+        }        
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })

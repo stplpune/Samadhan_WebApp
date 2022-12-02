@@ -18,9 +18,9 @@
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Department</mat-label>
                         <mat-select formControlName="deptId"
-                            (selectionChange)="clearFilter('department');isSelfGrievance.setValue(1);filterData();">
+                            (selectionChange)="clearFilter('department');isSelfGrievance.setValue(1);filterData();" [disabled]="dropdownDisable">
                             <mat-option value="0">All Department</mat-option>
-                            <mat-option *ngFor="let department of departmentArray" [value]="department.id">
+                            <mat-option *ngFor="let department of departmentArray" [value]="department.deptId">
                                 {{department.departmentName}}
                             </mat-option>
                         </mat-select>
@@ -221,8 +221,8 @@
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>Department</mat-label>
                                 <mat-select formControlName="deptId" [disabled]="ispatch"
-                                    (selectionChange)="getOffice(postGrievanceForm.value.deptId);getGrievanceByDeptId(postGrievanceForm.value.deptId);postGrievanceForm.controls['officeId'].setValue('')">
-                                    <mat-option *ngFor="let department of departmentArray" [value]="department.id">
+                                    (selectionChange)="getOffice(postGrievanceForm.value.deptId);getGrievanceByDeptId(postGrievanceForm.value.deptId);postGrievanceForm.controls['officeId'].setValue('')" [disabled]="dropdownDisable">
+                                    <mat-option *ngFor="let department of departmentArray" [value]="department.deptId">
                                         {{department.departmentName}}
                                     </mat-option>
                                 </mat-select>

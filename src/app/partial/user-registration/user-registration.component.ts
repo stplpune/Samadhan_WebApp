@@ -71,7 +71,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.getData();
     this.getUsers(this.localStrorageData.getUserId());
     // this.getDepartment();
-    this.getDepartment();
+    this.getDepartment(this.localStrorageData.getUserId());
   }
 
   //#region  filter form fn Start here
@@ -181,9 +181,9 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   // }
   //#endregiondrop down department bind fn end here
 
-  getDepartment() {
+  getDepartment(id:number) {
     this.departmentByUserArray = [];
-    this.commonService.getAllDepartment().subscribe({
+    this.commonService.getAllDepartmentByUserId(id).subscribe({
       next: (response: any) => {
         this.departmentByUserArray.push(...response);
         this.changeDepFlag == true ? (this.userFrm.controls['deptId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.deptId) == false ? '' : this.updatedObj?.deptId),
@@ -400,7 +400,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
       emailId: this.updatedObj.emailId,
     });
     // this.getDepartment();
-    this.getDepartment();
+    this.getDepartment(this.localStrorageData.getUserId());
     this.getUsers(this.localStrorageData.getUserId());
     this.setValidators(this.updatedObj?.userTypeId);
   }

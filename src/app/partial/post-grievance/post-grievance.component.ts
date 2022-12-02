@@ -52,10 +52,12 @@ export class PostGrievanceComponent implements OnInit {
   grievanceImageArray :any[]=[];
   subscription!: Subscription;
   ispatch:boolean=false;
+  dropdownDisable:boolean=false;
   updatedObj:any;
   documentUrlUploaed:any;
   @ViewChild('formDirective')
   private formDirective!: NgForm;
+  loggedUserTypeId:any;
 
 
   constructor(public commonMethod: CommonMethodService,
@@ -72,12 +74,13 @@ export class PostGrievanceComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.loggedUserTypeId= this.localStrorageData.getLoggedInLocalstorageData().responseData?.userTypeId;
     this.filterForm();
     this.defaultForm();
     this.getDistrict();
     this.getTaluka(1);
     this.getStatus();
-    this.getDepartment();
+    this.getDepartment(this.localStrorageData.getUserId());
     // this.getGrievance();
     this.bindTable();
   }
@@ -185,11 +188,28 @@ export class PostGrievanceComponent implements OnInit {
     })
   }
 
-  getDepartment() {
+  // getDepartment() {
+  //   this.departmentArray = [];
+  //   this.commonApi.getAllDepartment().subscribe({
+  //     next: (response: any) => {
+  //       this.departmentArray.push(...response);
+  //       this.ispatch==true ? (this.postGrievanceForm.controls['deptId'].setValue(this.updatedObj?.concern_DeptId),this.getOffice(this.updatedObj?.concern_DeptId),this.getGrievanceByDeptId(this.updatedObj?.concern_DeptId)): '';
+  //     },
+  //     error: ((error: any) => { this.error.handelError(error.status) })
+  //   })
+  // }
+
+  getDepartment(id:number) {
     this.departmentArray = [];
-    this.commonApi.getAllDepartment().subscribe({
+    this.commonApi.getAllDepartmentByUserId(id).subscribe({
       next: (response: any) => {
         this.departmentArray.push(...response);
+        if(this.departmentArray.length == 1 && this.loggedUserTypeId==4) {
+          this.postGrievanceForm.controls['deptId'].setValue(this.departmentArray[0].deptId);
+          this.filterFrm.controls['deptId'].setValue(this.departmentArray[0].deptId);
+          this.getOffice(this.departmentArray[0].deptId);
+          this.dropdownDisable=true;
+        } 
         this.ispatch==true ? (this.postGrievanceForm.controls['deptId'].setValue(this.updatedObj?.concern_DeptId),this.getOffice(this.updatedObj?.concern_DeptId),this.getGrievanceByDeptId(this.updatedObj?.concern_DeptId)): '';
       },
       error: ((error: any) => { this.error.handelError(error.status) })
@@ -235,7 +255,7 @@ export class PostGrievanceComponent implements OnInit {
   clearFilter(flag: any) {
     switch (flag) {
       case 'taluka':
-         this.filterFrm.controls['deptId'].setValue(0);
+         this.loggedUserTypeId == 4 ? this.filterFrm.controls['deptId'].setValue(this.departmentArray[0].deptId):this.filterFrm.controls['deptId'].setValue(0);
          this.filterFrm.controls['statusId'].setValue(0);
          this.filterFrm.controls['textSearch'].setValue('');
        break;
@@ -426,7 +446,7 @@ export class PostGrievanceComponent implements OnInit {
         grievanceDescription:this.updatedObj.grievanceDescription,
       })
       this.getDistrict();
-      this.getDepartment();
+      this.getDepartment(this.localStrorageData.getUserId());
       // this.getGrievance();
   }
 

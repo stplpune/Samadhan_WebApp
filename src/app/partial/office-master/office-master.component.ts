@@ -70,7 +70,11 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
    this.loggedUserDeptID= this.localStrorageData.getLoggedInLocalstorageData().responseData?.deptId;
     this.createOfficeForm();
     this.filterform();
-    this.getDepartmentName();
+    this.getDepartmentName(this.localStrorageData.getUserId());
+    if( this.loggedUserTypeId ==3){
+      this.frmOffice.controls['deptId'].setValue(this.loggedUserDeptID);
+      this.filterForm.controls['deptId'].setValue(this.loggedUserDeptID);
+     }
     this.getData();
     this.mapApiLoader();
   }
@@ -121,9 +125,9 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
   selection = new SelectionModel<any>(true, []);
 
   //#region Department Api start
-  getDepartmentName() {
+  getDepartmentName(id:number) {
     this.departmentArr = [];
-    this.commonService.getAllDepartment().subscribe({
+    this.commonService.getAllDepartmentByUserId(id).subscribe({
       next: (response: any) => {
         this.departmentArr.push(...response);
         if(this.loggedUserTypeId ==3){       //  3 logged user userTypeId
@@ -141,7 +145,7 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
   getData() {
     this.spinner.show()
     let formData = this.filterForm.value;
-    this.apiService.setHttp('get','samadhan/office/GetAll?pageno=' +this.pageNo+'&pagesize=' +this.pageSize+'&DeptId='+ this.loggedUserDeptID +'&Name='+formData.name,false,false,false,'samadhanMiningService');
+    this.apiService.setHttp('get','samadhan/office/GetAll?pageno=' +this.pageNo+'&pagesize=' +this.pageSize+'&DeptId='+formData.deptId+'&Name='+formData.name,false,false,false,'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {
