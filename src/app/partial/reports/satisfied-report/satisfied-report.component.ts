@@ -148,7 +148,7 @@ export class SatisfiedReportComponent implements OnInit {
       'topHedingName' : 'Satisfied Report',
       'createdDate':'Created on:'+this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a')
     }
-    let keyPDFHeader = ['SrNo', "Department Name", "Received","Resolved", "Satisfied", "UnSatisfied"];
+    let keyPDFHeader = ['SrNo', "Department Name", "Receive", "Resolve", "Satisfy", "UnSatisfy"];
 
     checkFromDateFlag = formData.fromDate == '' || formData.fromDate == null || formData.fromDate == 0 || formData.fromDate == undefined ? false : true;
         checkToDateFlag =  formData.toDate == '' ||  formData.toDate == null ||  formData.toDate == 0 ||  formData.toDate == undefined ? false : true;
@@ -170,7 +170,7 @@ export class SatisfiedReportComponent implements OnInit {
     formData.fromDate = formData.fromDate ? this.datePipe.transform(formData.fromDate, 'yyyy/MM/dd') : '';
     formData.toDate = formData.toDate ? this.datePipe.transform(formData.toDate, 'yyyy/MM/dd') : '';
 
-    let keyPDFHeader = ['SrNo', "Department Name", "Received", "Resolved", "Satisfied", "UnSatisfied"];
+    let keyPDFHeader = ['SrNo', "Department Name", "Receive", "Resolve", "Satisfy", "UnSatisfy"];
     let ValueData =
       this.officeIsSatisfiedReportArray.reduce(
         (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
