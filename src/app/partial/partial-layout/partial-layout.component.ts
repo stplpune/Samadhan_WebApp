@@ -11,6 +11,7 @@ import { SidebarService } from './sidebar/sidebar.service';
 export class PartialLayoutComponent implements OnInit {
 
   breadcrumbs:any;
+  selectedLang: any
   constructor(public sidebarservice: SidebarService, private router:Router,private activatedRoute:ActivatedRoute) {  this.addBreadcrumbs();}
   toggleSidebar() {
     this.sidebarservice.setSidebarState(!this.sidebarservice.getSidebarState());
@@ -26,6 +27,7 @@ export class PartialLayoutComponent implements OnInit {
     this.sidebarservice.setSidebarState(true);
   }
   ngOnInit(): void {
+    this.selectedLang = sessionStorage.getItem('language')
   }
 
   addBreadcrumbs() {

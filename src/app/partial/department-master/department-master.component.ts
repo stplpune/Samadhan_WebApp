@@ -15,6 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { WebStorageService } from 'src/app/core/service/web-storage.service';
 import { CommonApiService } from 'src/app/core/service/common-api.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-department-master',
@@ -36,7 +37,10 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
   updatedObj: any;
   highlightedRow!: number;
   departmentArr: any;
-
+  selectedLang: any;
+  loggedUserTypeId:any;
+  loggedUserDeptID:any;
+  dropdownDisable:boolean=false;
 
   constructor(
     private fb: FormBuilder,
@@ -49,20 +53,34 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
     public validation: FormsValidationService,
     public commonMethod: CommonMethodService,
     public commonService: CommonApiService,
-
+    public translate: TranslateService
   ) {}
 
   ngOnInit(): void {
+    this.loggedUserTypeId= this.webStorage.getLoggedInLocalstorageData().responseData?.userTypeId;
+    this.loggedUserDeptID= this.webStorage.getLoggedInLocalstorageData().responseData?.deptId;
     this.createDepartmentForm();
-    this.getDepartmentName();
+    this.getDepartmentName(this.webStorage.getUserId());
+    if( this.loggedUserTypeId ==3){
+      // this.frmDepartment.controls['deptId'].setValue(this.loggedUserDeptID);
+      this.filterForm.controls['deptId'].setValue(this.loggedUserDeptID);
+     }
     this.getData();
+    this.selectedLang = sessionStorage.getItem('language')
+    this.translateLanguageTo(this.selectedLang);
+  }
 
+  translateLanguageTo(lang: any) {
+    this.selectedLang = lang;
+    sessionStorage.setItem('language', lang);
+    this.translate.use(lang);
   }
 
 //#region createDepartmentForm start
   createDepartmentForm() {
     this.frmDepartment = this.fb.group({
       departmentName: ['',[Validators.required, Validators.pattern(this.validation.valName)],],
+      m_DepartmentName: ['', [Validators.required]],
     });
 
     this.filterForm = this.fb.group({
@@ -81,11 +99,16 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
   selection = new SelectionModel<any>(true, []);
 
  //#region Department Bind Fun start
-  getDepartmentName() {
+  getDepartmentName(id:number) {
     this.departmentArr = [];
-    this.commonService.getAllDepartment().subscribe({
+    this.commonService.getAllDepartmentByUserId(id).subscribe({
       next: (response: any) => {
         this.departmentArr.push(...response);
+        if( this.loggedUserTypeId ==3){       //  logged user userTypeId
+          this.filterForm.controls['deptId'].setValue(this.loggedUserDeptID);
+          this.frmDepartment.controls['deptId'].setValue(this.loggedUserDeptID);
+          this.dropdownDisable=true;
+        }        
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
@@ -142,6 +165,7 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
       isDeleted: false,
       id: this.isEdit == true ? this.updatedObj.id : 0,
       departmentName: formData.departmentName,
+      m_DepartmentName: formData.m_DepartmentName
     };
     let method = this.isEdit ? 'PUT' : 'POST';
     let url = this.isEdit ? 'UpdateDepartment' : 'AddDepartment';
@@ -173,7 +197,7 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
     this.isEdit = true;
     this.updatedObj = data;
     this.frmDepartment.controls['departmentName'].setValue(this.updatedObj.departmentName);
-
+    this.frmDepartment.controls['m_DepartmentName'].setValue(this.updatedObj.m_DepartmentName);
   }
 
 //#endregion

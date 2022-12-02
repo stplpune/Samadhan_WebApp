@@ -203,5 +203,9 @@ notAllowMoreThenOneSpace(e:any){
   return true
  }
 }
+    unicodeMarathiValidation(event: any) {
+        const maskSeperator = new RegExp('[^\u0900-\u0965 ]+', 'm');
+        return !maskSeperator.test(event.key);
+    }
 
 }
