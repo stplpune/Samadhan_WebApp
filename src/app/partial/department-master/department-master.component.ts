@@ -37,6 +37,9 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
   highlightedRow!: number;
   departmentArr: any;
   selectedLang: any;
+  loggedUserTypeId:any;
+  loggedUserDeptID:any;
+  dropdownDisable:boolean=false;
 
   constructor(
     private fb: FormBuilder,
@@ -49,12 +52,18 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
     public validation: FormsValidationService,
     public commonMethod: CommonMethodService,
     public commonService: CommonApiService,
-
+   
   ) {}
 
   ngOnInit(): void {
+    this.loggedUserTypeId= this.webStorage.getLoggedInLocalstorageData().responseData?.userTypeId;
+    this.loggedUserDeptID= this.webStorage.getLoggedInLocalstorageData().responseData?.deptId;
     this.createDepartmentForm();
-    this.getDepartmentName();
+    this.getDepartmentName(this.webStorage.getUserId());
+    if( this.loggedUserTypeId ==3){
+      this.frmDepartment.controls['deptId'].setValue(this.loggedUserDeptID);
+      this.filterForm.controls['deptId'].setValue(this.loggedUserDeptID);
+     }
     this.getData();
     this.selectedLang = sessionStorage.getItem('language')
   }
@@ -82,11 +91,16 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
   selection = new SelectionModel<any>(true, []);
 
  //#region Department Bind Fun start
-  getDepartmentName() {
+  getDepartmentName(id:number) {
     this.departmentArr = [];
-    this.commonService.getAllDepartment().subscribe({
+    this.commonService.getAllDepartmentByUserId(id).subscribe({
       next: (response: any) => {
         this.departmentArr.push(...response);
+        if( this.loggedUserTypeId ==3){       //  logged user userTypeId
+          this.filterForm.controls['deptId'].setValue(this.loggedUserDeptID);
+          this.frmDepartment.controls['deptId'].setValue(this.loggedUserDeptID);
+          this.dropdownDisable=true;
+        }        
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
