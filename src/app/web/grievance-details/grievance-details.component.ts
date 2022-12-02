@@ -53,8 +53,8 @@ export class GrievanceDetailsComponent implements OnInit {
     });
   }
 
-  viewDocument(ele: any) {
-    window.open(ele, '_blank');
+  viewDocument(ele: any) { 
+      window.open(ele, '_blank'); 
   }
 
   closeDialog() {

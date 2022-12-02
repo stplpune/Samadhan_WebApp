@@ -124,17 +124,20 @@
                                         {{grivanceData?.grievanceDescription}}
                                     </div>
                                 </div>
-                                <div class="col-sm-2">
+                                
+                                <div class="col-sm-2" *ngIf="grivanceData?.citizenGrievanceImages[0]?.docpath">
                                     <div class="form-label">
                                         <div class="pdf-icon col-md-3">
                                             <img src="assets/images/pdf.png">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-10">
+                                <div class="col-sm-10" *ngIf="commonMethod.checkDataType(grivanceData?.citizenGrievanceImages[0]?.docpath)">
                                         <a class="primary" (click)="viewDocument(grivanceData?.citizenGrievanceImages[0]?.docpath)">View
                                             Documents</a>
-
+                                </div>
+                                <div class="col-sm-10" *ngIf="!commonMethod.checkDataType(grivanceData?.citizenGrievanceImages[0]?.docpath)">
+                                   <p class="text-danger">Document Not Available</p>
                                 </div>
                             </div>
                         </div>
