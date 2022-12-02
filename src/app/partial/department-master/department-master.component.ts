@@ -62,7 +62,7 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
     this.createDepartmentForm();
     this.getDepartmentName(this.webStorage.getUserId());
     if( this.loggedUserTypeId ==3){
-      this.frmDepartment.controls['deptId'].setValue(this.loggedUserDeptID);
+      // this.frmDepartment.controls['deptId'].setValue(this.loggedUserDeptID);
       this.filterForm.controls['deptId'].setValue(this.loggedUserDeptID);
      }
     this.getData();
