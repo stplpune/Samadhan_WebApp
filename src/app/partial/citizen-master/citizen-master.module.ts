@@ -5,6 +5,7 @@ import { CitizenMasterRoutingModule } from './citizen-master-routing.module';
 import { CitizenMasterComponent } from './citizen-master.component';
 import { MaterialModule } from 'src/app/shared/AngularMaterialModule/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     CitizenMasterRoutingModule,
     MaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TranslateModule
   ]
 })
 export class CitizenMasterModule { }

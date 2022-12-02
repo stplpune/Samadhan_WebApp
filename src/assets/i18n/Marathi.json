@@ -49,7 +49,22 @@
 
         "grievance_type":"तक्रारीचा प्रकार",
         "add_grievance_master":"तक्रार मास्टर",
-        "grievance_type_is_required":"तक्रारीचा प्रकार आवश्यक आहे"
+        "grievance_type_is_required":"तक्रारीचा प्रकार आवश्यक आहे",
+        "off_name_req":"कार्यालयाचे नाव आवश्यक आहे",
+        "pls_enter_val_office_name":"पत्ता आवश्यक आहे",
+        "pls_enter_val_office_name_mar":"कार्यालयाचे मराठी नाव आवश्यक आहे",
+        "off_add":"कार्यालयाचा पत्ता",
+        "off_email_id":"अधिकृत ईमेल आयडी",
+        "Select_village" :"गाव निवडा",
+        "All_village" :"सर्व गाव",
+        "select_Taluka":"तालुका निवडा",
+        "All_Taluka":"सर्व तालुका ",
+        "searchMobile":"नाव / मोबाईल नंबर",
+        "name":"नाव",
+        "mobileNo":"मोबाईल नंबर",
+        "Email_Id":"ई - मेल आयडी",
+        "Taluka":"तालुका",
+        "Village":"गाव"
 
     }
 }

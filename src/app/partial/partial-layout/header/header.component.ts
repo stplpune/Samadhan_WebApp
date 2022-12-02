@@ -17,6 +17,8 @@ export class HeaderComponent implements OnInit {
 
   selectedLanguage: any;
 
+  selLag = ['English','Marathi'];
+
   constructor(public sidebarservice: SidebarService,
     public dialog: MatDialog,
     public webStorageService:WebStorageService,
@@ -72,6 +74,7 @@ export class HeaderComponent implements OnInit {
   }
 
   translateLanguageTo(lang: any) {
+    debugger
     this.selectedLanguage = lang;
     sessionStorage.setItem('language', lang);
     this.translate.use(lang);
