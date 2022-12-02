@@ -39,6 +39,28 @@
         "department_req_val": "विभाग आवश्यक आहे",
         "department_valid_val": "कृपया प्रविष्ट करा वैध विभागाचे नाव",
         "department_marathi_req_val": "विभागाचे मराठी नाव आवश्यक आहे",
-        "all_dept": "सर्व विभाग"
+        "all_dept": "सर्व विभाग",
+        "office":"कार्यालय",
+        "add_office":"ऑफिस जोडा",
+        "upd_office":"ऑफिस अपडेट करा",
+        "ofiice_name":"कार्यालयाचे नाव",
+        "ofiname_marathi":"कार्यालयाचे नाव (मराठी)",
+        "please_sel_dep":"कृपया विभाग निवडा",
+        "off_name_req":"कार्यालयाचे नाव आवश्यक आहे",
+        "pls_enter_val_office_name":"पत्ता आवश्यक आहे",
+        "pls_enter_val_office_name_mar":"कार्यालयाचे मराठी नाव आवश्यक आहे",
+        "off_add":"कार्यालयाचा पत्ता",
+        "off_email_id":"अधिकृत ईमेल आयडी",
+        "Select_village" :"गाव निवडा",
+        "All_village" :"सर्व गाव",
+        "select_Taluka":"तालुका निवडा",
+        "All_Taluka":"सर्व तालुका ",
+        "searchMobile":"नाव / मोबाईल नंबर",
+        "name":"नाव",
+        "mobileNo":"मोबाईल नंबर",
+        "Email_Id":"ई - मेल आयडी",
+        "Taluka":"तालुका",
+        "Village":"गाव"
+
     }
 }
