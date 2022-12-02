@@ -1,12 +1,12 @@
 export const themes: any = {
     main: {
-        '--main-color': '#B83058'
+        '--main-color': '184, 48, 88'
     },
     blue: {
-        '--main-color': '#4C74A2'
+        '--main-color': '76, 116, 162'
     },
     black: {
-        '--main-color': '#000'
+        '--main-color': '0, 0, 0'
     }
 };
 

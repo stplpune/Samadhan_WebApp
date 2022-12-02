@@ -13,13 +13,14 @@ body {
 }
 
 :root {
-    --main-color: rgb(184, 48, 88);
-    --main-dark-color: rgb(132, 22, 55);
-    --main-light-color: rgb(255, 218, 229);
+    --main-color: 184, 48, 88;
+    --main-dark-color: 132, 22, 55;
+    --main-light-color: 255, 218, 229;
+    --opacity-1: 1;
 }
 
 .bg-main {
-    background-color: var(--main-color);
+    background-color: rgba(var(--main-color), var(--opacity-1));
     color: #fff;
     font-family: "Poppins", sans-serif !important;
 }
@@ -35,17 +36,17 @@ body {
 }
 
 .text-main {
-    color: var(--main-color);
+    color: rgba(var(--main-color), var(--opacity-1));
 }
 .btn-main {
     background-color: transparent;
-    color: var(--main-color);
-    border: solid 1px var(--main-color) !important;
+    color: rgba(var(--main-color), var(--opacity-1));
+    border: solid 1px rgba(var(--main-color), var(--opacity-1)) !important;
     font-family: "Poppins", sans-serif !important;
 }
 
 .btn-main:hover {
-    background-color: var(--main-color);
+    background-color: rgba(var(--main-color), var(--opacity-1));
     color: #fff;
 }
 .btn-main-outline {
@@ -116,14 +117,14 @@ body {
 }
 
 .form-card {
-    border: solid 1px var(--main-color);
+    border: solid 1px rgba(var(--main-color), var(--opacity-1));
 }
 
 .plain-card .card-header,
 .form-card .card-header {
     background-color: transparent;
     font-size: 0.85rem;
-    color: var(--main-color);
+    color: rgba(var(--main-color), var(--opacity-1));
     font-weight: 500;
     border-bottom: none;
 }
@@ -150,7 +151,7 @@ body {
     bottom: 0px;
     text-align: center;
     left: 0px;
-    background-color: rgba(184, 48, 89, 0.768);
+    background-color: rgba(var(--main-color), 0.768);
     width: 252px;
     overflow: hidden;
     color: #fff;
@@ -188,7 +189,7 @@ h5.page-heading
 }
 
 .dashboard-table a {
-    color: var(--main-color);
+    color: rgba(var(--main-color), var(--opacity-1));
     text-decoration: none;
     cursor: pointer;
 }
@@ -317,7 +318,7 @@ input:-webkit-autofill:active {
     padding-top: 5px;
 }
 .btn-edit:hover{
-    color: var(--main-color);
+    color: rgba(var(--main-color), var(--opacity-1));
 }
 .table-height {
     height: 69vh;

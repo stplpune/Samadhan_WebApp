@@ -11,7 +11,7 @@
     padding-block: 2rem;
 }
 .left-content .redress{
-    color: var(--main-color);
+    color: rgba(var(--main-color), var(--opacity-1));
     text-transform: uppercase;
     font-weight: 700;
     font-size: 2.5rem;
@@ -33,7 +33,7 @@
     line-height: 1.8rem;
 }
 .left-content .lodge{
-    color: var(--main-color);
+    color: rgba(var(--main-color), var(--opacity-1));
     font-weight: 600;
     font-size: 1.4rem;
 }

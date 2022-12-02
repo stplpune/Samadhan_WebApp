@@ -27,7 +27,7 @@
 .navbar .dropdown-menu .dropdown-item:active,
 .navbar .dropdown-menu .dropdown-item:focus,
 .navbar .dropdown-menu .dropdown-item:hover{
-    background-color: var(--main-color);
+    background-color: rgba(var(--main-color), var(--opacity-1));
     color: #fff;
 }
 .navbar-brand{
