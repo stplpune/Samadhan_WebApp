@@ -140,6 +140,14 @@
                                    <p class="text-danger">Document Not Available</p>
                                 </div>
                             </div>
+                            <div class="row bbottom g-2">
+                                <div class="col-sm-2">
+                                    <div class="form-label">Remark: </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-data" *ngFor="let remark of grivanceData.officerRedressalImages">{{remark?.remark}}</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
