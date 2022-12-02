@@ -45,7 +45,12 @@
         "upd_office":"Update Office",
         "ofiice_name":"Office Name",
         "ofiname_marathi":"Office Name (Marathi)",
-        "please_sel_dep":"Please select Department"
+        "please_sel_dep":"Please select Department",
+
+        "grievance_type":"Grievance Type",
+        "add_grievance_master":"Grievance Master",
+        "grievance_type_is_required":"Grievance Type is required"
+
         
     }
 }

@@ -14,6 +14,7 @@ import { WebStorageService } from 'src/app/core/service/web-storage.service';
 import { MatDialog } from '@angular/material/dialog';
 import { debounceTime, distinctUntilChanged, filter, Subscription } from 'rxjs';
 import { CommonApiService } from 'src/app/core/service/common-api.service';
+import { TranslateService } from '@ngx-translate/core';
 
 
 
@@ -43,6 +44,7 @@ export class GrievanceMasterComponent implements OnInit, AfterViewInit, OnDestro
   loggedUserTypeId:any;
   loggedUserDeptID:any;
   dropdownDisable:boolean=false;
+  langTypeName:any;
 
   constructor(private fb: FormBuilder, private apiService: ApiService,
     public configService: ConfigService,
@@ -53,6 +55,7 @@ export class GrievanceMasterComponent implements OnInit, AfterViewInit, OnDestro
     public localStrorageData: WebStorageService,
     public commonService: CommonApiService,
     private webStorage: WebStorageService,
+    public translate: TranslateService,
     public commonMethod: CommonMethodService,) { }
 
   ngOnInit(): void {
@@ -67,6 +70,9 @@ export class GrievanceMasterComponent implements OnInit, AfterViewInit, OnDestro
      }
      this.getData();
 
+     this.webStorage.langNameOnChange.subscribe(message => {
+      this.langTypeName = message;
+     });
   }
   get f() { return this.frmGrievance.controls };
 

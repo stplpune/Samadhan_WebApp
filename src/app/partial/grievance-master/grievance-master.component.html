@@ -4,16 +4,16 @@
       <div class="row">
         <div class="col-sm-6">
           <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Select Department</mat-label>
+            <mat-label>{{'Home.select_department' | translate}}</mat-label>
             <mat-select formControlName="deptId" (selectionChange)="filterData();" [disabled]="dropdownDisable">
-              <mat-option value="0">All Department</mat-option>
-              <mat-option *ngFor="let dept of departmentArr" [value]="dept.deptId">{{dept.departmentName}}</mat-option>
+              <mat-option value="0">{{'Home.all_dept' | translate}}</mat-option>
+              <mat-option *ngFor="let dept of departmentArr" [value]="dept.deptId">{{ langTypeName == 'English' ? dept.departmentName : dept.m_DepartmentName}}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
         <div class="col-sm-6">
           <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Grievance Type</mat-label>
+            <mat-label>{{'Home.grievance_type' | translate}}</mat-label>
             <input matInput placeholder="Search" formControlName="grievanceType"
               (keypress)="validation.noFirstSpaceAllow($event)">
               <button mat-icon-button matSuffix *ngIf="filterForm.value.grievanceType" matTooltip="close" aria-label="tooltip"
@@ -93,31 +93,27 @@
   <div class="col-sm-4">
     <div class="card form-card">
       <div class="card-header ">
-        {{isEdit?'Update' : 'Add'}} Grievance Master
+        {{isEdit?'Update' : 'Add'}} {{'Home.add_grievance_master' | translate}}
       </div>
       <form [formGroup]="frmGrievance" #formDirective="ngForm" (ngSubmit)="onSubmitGrievance()" autocomplete="off">
         <div class="card-body">
           <div class="mb-3">
             <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Select Department</mat-label>
+              <mat-label>{{'Home.select_department' | translate}}</mat-label>
               <mat-select formControlName="deptId" [disabled]="dropdownDisable">
-                <mat-option *ngFor="let dept of departmentArr" [value]="dept.deptId">{{dept.departmentName}}</mat-option>
+                <mat-option *ngFor="let dept of departmentArr" [value]="dept.deptId">{{ langTypeName == 'English' ? dept.departmentName : dept.m_DepartmentName}}</mat-option>
               </mat-select>
               <mat-error *ngIf="f['deptId']?.errors">
-                <span *ngIf="f['deptId']?.hasError('required')"> Please select Department</span>
-                <span *ngIf="f['deptId']?.hasError('pattern') || f['deptId']?.hasError('minlength')">
-                  Please select Department</span>
+                <span *ngIf="f['deptId']?.hasError('required')"> {{'Home.please_sel_dep' | translate}}</span>
               </mat-error>
             </mat-form-field>
           </div>
           <div class="mb-3">
             <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Grievance Type</mat-label>
+              <mat-label>{{'Home.grievance_type' | translate}}</mat-label>
               <input matInput formControlName="grievanceType" (keypress)="validation.noFirstSpaceAllow($event)" (keydown)="validation.notAllowMoreThenOneSpace($event)">
               <mat-error *ngIf="f['grievanceType']?.errors">
-                <span *ngIf="f['grievanceType']?.hasError('required')"> Grievance Type is required</span>
-                <span *ngIf="f['grievanceType']?.hasError('pattern') || f['grievanceType']?.hasError('minlength')">
-                  Grievance Type is required</span>
+                <span *ngIf="f['grievanceType']?.hasError('required')"> {{'Home.grievance_type_is_required' | translate}}</span>
               </mat-error>
             </mat-form-field>
           </div>

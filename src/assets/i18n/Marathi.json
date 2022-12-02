@@ -45,7 +45,11 @@
         "upd_office":"ऑफिस अपडेट करा",
         "ofiice_name":"कार्यालयाचे नाव",
         "ofiname_marathi":"कार्यालयाचे नाव (मराठी)",
-        "please_sel_dep":"कृपया विभाग निवडा"
+        "please_sel_dep":"कृपया विभाग निवडा",
+
+        "grievance_type":"तक्रारीचा प्रकार",
+        "add_grievance_master":"तक्रार मास्टर",
+        "grievance_type_is_required":"तक्रारीचा प्रकार आवश्यक आहे"
 
     }
 }
