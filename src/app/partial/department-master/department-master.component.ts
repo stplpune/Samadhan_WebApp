@@ -41,6 +41,7 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
   loggedUserTypeId:any;
   loggedUserDeptID:any;
   dropdownDisable:boolean=false;
+  langTypeName:any;
 
   constructor(
     private fb: FormBuilder,
@@ -68,6 +69,10 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
     this.getData();
     this.selectedLang = sessionStorage.getItem('language')
     this.translateLanguageTo(this.selectedLang);
+    this.webStorage.langNameOnChange.subscribe(message => {
+      this.langTypeName = message;
+     });
+     alert(this.langTypeName)
   }
 
   translateLanguageTo(lang: any) {
