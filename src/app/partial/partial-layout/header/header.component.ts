@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { ChangePasswordComponent } from '../../dialogs/change-password/change-password.component';
 import { LogoutComponent } from '../../dialogs/logout/logout.component';
 import { ProfileComponent } from '../../dialogs/profile/profile.component';
@@ -13,9 +14,12 @@ import { SidebarService } from '../sidebar/sidebar.service';
 })
 export class HeaderComponent implements OnInit {
 
+  selectedLanguage: any;
+
   constructor(public sidebarservice: SidebarService,
     public dialog: MatDialog,
-    private router:Router ) { }
+    private router:Router,
+    public translate: TranslateService) { }
   toggleSidebar() {
     this.sidebarservice.setSidebarState(!this.sidebarservice.getSidebarState());
   }
@@ -31,7 +35,7 @@ export class HeaderComponent implements OnInit {
   }
   title: any;
   ngOnInit(): void {
-    this.title = document.title;
+    this.translateLanguageTo(sessionStorage.getItem('language') ? sessionStorage.getItem('language') : 'English');
   }
 
   openChangePasswordModal() {
@@ -63,6 +67,12 @@ export class HeaderComponent implements OnInit {
         this.localStorageClear();
       }
     });
+  }
+
+  translateLanguageTo(lang: any) {
+    this.selectedLanguage = lang;
+    sessionStorage.setItem('language', lang);
+    this.translate.use(lang);
   }
 
   localStorageClear() {
