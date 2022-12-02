@@ -7,7 +7,7 @@
             <mat-label>{{'Home.select_department' | translate}}</mat-label>
             <mat-select formControlName="deptId" (selectionChange)="filterData();">
               <mat-option value="0">{{'Home.all_dept' | translate}}</mat-option>
-              <mat-option *ngFor="let dept of departmentArr" [value]="dept.id">{{ selectedLang == 'English' ? dept.departmentName : dept.m_DepartmentName}}</mat-option>
+              <mat-option *ngFor="let dept of departmentArr" [value]="dept.id">{{ langTypeName == 'English' ? dept.departmentName : dept.m_DepartmentName}}</mat-option>
             </mat-select>
           </mat-form-field>
         </form>
@@ -21,7 +21,7 @@
       </ng-container>
       <ng-container matColumnDef="departmentName">
         <th mat-header-cell *matHeaderCellDef>{{'Home.department' | translate}}</th>
-        <td mat-cell *matCellDef="let element"> {{ selectedLang == 'English' ? (element.departmentName | titlecase) : element.m_DepartmentName}} </td>
+        <td mat-cell *matCellDef="let element"> {{ langTypeName == 'English' ? (element.departmentName | titlecase) : element.m_DepartmentName}} </td>
         <mat-error *ngIf="f['departmentName'].errors">
           <span class="text-danger" *ngIf="f['departmentName'].errors?.['pattern']">Please enter
             valid department name</span>

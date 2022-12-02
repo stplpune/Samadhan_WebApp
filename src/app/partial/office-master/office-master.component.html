@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-sm-6">
           <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Select Department</mat-label>
+            <mat-label>{{'Home.select_department' | translate}}</mat-label>
             <mat-select formControlName="deptId" (selectionChange)="filterData();" [disabled]="dropdownDisable">
               <mat-option value="0">All Department</mat-option>
               <mat-option *ngFor="let dept of departmentArr" [value]="dept.deptId">{{dept.departmentName}}</mat-option>

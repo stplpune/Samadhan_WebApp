@@ -38,6 +38,7 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
   highlightedRow!: number;
   departmentArr: any;
   selectedLang: any;
+  langTypeName:any;
 
   constructor(
     private fb: FormBuilder,
@@ -57,8 +58,12 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
     this.createDepartmentForm();
     this.getDepartmentName();
     this.getData();
-    this.selectedLang = sessionStorage.getItem('language')
-    this.translateLanguageTo(this.selectedLang);
+    // this.selectedLang = sessionStorage.getItem('language')
+    // this.translateLanguageTo(this.selectedLang);
+
+    this.webStorage.langNameOnChange.subscribe(message => {
+      this.langTypeName = message;
+     });
   }
 
   translateLanguageTo(lang: any) {

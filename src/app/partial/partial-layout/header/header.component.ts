@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { WebStorageService } from 'src/app/core/service/web-storage.service';
 import { ChangePasswordComponent } from '../../dialogs/change-password/change-password.component';
 import { LogoutComponent } from '../../dialogs/logout/logout.component';
 import { ProfileComponent } from '../../dialogs/profile/profile.component';
@@ -18,6 +19,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(public sidebarservice: SidebarService,
     public dialog: MatDialog,
+    public webStorageService:WebStorageService,
     private router:Router,
     public translate: TranslateService) { }
   toggleSidebar() {
@@ -73,6 +75,7 @@ export class HeaderComponent implements OnInit {
     this.selectedLanguage = lang;
     sessionStorage.setItem('language', lang);
     this.translate.use(lang);
+    this.webStorageService.sendlangType(lang);
   }
 
   localStorageClear() {
