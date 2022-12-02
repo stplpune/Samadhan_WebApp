@@ -85,6 +85,7 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
     this.webStorage.langNameOnChange.subscribe(message => {
       this.langTypeName = message;
      });
+     console.log(this.langTypeName);
   }
 
 
