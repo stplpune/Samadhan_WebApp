@@ -161,7 +161,7 @@ noWhiteSpace(control: AbstractControl): ValidationErrors | null {
 //Latest Added
 
 acceptedOnlyNumbers(event: any) {
-    const pattern = /[0-9]/;
+  const pattern = /[0-9\s]/;
     let inputChar = String.fromCharCode(event.charCode);
     if (!pattern.test(inputChar)) {
         event.preventDefault();
@@ -190,6 +190,18 @@ acceptedOnlyNumbers_floatValue(event: any) {
     if (event.target.selectionStart === 0 && (event.code === 'Space')){
         event.preventDefault();
     }
+}
+
+notAllowMoreThenOneSpace(e:any){
+  var input = e.target;
+  var val = input.value;
+  var end = input.selectionEnd;
+  if(e.keyCode == 32 && (val[end - 1] == " " || val[end] == " ")) {
+    e.preventDefault();
+    return false;
+ }else {
+  return true
+ }
 }
 
 }

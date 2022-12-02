@@ -109,8 +109,8 @@
           <div class="mb-3">
             <mat-form-field appearance="outline" class="w-100 ">
               <mat-label>Office Name</mat-label>
-              <input matInput formControlName="name" maxlength="200" (keyup)="validation.removeSpaceAtBegining($event)"
-                (keypress)="validation.alphabetsWithSpaces($event)">
+              <input matInput formControlName="name" maxlength="200" (keydown)="validation.notAllowMoreThenOneSpace($event)"
+                (keypress)="validation.removeSpaceAtBegining($event);validation.alphabetsWithSpaces($event)">
               <mat-error *ngIf="f['name']?.errors">
                 <span *ngIf="f['name']?.hasError('required')"> Office Name is required</span>
                 <span *ngIf="f['name'].hasError('pattern')">
@@ -123,7 +123,7 @@
             <mat-form-field appearance="legacy" class="w-100 ">
               <mat-label>Office Address</mat-label>
               <!-- <input matInput formControlName="address" maxlength="200" (keyup)="validation.removeSpaceAtBegining($event)"> -->
-              <textarea aria-label="Number" matInput (keypress)="validation.noFirstSpaceAllow($event)"
+              <textarea aria-label="Number" matInput (keypress)="validation.noFirstSpaceAllow($event)" (keydown)="validation.notAllowMoreThenOneSpace($event)"
                 placeholder="Search Location" autocorrect="off" autocomplete="off" formControlName="address"
                 autocapitalize="off" spellcheck="off" type="text" #search></textarea>
               <mat-error *ngIf="f['address']?.errors">
@@ -164,8 +164,8 @@
           <div class="mb-3">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Office Head Designation</mat-label>
-              <input matInput formControlName="contactPersonName" maxlength="50"
-                (keyup)="validation.removeSpaceAtBegining($event)" (keypress)="validation.alphabetsWithSpaces($event)">
+              <input matInput formControlName="contactPersonName" maxlength="50" (keydown)="validation.notAllowMoreThenOneSpace($event)"
+                (keypress)="validation.removeSpaceAtBegining($event);validation.alphabetsWithSpaces($event)">
               <mat-error *ngIf="f['contactPersonName']?.errors">
                 <span *ngIf="f['contactPersonName']?.hasError('required')">Office Head Designation is required</span>
                 <span *ngIf="f['contactPersonName'].hasError('pattern')">
@@ -178,7 +178,7 @@
             <mat-form-field appearance="outline" class="w-100 ">
               <mat-label>Office Landline</mat-label>
               <input matInput formControlName="landlineNo" maxlength="11"
-                (keyup)="validation.removeSpaceAtBegining($event)" (keypress)="validation.acceptedOnlyNumbers($event)">
+               (keypress)="validation.removeSpaceAtBegining($event);validation.acceptedOnlyNumbers($event)">
               <mat-error *ngIf="f['landlineNo']?.errors">
                 <span *ngIf="f['landlineNo']?.hasError('pattern') || f['landlineNo']?.hasError('minlength')">
                   Please enter valid Landline No.</span>
