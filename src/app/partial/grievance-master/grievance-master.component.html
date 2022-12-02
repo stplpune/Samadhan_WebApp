@@ -113,7 +113,7 @@
           <div class="mb-3">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Grievance Type</mat-label>
-              <input matInput formControlName="grievanceType" (keypress)="validation.noFirstSpaceAllow($event)">
+              <input matInput formControlName="grievanceType" (keypress)="validation.noFirstSpaceAllow($event)" (keydown)="validation.notAllowMoreThenOneSpace($event)">
               <mat-error *ngIf="f['grievanceType']?.errors">
                 <span *ngIf="f['grievanceType']?.hasError('required')"> Grievance Type is required</span>
                 <span *ngIf="f['grievanceType']?.hasError('pattern') || f['grievanceType']?.hasError('minlength')">
