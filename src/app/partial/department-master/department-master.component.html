@@ -21,7 +21,7 @@
       </ng-container>
       <ng-container matColumnDef="departmentName">
         <th mat-header-cell *matHeaderCellDef>Department</th>
-        <td mat-cell *matCellDef="let element"> {{element.departmentName | titlecase}} </td>
+        <td mat-cell *matCellDef="let element"> {{ selectedLang == 'English' ? (element.departmentName | titlecase) : element.m_DepartmentName}} </td>
         <mat-error *ngIf="f['departmentName'].errors">
           <span class="text-danger" *ngIf="f['departmentName'].errors?.['pattern']">Please enter
             valid department name</span>
@@ -123,6 +123,19 @@
                   Department is required</span>
                 <span class="text-danger" *ngIf="f['departmentName'].errors?.['pattern']">Please enter
                   valid department name</span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="mb-3">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Department (Marathi)</mat-label>
+              <input matInput formControlName="m_DepartmentName" maxlength="50"
+                (keypress)="validation.noFirstSpaceAllow($event); validation.unicodeMarathiValidation($event)">
+              <mat-error *ngIf="f['m_DepartmentName'].errors">
+                <span class="text-danger" *ngIf="f['m_DepartmentName'].errors?.['required']">
+                  Department is required</span>
+                <!-- <span class="text-danger" *ngIf="f['departmentName'].errors?.['pattern']">Please enter
+                  valid department name</span> -->
               </mat-error>
             </mat-form-field>
           </div>

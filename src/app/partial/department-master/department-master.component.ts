@@ -36,7 +36,7 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
   updatedObj: any;
   highlightedRow!: number;
   departmentArr: any;
-
+  selectedLang: any;
 
   constructor(
     private fb: FormBuilder,
@@ -56,13 +56,14 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
     this.createDepartmentForm();
     this.getDepartmentName();
     this.getData();
-
+    this.selectedLang = sessionStorage.getItem('language')
   }
 
 //#region createDepartmentForm start
   createDepartmentForm() {
     this.frmDepartment = this.fb.group({
       departmentName: ['',[Validators.required, Validators.pattern(this.validation.valName)],],
+      m_DepartmentName: ['', [Validators.required]],
     });
 
     this.filterForm = this.fb.group({
@@ -142,6 +143,7 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
       isDeleted: false,
       id: this.isEdit == true ? this.updatedObj.id : 0,
       departmentName: formData.departmentName,
+      m_DepartmentName: formData.m_DepartmentName
     };
     let method = this.isEdit ? 'PUT' : 'POST';
     let url = this.isEdit ? 'UpdateDepartment' : 'AddDepartment';
