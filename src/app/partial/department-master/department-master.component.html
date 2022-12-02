@@ -7,7 +7,7 @@
             <mat-label>{{'Home.select_department' | translate}}</mat-label>
             <mat-select formControlName="deptId" (selectionChange)="filterData();">
               <mat-option value="0">{{'Home.all_dept' | translate}}</mat-option>
-              <mat-option *ngFor="let dept of departmentArr" [value]="dept.id">{{ selectedLang == 'English' ? dept.departmentName : dept.m_DepartmentName}}</mat-option>
+              <mat-option *ngFor="let dept of departmentArr" [value]="dept.deptId">{{ selectedLang == 'English' ? dept.departmentName : dept.m_DepartmentName}}</mat-option>
             </mat-select>
           </mat-form-field>
         </form>
