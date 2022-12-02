@@ -15,6 +15,7 @@ import { WebStorageService } from 'src/app/core/service/web-storage.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { CommonApiService } from 'src/app/core/service/common-api.service';
 import { MapsAPILoader } from '@agm/core';
+import { TranslateService } from '@ngx-translate/core';
 declare var google: any;
 @Component({
   selector: 'app-office-master',
@@ -47,6 +48,7 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
   loggedUserTypeId:any;
   loggedUserDeptID:any;
   dropdownDisable:boolean = false;
+  langTypeName: any;
 
   constructor(
     private fb: FormBuilder,
@@ -62,6 +64,8 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
     public commonMethod: CommonMethodService,
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone,
+    
+    public translate: TranslateService
   ) { }
 
 
@@ -77,6 +81,10 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
      }
     this.getData();
     this.mapApiLoader();
+
+    this.webStorage.langNameOnChange.subscribe(message => {
+      this.langTypeName = message;
+     });
   }
 
 
