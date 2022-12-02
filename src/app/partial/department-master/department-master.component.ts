@@ -15,6 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { WebStorageService } from 'src/app/core/service/web-storage.service';
 import { CommonApiService } from 'src/app/core/service/common-api.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-department-master',
@@ -49,7 +50,7 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
     public validation: FormsValidationService,
     public commonMethod: CommonMethodService,
     public commonService: CommonApiService,
-
+    public translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -57,6 +58,13 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
     this.getDepartmentName();
     this.getData();
     this.selectedLang = sessionStorage.getItem('language')
+    this.translateLanguageTo(this.selectedLang);
+  }
+
+  translateLanguageTo(lang: any) {
+    this.selectedLang = lang;
+    sessionStorage.setItem('language', lang);
+    this.translate.use(lang);
   }
 
 //#region createDepartmentForm start
@@ -175,7 +183,7 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
     this.isEdit = true;
     this.updatedObj = data;
     this.frmDepartment.controls['departmentName'].setValue(this.updatedObj.departmentName);
-
+    this.frmDepartment.controls['m_DepartmentName'].setValue(this.updatedObj.m_DepartmentName);
   }
 
 //#endregion
