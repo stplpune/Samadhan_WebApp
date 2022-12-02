@@ -122,7 +122,7 @@ export class DepartmentReportComponent implements OnInit {
          });
               
           console.log(this.officeDepReportArray);
-          this.totalPages = res.responseData1.pageCount;
+          this.totalPages = res.responseData1?.pageCount;
           this.reportArray=[];
           this.spinner.hide();
         } else {
