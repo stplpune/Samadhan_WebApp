@@ -103,7 +103,7 @@ export class OfficeReportComponent implements OnInit {
     }
 
     this.officeOffReportArray=[];
-    let obj = formData.searchdeptId + '&userid=' + this.localStrorageData.getUserId() + '&fromDate=' + formData.fromDate + '&toDate=' + formData.toDate
+    let obj = formData.searchdeptId + '&searchofcId=' + formData.searchofcId +'&userid=' + this.localStrorageData.getUserId() + '&fromDate=' + formData.fromDate + '&toDate=' + formData.toDate
     this.apiService.setHttp('get', 'api/ShareGrievances/OfficerOfficeReport?searchdeptId=' + obj, false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
