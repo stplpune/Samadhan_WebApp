@@ -167,7 +167,7 @@ export class DepartmentReportComponent implements OnInit {
       (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
       []
     );// Value Name
-    let keyPDFHeader = ["SrNo", "Department Name","Receive","Open", "Accept", "Resolve","Reject","Partial Resolve","Transfer"];
+    let keyPDFHeader = ["SrNo", "Department Name","Total","Open", "Accept", "Resolve","Reject","Partial Resolve","Transfer"];
     
 
     let objData:any = {
@@ -195,7 +195,7 @@ export class DepartmentReportComponent implements OnInit {
     formData.fromDate = formData.fromDate ? this.datePipe.transform(formData.fromDate, 'yyyy/MM/dd') : '';
     formData.toDate = formData.toDate ? this.datePipe.transform(formData.toDate, 'yyyy/MM/dd') : '';
 
-    let keyPDFHeader = ["SrNo", "Department Name", "Receive","Open", "Accept", "Resolve","Reject","Partial Resolve","Transfer"];
+    let keyPDFHeader = ["SrNo", "Department Name", "Total","Open", "Accept", "Resolve","Reject","Partial Resolve","Transfer"];
     let ValueData = this.officeDepReportArray.reduce(
       (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
       []
