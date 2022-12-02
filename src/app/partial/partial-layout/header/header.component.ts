@@ -68,6 +68,7 @@ export class HeaderComponent implements OnInit {
   localStorageClear() {
     localStorage.clear();
     this.router.navigate(['../home']);
+    sessionStorage.clear();
   }
 
 }

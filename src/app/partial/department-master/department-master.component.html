@@ -4,10 +4,10 @@
       <div class="col-sm-4">
         <form [formGroup]="filterForm">
           <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Select Department</mat-label>
+            <mat-label>{{'Home.select_department' | translate}}</mat-label>
             <mat-select formControlName="deptId" (selectionChange)="filterData();">
-              <mat-option value="0">All Department</mat-option>
-              <mat-option *ngFor="let dept of departmentArr" [value]="dept.deptId">{{dept.departmentName}}</mat-option>
+              <mat-option value="0">{{'Home.all_dept' | translate}}</mat-option>
+              <mat-option *ngFor="let dept of departmentArr" [value]="dept.deptId">{{ selectedLang == 'English' ? dept.departmentName : dept.m_DepartmentName}}</mat-option>
             </mat-select>
           </mat-form-field>
         </form>
@@ -15,12 +15,12 @@
     </div>
     <table mat-table [dataSource]="dataSource" class="dashboard-table w-100">
       <ng-container matColumnDef="srNo">
-        <th mat-header-cell *matHeaderCellDef class="srno"> SR.No. </th>
+        <th mat-header-cell *matHeaderCellDef class="srno"> {{'Home.sr_no' | translate}} </th>
         <td mat-cell *matCellDef="let element let i= index"> {{((pageNo + 1) * 10 + i + 1)-20}}
         </td>
       </ng-container>
       <ng-container matColumnDef="departmentName">
-        <th mat-header-cell *matHeaderCellDef>Department</th>
+        <th mat-header-cell *matHeaderCellDef>{{'Home.department' | translate}}</th>
         <td mat-cell *matCellDef="let element"> {{ selectedLang == 'English' ? (element.departmentName | titlecase) : element.m_DepartmentName}} </td>
         <mat-error *ngIf="f['departmentName'].errors">
           <span class="text-danger" *ngIf="f['departmentName'].errors?.['pattern']">Please enter
@@ -64,7 +64,7 @@
         </ng-container> -->
 
       <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef class="action">Action
+        <th mat-header-cell *matHeaderCellDef class="action">{{'Home.action' | translate}}
           <button [disabled]="this.selection.selected.length ==0" mat-icon-button (click)="deleteUserData()">
             <span class="material-symbols-outlined">
               delete
@@ -109,39 +109,38 @@
   <div class="col-sm-4">
     <div class="card form-card">
       <div class="card-header mb-3">
-        <p class="mb-0"> {{isEdit?'Update' : 'Add'}} Department</p>
+        <p class="mb-0"> {{'Home.department' | translate}} {{ (isEdit? 'Home.update':'Home.add') | translate}} </p>
       </div>
       <form [formGroup]="frmDepartment" #formDirective="ngForm" (ngSubmit)="onSubmitDepartment()" autocomplete="off">
         <div class="card-body">
           <div class="mb-3">
             <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Department</mat-label>
+              <mat-label>{{'Home.department' | translate}}</mat-label>
               <input matInput formControlName="departmentName" maxlength="50"
                 (keypress)="validation.noFirstSpaceAllow($event);validation.alphabetsWithSpaces($event)">
               <mat-error *ngIf="f['departmentName'].errors">
                 <span class="text-danger" *ngIf="f['departmentName'].errors?.['required']">
-                  Department is required</span>
-                <span class="text-danger" *ngIf="f['departmentName'].errors?.['pattern']">Please enter
-                  valid department name</span>
+                  {{'Home.department_req_val' | translate}}</span>
+                <span class="text-danger" *ngIf="f['departmentName'].errors?.['pattern']">{{'Home.department_valid_val' | translate}}</span>
               </mat-error>
             </mat-form-field>
           </div>
           <div class="mb-3">
             <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Department (Marathi)</mat-label>
+              <mat-label>{{'Home.department_marathi' | translate}}</mat-label>
               <input matInput formControlName="m_DepartmentName" maxlength="50"
                 (keypress)="validation.noFirstSpaceAllow($event); validation.unicodeMarathiValidation($event)">
               <mat-error *ngIf="f['m_DepartmentName'].errors">
                 <span class="text-danger" *ngIf="f['m_DepartmentName'].errors?.['required']">
-                  Department is required</span>
+                  {{'Home.department_marathi_req_val' | translate}}</span>
                 <!-- <span class="text-danger" *ngIf="f['departmentName'].errors?.['pattern']">Please enter
                   valid department name</span> -->
               </mat-error>
             </mat-form-field>
           </div>
           <div class="text-end">
-            <button mat-stroked-button class="btn-main-outline" type="button" (click)="onCancelRecord()">Cancel</button>
-            <button mat-stroked-button class="btn-main ms-2" type="submit">{{isEdit ? 'Update':'Submit'}}</button>
+            <button mat-stroked-button class="btn-main-outline" type="button" (click)="onCancelRecord()">{{'Home.cancel' | translate}}</button>
+            <button mat-stroked-button class="btn-main ms-2" type="submit">{{ (isEdit ? 'Home.update':'Home.submit') | translate}}</button>
           </div>
         </div>
       </form>
