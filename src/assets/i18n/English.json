@@ -39,6 +39,13 @@
         "department_req_val": "Department is required",
         "department_valid_val": "Please enter valid department name",
         "department_marathi_req_val": "Department Marathi name is required",
-        "all_dept": "All Department"
+        "all_dept": "All Department",
+        "office":"office",
+        "add_office":"Add Office",
+        "upd_office":"Update Office",
+        "ofiice_name":"Office Name",
+        "ofiname_marathi":"Office Name (Marathi)",
+        "please_sel_dep":"Please select Department"
+        
     }
 }

@@ -39,6 +39,13 @@
         "department_req_val": "विभाग आवश्यक आहे",
         "department_valid_val": "कृपया प्रविष्ट करा वैध विभागाचे नाव",
         "department_marathi_req_val": "विभागाचे मराठी नाव आवश्यक आहे",
-        "all_dept": "सर्व विभाग"
+        "all_dept": "सर्व विभाग",
+        "office":"कार्यालय",
+        "add_office":"ऑफिस जोडा",
+        "upd_office":"ऑफिस अपडेट करा",
+        "ofiice_name":"कार्यालयाचे नाव",
+        "ofiname_marathi":"कार्यालयाचे नाव (मराठी)",
+        "please_sel_dep":"कृपया विभाग निवडा"
+
     }
 }
