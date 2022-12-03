@@ -74,7 +74,6 @@ export class HeaderComponent implements OnInit {
   }
 
   translateLanguageTo(lang: any) {
-    debugger
     this.selectedLanguage = lang;
     sessionStorage.setItem('language', lang);
     this.translate.use(lang);
