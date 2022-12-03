@@ -115,18 +115,18 @@
                 (keypress)="validation.removeSpaceAtBegining($event);validation.alphabetsWithSpaces($event)">
               <mat-error *ngIf="f['name']?.errors">
                 <span *ngIf="f['name']?.hasError('required')">  {{'Home.off_name_req' | translate}}</span>
-                <span *ngIf="f['name'].hasError('pattern')"> {{'Home.pls_enter_val_office_name' | translate}}</span>
+                <!-- <span *ngIf="f['name'].hasError('pattern')"> {{'Home.pls_enter_val_office_name' | translate}}</span> -->
               </mat-error>
             </mat-form-field>
           </div>
           <div class="mb-3">
             <mat-form-field appearance="outline" class="w-100 ">
               <mat-label>{{'Home.ofiname_marathi' | translate}}</mat-label>
-              <input matInput formControlName="name" maxlength="200" (keydown)="validation.notAllowMoreThenOneSpace($event)"
+              <input matInput formControlName="m_OfficeName" maxlength="200" (keydown)="validation.notAllowMoreThenOneSpace($event)"
                 (keypress)="validation.removeSpaceAtBegining($event);validation.alphabetsWithSpaces($event);validation.unicodeMarathiValidation($event)">
               <mat-error *ngIf="f['name']?.errors">
                 <span *ngIf="f['name']?.hasError('required')">  {{'Home.pls_enter_val_office_name_mar' | translate}}</span>
-                <span *ngIf="f['name'].hasError('pattern')">  {{'Home.pls_enter_val_office_name' | translate}}</span>
+                <!-- <span *ngIf="f['name'].hasError('pattern')">  {{'Home.pls_enter_val_office_name' | translate}}</span> -->
               </mat-error>
             </mat-form-field>
           </div>

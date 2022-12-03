@@ -94,6 +94,7 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
     this.frmOffice = this.fb.group({
       deptId: ['', [Validators.required]],
       name: ['', [Validators.required, Validators.pattern(this.validation.valName)]],
+      m_OfficeName: ['', [Validators.required]],
       address: ['', [Validators.required, Validators.pattern('^[^[ ]+|[ ][gm]+$')]],
       emailId: ['', [Validators.pattern(this.validation.valEmailId)],],
       contactPersonName: ['', [Validators.required, Validators.pattern(this.validation.valName)],],
@@ -201,6 +202,7 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
       id: this.isEdit == true ? this.updatedObj.id : 0,
       deptId: formData.deptId,
       name: formData.name,
+      m_OfficeName:formData.m_OfficeName,
       address: formData.address,
       emailId: formData.emailId,
       contactPersonName: formData.contactPersonName,
@@ -241,6 +243,7 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
     this.frmOffice.patchValue({
       deptId: this.updatedObj.deptId,
       name: this.updatedObj.officeName,
+      m_OfficeName:this.updatedObj.m_OfficeName,
       address: this.updatedObj.officeAddress,
       emailId: this.updatedObj.officeEmailId,
       contactPersonName: this.updatedObj.contactPersonName,

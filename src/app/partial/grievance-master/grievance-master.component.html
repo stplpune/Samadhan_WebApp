@@ -41,7 +41,7 @@
 
         <ng-container matColumnDef="grievanceType">
           <th mat-header-cell *matHeaderCellDef>{{'Home.grievance_type' | translate}} </th>
-          <td mat-cell *matCellDef="let element"> {{ langTypeName == 'English' ? (element.departmentName | titlecase) : element.m_Name}} </td>
+          <td mat-cell *matCellDef="let element"> {{ langTypeName == 'English' ? (element.grievanceType | titlecase) : element.m_Name}} </td>
         </ng-container>
 
         <ng-container matColumnDef="action">
