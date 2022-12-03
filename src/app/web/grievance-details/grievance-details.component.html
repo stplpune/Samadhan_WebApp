@@ -1,6 +1,9 @@
 <div class="container-fluid">
     <div class="container">
-        <div class="text-end p-2">
+        <div class="d-flex align-items-center justify-content-between p-2">
+            <div class="logo">
+                <img src="../../../assets/web-icons/SAMADHAN-logo.svg" alt="">
+            </div>
             <button mat-icon-button *ngIf="data" (click)="closeDialog()">
                 <span class="material-symbols-outlined">
                     close
@@ -8,9 +11,9 @@
             </button>
         </div>
         <div class="card card-body my-2">
-            <div class="logo mb-3">
+            <!-- <div class="logo mb-3">
                 <img src="../../../assets/web-icons/SAMADHAN-logo.svg" alt="">
-            </div>
+            </div> -->
             <div class="row mb-3">
                 <div class="col-sm-12">
                     <div class="card griev-details-title">
@@ -133,8 +136,8 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-10" *ngIf="commonMethod.checkDataType(grivanceData?.citizenGrievanceImages[0]?.docpath)">
-                                        <a class="primary" (click)="viewDocument(grivanceData?.citizenGrievanceImages[0]?.docpath)">View
-                                            Documents</a>
+                                        <a class="primary form-label" (click)="viewDocument(grivanceData?.citizenGrievanceImages[0]?.docpath)">
+                                            View Documents</a>
                                 </div>
                                 <div class="col-sm-10" *ngIf="!commonMethod.checkDataType(grivanceData?.citizenGrievanceImages[0]?.docpath)">
                                    <p class="text-danger">Document Not Available</p>
