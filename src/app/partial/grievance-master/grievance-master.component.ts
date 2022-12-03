@@ -80,7 +80,8 @@ export class GrievanceMasterComponent implements OnInit, AfterViewInit, OnDestro
   createGrievanceForm() {
     this.frmGrievance = this.fb.group({
       deptId: ['', [Validators.required]],
-      grievanceType: ['', [Validators.required, Validators.pattern]]
+      grievanceType: ['', [Validators.required, Validators.pattern]],
+      m_Name: ['', [Validators.required]],
     })
   }
 
@@ -186,6 +187,7 @@ export class GrievanceMasterComponent implements OnInit, AfterViewInit, OnDestro
       "id": this.isEdit == true ? this.updatedObj.grievanceTypeId : 0,
       "deptId": formData.deptId,
       "name": formData.grievanceType,
+      "m_Name":formData.m_Name
     }
 
     let method = this.isEdit ? 'PUT' : 'POST';
@@ -219,6 +221,7 @@ export class GrievanceMasterComponent implements OnInit, AfterViewInit, OnDestro
     this.frmGrievance.patchValue({
       deptId: this.updatedObj?.deptId,
       grievanceType: this.updatedObj.grievanceType,
+      m_Name:this.updatedObj.m_Name
     });
   }
 

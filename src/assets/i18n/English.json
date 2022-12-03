@@ -42,6 +42,8 @@
         "all_dept": "All Department",
 
         "grievance_type":"Grievance Type",
+        "grievance_marathi": "Grievance type (Marathi)",
+        "grievance_marathi_req_val": "Grievance Type Marathi name is required",
         "add_grievance_master":"Grievance Master",
         "grievance_type_is_required":"Grievance Type is required",
 

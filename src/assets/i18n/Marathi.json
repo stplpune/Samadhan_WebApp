@@ -48,6 +48,8 @@
         "please_sel_dep":"कृपया विभाग निवडा",
 
         "grievance_type":"तक्रारीचा प्रकार",
+        "grievance_marathi": "तक्रारीचा प्रकार (मराठी)",
+        "grievance_marathi_req_val": "तक्रार प्रकार मराठी नाव आवश्यक आहे",
         "add_grievance_master":"तक्रार मास्टर",
         "grievance_type_is_required":"तक्रारीचा प्रकार आवश्यक आहे",
         "off_name_req":"कार्यालयाचे नाव आवश्यक आहे",
