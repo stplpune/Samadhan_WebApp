@@ -34,7 +34,7 @@
       </ng-container>
       <ng-container matColumnDef="departmentName">
         <th mat-header-cell *matHeaderCellDef>{{'Home.department' | translate}} </th>
-        <td mat-cell *matCellDef="let element"> {{ langTypeName == 'English' ? (element.departmentName | titlecase) : element.m_OfficeName}}</td>
+        <td mat-cell *matCellDef="let element"> {{ langTypeName == 'English' ? (element.departmentName | titlecase) : element.m_DepartmentName}}</td>
       </ng-container>
       <ng-container matColumnDef="officeName">
         <th mat-header-cell *matHeaderCellDef>{{'Home.office' | translate}}</th>
