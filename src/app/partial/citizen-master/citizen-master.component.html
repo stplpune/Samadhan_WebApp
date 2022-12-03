@@ -27,7 +27,7 @@
         <div class="col-sm-4">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>{{'Home.searchMobile' | translate }} </mat-label>
-            <input matInput placeholder="Search" formControlName="textsearch"
+            <input matInput placeholder="{{'Home.search' | translate}}" formControlName="textsearch"
               (keypress)="validation.noFirstSpaceAllow($event)">
               <button mat-icon-button matSuffix *ngIf="filterForm.value.textsearch" matTooltip="close" aria-label="tooltip"
               (click)="filterForm.controls['textsearch'].setValue('')">

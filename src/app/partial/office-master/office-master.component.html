@@ -15,7 +15,7 @@
         <div class="col-sm-6">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>{{'Home.office' | translate}} </mat-label>
-            <input matInput placeholder="Search" formControlName="name"
+            <input matInput placeholder="{{'Home.search' | translate}}" formControlName="name"
               (keypress)="validation.noFirstSpaceAllow($event)">
             <button mat-icon-button matSuffix *ngIf="filterForm.value.name" matTooltip="close" aria-label="tooltip"
               (click)="filterForm.controls['name'].setValue('')">
