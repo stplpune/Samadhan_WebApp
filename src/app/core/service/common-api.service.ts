@@ -24,6 +24,7 @@ export class CommonApiService {
   natureGrievance=new Array();
   natureGrievanceByDept=new Array();
   userByUserId=new Array();
+  subUserByUserId=new Array();
   otp:any;
   verify:any;
   constructor(
@@ -204,6 +205,16 @@ export class CommonApiService {
       this.apiService.setHttp('get', "samadhan/commondropdown/GetDepartmentByUserId?UserId=" +userId, false, false, false, 'samadhanMiningService');
       this.apiService.getHttp().subscribe({
         next: (res: any) => { if (res.statusCode == 200) { this.departmentByUser = res.responseData; obj.next(this.departmentByUser); } else { obj.error(res); } },
+        error: (e: any) => { obj.error(e) }
+      })
+    })
+  }
+
+  getAllSubUserType(userId:number) {
+    return new Observable((obj) => {
+      this.apiService.setHttp('get', "samadhan/commondropdown/GetAllSubUserTypeByUserId?UserId=" +userId, false, false, false, 'samadhanMiningService');
+      this.apiService.getHttp().subscribe({
+        next: (res: any) => { if (res.statusCode == 200) { this.subUserByUserId = res.responseData; obj.next(this.subUserByUserId); } else { obj.error(res); } },
         error: (e: any) => { obj.error(e) }
       })
     })

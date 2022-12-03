@@ -31,8 +31,8 @@
                         <mat-label>Select Designation</mat-label>
                         <mat-select formControlName="subUserTypeId" (selectionChange)="filterData()">
                             <mat-option value="0">All Designation</mat-option>
-                            <mat-option *ngFor="let subUser of subUserTypeArray" [value]="subUser.userTypeId">
-                                {{subUser.userType}}
+                            <mat-option *ngFor="let subUser of subUserTypeArray" [value]="subUser.subUserTypeId">
+                                {{subUser.subUserType}}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>

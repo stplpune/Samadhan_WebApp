@@ -40,7 +40,8 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   departmentByUserArray=new Array();
   officeArray = new Array();
   highlightedRow!: number;
-  subUserTypeArray: any[] = [{ "userTypeId": 2, "userType": "SubAdmin" }, { "userTypeId": 3, "userType": "DeptAdmin" }, { "userTypeId": 4, "userType": "HOD" },{ "userTypeId": 5, "userType": "NodalOfficer" },{ "userTypeId": 6, "userType": "Clerk" }]
+  // subUserTypeArray: any[] = [{ "userTypeId": 2, "userType": "SubAdmin" }, { "userTypeId": 3, "userType": "DeptAdmin" }, { "userTypeId": 4, "userType": "HOD" },{ "userTypeId": 5, "userType": "NodalOfficer" },{ "userTypeId": 6, "userType": "Clerk" }]
+  subUserTypeArray=new Array();
   blockStsArr: any[] = [{ value: true, status: 'Block' }, { value: false, status: 'Unblock' }];
   subscription!: Subscription;
   isEdit: boolean = false;
@@ -72,6 +73,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.getUsers(this.localStrorageData.getUserId());
     // this.getDepartment();
     this.getDepartment(this.localStrorageData.getUserId());
+    this.getSubUsertype(this.localStrorageData.getUserId());
   }
 
   //#region  filter form fn Start here
@@ -165,6 +167,17 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     })
   }
 
+  getSubUsertype(userId:number){
+    this.subUserTypeArray = [];
+    this.commonService.getAllSubUserType(userId).subscribe({
+      next: (response: any) => {
+        this.subUserTypeArray.push(...response);
+        // this.changeDepFlag == true ? (this.userFrm.controls['subUserTypeId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.subUserTypeId) == false ? '' : this.updatedObj?.subUserTypeId)) :this.userFrm.controls['subUserTypeId'].setValue('');
+      },
+      error: ((error: any) => { this.error.handelError(error.status) })
+    })
+  }
+
 
 
   //#region  drop down department bind  fn Start here
@@ -209,6 +222,8 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     })
   }
   //#endregiondrop down office bind fn end here
+
+  
 
 
   filterData() {
