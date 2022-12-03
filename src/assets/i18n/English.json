@@ -77,6 +77,16 @@
         "mobileNo": "Mobile Number",
         "Email_Id": " Email ID ",
         "Taluka": "Taluka",
-        "Village": "Village"
+        "Village": "Village",
+        "Contact-Us":"Contact Us",
+        "district-Collector":"District Collector & D.M.,",
+        "Address":"Address :",
+        "Collector-Office":"Collector Office, Osmanabad (Maharashtra) – 413 501 ",
+        "office-no":"Office Ph. No:",
+        "Phone-no":" 02472 – 224501,",
+        "Fax-no":"Fax No :",
+        "Email":"Email :",
+        "Residential-dy":"Residential Dy. Collector,",
+        "Office-PhNo":" Office Ph. No :"
     }
 }
