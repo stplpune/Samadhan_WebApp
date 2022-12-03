@@ -5,6 +5,7 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { MaterialModule } from 'src/app/shared/AngularMaterialModule/material.module';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     CommonModule,
     DashboardRoutingModule,
     MaterialModule,
-    NgApexchartsModule
+    NgApexchartsModule,
+    TranslateModule
   ]
 })
 export class DashboardModule { }
