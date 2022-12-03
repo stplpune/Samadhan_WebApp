@@ -5,6 +5,7 @@ import { ContactUsRoutingModule } from './contact-us-routing.module';
 import { ContactUsComponent } from './contact-us.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/shared/AngularMaterialModule/material.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { MaterialModule } from 'src/app/shared/AngularMaterialModule/material.mo
     CommonModule,
     ContactUsRoutingModule,
     MaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TranslateModule
   ]
 })
 export class ContactUsModule { }
