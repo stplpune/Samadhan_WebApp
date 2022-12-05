@@ -88,6 +88,8 @@
         "Email":"Email :",
         "Residential-dy":"Residential Dy. Collector,",
         "Office-PhNo":" Office Ph. No :",
-        "search":"Search"
+        "search":"Search",
+
+        "no_data_found":"No Data Found"
     }
 }
