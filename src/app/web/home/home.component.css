@@ -26,10 +26,12 @@
     background-color: rgba(var(--main-color), var(--opacity-1));
     padding: 50px 50px 0px 50px;
 }
-#samadhan-app-info h3 .samadhan{
+#samadhan-app-info h3 .samadhan,
+#samadhan-app-info h4 .samadhan{
     color: #FCAC34 !important;
 }
-#samadhan-app-info .app-description h3{
+#samadhan-app-info .app-description h3,
+#samadhan-app-info .app-description h4{
     color: #fff !important;
 }
 #grievance-status{
@@ -90,4 +92,10 @@
     line-height:50px;
     background-color: rgba(0,0,0,0.5);
     top: 40%;
+}
+#samadhan-app-info .QR-code
+{
+    display: inline-block;
+    width: 100px;
+    height: 100px;
 }

@@ -8,12 +8,16 @@
         </div>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img *ngIf="langTypeName=='English'" src="../../../assets/images/Samadhan-Banner.png" class="d-block w-100" alt="...">
-                <img *ngIf="langTypeName=='Marathi'" src="../../../assets/images/Banner-marathi-Image.png" class="d-block w-100" alt="...">
+                <img *ngIf="langTypeName=='English'" src="../../../assets/images/Samadhan-Banner.png"
+                    class="d-block w-100" alt="...">
+                <img *ngIf="langTypeName=='Marathi'" src="../../../assets/images/Banner-marathi-Image.png"
+                    class="d-block w-100" alt="...">
             </div>
             <div class="carousel-item">
-                <img *ngIf="langTypeName=='English'" src="../../../assets/images/home-banner.png" class="d-block w-100" alt="...">
-                <img *ngIf="langTypeName=='Marathi'" src="../../../assets/images/Banner-marathi-Image2.png" class="d-block w-100" alt="...">
+                <img *ngIf="langTypeName=='English'" src="../../../assets/images/home-banner.png" class="d-block w-100"
+                    alt="...">
+                <img *ngIf="langTypeName=='Marathi'" src="../../../assets/images/Banner-marathi-Image2.png"
+                    class="d-block w-100" alt="...">
                 <!-- <div class="carousel-caption">
                     <div class="row align-items-center">
                         <div class="col-sm-6">
@@ -81,18 +85,29 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-sm-6">
-                <img src="../../../assets/web-icons/Mobile App Screens.png"  class="img-fluid">
+                <img src="../../../assets/web-icons/Mobile App Screens.png" class="img-fluid">
                 <!-- <img *ngIf="langTypeName=='English'" src="../../../assets/web-icons/Mobile App Screens.png"  class="img-fluid">
                 <img *ngIf="langTypeName=='Marathi'" src="../../../assets/images/image_marathi_Mobile.png" alt="" class="img-fluid"> -->
             </div>
             <div class="col-sm-6">
                 <div class="app-description">
-                    <h3> <span class="samadhan">{{'Home.Samadhan' | translate}}</span> {{'Home.features' | translate}}</h3>
+                    <h3> 
+                        <span class="samadhan">{{'Home.Samadhan' | translate}}</span> {{'Home.features' | translate}}
+                    </h3>
+                    <h4>Download the app from <span class="samadhan">Google play</span> or <span class="samadhan">QR code</span></h4>
+                    <!-- <ul>
+                        <li> Google play </li>
+                        <li>QR code</li>    
+                    </ul> -->
                 </div>
 
-                <div class="d-flex">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="QR-code">
+                        <img src="./assets/images/QR-code-image.png" class="w-100">
+                    </div>
                     <div>
-                        <a href='https://play.google.com/store/apps/details?id=com.citizensamadhan' style='margin-left:2px;' target="_blank">
+                        <a href='https://play.google.com/store/apps/details?id=com.citizensamadhan'
+                            style='margin-left:2px;' target="_blank">
                             <img src="../../../assets/web-icons/Android-app.svg" alt="" class="img-fluid mx-2">
                         </a>
                     </div>
