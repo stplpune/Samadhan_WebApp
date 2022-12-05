@@ -13,7 +13,7 @@ import { ErrorHandlerService } from 'src/app/core/service/error-handler.service'
 import { ExcelService } from 'src/app/core/service/excel_Pdf.service';
 import { FormsValidationService } from 'src/app/core/service/forms-validation.service';
 import { WebStorageService } from 'src/app/core/service/web-storage.service';
-import { SamadhanReportComponent } from '../samadhan-report/samadhan-report.component';
+// import { SamadhanReportComponent } from '../samadhan-report/samadhan-report.component';
 
 @Component({
   selector: 'app-office-report',
@@ -27,7 +27,7 @@ export class OfficeReportComponent implements OnInit {
   pageNo = 1;
   departmentArray = new Array();
   officeArray = new Array();
-  displayedColumns: string[] = ['position', 'name', 'OfficeName', 'Received','Open', 'accepted', 'resolved','rejected','partialResolved','transfered'];
+  displayedColumns: string[] = ['position', 'name', 'OfficeName', 'Received','Open', 'accepted', 'resolved','partialResolved','transfered'];
   minDate = new Date();
   reportArray = new Array();
   getUrl:any;
@@ -173,7 +173,7 @@ export class OfficeReportComponent implements OnInit {
       'topHedingName': 'Office Taluka Report',
       'createdDate':'Created on:'+this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a')
     }
-    let keyPDFHeader = ['SrNo', "Department Name", "Office Name", "Total","Open", "Accept", "Resolve","Reject","Partial Resolve","Transfer"];
+    let keyPDFHeader = ['SrNo', "Department Name", "Office Name", "Total","Open", "Accept", "Resolve","Partial Resolve","Transfer"];
 
     checkFromDateFlag = formData.fromDate == '' || formData.fromDate == null || formData.fromDate == 0 || formData.fromDate == undefined ? false : true;
         checkToDateFlag =  formData.toDate == '' ||  formData.toDate == null ||  formData.toDate == 0 ||  formData.toDate == undefined ? false : true;
@@ -194,7 +194,7 @@ export class OfficeReportComponent implements OnInit {
     formData.fromDate = formData.fromDate ? this.datePipe.transform(formData.fromDate, 'yyyy/MM/dd') : '';
     formData.toDate = formData.toDate ? this.datePipe.transform(formData.toDate, 'yyyy/MM/dd') : '';
 
-    let keyPDFHeader = ['SrNo', "Department Name", "Office Name", "Total","Open", "Accept", "Resolve","Reject","Partial Resolve","Transfer"];
+    let keyPDFHeader = ['SrNo', "Department Name", "Office Name", "Total","Open", "Accept", "Resolve","Partial Resolve","Transfer"];
     let ValueData =
       this.officeOffReportArray.reduce(
         (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
@@ -216,24 +216,28 @@ export class OfficeReportComponent implements OnInit {
   }
 
 
-  getDetailsReport(ele:any,eleFlag:any){
-    console.log(ele);
-    let obj={
-      'url':this.getUrl,
-      'flag':eleFlag,
-      'deptId':ele.deptId,
-      'officeId':ele.officeId
-    }
+  // getDetailsReport(ele:any,eleFlag:any){
+  //   console.log(ele);
+  //   let obj={
+  //     'url':this.getUrl,
+  //     'flag':eleFlag,
+  //     'deptId':ele.deptId,
+  //     'officeId':ele.officeId
+  //   }
 
-    const dialogRef = this.dialog.open(SamadhanReportComponent, {
-      width: '900px',
-      height:'650px',
-      data:obj,
-      disableClose: true,
-    });
-    dialogRef.afterClosed().subscribe((_result: any) => {
+  //   const dialogRef = this.dialog.open(SamadhanReportComponent, {
+  //     width: '900px',
+  //     height:'650px',
+  //     data:obj,
+  //     disableClose: true,
+  //   });
+  //   dialogRef.afterClosed().subscribe((_result: any) => {
       
-    }); 
+  //   }); 
+  // }
+
+  getDetailsReport(obj:any,onClickflag:any,pageFlag:any){
+    this.router.navigate(['samadhan-report', obj.deptId + '.' + onClickflag + '.' + pageFlag + '.' + obj.officeId]); 
   }
 
 }

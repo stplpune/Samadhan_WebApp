@@ -66,45 +66,45 @@
           <ng-container matColumnDef="received">
             <th mat-header-cell *matHeaderCellDef class="text-dark"> Total </th>
             <td mat-cell *matCellDef="let element"><a class="text-dark fw-bold"
-              (click)="getDetailsReport(element,7)">{{element.received}}</a> </td>
+              (click)="getDetailsReport(element,7,1)">{{element.received}}</a> </td>
           </ng-container>
 
           <ng-container matColumnDef="open">
             <th mat-header-cell *matHeaderCellDef class="text-dark"> Open </th>
             <td mat-cell *matCellDef="let element"><a class="text-dark fw-bold"
-                (click)="getDetailsReport(element,1)">{{element.openn}}</a> </td>
+                (click)="getDetailsReport(element,1,1)">{{element.openn}}</a> </td>
           </ng-container>
 
           <ng-container matColumnDef="pending">
             <th mat-header-cell *matHeaderCellDef class="text-info"> Pending </th>
-            <td mat-cell *matCellDef="let element"><a class="text-info fw-bold" (click)="getDetailsReport(element,2)">
+            <td mat-cell *matCellDef="let element"><a class="text-info fw-bold" (click)="getDetailsReport(element,2,1)">
                 {{element.pending}} </a></td>
                 </ng-container>
     
           <ng-container matColumnDef="accepted">
             <th mat-header-cell *matHeaderCellDef class="text-info"> Accepted </th>
-            <td mat-cell *matCellDef="let element"><a class="text-info fw-bold" (click)="getDetailsReport(element,2)"> {{element.accepted}} </a></td>
+            <td mat-cell *matCellDef="let element"><a class="text-info fw-bold" (click)="getDetailsReport(element,2,1)"> {{element.accepted}} </a></td>
           </ng-container>
 
           <ng-container matColumnDef="resolved">
             <th mat-header-cell *matHeaderCellDef class="text-success"> Resolved </th>
             <td mat-cell *matCellDef="let element"><a class="text-success fw-bold"
-                (click)="getDetailsReport(element,3)"> {{element.resolved}} </a></td>
+                (click)="getDetailsReport(element,3,1)"> {{element.resolved}} </a></td>
           </ng-container>
 
           <ng-container matColumnDef="partialResolved" >
             <th mat-header-cell *matHeaderCellDef class="text-warning"> Partial Resolved </th>
-            <td mat-cell *matCellDef="let element"><a class="text-warning fw-bold" (click)="getDetailsReport(element,4)"> {{element.partialResloved}} </a></td>
+            <td mat-cell *matCellDef="let element"><a class="text-warning fw-bold" (click)="getDetailsReport(element,4,1)"> {{element.partialResloved}} </a></td>
           </ng-container>
 
-          <ng-container matColumnDef="rejected">
+          <!-- <ng-container matColumnDef="rejected">
             <th mat-header-cell *matHeaderCellDef class="text-danger"> Rejected</th>
-            <td mat-cell *matCellDef="let element"><a class="text-danger fw-bold" (click)="getDetailsReport(element,5)"> {{element.rejected}} </a></td>
-          </ng-container>
+            <td mat-cell *matCellDef="let element"><a class="text-danger fw-bold" (click)="getDetailsReport(element,5,1)"> {{element.rejected}} </a></td>
+          </ng-container> -->
           
           <ng-container matColumnDef="transfered">
             <th mat-header-cell *matHeaderCellDef class="text-primary"> Transfered </th>
-            <td mat-cell *matCellDef="let element"><a class="text-primary fw-bold" (click)="getDetailsReport(element,6)"> {{element.transfered}} </a></td>
+            <td mat-cell *matCellDef="let element"><a class="text-primary fw-bold" (click)="getDetailsReport(element,6,1)"> {{element.transfered}} </a></td>
           </ng-container>
     
           <tr class="mat-row p-2 w-100" *matNoDataRow col>

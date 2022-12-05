@@ -13,7 +13,7 @@ import { ErrorHandlerService } from 'src/app/core/service/error-handler.service'
 import { ExcelService } from 'src/app/core/service/excel_Pdf.service';
 import { FormsValidationService } from 'src/app/core/service/forms-validation.service';
 import { WebStorageService } from 'src/app/core/service/web-storage.service';
-import { SamadhanReportComponent } from '../samadhan-report/samadhan-report.component';
+// import { SamadhanReportComponent } from '../samadhan-report/samadhan-report.component';
 
 @Component({
   selector: 'app-taluka-report',
@@ -203,23 +203,28 @@ export class TalukaReportComponent implements OnInit {
     this.getOfficerTalukaReport();
   }
 
-  getDetailsReport(ele:any,eleFlag:any){
-    console.log(ele);
-    let obj={
-      'url':this.getUrl,
-      'flag':eleFlag,
-      'talukaId':ele.talukaId
-    }
+  // getDetailsReport(ele:any,eleFlag:any){
+  //   console.log(ele);
+  //   let obj={
+  //     'url':this.getUrl,
+  //     'flag':eleFlag,
+  //     'talukaId':ele.talukaId
+  //   }
 
-    const dialogRef = this.dialog.open(SamadhanReportComponent, {
-      width: '100%',
-      height:'650px',
-      data:obj,
-      disableClose: true,
-    });
-    dialogRef.afterClosed().subscribe((_result: any) => {
+  //   const dialogRef = this.dialog.open(SamadhanReportComponent, {
+  //     width: '100%',
+  //     height:'650px',
+  //     data:obj,
+  //     disableClose: true,
+  //   });
+  //   dialogRef.afterClosed().subscribe((_result: any) => {
       
-    }); 
+  //   }); 
+  // }
+
+
+  getDetailsReport(obj:any,onClickflag:any,pageFlag:any){
+    this.router.navigate(['samadhan-report', obj.talukaId + '.' + onClickflag + '.' + pageFlag]); 
   }
 
 
