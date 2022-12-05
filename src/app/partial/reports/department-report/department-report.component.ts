@@ -73,7 +73,9 @@ export class DepartmentReportComponent implements OnInit {
       next: (response: any) => {
         this.departmentArray.push(...response);
       },
-      error: ((error: any) => { this.error.handelError(error.status) })
+      error: ((error: any) => { 
+        this.error.handelError(error.statusCode) 
+      })
     })
   }
 

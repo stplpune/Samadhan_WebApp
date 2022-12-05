@@ -73,7 +73,7 @@ export class TalukaReportComponent implements OnInit {
       next: (response: any) => {
         this.talukaArray.push(...response);
       },
-      error: ((error: any) => { this.error.handelError(error.status) })
+      error: ((error: any) => { this.error.handelError(error.statusCode) })
     })
   }
 
