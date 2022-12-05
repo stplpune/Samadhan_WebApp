@@ -101,7 +101,10 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
       next: (response: any) => {
         this.departmentArr.push(...response);
       },
-      error: ((error: any) => { this.error.handelError(error.status) })
+      error: ((error: any) => { 
+
+        this.error.handelError(error.statusCode) 
+      })
     })
 }
 

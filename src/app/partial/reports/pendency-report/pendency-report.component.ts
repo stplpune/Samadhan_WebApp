@@ -71,7 +71,9 @@ export class PendencyReportComponent implements OnInit {
       next: (response: any) => {
         this.pendencyArray.push(...response);
      },
-      error: ((error: any) => { this.error.handelError(error.status) })
+      error: ((error: any) => { 
+         this.error.handelError(error.statusCode) 
+      })
     })
   }
 
