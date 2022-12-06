@@ -164,7 +164,7 @@
             <mat-form-field appearance="outline" class="w-100 ">
               <mat-label>{{'Home.off_email_id' | translate}}</mat-label>
               <input matInput formControlName="emailId"
-                (keypress)="validation.noFirstSpaceAllow($event);validation.emailRegex($event)" maxlength="200">
+                (keypress)="validation.emailRegex($event)" maxlength="200">
               <mat-error *ngIf="f['emailId']?.errors">
                 <span *ngIf="f['emailId'].hasError('pattern')">{{'Home.pls_enter_val_off_email_id' | translate}}</span>
               </mat-error>
