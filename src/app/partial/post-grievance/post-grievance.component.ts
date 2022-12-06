@@ -208,6 +208,7 @@ export class PostGrievanceComponent implements OnInit {
           this.postGrievanceForm.controls['deptId'].setValue(this.departmentArray[0].deptId);
           this.filterFrm.controls['deptId'].setValue(this.departmentArray[0].deptId);
           this.getOffice(this.departmentArray[0].deptId);
+          this.getGrievanceByDeptId(this.departmentArray[0].deptId);
           this.dropdownDisable = true;
         }
         this.ispatch == true ? (this.postGrievanceForm.controls['deptId'].setValue(this.updatedObj?.concern_DeptId), this.getOffice(this.updatedObj?.concern_DeptId), this.getGrievanceByDeptId(this.updatedObj?.concern_DeptId)) : '';
