@@ -138,7 +138,22 @@
               [plotOptions]="chartOptions.plotOptions"
               ></apx-chart>
           </div> -->
-      <div id="chartdiv" style="height:424px">
+      <!-- <div id="chartdiv" style="height:424px">
+      </div> -->
+
+      <div id="chart" style="width:100%;">
+        <apx-chart
+          [series]="chartOptions?.series"
+          [chart]="chartOptions?.chart"
+          [dataLabels]="chartOptions?.dataLabels"
+          [plotOptions]="chartOptions?.plotOptions"
+          [yaxis]="chartOptions?.yaxis"
+          [xaxis]="chartOptions?.xaxis"
+          [stroke]="chartOptions?.stroke"
+          [grid]="chartOptions?.grid"
+          [fill]="chartOptions?.fill"
+          [annotations]="chartOptions?.annotations"
+        ></apx-chart>
       </div>
     </div>
   </div>
