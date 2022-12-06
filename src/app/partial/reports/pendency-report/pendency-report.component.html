@@ -32,7 +32,7 @@
                         (click)="clearFilter()">Clear</button>
                 </div>
                 <div class="col-sm text-end">
-                    <button mat-stroked-button [matMenuTriggerFor]="menu" class="btn-main">Download</button>
+                    <button mat-stroked-button [matMenuTriggerFor]="menu" class="btn-main" *ngIf="pendencyReportArray.length!=0">Download</button>
                     <mat-menu #menu="matMenu">
                         <button mat-menu-item (click)="downloadExcel()"><i
                                 class="fa-solid fa-file-excel text-success me-2"></i><span>Excel</span></button>
