@@ -13,7 +13,7 @@ import { ErrorHandlerService } from 'src/app/core/service/error-handler.service'
 import { ExcelService } from 'src/app/core/service/excel_Pdf.service';
 import { FormsValidationService } from 'src/app/core/service/forms-validation.service';
 import { WebStorageService } from 'src/app/core/service/web-storage.service';
-import { SamadhanReportComponent } from '../samadhan-report/samadhan-report.component';
+// import { SamadhanReportComponent } from '../samadhan-report/samadhan-report.component';
 
 @Component({
   selector: 'app-pendency-report',
@@ -199,24 +199,29 @@ export class PendencyReportComponent implements OnInit {
     this.pdf_excelService.downLoadPdf(keyPDFHeader, ValueData, objData);
   }
 
-  getDetailsReport(ele:any,eleFlag:any,dateflag:any){
-    console.log(ele);
-    let obj={
-      'url':this.getUrl,
-      'flag':eleFlag,
-      'dateFlag':dateflag,
-      'deptId':ele.deptId
-    }
+  // getDetailsReport(ele:any,eleFlag:any,dateflag:any){
+  //   console.log(ele);
+  //   let obj={
+  //     'url':this.getUrl,
+  //     'flag':eleFlag,
+  //     'dateFlag':dateflag,
+  //     'deptId':ele.deptId
+  //   }
 
-    const dialogRef = this.dialog.open(SamadhanReportComponent, {
-      width: '100%',
-      height:'650px',
-      data:obj,
-      disableClose: true,
-    });
-    dialogRef.afterClosed().subscribe((_result: any) => {
+  //   const dialogRef = this.dialog.open(SamadhanReportComponent, {
+  //     width: '100%',
+  //     height:'650px',
+  //     data:obj,
+  //     disableClose: true,
+  //   });
+  //   dialogRef.afterClosed().subscribe((_result: any) => {
       
-    }); 
+  //   }); 
+  // }
+
+  
+  getDetailsReport(obj:any,onClickflag:any,pageFlag:any, dateFlag:any){
+    this.router.navigate(['samadhan-report', obj.deptId + '.' + onClickflag + '.' + pageFlag + '.'  + dateFlag]); 
   }
 
 }

@@ -64,6 +64,7 @@ export class SamadhanReportComponent implements OnInit {
     if (getUrlData) {
       getUrlData = getUrlData.split('.');
       this.redirectGetData = { 'deptId': +getUrlData[0], 'onClickflag': +getUrlData[1], 'pageFlag': +getUrlData[2],'offId': +getUrlData[3]}
+
     }
 
   }
@@ -119,13 +120,15 @@ export class SamadhanReportComponent implements OnInit {
 
       case 4:
         this.url = 'samadhan/OnClickDetailReports/OnClicIsSatisfiedkRPTDetails?'
-        this.urlString = 'flag=' + this.data.flag + '&searchdeptId=' + this.data.deptId;
+        this.urlString = 'flag=' +this.redirectGetData.onClickflag + '&searchdeptId=' + this.redirectGetData.deptId;
+        this.heading=["Satisfied","Report"]
         this.getReport();
         break;
 
       case 5:
         this.url = 'samadhan/OnClickDetailReports/OnClicPendancykRPTDetails?'
-        this.urlString =  'searchdeptId=' + this.data.deptId + '&flag=' + this.data.flag +'&DateFlag='+this.data.dateFlag;
+        this.urlString =  'searchdeptId=' + this.redirectGetData.deptId + '&flag=' + this.redirectGetData.offId +'&DateFlag='+this.redirectGetData.onClickflag; //value of flag in offid ,value of date flag in onClickFlag of redirectGetData object
+        this.heading=["Pendancy","Report"]
         this.getReport();
         break;
     }

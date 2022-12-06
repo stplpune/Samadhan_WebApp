@@ -58,24 +58,24 @@
                     <ng-container matColumnDef="received">
                         <th mat-header-cell *matHeaderCellDef class="text-dark"> Received </th>
                         <td mat-cell *matCellDef="let element"><a class="text-dark fw-bold"
-                            (click)="getDetailsReport(element,1)">{{element.received}}</a> </td>
+                            (click)="getDetailsReport(element,1,4)">{{element.received}}</a> </td>
                     </ng-container>
 
                     <ng-container matColumnDef="resolved">
                         <th mat-header-cell *matHeaderCellDef class="text-success"> Resolved </th>
-                        <td mat-cell *matCellDef="let element"><a class="text-success fw-bold" (click)="getDetailsReport(element,2)"> {{element.resolved}} </a></td>
+                        <td mat-cell *matCellDef="let element"><a class="text-success fw-bold" (click)="getDetailsReport(element,2,4)"> {{element.resolved}} </a></td>
                       </ng-container>
     
                     <ng-container matColumnDef="satisfied">
                         <th mat-header-cell *matHeaderCellDef class="text-success"> Satisfied </th>
                         <td mat-cell *matCellDef="let element"><a class="text-success fw-bold"
-                            (click)="getDetailsReport(element,3)"> {{element.satisfied}}</a></td>
+                            (click)="getDetailsReport(element,3,4)"> {{element.satisfied}}</a></td>
                     </ng-container>
     
                     <ng-container matColumnDef="unSatisfied">
                         <th mat-header-cell *matHeaderCellDef class="text-danger"> UnSatisfied </th>
                         <td mat-cell *matCellDef="let element"><a class="text-danger fw-bold"
-                            (click)="getDetailsReport(element,4)"> {{element.unSatisfied}}</a></td>
+                            (click)="getDetailsReport(element,4,4)"> {{element.unSatisfied}}</a></td>
                     </ng-container>
     
                     <tr class="mat-row p-2 w-100" *matNoDataRow col>
