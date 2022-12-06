@@ -3,6 +3,7 @@ import { Component, OnInit, Optional, Inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
 // import { MatTableDataSource } from '@angular/material/table';
 // import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -36,6 +37,8 @@ export class SamadhanReportComponent implements OnInit {
   reportArray = new Array();
   pageNo = 1;
   objData: any;
+  redirectGetData:any;
+  heading=new Array();
 
   constructor(
     private apiService: ApiService,
@@ -50,15 +53,23 @@ export class SamadhanReportComponent implements OnInit {
     private fb: FormBuilder,
     private datePipe: DatePipe,
     private pdf_excelService: ExcelService,
+    private route: ActivatedRoute,
     // private router:Router,
     @Optional() public dialogRef: MatDialogRef<SamadhanReportComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.userId = this.localStrorageData.getUserId();
+
+    let getUrlData: any = this.route.snapshot.params?.['id'];
+    if (getUrlData) {
+      getUrlData = getUrlData.split('.');
+      this.redirectGetData = { 'deptId': +getUrlData[0], 'onClickflag': +getUrlData[1], 'pageFlag': +getUrlData[2],'offId': +getUrlData[3]}
+    }
+
   }
 
   ngOnInit(): void {
-    console.log(this.data);
+    console.log(this.redirectGetData);
     this.filterform();
     this.getUrl();
     this.getdepartment(this.userId);
@@ -84,38 +95,38 @@ export class SamadhanReportComponent implements OnInit {
 
   getUrl() {
 
-    switch (this.data.url) {
-      case 'department-report':
+    switch (this.redirectGetData.pageFlag) {
+      case 1:
         this.url = 'samadhan/OnClickDetailReports/OnClickDepartmentRPTDetails?'
-        this.urlString = 'flag=' + this.data.flag + '&searchdeptId=' + this.data.deptId;
+        this.urlString = 'flag=' + this.redirectGetData.onClickflag + '&searchdeptId=' + this.redirectGetData.deptId;
+        this.heading=["Department","Report"];
         this.getReport();
-        // this.objData.topHedingName='Department Report';
         break;
 
-      case 'office-report':
+      case 2:
         this.url = 'samadhan/OnClickDetailReports/OnClickOfficeRPTDetails?'
-        this.urlString = 'flag=' + this.data.flag + '&searchdeptId=' + this.data.deptId + '&searchofcId=' + this.data.officeId;
+        this.urlString = 'flag=' + this.redirectGetData.onClickflag + '&searchdeptId=' + this.redirectGetData.deptId + '&searchofcId=' + this.redirectGetData.offId;
+        this.heading=["Office","Report"]
         this.getReport();
         break;
 
-      case 'taluka-report':
+      case 3:
         this.url = 'samadhan/OnClickDetailReports/OnClickTalukaRPTDetails?'
-        this.urlString = 'flag=' + this.data.flag + '&searchtalukaId=' + this.data.talukaId;
+        this.urlString = 'flag=' + this.redirectGetData.onClickflag + '&searchtalukaId=' + this.redirectGetData.deptId; // this.redirectGetData.deptId is talukaId
+        this.heading=["Taluka","Report"]
         this.getReport();
         break;
 
-      case 'satisfied-report':
+      case 4:
         this.url = 'samadhan/OnClickDetailReports/OnClicIsSatisfiedkRPTDetails?'
         this.urlString = 'flag=' + this.data.flag + '&searchdeptId=' + this.data.deptId;
         this.getReport();
-        // this.objData.topHedingName='Department Report';
         break;
 
-      case 'pendency-report':
+      case 5:
         this.url = 'samadhan/OnClickDetailReports/OnClicPendancykRPTDetails?'
         this.urlString =  'searchdeptId=' + this.data.deptId + '&flag=' + this.data.flag +'&DateFlag='+this.data.dateFlag;
         this.getReport();
-        // this.objData.topHedingName='Department Report';
         break;
     }
   }
@@ -184,7 +195,7 @@ export class SamadhanReportComponent implements OnInit {
   }
 
   downloadPdf() {
-    let heading = this.data.url.split('-');
+    // let heading = this.data.url.split('-');
     let fromdate: any;
     let todate: any;
     let checkFromDateFlag: boolean = true;
@@ -206,7 +217,7 @@ export class SamadhanReportComponent implements OnInit {
 
     console.log(ValueData);
     this.objData = {
-      'topHedingName': heading[0] + ' ' + heading[1],
+      'topHedingName': this.heading[0] + ' ' + this.heading[1],
       'createdDate': 'Created on:' + this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a')
     }
 

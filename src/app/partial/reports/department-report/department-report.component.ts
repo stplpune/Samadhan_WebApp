@@ -13,7 +13,7 @@ import { ErrorHandlerService } from 'src/app/core/service/error-handler.service'
 import { ExcelService } from 'src/app/core/service/excel_Pdf.service';
 import { FormsValidationService } from 'src/app/core/service/forms-validation.service';
 import { WebStorageService } from 'src/app/core/service/web-storage.service';
-import { SamadhanReportComponent } from '../samadhan-report/samadhan-report.component';
+// import { SamadhanReportComponent } from '../samadhan-report/samadhan-report.component';
 
 @Component({
   selector: 'app-department-report',
@@ -23,7 +23,7 @@ import { SamadhanReportComponent } from '../samadhan-report/samadhan-report.comp
 export class DepartmentReportComponent implements OnInit {
 
   filterForm!: FormGroup;
-  displayedColumns: string[] = ['srNo', 'departmentname', 'received', 'open', 'accepted', 'resolved','rejected','partialResolved','transfered'];
+  displayedColumns: string[] = ['srNo', 'departmentname', 'received', 'open', 'accepted', 'resolved','partialResolved','transfered'];
   dataSource: any;
   totalPages: any;
   pageNo = 1;
@@ -114,7 +114,7 @@ export class DepartmentReportComponent implements OnInit {
             'depertmentName':ele.departmentname,
             'received':ele.received,
             'opened':ele.openn,
-            'rejected':ele.rejected,
+            // 'rejected':ele.rejected,
             'resolved':ele.resolved,
             'accepted':ele.accepted,
             'partialResloved':ele.partialResloved,
@@ -169,7 +169,7 @@ export class DepartmentReportComponent implements OnInit {
       (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
       []
     );// Value Name
-    let keyPDFHeader = ["SrNo", "Department Name","Total","Open", "Accept", "Resolve","Reject","Partial Resolve","Transfer"];
+    let keyPDFHeader = ["SrNo", "Department Name","Total","Open", "Accept", "Resolve","Partial Resolve","Transfer"];
     
 
     let objData:any = {
@@ -197,7 +197,7 @@ export class DepartmentReportComponent implements OnInit {
     formData.fromDate = formData.fromDate ? this.datePipe.transform(formData.fromDate, 'yyyy/MM/dd') : '';
     formData.toDate = formData.toDate ? this.datePipe.transform(formData.toDate, 'yyyy/MM/dd') : '';
 
-    let keyPDFHeader = ["SrNo", "Department Name", "Total","Open", "Accept", "Resolve","Reject","Partial Resolve","Transfer"];
+    let keyPDFHeader = ["SrNo", "Department Name", "Total","Open", "Accept", "Resolve","Partial Resolve","Transfer"];
     let ValueData = this.officeDepReportArray.reduce(
       (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
       []
@@ -219,23 +219,33 @@ export class DepartmentReportComponent implements OnInit {
     this.pdf_excelService.downLoadPdf(keyPDFHeader, ValueData, objData);
   }
 
-  getDetailsReport(ele:any,eleFlag:any){
-    console.log(ele);
-    let obj={
-      'url':this.getUrl,
-      'flag':eleFlag,
-      'deptId':ele.deptId
-    }
+  // getDetailsReport(ele:any,eleFlag:any){
+  //   console.log(ele);
+  //   let obj={
+  //     'url':this.getUrl,
+  //     'flag':eleFlag,
+  //     'deptId':ele.deptId
+  //   }
 
-    const dialogRef = this.dialog.open(SamadhanReportComponent, {
-      width: '100%',
-      height:'650px',
-      data:obj,
-      disableClose: true,
-    });
-    dialogRef.afterClosed().subscribe((_result: any) => {
+  //   const dialogRef = this.dialog.open(SamadhanReportComponent, {
+  //     width: '100%',
+  //     height:'650px',
+  //     data:obj,
+  //     disableClose: true,
+  //   });
+  //   dialogRef.afterClosed().subscribe((_result: any) => {
       
-    }); 
+  //   }); 
+  // }
+
+
+  // redirectToSamadhanReportPage(obj:any,onClickflag:any,pageFlag:any){
+  //   this.router.navigate(['samadhan-report', obj.deptId + '.' + onClickflag + '.' + pageFlag]); 
+  // }
+
+  getDetailsReport(obj:any,onClickflag:any,pageFlag:any){
+    this.router.navigate(['samadhan-report', obj.deptId + '.' + onClickflag + '.' + pageFlag]); 
   }
+
 
 }
