@@ -21,7 +21,7 @@ import { WebStorageService } from 'src/app/core/service/web-storage.service';
   styleUrls: ['./taluka-report.component.css']
 })
 export class TalukaReportComponent implements OnInit {
-  displayedColumns: string[] = ['position', 'name','received','open', 'accepted', 'resolved','rejected','partialResolved','transfered'];
+  displayedColumns: string[] = ['position', 'name','received','open', 'accepted', 'resolved','partialResolved','transfered'];
   dataSource:any;
 
   filterForm!: FormGroup;
@@ -112,7 +112,7 @@ export class TalukaReportComponent implements OnInit {
               'talukaName':ele.taluka,
               'received':ele.received,
               'opened':ele.openn,
-              'rejected':ele.rejected,
+              // 'rejected':ele.rejected,
               'resolved':ele.resolved,
               'accepted':ele.accepted,
               'partialResloved':ele.partialResloved,
@@ -136,7 +136,7 @@ export class TalukaReportComponent implements OnInit {
     });
   }
 
-  keyPDFHeader = ['SrNo', "Taluka Name","Total","Open", "Accept", "Resolve","Reject","Partial Resolve","Transfer"];
+  keyPDFHeader = ['SrNo', "Taluka Name","Total","Open", "Accept", "Resolve","Partial Resolve","Transfer"];
 
   downloadExcel() {
     let fromdate:any;
