@@ -7,7 +7,7 @@ import { ErrorHandlerService } from 'src/app/core/service/error-handler.service'
 // import * as am4core from "@amcharts/amcharts4/core";
 // import * as am4charts from "@amcharts/amcharts4/charts";
 // import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-import { ApexNonAxisChartSeries,ApexResponsive,ApexChart, ApexPlotOptions, ApexYAxis, ApexAnnotations, ApexFill, ApexStroke, ApexGrid} from "ng-apexcharts";
+import { ApexNonAxisChartSeries, ApexResponsive, ApexChart, ApexPlotOptions, ApexYAxis, ApexAnnotations, ApexFill, ApexStroke, ApexGrid } from "ng-apexcharts";
 import { ChartComponent } from "ng-apexcharts"
 import { NgxSpinnerService } from 'ngx-spinner';
 import { WebStorageService } from 'src/app/core/service/web-storage.service';
@@ -38,26 +38,26 @@ export type ChartOptions = {
 
 export class DashboardComponent implements OnInit {
 
-  displayedColumns: string[] = ['srNo', 'department', 'totalGrievances', 'open','accepted','resolved','partialResolved','transferred'];
-  dataSource:any;
-  data:any;
-  pageNumber:number=1;
-  totalRows:any;
-  totalGrievance:any;
-  percentages=new Array();
-  departmants=new Array();
+  displayedColumns: string[] = ['srNo', 'department', 'totalGrievances', 'open', 'accepted', 'resolved', 'partialResolved', 'transferred'];
+  dataSource: any;
+  data: any;
+  pageNumber: number = 1;
+  totalRows: any;
+  totalGrievance: any;
+  percentages = new Array();
+  departmants = new Array();
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild("chart") chart!: ChartComponent
   public chartOptions!: Partial<ChartOptions> | any;
   constructor(
-    private apiService:ApiService,
-    private commonMethod:CommonMethodService,
-    private error:ErrorHandlerService,
-    private spinner:NgxSpinnerService,
-    private localStrorageData:WebStorageService
+    private apiService: ApiService,
+    private commonMethod: CommonMethodService,
+    private error: ErrorHandlerService,
+    private spinner: NgxSpinnerService,
+    private localStrorageData: WebStorageService
   ) {
-    
-}
+
+  }
 
   ngOnInit(): void {
     this.getData();
@@ -66,11 +66,11 @@ export class DashboardComponent implements OnInit {
   }
 
   getData() {
-    this.apiService.setHttp('get', "api/DashboardWeb/GetAll?userid=" +this.localStrorageData.getUserId() , false, false, false, 'samadhanMiningService');
+    this.apiService.setHttp('get', "api/DashboardWeb/GetAll?userid=" + this.localStrorageData.getUserId(), false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {
-          this.data = res.responseData; 
+          this.data = res.responseData;
         } else {
           this.dataSource = []
           if (res.statusCode != "404") {
@@ -84,11 +84,11 @@ export class DashboardComponent implements OnInit {
 
   bindTable() {
     this.spinner.show()
-    this.apiService.setHttp('get', "api/DashboardWeb/StatusWiseGrievanceReceived?userid=" +this.localStrorageData.getUserId() + "&pageno=" + this.pageNumber + "&pagesize=" + 10, false, false, false, 'samadhanMiningService');
+    this.apiService.setHttp('get', "api/DashboardWeb/StatusWiseGrievanceReceived?userid=" + this.localStrorageData.getUserId() + "&pageno=" + this.pageNumber + "&pagesize=" + 10, false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {
-          this.dataSource=new MatTableDataSource(res.responseData.responseData1); 
+          this.dataSource = new MatTableDataSource(res.responseData.responseData1);
           this.totalRows = res.responseData.responseData2.pageCount;
           this.dataSource.sort = this.sort;
           this.spinner.hide();
@@ -109,14 +109,14 @@ export class DashboardComponent implements OnInit {
     this.bindTable();
   }
 
-  getChartData(){
-    this.apiService.setHttp('get', "api/DashboardWeb/TotalGrievancesReceived?userid=" +this.localStrorageData.getUserId(), false, false, false, 'samadhanMiningService');
+  getChartData() {
+    this.apiService.setHttp('get', "api/DashboardWeb/TotalGrievancesReceived?userid=" + this.localStrorageData.getUserId(), false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {
-          this.totalGrievance=res.responseData; 
-          this.departmants= this.totalGrievance.map((ele:any)=> ele['name']);  
-          this.percentages=this.totalGrievance.map((ele:any)=> ele.percentage); 
+          this.totalGrievance = res.responseData;
+          this.departmants = this.totalGrievance.map((ele: any) => ele['name']);
+          this.percentages = this.totalGrievance.map((ele: any) => ele.percentage);
           // this.lolipopChart(this.totalGrievance); 
           this.displayChart();
 
@@ -138,7 +138,7 @@ export class DashboardComponent implements OnInit {
   //   redData.map((ele:any)=>{
   //     data.push({ category: ele?.name, value: ele.percentage });
   //   })
-    
+
   //   chart.data = data;
   //   let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
   //   categoryAxis.renderer.grid.template.location = 0;
@@ -173,7 +173,7 @@ export class DashboardComponent implements OnInit {
   // }
 
 
-  displayChart(){
+  displayChart() {
     this.chartOptions = {
       series: [
         {
@@ -203,33 +203,26 @@ export class DashboardComponent implements OnInit {
       },
       plotOptions: {
         bar: {
-          width: "10px",
-        endingShape: "rounded"
+          columnWidth: '15px',
+          endingShape: "rounded",
+          background: "#b83058"
         }
       },
       dataLabels: {
         enabled: false
       },
-      stroke: {
-        width: 2
-      },
-
       grid: {
+        borderColor: '#b83058',
         row: {
-          colors: ["#fff", "#f2f2f2"]
+          colors: ["#efc6c6", "#f3d5de"],
         }
       },
       xaxis: {
         labels: {
           rotate: -30
         },
-        categories:this.departmants,
+        categories: this.departmants,
         tickPlacement: "on"
-      },
-      yaxis: {
-        title: {
-          // text: "Percentages"
-        }
       },
       fill: {
         type: "gradient",
@@ -241,16 +234,20 @@ export class DashboardComponent implements OnInit {
           inverseColors: true,
           opacityFrom: 0.85,
           opacityTo: 0.85,
-          stops: [50, 0, 100]
+          stops: [50, 0, 100],
+          colorStops: [
+            {
+              offset: 0,
+              color: "#b83058",
+              opacity: 1
+            },]
         }
       }
     };
   }
+}
 
-    
-  }
 
-  
 
 
 

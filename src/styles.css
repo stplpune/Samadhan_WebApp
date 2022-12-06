@@ -325,3 +325,8 @@ input:-webkit-autofill:active {
     overflow-y: auto;
     max-height: 69vh;
 }
+
+.apexcharts-toolbar
+{
+    display: none !important;
+}
