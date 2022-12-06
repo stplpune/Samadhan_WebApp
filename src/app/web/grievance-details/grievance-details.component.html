@@ -96,7 +96,7 @@
                                     <div class="form-label">Email :</div>
                                 </div>
                                 <div class="col-sm-4">
-                                    <div class="form-data">{{grivanceData?.userEmailId}}</div>
+                                    <div class="form-data">{{grivanceData?.isSelfGrievance == 1 ? grivanceData?.userEmailId : '' }}</div>
                                 </div>
                                 <div class="col-sm-2">
                                     <div class="form-label">District :</div>
