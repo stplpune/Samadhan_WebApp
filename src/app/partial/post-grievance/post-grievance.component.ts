@@ -116,7 +116,7 @@ export class PostGrievanceComponent implements OnInit {
   ngAfterViewInit() {
     let formValue: any = this.filterFrm.controls['textSearch'].valueChanges;
     formValue.pipe(filter(() => this.filterFrm.valid),
-      debounceTime(0),
+      debounceTime(1000),
       distinctUntilChanged()).subscribe(() => {
         this.pageNumber = 1;
         this.isSelfGrievance.setValue(1);
