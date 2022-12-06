@@ -44,3 +44,28 @@
 {
     width: 200px;
 }
+
+.open{
+    background-color:#d6e9ff;
+    color:#0171F1;
+}
+.resolved{
+    background-color:#ddffd2;
+    color:#218e00;
+}
+.accepted{
+    background-color:#ffedce;
+    color:#a16703;
+}
+.partial{
+    background-color:#ffe9d7fc;
+    color:#8b3c00fc;
+}
+.rejected{
+    background-color:#ffd5d5;
+    color:#CC4B4C;
+}
+.transferred{
+    background-color:#ffddee;
+    color:#c50063;
+}

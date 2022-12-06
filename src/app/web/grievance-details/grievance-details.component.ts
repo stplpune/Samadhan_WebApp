@@ -7,6 +7,7 @@ import { ConfigService } from 'src/app/configs/config.service';
 import { CommonApiService } from 'src/app/core/service/common-api.service';
 import { WebStorageService } from 'src/app/core/service/web-storage.service';
 import { ActivatedRoute } from '@angular/router';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-grievance-details',
@@ -16,7 +17,8 @@ import { ActivatedRoute } from '@angular/router';
 export class GrievanceDetailsComponent implements OnInit {
 
   grivanceData: any;
-
+  dataSource:any;
+  displayedColumns=['srNo','departmentName','officeName','status', 'remark','action']
   constructor(public commonMethod: CommonMethodService,
     public apiService: ApiService,
     public error: ErrorHandlerService,
@@ -42,6 +44,7 @@ export class GrievanceDetailsComponent implements OnInit {
       next: (res: any) => {
         if (res.statusCode == 200) {
           this.grivanceData = res.responseData;
+          this.dataSource=new MatTableDataSource(res.responseData.officerRedressalImages);
         } else {
           this.grivanceData = [];
           if (res.statusCode != "404") {

@@ -50,10 +50,19 @@
                                         <div class="col-sm-6 col-lg-auto form-label">Status:</div>
                                         <!-- <div class="col-sm-6 col-lg-auto form-data text-success">
                                             {{grivanceData?.status}}</div> -->
-                                        <div class="col-sm-6 col-lg-auto form-data"
+                                        <!-- <div class="col-sm-6 col-lg-auto form-data"
                                             [ngClass]="{'text-primary': grivanceData?.status =='Open','text-secondary': grivanceData?.status =='Accepted','text-success': grivanceData?.status=='Resolved' ,'text-warning': grivanceData?.status =='Partial Resolved'
                                         ,'text-danger': grivanceData?.status =='Rejected','text-info': grivanceData?.status =='Transferred' }">
-                                            {{grivanceData?.status}}</div>
+                                            {{grivanceData?.status}}</div> -->
+
+                                            <div class="col-sm-6 col-lg-auto form-data">
+                                                <span class="badge"
+                                                [ngClass]="{'open': grivanceData?.status =='Open','resolved': grivanceData?.status =='Resolved', 'accepted': grivanceData?.status =='Accepted',
+                                                'partial': grivanceData?.status =='Partial Resolved','rejected': grivanceData?.status =='Rejected','transferred': grivanceData?.status =='Transferred'}">
+                                                {{grivanceData.status}}
+                                            </span>
+                                            </div>
+                                            
                                     </div>
                                 </div>
                             </div>
@@ -84,7 +93,7 @@
                                     <div class="form-label">Name :</div>
                                 </div>
                                 <div class="col-sm-4">
-                                    <div class="form-data">{{ grivanceData.isSelfGrievance == 1  ? grivanceData?.name  : grivanceData?.otherCitizenName }}</div>
+                                    <div class="form-data">{{ grivanceData?.isSelfGrievance == 1  ? grivanceData?.name  : grivanceData?.otherCitizenName }}</div>
                                 </div>
                                 <div class="col-sm-2">
                                     <div class="form-label">Mobile Number :</div>
@@ -145,16 +154,53 @@
                                     <p class="text-danger">Document Not Available</p>
                                 </div>
                             </div>
-                            <div class="row bbottom g-2">
+                            <div class="row bbottom g-2" *ngIf="grivanceData?.officerRedressalImages.length!=0">
                                 <div class="col-sm-2">
                                     <div class="form-label"> Department Remark: </div>
                                 </div>
-                                <div class="col-sm-4">
+
+
+                                <table mat-table [dataSource]="dataSource" class="dashboard-table w-100">
+                                    <ng-container matColumnDef="srNo">
+                                      <th mat-header-cell *matHeaderCellDef class="srno"> Sr.No </th>
+                                      <td mat-cell *matCellDef="let element let i= index"> {{i+1}}
+                                      </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="departmentName">
+                                      <th mat-header-cell *matHeaderCellDef>Department Name</th>
+                                      <td mat-cell *matCellDef="let element"> {{ element.departmentName}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="officeName">
+                                        <th mat-header-cell *matHeaderCellDef>Office Name</th>
+                                        <td mat-cell *matCellDef="let element"> {{ element.officeName }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="status">
+                                        <th mat-header-cell *matHeaderCellDef>Status</th>
+                                        <td mat-cell *matCellDef="let element"> {{ element.statusName}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="remark">
+                                        <th mat-header-cell *matHeaderCellDef>Remark</th>
+                                        <td mat-cell *matCellDef="let element"> {{ element.remark }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef>Action</th>
+                                        <td mat-cell *matCellDef="let element"><a class="text-primary form-label" (click)="viewDocument(element?.docpath)"> View Documents </a></td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                  </table>
+
+
+                                <!-- <div class="col-sm-10">
                                     <div class="form-data" *ngFor="let remark of grivanceData.officerRedressalImages">
-                                        {{remark?.remark}}</div>
-                                </div>
-                            </div>
-                            <div class="row bbottom g-2">
+                                        {{remark?.remark | titlecase}}
+                                        <a class="primary form-label ms-4" (click)="viewDocument(remark?.docpath)"> View Documents   </a>
+                                    </div>
+                                </div> 
+                            </div>-->
+                            <!-- <div class="row bbottom g-2">
                                 <div class="col-sm-2">
                                     <div class="form-label">Department Uploaded Document: </div>
                                 </div>
@@ -167,7 +213,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
 
