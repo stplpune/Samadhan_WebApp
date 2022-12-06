@@ -92,7 +92,7 @@
   </div>
   <div class="col-sm-4">
     <div class="card form-card">
-      <div class="card-header ">{{'Home.add_grievance_master' | translate}} {{ (isEdit? 'Home.update':'Home.add') | translate}}
+      <div class="card-header ">{{ isEdit? ('Home.upd_grievance' | translate) : ('Home.add_grievance'| translate) }}
       </div>
       <form [formGroup]="frmGrievance" #formDirective="ngForm" (ngSubmit)="onSubmitGrievance()" autocomplete="off">
         <div class="card-body">

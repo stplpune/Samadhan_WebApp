@@ -34,13 +34,17 @@
         "update": "Update",
         "select_department": "Select Department",
         "department_marathi": "Department (Marathi)",
+        "add_dept":"Add Department",
+        "upd_dept":"Update Department",
         "cancel": "Cancel",
         "submit": "Submit",
         "department_req_val": "Department is required",
         "department_valid_val": "Please enter valid department name",
         "department_marathi_req_val": "Department Marathi name is required",
         "all_dept": "All Department",
-
+    
+        "add_grievance":"Add Grievance Master",
+        "upd_grievance":"Update Grievance Master",
         "grievance_type":"Grievance Type",
         "grievance_marathi": "Grievance type (Marathi)",
         "grievance_marathi_req_val": "Grievance Type Marathi name is required",

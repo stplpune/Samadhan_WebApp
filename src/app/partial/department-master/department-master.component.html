@@ -109,7 +109,7 @@
   <div class="col-sm-4">
     <div class="card form-card">
       <div class="card-header mb-3">
-        <p class="mb-0"> {{'Home.department' | translate}} {{ (isEdit? 'Home.update':'Home.add') | translate}} </p>
+        <p class="mb-0"> {{ isEdit? ('Home.upd_dept' | translate) : ('Home.add_dept'| translate) }}  </p>
       </div>
       <form [formGroup]="frmDepartment" #formDirective="ngForm" (ngSubmit)="onSubmitDepartment()" autocomplete="off">
         <div class="card-body">
