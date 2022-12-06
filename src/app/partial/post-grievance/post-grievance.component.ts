@@ -204,7 +204,7 @@ export class PostGrievanceComponent implements OnInit {
     this.commonApi.getAllDepartmentByUserId(id).subscribe({
       next: (response: any) => {
         this.departmentArray.push(...response);
-        if (this.departmentArray.length == 1 && this.loggedUserTypeId == 4) {
+        if (this.departmentArray.length == 1 && this.loggedUserTypeId == 3) {  // 3 id for deptAdmin
           this.postGrievanceForm.controls['deptId'].setValue(this.departmentArray[0].deptId);
           this.filterFrm.controls['deptId'].setValue(this.departmentArray[0].deptId);
           this.getOffice(this.departmentArray[0].deptId);
