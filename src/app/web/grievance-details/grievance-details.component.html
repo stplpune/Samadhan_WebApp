@@ -84,13 +84,13 @@
                                     <div class="form-label">Name :</div>
                                 </div>
                                 <div class="col-sm-4">
-                                    <div class="form-data">{{grivanceData?.otherCitizenName ? grivanceData?.otherCitizenName : grivanceData?.name}}</div>
+                                    <div class="form-data">{{ grivanceData.isSelfGrievance == 1  ? grivanceData?.name  : grivanceData?.otherCitizenName }}</div>
                                 </div>
                                 <div class="col-sm-2">
                                     <div class="form-label">Mobile Number :</div>
                                 </div>
                                 <div class="col-sm-4">
-                                    <div class="form-data">{{grivanceData?.otherCitizenMobileNo ? grivanceData?.otherCitizenMobileNo : grivanceData?.userMobileNo }}</div>
+                                    <div class="form-data">{{grivanceData?.isSelfGrievance == 1 ? grivanceData?.userMobileNo  : grivanceData?.otherCitizenMobileNo }}</div>
                                 </div>
                                 <div class="col-sm-2">
                                     <div class="form-label">Email :</div>
