@@ -41,6 +41,12 @@
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Name / Mobile No./User Name</mat-label>
                         <input matInput placeholder="Search" formControlName="textSearch">
+                        <button mat-icon-button matSuffix *ngIf="filterFrm.value.textSearch" matTooltip="close"
+                            aria-label="tooltip" (click)="filterFrm.controls['textSearch'].setValue('')">
+                            <span class="material-symbols-outlined">
+                                close
+                            </span>
+                        </button>
                     </mat-form-field>
                 </div>
                 <!-- <div>
@@ -299,7 +305,8 @@
                             <mat-label>Department</mat-label>
                             <mat-select formControlName="deptId" [disabled]="!userFrm.value.userTypeId"
                                 (selectionChange)="getOffice(userFrm.value.deptId);changeDepFlag = false">
-                                <mat-option *ngFor="let department of departmentByUserArray" [value]="department.deptId">
+                                <mat-option *ngFor="let department of departmentByUserArray"
+                                    [value]="department.deptId">
                                     {{department.departmentName}}
                                 </mat-option>
                             </mat-select>
@@ -350,7 +357,7 @@
                     <div class="mb-3">
                         <mat-form-field class="w-100" appearance="outline">
                             <mat-label>Email ID</mat-label>
-                            <input matInput  formControlName="emailId" maxlength="100"
+                            <input matInput formControlName="emailId" maxlength="100"
                                 (keypress)="validation.emailRegex($event)">
                             <mat-error *ngIf="f['emailId']?.errors">
                                 <span *ngIf="f['emailId']?.hasError('required')"> Email ID is required</span>
