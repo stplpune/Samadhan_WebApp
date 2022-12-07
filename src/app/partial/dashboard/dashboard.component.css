@@ -3,7 +3,7 @@
     margin-top: 25px;
 }
 .dashboard-icon-card{
-    border-bottom: 4px solid #B83058;
+    border-bottom: 4px solid rgba(var(--main-color), var(--opacity-1));
 }
 .dashboard-icon-card h2{
     margin-top:0.5rem;
