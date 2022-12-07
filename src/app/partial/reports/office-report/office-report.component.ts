@@ -31,6 +31,7 @@ export class OfficeReportComponent implements OnInit {
   minDate = new Date();
   reportArray = new Array();
   getUrl:any;
+  todayDate=new Date();
   constructor(
     private apiService: ApiService,
     public error: ErrorHandlerService,

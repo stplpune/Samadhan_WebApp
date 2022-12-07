@@ -31,6 +31,7 @@ export class SatisfiedReportComponent implements OnInit {
   departmentArray=new Array();
   reportArray=new Array();
   getUrl:any;
+  todayDate=new Date();
 
   constructor(
     private apiService: ApiService,

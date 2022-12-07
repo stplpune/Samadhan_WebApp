@@ -39,6 +39,7 @@ export class SamadhanReportComponent implements OnInit {
   objData: any;
   redirectGetData:any;
   heading=new Array();
+  todayDate=new Date();
 
   constructor(
     private apiService: ApiService,

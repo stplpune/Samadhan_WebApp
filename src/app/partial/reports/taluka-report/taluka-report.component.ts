@@ -30,6 +30,7 @@ export class TalukaReportComponent implements OnInit {
   talukaArray = new Array();
   reportArray=new Array();
   getUrl:any;
+  todayDate=new Date();
 
   constructor(
     private apiService: ApiService,

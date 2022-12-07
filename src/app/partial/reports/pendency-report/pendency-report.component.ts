@@ -32,6 +32,7 @@ export class PendencyReportComponent implements OnInit {
   minDate=new Date();
   reportArray=new Array();
   getUrl:any;
+  todayDate=new Date();
 
   constructor(
     private apiService: ApiService,

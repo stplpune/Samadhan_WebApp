@@ -33,6 +33,7 @@ export class DepartmentReportComponent implements OnInit {
   userId:any;
   getUrl:any;
   reportArray=new Array();
+  todayDate = new Date();
   
   constructor(
     private apiService: ApiService,

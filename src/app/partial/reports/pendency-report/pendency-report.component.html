@@ -17,7 +17,7 @@
                 <div class="col-sm-3">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>From Date To End Date</mat-label>
-                        <mat-date-range-input [rangePicker]="picker">
+                        <mat-date-range-input [rangePicker]="picker" [max]="todayDate">
                             <input matStartDate placeholder="Start date" formControlName="fromDate" [disabled]="true">
                             <input matEndDate placeholder="End date" formControlName="toDate" [disabled]="true">
                         </mat-date-range-input>
