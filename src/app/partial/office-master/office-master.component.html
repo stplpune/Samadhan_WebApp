@@ -34,14 +34,16 @@
       </ng-container>
       <ng-container matColumnDef="departmentName">
         <th mat-header-cell *matHeaderCellDef>{{'Home.department' | translate}} </th>
-        <td mat-cell *matCellDef="let element"> {{ langTypeName == 'English' ? (element.departmentName | titlecase) : element.m_DepartmentName}}</td>
+        <td mat-cell *matCellDef="let element"> {{ langTypeName == 'English' ? (element.departmentName | titlecase) :
+          element.m_DepartmentName}}</td>
       </ng-container>
       <ng-container matColumnDef="officeName">
         <th mat-header-cell *matHeaderCellDef>{{'Home.office' | translate}}</th>
-        <td mat-cell *matCellDef="let element"> {{ langTypeName == 'English' ? (element.officeName | titlecase) : element.m_OfficeName}}  </td>
+        <td mat-cell *matCellDef="let element"> {{ langTypeName == 'English' ? (element.officeName | titlecase) :
+          element.m_OfficeName}} </td>
       </ng-container>
       <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef class="action">{{'Home.action' | translate}} 
+        <th mat-header-cell *matHeaderCellDef class="action">{{'Home.action' | translate}}<br>
           <button [disabled]="this.selection.selected.length ==0" mat-icon-button (click)="deleteUserData()">
             <span class="material-symbols-outlined">
               delete
@@ -54,20 +56,18 @@
 
         </th>
         <td mat-cell *matCellDef="let element" class="action">
-          <div>
-            <button mat-icon-button (click)="editRecord(element)" class="btn-edit">
-              <span class="material-symbols-outlined">
-                edit_square
-              </span>
-            </button>
-            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(element) : null"
-              [checked]="selection.isSelected(element)">
-            </mat-checkbox>
-          </div>
+          <button mat-icon-button (click)="editRecord(element)" class="btn-edit">
+            <span class="material-symbols-outlined">
+              edit_square
+            </span>
+          </button>
+          <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(element) : null"
+            [checked]="selection.isSelected(element)">
+          </mat-checkbox>
         </td>
       </ng-container>
       <tr class="mat-row p-2 w-100" *matNoDataRow col>
-        <td  colspan="9">
+        <td colspan="9">
           <div class="alert alert-danger text-center m-2 mt-2">
             {{'Home.no_data_found' | translate}}
           </div>
@@ -87,7 +87,7 @@
   <div class="col-sm-4">
     <div class="card form-card">
       <div class="card-header">
-        {{isEdit? ('Home.upd_office' | translate) : ('Home.add_office' | translate)}} 
+        {{isEdit? ('Home.upd_office' | translate) : ('Home.add_office' | translate)}}
 
       </div>
       <form [formGroup]="frmOffice" #formDirective="ngForm" (ngSubmit)="onSubmitOffice()" autocomplete="off">
@@ -111,10 +111,11 @@
           <div class="mb-3">
             <mat-form-field appearance="outline" class="w-100 ">
               <mat-label>{{'Home.ofiice_name' | translate}}</mat-label>
-              <input matInput formControlName="name" maxlength="200" (keydown)="validation.notAllowMoreThenOneSpace($event)"
+              <input matInput formControlName="name" maxlength="200"
+                (keydown)="validation.notAllowMoreThenOneSpace($event)"
                 (keypress)="validation.removeSpaceAtBegining($event);validation.alphabetsWithSpaces($event)">
               <mat-error *ngIf="f['name']?.errors">
-                <span *ngIf="f['name']?.hasError('required')">  {{'Home.off_name_req' | translate}}</span>
+                <span *ngIf="f['name']?.hasError('required')"> {{'Home.off_name_req' | translate}}</span>
                 <!-- <span *ngIf="f['name'].hasError('pattern')"> {{'Home.pls_enter_val_office_name' | translate}}</span> -->
               </mat-error>
             </mat-form-field>
@@ -122,10 +123,12 @@
           <div class="mb-3">
             <mat-form-field appearance="outline" class="w-100 ">
               <mat-label>{{'Home.ofiname_marathi' | translate}}</mat-label>
-              <input matInput formControlName="m_OfficeName" maxlength="200" (keydown)="validation.notAllowMoreThenOneSpace($event)"
+              <input matInput formControlName="m_OfficeName" maxlength="200"
+                (keydown)="validation.notAllowMoreThenOneSpace($event)"
                 (keypress)="validation.removeSpaceAtBegining($event);validation.alphabetsWithSpaces($event);validation.unicodeMarathiValidation($event)">
               <mat-error *ngIf="f['name']?.errors">
-                <span *ngIf="f['name']?.hasError('required')">  {{'Home.pls_enter_val_office_name_mar' | translate}}</span>
+                <span *ngIf="f['name']?.hasError('required')"> {{'Home.pls_enter_val_office_name_mar' |
+                  translate}}</span>
                 <!-- <span *ngIf="f['name'].hasError('pattern')">  {{'Home.pls_enter_val_office_name' | translate}}</span> -->
               </mat-error>
             </mat-form-field>
@@ -135,9 +138,10 @@
             <mat-form-field appearance="legacy" class="w-100 ">
               <mat-label>{{'Home.off_add' | translate}} </mat-label>
               <!-- <input matInput formControlName="address" maxlength="200" (keyup)="validation.removeSpaceAtBegining($event)"> -->
-              <textarea aria-label="Number" matInput (keypress)="validation.noFirstSpaceAllow($event)" (keydown)="validation.notAllowMoreThenOneSpace($event)"
-                placeholder="{{'Home.search_off_location' | translate}}" autocorrect="off" autocomplete="off" formControlName="address"
-                autocapitalize="off" spellcheck="off" type="text" #search></textarea>
+              <textarea aria-label="Number" matInput (keypress)="validation.noFirstSpaceAllow($event)"
+                (keydown)="validation.notAllowMoreThenOneSpace($event)"
+                placeholder="{{'Home.search_off_location' | translate}}" autocorrect="off" autocomplete="off"
+                formControlName="address" autocapitalize="off" spellcheck="off" type="text" #search></textarea>
               <mat-error *ngIf="f['address']?.errors">
                 <span *ngIf="f['address']?.hasError('required')">{{'Home.pls_enter_val_off_add' | translate}}</span>
                 <span *ngIf="f['address'].hasError('pattern')">{{'Home.pls_enter_val_off_add_pat' | translate}}</span>
@@ -163,8 +167,7 @@
           <div class="mb-3">
             <mat-form-field appearance="outline" class="w-100 ">
               <mat-label>{{'Home.off_email_id' | translate}}</mat-label>
-              <input matInput formControlName="emailId"
-                (keypress)="validation.emailRegex($event)" maxlength="200">
+              <input matInput formControlName="emailId" (keypress)="validation.emailRegex($event)" maxlength="200">
               <mat-error *ngIf="f['emailId']?.errors">
                 <span *ngIf="f['emailId'].hasError('pattern')">{{'Home.pls_enter_val_off_email_id' | translate}}</span>
               </mat-error>
@@ -174,11 +177,14 @@
           <div class="mb-3">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>{{'Home.off_designation' | translate}}</mat-label>
-              <input matInput formControlName="contactPersonName" maxlength="50" (keydown)="validation.notAllowMoreThenOneSpace($event)"
+              <input matInput formControlName="contactPersonName" maxlength="50"
+                (keydown)="validation.notAllowMoreThenOneSpace($event)"
                 (keypress)="validation.removeSpaceAtBegining($event);validation.alphabetsWithSpaces($event)">
               <mat-error *ngIf="f['contactPersonName']?.errors">
-                <span *ngIf="f['contactPersonName']?.hasError('required')">{{'Home.pls_enter_val_off_designation' | translate}}</span>
-                <span *ngIf="f['contactPersonName'].hasError('pattern')"> {{'Home.pls_enter_val_off_designation_pat' | translate}}</span>
+                <span *ngIf="f['contactPersonName']?.hasError('required')">{{'Home.pls_enter_val_off_designation' |
+                  translate}}</span>
+                <span *ngIf="f['contactPersonName'].hasError('pattern')"> {{'Home.pls_enter_val_off_designation_pat' |
+                  translate}}</span>
               </mat-error>
             </mat-form-field>
           </div>
@@ -187,16 +193,20 @@
             <mat-form-field appearance="outline" class="w-100 ">
               <mat-label>{{'Home.off_landline' | translate}}</mat-label>
               <input matInput formControlName="landlineNo" maxlength="11"
-               (keypress)="validation.removeSpaceAtBegining($event);validation.acceptedOnlyNumbers($event)">
+                (keypress)="validation.removeSpaceAtBegining($event);validation.acceptedOnlyNumbers($event)">
               <mat-error *ngIf="f['landlineNo']?.errors">
-                <span *ngIf="f['landlineNo']?.hasError('pattern') || f['landlineNo']?.hasError('minlength')">{{'Home.pls_enter_val_off_landline' | translate}}</span>
+                <span
+                  *ngIf="f['landlineNo']?.hasError('pattern') || f['landlineNo']?.hasError('minlength')">{{'Home.pls_enter_val_off_landline'
+                  | translate}}</span>
               </mat-error>
             </mat-form-field>
           </div>
 
           <div class="text-end">
-            <button mat-stroked-button class="btn-main-outline" type="button" (click)="onCancelRecord()">{{'Home.cancel' | translate}}</button>
-            <button mat-stroked-button class="btn-main ms-2" type="submit">{{ (isEdit ? 'Home.update':'Home.submit') | translate}}</button>
+            <button mat-stroked-button class="btn-main-outline" type="button" (click)="onCancelRecord()">{{'Home.cancel'
+              | translate}}</button>
+            <button mat-stroked-button class="btn-main ms-2" type="submit">{{ (isEdit ? 'Home.update':'Home.submit') |
+              translate}}</button>
           </div>
         </div>
       </form>

@@ -1,38 +1,38 @@
-<div class="card-height">
-  <div class="row">
-    <div class="col-sm-12">
-      <form [formGroup]="userRightFrm" (ngSubmit)="onSubmit()">
-        <div class="row gx-2">
-          <div class="col-sm-3">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Select User Type</mat-label>
-              <mat-select formControlName="userType"
-                (selectionChange)="getSubUserType(userRightFrm.value.userType); this.initialLoadFlag = false;">
-                <mat-option *ngFor="let u of UserTypeArr" [value]="u.userTypeId">{{u.userType}}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div class="col-sm-3">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Select Sub User Type</mat-label>
-              <mat-select formControlName="subUserType">
-                <mat-option *ngFor="let u of SubUserTypeArr" [value]="u.subUserTypeId">{{u.subUserType}}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div class="col-sm-3">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Page Name/Page URL</mat-label>
-              <input matInput placeholder="Search" formControlName="pageName"
-                (keypress)="validation.noSpacesAtStart($event)" maxlength="100">
-            </mat-form-field>
-          </div>
-          <div class="col-sm-3">
-            <button mat-stroked-button class="btn-main me-2" type="submit">Search</button>
-            <button mat-stroked-button class="btn-main-outline" type="button" (click)="resetFilter()">Clear</button>
-          </div>
+<div class="row">
+  <div class="col-sm-12">
+    <form [formGroup]="userRightFrm" (ngSubmit)="onSubmit()">
+      <div class="row gx-2">
+        <div class="col-sm-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Select User Type</mat-label>
+            <mat-select formControlName="userType"
+              (selectionChange)="getSubUserType(userRightFrm.value.userType); this.initialLoadFlag = false;">
+              <mat-option *ngFor="let u of UserTypeArr" [value]="u.userTypeId">{{u.userType}}</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
-      </form>
+        <div class="col-sm-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Select Sub User Type</mat-label>
+            <mat-select formControlName="subUserType">
+              <mat-option *ngFor="let u of SubUserTypeArr" [value]="u.subUserTypeId">{{u.subUserType}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-sm-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Page Name/Page URL</mat-label>
+            <input matInput placeholder="Search" formControlName="pageName"
+              (keypress)="validation.noSpacesAtStart($event)" maxlength="100">
+          </mat-form-field>
+        </div>
+        <div class="col-sm-3">
+          <button mat-stroked-button class="btn-main me-2" type="submit">Search</button>
+          <button mat-stroked-button class="btn-main-outline" type="button" (click)="resetFilter()">Clear</button>
+        </div>
+      </div>
+    </form>
+    <div class="table-height scollbar">
       <table mat-table [dataSource]="dataSource" class="dashboard-table w-100">
         <ng-container matColumnDef="srno">
           <th mat-header-cell *matHeaderCellDef class="srno"> SR.No. </th>
@@ -65,10 +65,10 @@
           [ngClass]="{'highlightedRow ':highlightedRow == row.id}">
         </tr>
       </table>
-      <ng-container *ngIf="totalRows > 10">
-        <mat-paginator [pageSize]="10" [length]="totalRows" showFirstLastButtons (page)="pageChanged($event)">
-        </mat-paginator>
-      </ng-container>
     </div>
+    <ng-container *ngIf="totalRows > 10">
+      <mat-paginator [pageSize]="10" [length]="totalRows" showFirstLastButtons (page)="pageChanged($event)">
+      </mat-paginator>
+    </ng-container>
   </div>
 </div>
