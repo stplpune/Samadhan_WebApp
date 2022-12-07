@@ -29,27 +29,34 @@ export class ForgotPasswordComponent implements OnInit {
     private error: ErrorHandlerService,
     private router: Router,
     public validation: FormsValidationService,
+    private commomMethod:CommonMethodService
   ) { }
 
   ngOnInit(): void {
     this.sendOTPForm = this.fb.group({
-      MobileNo: ['', [Validators.required, Validators.pattern(/^[6-9][0-9]{9}$/)]]
+      // MobileNo: ['', [Validators.required, Validators.pattern(/^[6-9][0-9]{9}$/)]]
+      userName: ['', [Validators.required, Validators.pattern(/^[A-za-z]{5}[0-9]{5}/)]],
     })
 
     this.verifyOTPForm = this.fb.group({
+      mobileNo: ['', [Validators.required, Validators.pattern(/^[6-9][0-9]{9}$/)]],
       otpA: ['', Validators.required],
       otpB: ['', Validators.required],
       otpC: ['', Validators.required],
       otpD: ['', Validators.required],
       otpE: ['', Validators.required],
     })
+    
     this.changePassword = this.fb.group({
-      NewPassword: ['', [Validators.required, Validators.pattern(this.validation.valPassword)]],
-      ConfirmPassword: ['', [Validators.required, Validators.pattern(this.validation.valPassword)]]
+      userName: ['', [Validators.required, Validators.pattern(/^[A-za-z]{5}[0-9]{5}/)]],
+      newPassword: ['', [Validators.required, Validators.pattern(this.validation.valPassword)]],
+      confirmPassword: ['', [Validators.required, Validators.pattern(this.validation.valPassword)]],
+      mobileNo: ['', [Validators.required, Validators.pattern(/^[6-9][0-9]{9}$/)]]
     })
   }
 
   get f() { return this.sendOTPForm.controls; }
+  get v(){ return this.verifyOTPForm.controls;}
 
   get h() { return this.changePassword.controls; }
 
@@ -59,19 +66,15 @@ export class ForgotPasswordComponent implements OnInit {
       return;
     } else {
       let obj = {
-        "createdBy": 0,
-        "modifiedBy": 0,
-        "createdDate": new Date(),
-        "modifiedDate": new Date(),
-        "isDeleted": true,
         "id": 0,
-        "mobileNo": formData.MobileNo,
+        "mobileNo": "",
+        "userName":formData.userName,
         "otp": "",
         "pageName": "",
-        "otpExpireDate": new Date(),
-        "isUser": true
+        "createdBy": 0,
+        "userTypeId": 0
       }
-      this.apiService.setHttp('post', 'samadhan/otptran', false, obj, false, 'samadhanMiningService');
+      this.apiService.setHttp('PUT', 'samadhan/user-registration/ValidateUserName', false, obj, false, 'samadhanMiningService');
       this.apiService.getHttp().subscribe((res: any) => {
         if (res.statusCode == "200") {
           this.common.matSnackBar(res.statusMessage, 0)
@@ -89,26 +92,22 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   verifyOTP() {
-    let formData = this.sendOTPForm.value;
+    let formData = this.verifyOTPForm.value;
     let otp = this.verifyOTPForm.value.otpA + this.verifyOTPForm.value.otpB + this.verifyOTPForm.value.otpC + this.verifyOTPForm.value.otpD + this.verifyOTPForm.value.otpE
     if (this.verifyOTPForm.invalid) {
       return;
     } else {
       let obj = {
-        "createdBy": 0,
-        "modifiedBy": 0,
-        "createdDate": new Date(),
-        "modifiedDate": new Date(),
-        "isDeleted": true,
         "id": 0,
-        "mobileNo": formData.MobileNo,
-        "otp": otp,
+        "mobileNo": formData.mobileNo,
+        "userName": "",
+        "otp":otp,
         "pageName": "",
-        "otpExpireDate": new Date(),
-        "isUser": true
+        "createdBy": 0,
+        "userTypeId": 0
       }
 
-      this.apiService.setHttp('post', 'samadhan/otptran/VerifyOTP', false, obj, false, 'samadhanMiningService');
+      this.apiService.setHttp('POST', 'samadhan/user-registration/VerifyOTP', false, obj, false, 'samadhanMiningService');
       this.apiService.getHttp().subscribe((res: any) => {
         if (res.statusCode == "200") {
           this.common.matSnackBar(res.statusMessage, 0)
@@ -139,23 +138,25 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   ChangePassword() {
-    let formData = this.sendOTPForm.value;
-    let changeform = this.changePassword.value;
+    let formData = this.changePassword.value;
+    // let changeform = this.changePassword.value;
     if (this.changePassword.invalid) {
       return;
-    } else if (changeform.NewPassword != changeform.ConfirmPassword) {
-      this.changePassword.controls['ConfirmPassword'].setErrors({ 'notMatched': true })
+    } else if (formData.newPassword != formData.confirmPassword) {
+      // this.changePassword.controls['confirmPassword'].setErrors({ 'notMatched': true })
+      this.commomMethod.matSnackBar('New password and confirm password does not match', 1);
       return;
     }
 
+    
     let obj = {
-      "UserName": formData.MobileNo,
-      "Password": "",
-      "NewPassword": changeform.NewPassword,
-      "MobileNo": formData.MobileNo
+      "userName": formData.userName,
+      "newPassword": formData.newPassword,
+      "confirmPassword": formData.confirmPassword,
+      "mobileNo": formData.mobileNo
     }
 
-    this.apiService.setHttp('put', 'samadhan/user-registration/ForgotPassword?UserName=' + obj.UserName + '&Password=' + obj.Password + '&NewPassword=' + obj.NewPassword + '&MobileNo=' + obj.MobileNo, false, false, false, 'samadhanMiningService');
+    this.apiService.setHttp('put', 'samadhan/user-registration/ForgotPassword?UserName=' + obj.userName + '&Password=' + obj.newPassword + '&NewPassword=' + obj.confirmPassword + '&MobileNo=' + obj.mobileNo, false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe((res: any) => {
       if (res.statusCode == "200") {
         this.common.matSnackBar(res.statusMessage, 0)
@@ -174,7 +175,7 @@ export class ForgotPasswordComponent implements OnInit {
   validationaddremove() {
     let formData = this.changePassword.value;
     if (formData.NewPassword == formData.ConfirmPassword) {
-      this.changePassword.controls['ConfirmPassword'].updateValueAndValidity();
+      this.changePassword.controls['confirmPassword'].updateValueAndValidity();
     }
   }
 }
