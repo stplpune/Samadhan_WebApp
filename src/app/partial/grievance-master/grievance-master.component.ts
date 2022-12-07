@@ -243,6 +243,7 @@ export class GrievanceMasterComponent implements OnInit, AfterViewInit, OnDestro
     this.formDirective.resetForm();
     this.isEdit = false;
     this.highlightedRow = 0;
+    this.selection.clear();
   }
 
   //#region CancleRecord Fun end

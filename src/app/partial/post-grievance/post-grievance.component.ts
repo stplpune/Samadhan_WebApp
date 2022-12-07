@@ -352,6 +352,7 @@ export class PostGrievanceComponent implements OnInit {
     this.grievanceImageArray = [];
     // this.postGrievanceType(1);
     this.districtArray.length == 1 ? this.postGrievanceForm.controls['districtId'].setValue(this.districtArray[0].id) : '';
+    this.selection.clear();
   }
 
 

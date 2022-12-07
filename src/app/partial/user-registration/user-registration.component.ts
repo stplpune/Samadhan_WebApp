@@ -472,6 +472,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.loggedUserTypeId == 4 ? this.userFrm.controls['userTypeId'].setValue(this.loggedUserTypeId) :'';
     this.userFrm.controls['deptId'].setValue(this.loggedUserDeptID);
      this.dropdownDisable=true;
+     this.selection.clear();
 
   }
 
