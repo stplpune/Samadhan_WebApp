@@ -51,6 +51,9 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   changeDepFlag:boolean = false;
   data:any;
   isDisabled:boolean=false;
+  loggedUserTypeId:any;
+  loggedUserDeptID:any;
+  dropdownDisable:boolean=false;
 
   constructor(public commonMethod: CommonMethodService,
     public apiService: ApiService,
@@ -67,8 +70,17 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
      }
 
   ngOnInit(): void {
+    this.loggedUserTypeId= this.localStrorageData.getLoggedInLocalstorageData().responseData?.userTypeId;
+   this.loggedUserDeptID= this.localStrorageData.getLoggedInLocalstorageData().responseData?.deptId;
     this.defaultForm();
     this.filterForm();
+
+    // if( this.loggedUserTypeId == 4){
+    //   this.filterFrm.controls['deptId'].setValue(this.loggedUserDeptID);
+    //   this.userFrm.controls['userTypeId'].setValue(this.loggedUserTypeId);
+    //   this.userFrm.controls['deptId'].setValue(this.loggedUserDeptID);
+    //   this.dropdownDisable=true;
+    //  }
     this.getData();
     this.getUsers(this.localStrorageData.getUserId());
     // this.getDepartment();
@@ -149,6 +161,14 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.commonService.getAllUserByUserId(userId).subscribe({
       next: (response: any) => {
         this.usersArray.push(...response);
+
+        if( this.loggedUserTypeId == 4){
+          this.filterFrm.controls['deptId'].setValue(this.loggedUserDeptID);
+          this.userFrm.controls['userTypeId'].setValue(this.loggedUserTypeId);
+          this.userFrm.controls['deptId'].setValue(this.loggedUserDeptID);
+          this.getSubUsers(this.loggedUserTypeId);
+          this.dropdownDisable=true;
+         }
         this.changeDepFlag == true ? (this.userFrm.controls['userTypeId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.userTypeId) == false ? '' : this.updatedObj?.userTypeId),
          this.getSubUsers(this.commonMethod.checkDataType(this.updatedObj?.userTypeId) == false ? '' : this.updatedObj?.userTypeId)) : '';
       },
@@ -199,6 +219,13 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.commonService.getAllDepartmentByUserId(id).subscribe({
       next: (response: any) => {
         this.departmentByUserArray.push(...response);
+
+        if( this.loggedUserTypeId == 3 || this.loggedUserTypeId == 4){
+          this.filterFrm.controls['deptId'].setValue(this.loggedUserDeptID);
+          this.userFrm.controls['deptId'].setValue(this.loggedUserDeptID);
+          this.getOffice(this.userFrm.value.deptId);
+          this.dropdownDisable=true;
+         }
         this.changeDepFlag == true ? (this.userFrm.controls['deptId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.deptId) == false ? '' : this.updatedObj?.deptId),
          this.getOffice(this.commonMethod.checkDataType(this.updatedObj?.deptId) == false ? '' : this.updatedObj?.deptId)) : '';
       },
@@ -215,6 +242,12 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.commonService.getOfficeByDeptId(deptNo).subscribe({
       next: (response: any) => {
         this.officeArray.push(...response);
+        
+        // if( this.loggedUserTypeId == 3 || this.loggedUserTypeId == 4){
+        //   this.filterFrm.controls['officeId'].setValue(this.data.officeId);
+        //   this.userFrm.controls['officeId'].setValue(this.data.officeId);
+        //   this.dropdownDisable=true;
+        //  }
 
         this.changeDepFlag == true ? (this.userFrm.controls['officeId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.officeId) == false ? '' : this.updatedObj?.officeId)) : '';
       },
@@ -233,7 +266,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   }
 
   setValidators(flag: any) {
-
+   
     switch (flag) {
       case 2:
               this.userFrm.controls['deptId'].setValue('');
@@ -258,6 +291,8 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
                 this.userFrm.controls["officeId"].updateValueAndValidity();
 
     }
+
+    this.dropdownDisable=true;
   }
 
   //#region  bind table  fn Start here
@@ -434,6 +469,10 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   onCancelRecord() {
     this.formDirective.resetForm();
     this.isEdit = false;
+    this.loggedUserTypeId == 4 ? this.userFrm.controls['userTypeId'].setValue(this.loggedUserTypeId) :'';
+    this.userFrm.controls['deptId'].setValue(this.loggedUserDeptID);
+     this.dropdownDisable=true;
+
   }
 
   //#endregiondrop reset form value fn end here
