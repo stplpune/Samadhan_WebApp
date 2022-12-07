@@ -2,12 +2,12 @@ import {  Routes } from '@angular/router';
 import { ExpenseGuard } from 'src/app/core/guards/expense.guard';
 
 export const PartialLayoutRoutes: Routes = [
-  { path: 'dashboard', loadChildren: () => import('../dashboard/dashboard.module').then(m => m.DashboardModule), data: { breadcrumb: [{ title: 'Dashboard', active: true }]} , canActivate: [ExpenseGuard] },
+  { path: 'dashboard', loadChildren: () => import('../dashboard/dashboard.module').then(m => m.DashboardModule), data: { breadcrumb: [{ title: 'Dashboard', titleMarathi: 'डॅशबोर्ड', active: true }]} , canActivate: [ExpenseGuard] },
   { path: 'department-master', loadChildren: () => import('../../partial/department-master/department-master.module').then(m => m.DepartmentMasterModule),data: { breadcrumb: [{ title: 'Department Master', titleMarathi: 'विभाग मास्टर', active: true }]}, canActivate: [ExpenseGuard] },
-  { path: 'office-master', loadChildren: () => import('../../partial/office-master/office-master.module').then(m => m.OfficeMasterModule), data: { breadcrumb: [{ title: 'Office Master', active: true }]}, canActivate: [ExpenseGuard] },
-  { path: 'citizen-master', loadChildren: () => import('../../partial/citizen-master/citizen-master.module').then(m => m.CitizenMasterModule), data: { breadcrumb: [{ title: 'Citizen Master', active: true }]}, canActivate: [ExpenseGuard] },
+  { path: 'office-master', loadChildren: () => import('../../partial/office-master/office-master.module').then(m => m.OfficeMasterModule), data: { breadcrumb: [{ title: 'Office Master',titleMarathi: 'ऑफिस मास्टर', active: true }]}, canActivate: [ExpenseGuard] },
+  { path: 'citizen-master', loadChildren: () => import('../../partial/citizen-master/citizen-master.module').then(m => m.CitizenMasterModule), data: { breadcrumb: [{ title: 'Citizen Master',titleMarathi: 'सिटीझन मास्टर', active: true }]}, canActivate: [ExpenseGuard] },
   { path: 'user-registration', loadChildren: () => import('../../partial/user-registration/user-registration.module').then(m => m.UserRegistrationModule), data: { breadcrumb: [{ title: 'User Registration ', active: true }]}, canActivate: [ExpenseGuard] },
-  { path: 'grievance-master', loadChildren: () => import('../../partial/grievance-master/grievance-master.module').then(m => m.GrievanceMasterModule), data: { breadcrumb: [{ title: 'Grievance Master', active: true }]}, canActivate: [ExpenseGuard] },
+  { path: 'grievance-master', loadChildren: () => import('../../partial/grievance-master/grievance-master.module').then(m => m.GrievanceMasterModule), data: { breadcrumb: [{ title: 'Grievance Master',titleMarathi: 'तक्रार मास्टर', active: true }]}, canActivate: [ExpenseGuard] },
   { path: 'collector-references', loadChildren: () => import('../../partial/post-grievance/post-grievance.module').then(m => m.PostGrievanceModule), data: { breadcrumb: [{ title: 'Collector References', active: true }]}, canActivate: [ExpenseGuard] },
   { path: 'page-list', loadChildren: () => import('../../partial/page-list/page-list.module').then(m => m.PageListModule), data: { title: 'Page List' }, canActivate: [ExpenseGuard] },
   { path: 'user-right-access', loadChildren: () => import('../../partial/user-right-access/user-right-access.module').then(m => m.UserRightAccessModule), data: { breadcrumb: [{ title: 'User Right Access', active: true }]}, canActivate: [ExpenseGuard] },

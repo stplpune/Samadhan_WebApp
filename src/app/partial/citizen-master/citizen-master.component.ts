@@ -273,6 +273,7 @@ export class CitizenMasterComponent implements OnInit {
     this.formDirective.resetForm();
     this.isEdit = false;
     this.isdisable = false;
+    this.selection.clear();
   }
 
   //#endregion CancelRecord fun end
