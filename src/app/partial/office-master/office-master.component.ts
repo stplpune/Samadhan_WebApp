@@ -75,9 +75,10 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
     this.createOfficeForm();
     this.filterform();
     this.getDepartmentName(this.localStrorageData.getUserId());
-    if( this.loggedUserTypeId ==3){
+    if( this.loggedUserTypeId ==3 ||  this.loggedUserTypeId == 4){
       this.frmOffice.controls['deptId'].setValue(this.loggedUserDeptID);
       this.filterForm.controls['deptId'].setValue(this.loggedUserDeptID);
+      this.dropdownDisable=true;
      }
     this.getData();
     this.mapApiLoader();
@@ -281,6 +282,9 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
     this.formDirective.resetForm();
     this.isEdit = false;
     this.highlightedRow = 0;
+    this.frmOffice.controls['deptId'].setValue(this.loggedUserDeptID);
+   this.dropdownDisable=true;
+   this.selection.clear();
   }
 
   //#region CAncleRecord Fun end
