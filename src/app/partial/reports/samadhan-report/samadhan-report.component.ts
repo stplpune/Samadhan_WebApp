@@ -30,7 +30,7 @@ export class SamadhanReportComponent implements OnInit {
   userId: any;
   urlString: any;
   columns = [{ header: "Sr No.", column: 'index', flag: true }, { header: "Grievance No.", column: 'grievanceNo', flag: true }, { header: "Name", column: 'userName', flag: true }, { header: "Department Name", column: 'deptName', flag: true },
-  { header: "Office", column: 'officeName', flag: true }, { header: "Grievance Type", column: 'grievanceType', flag: true }, { header: "Status", column: 'statusName', flag: true }];
+  { header: "Office", column: 'officeName', flag: true }, { header: "Grievance Type", column: 'grievanceType', flag: true }, { header: "Grievance Dtails", column: 'grievanceDescription', flag: true },{ header: "Status", column: 'statusName', flag: true }];
   reportData = new Array();
   header = new Array();
   departmentArray = new Array();
@@ -167,6 +167,7 @@ export class SamadhanReportComponent implements OnInit {
               'departmentName': ele.deptName,
               'office': ele.officeName,
               'grievanceType': ele.grievanceType,
+              'grievancedetails': ele.grievanceDescription,
               'status': ele.statusName
             }
             this.reportArray.push(obj);
