@@ -1,78 +1,82 @@
-<div class="row">
-  <div class="col-sm-8">
-    <form [formGroup]="filterForm">
-      <div class="row gx-2 mb-3">
+<div class="card-height">
+  <div class="row">
+    <div class="col-sm-8">
+      <form [formGroup]="filterForm">
+        <div class="row gx-2 mb-3">
 
-        <div class="col-sm-4">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>{{'Home.All_Taluka' | translate}}</mat-label>
-            <mat-select formControlName="talukaId"
-              (selectionChange)=" getVillageFilter(filterForm.value.talukaId);filterData()">
-              <mat-option value="0">{{ langTypeName != "Marathi"? "All Taluka":'सर्व तालुका'}}</mat-option>
-              <mat-option *ngFor="let tal of talukaArr" [value]="tal.id">{{ langTypeName == "Marathi"?tal.m_Taluka: tal.taluka }}</mat-option> 
-            </mat-select>
-          </mat-form-field>
+          <div class="col-sm-4">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>{{'Home.All_Taluka' | translate}}</mat-label>
+              <mat-select formControlName="talukaId"
+                (selectionChange)=" getVillageFilter(filterForm.value.talukaId);filterData()">
+                <mat-option value="0">{{ langTypeName != "Marathi"? "All Taluka":'सर्व तालुका'}}</mat-option>
+                <mat-option *ngFor="let tal of talukaArr" [value]="tal.id">{{ langTypeName == "Marathi"?tal.m_Taluka:
+                  tal.taluka }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm-4">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>{{'Home.All_village' | translate }}</mat-label>
+              <mat-select formControlName="villageId" (selectionChange)="filterData()"
+                [disabled]=' filterForm.value.talukaId == "0"'>
+                <mat-option *ngFor="let vill of filterVillageArry" [value]="vill.id">{{ langTypeName == "Marathi"?
+                  vill.m_Village: vill.village }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm-4">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>{{'Home.searchMobile' | translate }} </mat-label>
+              <input matInput placeholder="{{'Home.search' | translate}}" formControlName="textsearch"
+                (keypress)="validation.noFirstSpaceAllow($event)">
+              <button mat-icon-button matSuffix *ngIf="filterForm.value.textsearch" matTooltip="close"
+                aria-label="tooltip" (click)="filterForm.controls['textsearch'].setValue('')">
+                <span class="material-symbols-outlined">
+                  close
+                </span>
+              </button>
+            </mat-form-field>
+          </div>
         </div>
+      </form>
 
-        <div class="col-sm-4">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>{{'Home.All_village' | translate }}</mat-label>
-            <mat-select formControlName="villageId" (selectionChange)="filterData()"
-              [disabled]=' filterForm.value.talukaId == "0"'>
-              <mat-option *ngFor="let vill of filterVillageArry" [value]="vill.id">{{ langTypeName == "Marathi"? vill.m_Village: vill.village }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
+      <div class="table-responsive scrollbar">
+        <table mat-table [dataSource]="dataSource" class="w-100 dashboard-table">
+          <ng-container matColumnDef="srno">
+            <th mat-header-cell *matHeaderCellDef class="srno-width"> {{'Home.sr_no' | translate}}</th>
+            <td mat-cell *matCellDef="let element let i= index"> {{((pageNo + 1) * 10 + i + 1)-20}} </td>
+          </ng-container>
 
-        <div class="col-sm-4">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>{{'Home.searchMobile' | translate }} </mat-label>
-            <input matInput placeholder="{{'Home.search' | translate}}" formControlName="textsearch"
-              (keypress)="validation.noFirstSpaceAllow($event)">
-              <button mat-icon-button matSuffix *ngIf="filterForm.value.textsearch" matTooltip="close" aria-label="tooltip"
-              (click)="filterForm.controls['textsearch'].setValue('')">
-              <span class="material-symbols-outlined">
-                close
-              </span>
-            </button>
-          </mat-form-field>
-        </div>
-      </div>
-    </form>
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> {{'Home.name' | translate}} </th>
+            <td mat-cell *matCellDef="let element"> <span class="text-break">{{element.name | titlecase}}</span> </td>
+          </ng-container>
 
-    <div class="table-responsive scrollbar">
-      <table mat-table [dataSource]="dataSource" class="w-100 dashboard-table">
-        <ng-container matColumnDef="srno">
-          <th mat-header-cell *matHeaderCellDef class="srno-width"> {{'Home.sr_no' | translate}}</th>
-          <td mat-cell *matCellDef="let element let i= index"> {{((pageNo + 1) * 10 + i + 1)-20}} </td>
-        </ng-container>
+          <ng-container matColumnDef="mobileNo">
+            <th mat-header-cell *matHeaderCellDef> {{'Home.mobileNo' | translate}} </th>
+            <td mat-cell *matCellDef="let element"> {{element.mobileNo}} </td>
+          </ng-container>
 
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef> {{'Home.name' | translate}} </th>
-          <td mat-cell *matCellDef="let element"> <span class="text-break">{{element.name | titlecase}}</span> </td>
-        </ng-container>
+          <ng-container matColumnDef="emailId">
+            <th mat-header-cell *matHeaderCellDef> {{'Home.Email_Id' | translate}} </th>
+            <td mat-cell *matCellDef="let element"> <span class="text-break">{{element.emailId ? element.emailId : '-'}}
+              </span></td>
+          </ng-container>
 
-        <ng-container matColumnDef="mobileNo">
-          <th mat-header-cell *matHeaderCellDef>  {{'Home.mobileNo' | translate}} </th> 
-          <td mat-cell *matCellDef="let element"> {{element.mobileNo}} </td>
-        </ng-container>
+          <ng-container matColumnDef="taluka">
+            <th mat-header-cell *matHeaderCellDef> {{'Home.Taluka' | translate}} </th>
+            <td mat-cell *matCellDef="let element"> {{element.taluka ? element.taluka : '-' }} </td>
+          </ng-container>
 
-        <ng-container matColumnDef="emailId">
-          <th mat-header-cell *matHeaderCellDef> {{'Home.Email_Id' | translate}} </th>
-          <td mat-cell *matCellDef="let element"> <span class="text-break">{{element.emailId ? element.emailId : '-'}} </span></td>
-        </ng-container>
+          <ng-container matColumnDef="village">
+            <th mat-header-cell *matHeaderCellDef> {{'Home.Village' | translate}} </th>
+            <td mat-cell *matCellDef="let element"> {{element.village ? element.village : '-' }} </td>
+          </ng-container>
 
-        <ng-container matColumnDef="taluka">
-          <th mat-header-cell *matHeaderCellDef>  {{'Home.Taluka' | translate}} </th>
-          <td mat-cell *matCellDef="let element"> {{element.taluka ? element.taluka : '-' }} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="village">
-          <th mat-header-cell *matHeaderCellDef>  {{'Home.Village' | translate}} </th>
-          <td mat-cell *matCellDef="let element"> {{element.village ? element.village : '-' }} </td>
-        </ng-container>
-
-        <!-- <ng-container matColumnDef="action">
+          <!-- <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef class="srno-width"> Action </th>
           <td mat-cell *matCellDef="let element">
             <button mat-icon-button (click)="editRecord(element)">
@@ -107,128 +111,131 @@
           </td>
         </ng-container>-->
 
-        <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef class="action"> {{'Home.action' | translate}} <br>
-            <button [disabled]="this.selection.selected.length ==0" mat-icon-button (click)="deleteUserData()">
-              <span class="material-symbols-outlined">
-                delete
-              </span>
-            </button>
-            <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [disabled]="!this.totalPages">
-              <!-- [indeterminate]="selection.hasValue() && !isAllSelected()"> -->
-            </mat-checkbox>
-          </th>
-          <td mat-cell *matCellDef="let element" class="action">
-            <button mat-icon-button (click)="editRecord(element)" class="btn-edit">
-              <span class="material-symbols-outlined">
-                edit_square
-              </span>
-            </button>
-            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(element) : null"
-              [checked]="selection.isSelected(element)">
-            </mat-checkbox>
-          </td>
-        </ng-container>
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef class="action"> {{'Home.action' | translate}} <br>
+              <button [disabled]="this.selection.selected.length ==0" mat-icon-button (click)="deleteUserData()">
+                <span class="material-symbols-outlined">
+                  delete
+                </span>
+              </button>
+              <mat-checkbox (change)="$event ? masterToggle() : null"
+                [checked]="selection.hasValue() && isAllSelected()" [disabled]="!this.totalPages">
+                <!-- [indeterminate]="selection.hasValue() && !isAllSelected()"> -->
+              </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let element" class="action">
+              <button mat-icon-button (click)="editRecord(element)" class="btn-edit">
+                <span class="material-symbols-outlined">
+                  edit_square
+                </span>
+              </button>
+              <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(element) : null"
+                [checked]="selection.isSelected(element)">
+              </mat-checkbox>
+            </td>
+          </ng-container>
 
-        <tr class="mat-row p-2 w-100" *matNoDataRow col>
-          <td  colspan="9">
-            <div class="alert alert-danger text-center m-2 mt-2">
-              {{'Home.no_data_found' | translate}}
-          </div> </td>
-        </tr>
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
-          [ngClass]="{'highlightedRow ':highlightedRow == row.id}">
-        </tr>
-      </table>
+          <tr class="mat-row p-2 w-100" *matNoDataRow col>
+            <td colspan="9">
+              <div class="alert alert-danger text-center m-2 mt-2">
+                {{'Home.no_data_found' | translate}}
+              </div>
+            </td>
+          </tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+            [ngClass]="{'highlightedRow ':highlightedRow == row.id}">
+          </tr>
+        </table>
+      </div>
+
+      <ng-container *ngIf="totalPages>10">
+        <mat-paginator [pageSize]="10" [length]="totalPages" (page)="pageChanged($event)" showFirstLastButtons>
+        </mat-paginator>
+      </ng-container>
     </div>
 
-    <ng-container *ngIf="totalPages>10">
-      <mat-paginator [pageSize]="10" [length]="totalPages" (page)="pageChanged($event)" showFirstLastButtons>
-      </mat-paginator>
-    </ng-container>
-  </div>
-
-  <div class="col-sm-4" [class.disabled-contenct]="!isdisable">
-    <div class="card form-card">
-      <div class="card-header" dis>
-        Update Citizen
-      </div>
-      <form [formGroup]="frmCitizen" #formDirective="ngForm" (ngSubmit)="onUpdateCitizen()">
-        <div class="card-body">
-          <div class="row mb-3">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Name</mat-label>
-              <input matInput formControlName="name" maxlength="50"
-                (keypress)="validation.noFirstSpaceAllow($event);validation.alphabetsWithSpaces($event)">
-              <mat-error *ngIf="f['name']?.errors">
-                <span *ngIf="f['name']?.hasError('required')"> Name is required</span>
-                <span *ngIf="f['name']?.hasError('pattern') || f['name']?.hasError('minlength')">
-                  Please enter Name</span>
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div class="row mb-3">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Mobile No.</mat-label>
-              <input matInput [readonly]="true" formControlName="mobileNo" [class.disabled-contenct]="true"
-                maxlength="10"
-                (keypress)="validation.noFirstSpaceAllow($event);validation.noFirstSpaceAllow($event);validation.acceptedOnlyNumbers($event)">
-              <mat-error *ngIf="f['mobileNo']?.errors">
-                <!-- <span *ngIf="f['mobileNo']?.hasError('required')"> Mobile No. is required</span> -->
-                <span *ngIf="f['mobileNo']?.hasError('pattern') || f['mobileNo']?.hasError('minlength')">
-                  Please enter valid Mobile No.</span>
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div class="row mb-3">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Email ID</mat-label>
-              <input matInput formControlName="emailId" (keypress)="validation.noFirstSpaceAllow($event);validation.emailRegex($event)"
-              maxlength="200"
-                maxlength="100">
-              <mat-error *ngIf="f['emailId']?.errors">
-                <span *ngIf="f['emailId']?.hasError('pattern') || f['emailId']?.hasError('minlength')">
-                  Please enter valid Email ID</span>
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div class="row mb-3">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Select Taluka</mat-label>
-              <mat-select formControlName="talukaId"
-                (selectionChange)="getVillageName(frmCitizen.value.talukaId, false);frmCitizen.controls['villageId'].setValue('')">
-                <mat-option *ngFor="let tal of talukaArr" [value]="tal.id">{{tal.taluka}}</mat-option>
-              </mat-select>
-              <mat-error *ngIf="f['talukaId']?.errors">
-                <span *ngIf="f['talukaId']?.hasError('required')"> Please select Taluka</span>
-                <span *ngIf="f['talukaId']?.hasError('pattern') || f['talukaId']?.hasError('minlength')">
-                  Please select Taluka</span>
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div class="row mb-3">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Select Village</mat-label>
-              <mat-select formControlName="villageId" [disabled]="!frmCitizen.value.talukaId">
-                <mat-option *ngFor="let vill of villageArr" [value]="vill.id">{{vill.village}}</mat-option>
-              </mat-select>
-              <mat-error *ngIf="f['villageId']?.errors">
-                <span *ngIf="f['villageId']?.hasError('required')"> Please select Village</span>
-                <span *ngIf="f['villageId']?.hasError('pattern') || f['villageId']?.hasError('minlength')">
-                  Please select Village</span>
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div class="row mb-3">
-            <div class="text-end">
-              <button mat-stroked-button class="btn-main-outline" type="button"
-                (click)="onCancelRecord()">Cancel</button>
-              <button mat-stroked-button class="btn-main ms-2" type="submit">Update</button>
+    <div class="col-sm-4" [class.disabled-contenct]="!isdisable">
+      <div class="card form-card">
+        <div class="card-header" dis>
+          Update Citizen
+        </div>
+        <form [formGroup]="frmCitizen" #formDirective="ngForm" (ngSubmit)="onUpdateCitizen()">
+          <div class="card-body">
+            <div class="row mb-3">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Name</mat-label>
+                <input matInput formControlName="name" maxlength="50"
+                  (keypress)="validation.noFirstSpaceAllow($event);validation.alphabetsWithSpaces($event)">
+                <mat-error *ngIf="f['name']?.errors">
+                  <span *ngIf="f['name']?.hasError('required')"> Name is required</span>
+                  <span *ngIf="f['name']?.hasError('pattern') || f['name']?.hasError('minlength')">
+                    Please enter Name</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="row mb-3">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Mobile No.</mat-label>
+                <input matInput [readonly]="true" formControlName="mobileNo" [class.disabled-contenct]="true"
+                  maxlength="10"
+                  (keypress)="validation.noFirstSpaceAllow($event);validation.noFirstSpaceAllow($event);validation.acceptedOnlyNumbers($event)">
+                <mat-error *ngIf="f['mobileNo']?.errors">
+                  <!-- <span *ngIf="f['mobileNo']?.hasError('required')"> Mobile No. is required</span> -->
+                  <span *ngIf="f['mobileNo']?.hasError('pattern') || f['mobileNo']?.hasError('minlength')">
+                    Please enter valid Mobile No.</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="row mb-3">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Email ID</mat-label>
+                <input matInput formControlName="emailId"
+                  (keypress)="validation.noFirstSpaceAllow($event);validation.emailRegex($event)" maxlength="200"
+                  maxlength="100">
+                <mat-error *ngIf="f['emailId']?.errors">
+                  <span *ngIf="f['emailId']?.hasError('pattern') || f['emailId']?.hasError('minlength')">
+                    Please enter valid Email ID</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="row mb-3">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Select Taluka</mat-label>
+                <mat-select formControlName="talukaId"
+                  (selectionChange)="getVillageName(frmCitizen.value.talukaId, false);frmCitizen.controls['villageId'].setValue('')">
+                  <mat-option *ngFor="let tal of talukaArr" [value]="tal.id">{{tal.taluka}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="f['talukaId']?.errors">
+                  <span *ngIf="f['talukaId']?.hasError('required')"> Please select Taluka</span>
+                  <span *ngIf="f['talukaId']?.hasError('pattern') || f['talukaId']?.hasError('minlength')">
+                    Please select Taluka</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="row mb-3">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Select Village</mat-label>
+                <mat-select formControlName="villageId" [disabled]="!frmCitizen.value.talukaId">
+                  <mat-option *ngFor="let vill of villageArr" [value]="vill.id">{{vill.village}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="f['villageId']?.errors">
+                  <span *ngIf="f['villageId']?.hasError('required')"> Please select Village</span>
+                  <span *ngIf="f['villageId']?.hasError('pattern') || f['villageId']?.hasError('minlength')">
+                    Please select Village</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="row mb-3">
+              <div class="text-end">
+                <button mat-stroked-button class="btn-main-outline" type="button"
+                  (click)="onCancelRecord()">Cancel</button>
+                <button mat-stroked-button class="btn-main ms-2" type="submit">Update</button>
+              </div>
             </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   </div>
 </div>

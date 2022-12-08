@@ -65,10 +65,10 @@
           [ngClass]="{'highlightedRow ':highlightedRow == row.id}">
         </tr>
       </table>
+      <ng-container *ngIf="totalRows > 10">
+        <mat-paginator [pageSize]="10" [length]="totalRows" showFirstLastButtons (page)="pageChanged($event)">
+        </mat-paginator>
+      </ng-container>
     </div>
-    <ng-container *ngIf="totalRows > 10">
-      <mat-paginator [pageSize]="10" [length]="totalRows" showFirstLastButtons (page)="pageChanged($event)">
-      </mat-paginator>
-    </ng-container>
   </div>
 </div>
