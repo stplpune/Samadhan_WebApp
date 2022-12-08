@@ -237,7 +237,7 @@ export class SamadhanReportComponent implements OnInit {
   }
 
   downloadExcel() {
-    let heading = this.data.url.split('-');
+    // let heading = this.data.url.split('-');
     let fromdate: any;
     let todate: any;
     let checkFromDateFlag: boolean = true;
@@ -256,7 +256,7 @@ export class SamadhanReportComponent implements OnInit {
     })
 
     this.objData = {
-      'topHedingName': heading[0] + ' ' + heading[1],
+      'topHedingName':this.heading[0] + ' ' + this.heading[1],
       'createdDate': 'Created on:' + this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a')
     }
 
