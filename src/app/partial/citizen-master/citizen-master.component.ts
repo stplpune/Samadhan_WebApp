@@ -388,6 +388,46 @@ export class CitizenMasterComponent implements OnInit {
 
   //#endregion Delete fun end
 
+  userBlockUnBlockModal(element: any, event: any) {
+    this.highlightedRow = element.id;
+    let Title: string, dialogText: string;
+    event.checked == true ? Title = 'Block User' : Title = 'Unblock User';
+    event.checked == true ? dialogText = 'Do you want to Block the user?' : dialogText = 'Do you want to Unblock the user?';
+    const dialogRef = this.dialog.open(ConfirmationComponent, {
+      width: '340px',
+      data: { p1: dialogText, p2: '', cardTitle: Title, successBtnText: 'Yes', dialogIcon: 'done_outline', cancelBtnText: 'No' },
+      disableClose: this.apiService.disableCloseFlag,
+    });
+    dialogRef.afterClosed().subscribe((res: any) => {
+      this.highlightedRow = 0;
+      res == 'Yes' ? this.userBlockUnBlock(element, event.checked) : element.isBlock === "False" || element.isBlock == null ? event.source.checked = false : event.source.checked = true;
+      this.onCancelRecord();
+    });
+  }
+
+  userBlockUnBlock(element: any, event: any) {
+    let obj = {
+      "id": element?.id,
+      "isBlock": event == true ? true : false,
+      "blockDate": new Date(),
+      "blockBy": this.localStrorageData.getUserId(),
+    }
+    this.apiService.setHttp('PUT', "samadhan/user-registration/BlockUnblockUser", false, obj, false, 'samadhanMiningService');
+    this.subscription = this.apiService.getHttp().subscribe({
+      next: (res: any) => {
+        if (res.statusCode == "200") {
+          this.getData();
+          this.commonMethod.matSnackBar(res.statusMessage, 0);
+        } else {
+          if (res.statusCode != "404") {
+            this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
+          }
+        }
+      },
+      error: (err: any) => { this.error.handelError(err) }
+    })
+  }
+
   //#region ngOnDestroy start
   ngOnDestroy() {
     this.subscription?.unsubscribe();

@@ -124,6 +124,14 @@
               </mat-checkbox>
             </th>
             <td mat-cell *matCellDef="let element" class="action">
+              <div class="d-flex align-items-center">
+              <ng-container>
+                <mat-icon>
+                    <mat-slide-toggle class="mat-slide-toggle-green"
+                        (change)="userBlockUnBlockModal(element,$event)"
+                        [checked]="element?.isBlock==='True'? true:false"></mat-slide-toggle>
+                </mat-icon>
+            </ng-container>
               <button mat-icon-button (click)="editRecord(element)" class="btn-edit">
                 <span class="material-symbols-outlined">
                   edit_square
@@ -132,8 +140,10 @@
               <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(element) : null"
                 [checked]="selection.isSelected(element)">
               </mat-checkbox>
+            </div>
             </td>
           </ng-container>
+      
 
           <tr class="mat-row p-2 w-100" *matNoDataRow col>
             <td colspan="9">
