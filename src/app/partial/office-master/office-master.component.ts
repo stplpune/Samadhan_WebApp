@@ -282,8 +282,10 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
     this.formDirective.resetForm();
     this.isEdit = false;
     this.highlightedRow = 0;
+  if(this.loggedUserTypeId == 3){       //  3 logged user userTypeId
     this.frmOffice.controls['deptId'].setValue(this.loggedUserDeptID);
-   this.dropdownDisable=true;
+    this.dropdownDisable=true;
+  }
    this.selection.clear();
   }
 
