@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/SamadhanWebApp_08-12-2022-10-50-AM_Demo",
+            "outputPath": "dist/SamadhanWebApp_09-12-2022-11-10-AM_Demo",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
