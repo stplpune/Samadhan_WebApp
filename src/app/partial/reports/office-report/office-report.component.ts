@@ -34,6 +34,7 @@ export class OfficeReportComponent implements OnInit {
   todayDate=new Date();
   loggedUserTypeId:any;
   loggedUserDeptID:any;
+  loggedUserOffID:any;
   dropdownDisable:boolean=false;
   @ViewChild('formDirective') formDirective!: NgForm;
 
@@ -57,6 +58,7 @@ export class OfficeReportComponent implements OnInit {
     this.getUrl = this.router.url.split('/')[1];
     this.loggedUserTypeId= this.localStrorageData.getLoggedInLocalstorageData().responseData?.userTypeId;
     this.loggedUserDeptID= this.localStrorageData.getLoggedInLocalstorageData().responseData?.deptId;
+    this.loggedUserOffID= this.localStrorageData.getLoggedInLocalstorageData().responseData?.officeId;
     this.filterform();
     this.getDepartment();
     this.getOfficerOfficeReport();
@@ -97,6 +99,10 @@ export class OfficeReportComponent implements OnInit {
     this.commonService.getOfficeByDeptId(deptNo).subscribe({
       next: (response: any) => {
         this.officeArray.push(...response);
+        if( this.loggedUserTypeId == 4){       //  2 logged user userTypeId
+          this.filterForm.controls['searchofcId'].setValue(this.loggedUserOffID);
+          this.dropdownDisable=true;
+        }    
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
@@ -165,15 +171,17 @@ export class OfficeReportComponent implements OnInit {
 
   clearFilter() {
     this.formDirective.resetForm();
-    this.pageNo = 1;
+    this.pageNo = 1; 
     if( this.loggedUserTypeId ==3 || this.loggedUserTypeId ==4){       //  2 logged user userTypeId
       this.filterForm.controls['searchdeptId'].setValue(this.loggedUserDeptID);
       this.filterForm.controls['searchofcId'].setValue(0);
       this.dropdownDisable=true;
-    } else{
+    }else{
       this.filterForm.controls['searchdeptId'].setValue(0);
       this.filterForm.controls['searchofcId'].setValue(0);
     }
+    this.loggedUserTypeId == 4? this.filterForm.controls['searchofcId'].setValue(this.loggedUserOffID) : '';
+    
     this.getOfficerOfficeReport();
   }
 

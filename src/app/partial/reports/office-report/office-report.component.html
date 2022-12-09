@@ -17,7 +17,7 @@
                 <div class="col-sm-2">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Select Office</mat-label>
-                        <mat-select formControlName="searchofcId" [disabled]='!filterForm.value.searchdeptId'>
+                        <mat-select formControlName="searchofcId" [disabled]='!filterForm.value.searchdeptId || this.loggedUserTypeId == 4'   >
                             <mat-option value="0">All Office</mat-option>
                             <mat-option *ngFor="let office of officeArray" [value]="office.id">
                                 {{office.name}}
