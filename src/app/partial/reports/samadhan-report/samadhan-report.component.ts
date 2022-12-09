@@ -271,6 +271,11 @@ export class SamadhanReportComponent implements OnInit {
     this.pdf_excelService.generateExcel(keyPDFHeader, ValueData, this.objData);
   }
 
+  clearFilter(){
+    this.filterform();
+    this.getReport();
+  }
+
 }
 
 
