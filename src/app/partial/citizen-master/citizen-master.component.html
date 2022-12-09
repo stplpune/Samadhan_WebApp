@@ -112,7 +112,7 @@
         </ng-container>-->
 
           <ng-container matColumnDef="action">
-            <th mat-header-cell *matHeaderCellDef class="action"> {{'Home.action' | translate}} <br>
+            <th mat-header-cell *matHeaderCellDef class="action text-end"> {{'Home.action' | translate}} <br>
               <button [disabled]="this.selection.selected.length ==0" mat-icon-button (click)="deleteUserData()">
                 <span class="material-symbols-outlined">
                   delete
