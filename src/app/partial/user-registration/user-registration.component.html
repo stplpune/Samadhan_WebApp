@@ -18,7 +18,7 @@
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Select Office</mat-label>
                         <mat-select formControlName="officeId" (selectionChange)="clearFilter('office');filterData()"
-                            [disabled]='!filterFrm.value.deptId'>
+                            [disabled]='!filterFrm.value.deptId || this.loggedUserTypeId == 4'>
                             <mat-option value="0">All Office</mat-option>
                             <mat-option *ngFor="let office of officeArray" [value]="office.id">
                                 {{office.name}}
@@ -318,7 +318,7 @@
                     <div class="mb-3" *ngIf="userFrm.value.userTypeId !=2 && userFrm.value.userTypeId !=3 ">
                         <mat-form-field class="w-100" appearance="outline">
                             <mat-label>Office</mat-label>
-                            <mat-select formControlName="officeId" [disabled]="!userFrm.value.deptId">
+                            <mat-select formControlName="officeId" [disabled]="!userFrm.value.deptId || this.loggedUserTypeId == 4">
                                 <mat-option *ngFor="let office of officeArray" [value]="office.id">
                                     {{office.name}}
                                 </mat-option>

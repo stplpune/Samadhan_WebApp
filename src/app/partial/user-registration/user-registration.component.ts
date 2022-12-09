@@ -53,6 +53,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   isDisabled:boolean=false;
   loggedUserTypeId:any;
   loggedUserDeptID:any;
+  loggedUserOffID:any;
   dropdownDisable:boolean=false;
 
   constructor(public commonMethod: CommonMethodService,
@@ -72,7 +73,8 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   ngOnInit(): void {
     this.loggedUserTypeId= this.localStrorageData.getLoggedInLocalstorageData().responseData?.userTypeId;
    this.loggedUserDeptID= this.localStrorageData.getLoggedInLocalstorageData().responseData?.deptId;
-    this.defaultForm();
+   this.loggedUserOffID= this.localStrorageData.getLoggedInLocalstorageData().responseData?.officeId;
+   this.defaultForm();
     this.filterForm();
 
     // if( this.loggedUserTypeId == 4){
@@ -243,11 +245,11 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
       next: (response: any) => {
         this.officeArray.push(...response);
         
-        // if( this.loggedUserTypeId == 3 || this.loggedUserTypeId == 4){
-        //   this.filterFrm.controls['officeId'].setValue(this.data.officeId);
-        //   this.userFrm.controls['officeId'].setValue(this.data.officeId);
-        //   this.dropdownDisable=true;
-        //  }
+        if(this.loggedUserTypeId == 4){
+          this.filterFrm.controls['officeId'].setValue(this.data.officeId);
+          this.userFrm.controls['officeId'].setValue(this.data.officeId);
+          this.dropdownDisable=true;
+         }
 
         this.changeDepFlag == true ? (this.userFrm.controls['officeId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.officeId) == false ? '' : this.updatedObj?.officeId)) : '';
       },
@@ -472,6 +474,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
    if( this.loggedUserTypeId == 4){
     this.userFrm.controls['userTypeId'].setValue(this.loggedUserTypeId);
     this.userFrm.controls['deptId'].setValue(this.loggedUserDeptID);
+    this.userFrm.controls['officeId'].setValue(this.loggedUserOffID);
      this.dropdownDisable=true;
    }  
      this.selection.clear();
