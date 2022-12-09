@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
@@ -32,6 +32,11 @@ export class OfficeReportComponent implements OnInit {
   reportArray = new Array();
   getUrl:any;
   todayDate=new Date();
+  loggedUserTypeId:any;
+  loggedUserDeptID:any;
+  dropdownDisable:boolean=false;
+  @ViewChild('formDirective') formDirective!: NgForm;
+
   constructor(
     private apiService: ApiService,
     public error: ErrorHandlerService,
@@ -50,6 +55,8 @@ export class OfficeReportComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUrl = this.router.url.split('/')[1];
+    this.loggedUserTypeId= this.localStrorageData.getLoggedInLocalstorageData().responseData?.userTypeId;
+    this.loggedUserDeptID= this.localStrorageData.getLoggedInLocalstorageData().responseData?.deptId;
     this.filterform();
     this.getDepartment();
     this.getOfficerOfficeReport();
@@ -70,6 +77,11 @@ export class OfficeReportComponent implements OnInit {
     this.commonService.getAllDepartment().subscribe({
       next: (response: any) => {
         this.departmentArray.push(...response);
+        if( this.loggedUserTypeId ==3 || this.loggedUserTypeId ==4){       //  2 logged user userTypeId
+          this.filterForm.controls['searchdeptId'].setValue(this.loggedUserDeptID);
+          this.getOffice(this.loggedUserDeptID)
+          this.dropdownDisable=true;
+        }    
       },
       error: ((error: any) => { 
          this.error.handelError(error.statusCode) 
@@ -152,8 +164,16 @@ export class OfficeReportComponent implements OnInit {
   }
 
   clearFilter() {
-    this.filterform();
+    this.formDirective.resetForm();
     this.pageNo = 1;
+    if( this.loggedUserTypeId ==3 || this.loggedUserTypeId ==4){       //  2 logged user userTypeId
+      this.filterForm.controls['searchdeptId'].setValue(this.loggedUserDeptID);
+      this.filterForm.controls['searchofcId'].setValue(0);
+      this.dropdownDisable=true;
+    } else{
+      this.filterForm.controls['searchdeptId'].setValue(0);
+      this.filterForm.controls['searchofcId'].setValue(0);
+    }
     this.getOfficerOfficeReport();
   }
 

@@ -1,11 +1,11 @@
     <div class="row">
         <div class="col-sm-12">
-            <form [formGroup]="filterForm">
+            <form [formGroup]="filterForm" #formDirective="ngForm">
                 <div class="row gx-2">
                     <div class="col-sm-2">
                         <mat-form-field appearance="outline" class="w-100">
                             <mat-label>Select Department ID</mat-label>
-                            <mat-select formControlName="searchdeptId">
+                            <mat-select formControlName="searchdeptId" [disabled]="dropdownDisable">
                                 <mat-option value="0">All Department</mat-option>
                                 <mat-option *ngFor="let department of departmentArray" [value]="department.id">
                                     {{department.departmentName}}
