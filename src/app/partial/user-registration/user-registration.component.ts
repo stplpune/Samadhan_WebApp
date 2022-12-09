@@ -469,9 +469,11 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   onCancelRecord() {
     this.formDirective.resetForm();
     this.isEdit = false;
-    this.loggedUserTypeId == 4 ? this.userFrm.controls['userTypeId'].setValue(this.loggedUserTypeId) :'';
+   if( this.loggedUserTypeId == 4){
+    this.userFrm.controls['userTypeId'].setValue(this.loggedUserTypeId);
     this.userFrm.controls['deptId'].setValue(this.loggedUserDeptID);
      this.dropdownDisable=true;
+   }  
      this.selection.clear();
 
   }
