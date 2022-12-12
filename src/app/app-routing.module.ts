@@ -26,6 +26,7 @@ const routes: Routes = [
       // { path: '**', component: AccessDeniedComponent},
     ]
   },
+  { path: 'inauguration-page', loadChildren: () => import('./web/inauguration-page/inauguration-page.module').then(m => m.InaugurationPageModule) },
   { path: '**', component: PageNotFoundComponent},
   
   
