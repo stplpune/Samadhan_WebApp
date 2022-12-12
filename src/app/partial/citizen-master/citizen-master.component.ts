@@ -141,7 +141,7 @@ export class CitizenMasterComponent implements OnInit {
       this.commonService.getVillageByTalukaId(talukaId).subscribe({
         next: (response: any) => {
           this.villageArr.push(...response);
-          this.villageArr.unshift({ "id": "", "village": "Select Village" });
+          // this.villageArr.unshift({ "id": "", "village": "Select Village" });
           editFlag == true ? (this.frmCitizen.controls['villageId'].setValue(this.updatedObj?.villageId)) : this.frmCitizen.controls['villageId'].setValue('')
         },
         error: ((error: any) => { this.error.handelError(error.status) })

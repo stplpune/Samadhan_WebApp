@@ -136,7 +136,7 @@
             </div>
         </form>
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-4" [class.disabled-contenct]="loggedUserTypeId==3 && !ispatch">
         <div class="card form-card">
             <div class="card-header"> {{updatedObj ? 'View Collector References' : 'Collector References'}}</div>
             <div class="card-body">
