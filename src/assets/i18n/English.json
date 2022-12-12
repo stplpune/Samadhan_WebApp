@@ -110,6 +110,9 @@
 
         "addUser":"Add User",
         "updateUser":"Update User",
+        "userType":"User Type",
+        "select_user":"Please select User Type",
+        "subUserType":"Sub User Type",
 
         "no_data_found":"No Data Found",
         "Download":"Download the app from",

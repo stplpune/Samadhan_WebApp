@@ -273,7 +273,7 @@
                 <form [formGroup]="userFrm" #formDirective="ngForm" (ngSubmit)="onSubmit()">
                     <div class="mb-3">
                         <mat-form-field class="w-100" appearance="outline">
-                            <mat-label>User Type</mat-label>
+                            <mat-label>{{'Home.userType' | translate}}</mat-label>
                             <mat-select formControlName="userTypeId" [disabled]="this.loggedUserTypeId==4"
                                 (selectionChange)="getSubUsers(userFrm.value.userTypeId);setValidators(userFrm.value.userTypeId);changeDepFlag = false">
                                 <mat-option *ngFor="let user of usersArray" [value]="user.userTypeId">
@@ -281,15 +281,14 @@
                                 </mat-option>
                             </mat-select>
                             <mat-error *ngIf="f['userTypeId']?.errors">
-                                <span *ngIf="f['userTypeId']?.hasError('required')"> Please select User
-                                    Type</span>
+                                <span *ngIf="f['userTypeId']?.hasError('required')"> {{'Home.select_user' | translate}}</span>
                             </mat-error>
                         </mat-form-field>
                     </div>
 
                     <div class="mb-3">
                         <mat-form-field class="w-100" appearance="outline">
-                            <mat-label> Sub User Type</mat-label>
+                            <mat-label> {{'Home.subUserType'| translate}}</mat-label>
                             <mat-select formControlName="subUserTypeId" [disabled]="!userFrm.value.userTypeId">
                                 <mat-option *ngFor="let subUser of subUsersArray" [value]="subUser.subUserTypeId">
                                     {{subUser.subUserType}}
