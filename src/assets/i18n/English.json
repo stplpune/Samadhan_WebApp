@@ -92,8 +92,11 @@
         "name_is_required":"Name is required",
         "name_pattern":" Please enter valid name",
         "mobileNo": "Mobile Number",
+        "mobileNo_required":"Mobile No. is required",
         "mobile_pattern":"Please enter valid Mobile No.",
         "Email_Id": " Email ID ",
+        "emailId_is_required":" Email ID is required",
+        "emailId_pattern":" Please enter valid  Email ID",
         "Taluka": "Taluka",
         "Village": "Village",
         "Contact-Us":"Contact Us",
@@ -113,6 +116,9 @@
         "userType":"User Type",
         "select_user":"Please select User Type",
         "subUserType":"Sub User Type",
+        "select_subUserType":"Please select Sub User Type",
+        "please_sel_Off": "Please select Office",
+        
 
         "no_data_found":"No Data Found",
         "Download":"Download the app from",

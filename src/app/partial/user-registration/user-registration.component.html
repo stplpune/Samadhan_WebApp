@@ -295,14 +295,13 @@
                                 </mat-option>
                             </mat-select>
                             <mat-error *ngIf="f['subUserTypeId']?.errors">
-                                <span *ngIf="f['subUserTypeId']?.hasError('required')"> Please select Sub User
-                                    Type</span>
+                                <span *ngIf="f['subUserTypeId']?.hasError('required')"> {{'Home.select_subUserType' | translate}}</span>
                             </mat-error>
                         </mat-form-field>
                     </div>
                     <div class="mb-3" *ngIf="userFrm.value.userTypeId !=2">
                         <mat-form-field class="w-100" appearance="outline">
-                            <mat-label>Department</mat-label>
+                            <mat-label>{{'Home.department' | translate}}</mat-label>
                             <mat-select formControlName="deptId" 
                                 (selectionChange)="getOffice(userFrm.value.deptId);changeDepFlag = false" [disabled]="this.loggedUserTypeId== 3 || this.loggedUserTypeId== 4">
                                 <mat-option *ngFor="let department of departmentByUserArray"
@@ -311,57 +310,57 @@
                                 </mat-option>
                             </mat-select>
                             <mat-error *ngIf="f['deptId']?.errors">
-                                <span *ngIf="f['deptId']?.hasError('required')"> Please select Department</span>
+                                <span *ngIf="f['deptId']?.hasError('required')"> {{'Home.please_sel_dep' | translate}}</span>
                             </mat-error>
                         </mat-form-field>
                     </div>
                     <div class="mb-3" *ngIf="userFrm.value.userTypeId !=2 && userFrm.value.userTypeId !=3 ">
                         <mat-form-field class="w-100" appearance="outline">
-                            <mat-label>Office</mat-label>
+                            <mat-label>{{'Home.office' |translate}}</mat-label>
                             <mat-select formControlName="officeId" [disabled]="!userFrm.value.deptId || this.loggedUserTypeId == 4">
                                 <mat-option *ngFor="let office of officeArray" [value]="office.id">
                                     {{office.name}}
                                 </mat-option>
                             </mat-select>
                             <mat-error *ngIf="f['officeId']?.errors">
-                                <span *ngIf="f['officeId']?.hasError('required')"> Please select Office</span>
+                                <span *ngIf="f['officeId']?.hasError('required')"> {{'Home.please_sel_Off' | translate}}</span>
                             </mat-error>
                         </mat-form-field>
                     </div>
                     <div class="mb-3">
                         <mat-form-field class="w-100" appearance="outline">
-                            <mat-label>Name</mat-label>
+                            <mat-label>{{'Home.name' | translate}}</mat-label>
                             <input matInput formControlName="name" maxlength="50"
                                 (keypress)="validation.noFirstSpaceAllow($event);validation.alphabetsWithSpaces($event)"
                                 maxlength="200">
                             <mat-error *ngIf="f['name']?.errors">
-                                <span *ngIf="f['name']?.hasError('required')"> Name is required</span>
+                                <span *ngIf="f['name']?.hasError('required')"> {{'Home.name_is_required' | translate}}</span>
                                 <span *ngIf="f['name'].hasError('pattern')">
-                                    Pelase enter valid Name</span>
+                                   {{'Home.name_pattern' | translate}}</span>
                             </mat-error>
                         </mat-form-field>
                     </div>
                     <div class="mb-3">
                         <mat-form-field class="w-100" appearance="outline">
-                            <mat-label>Mobile No.</mat-label>
+                            <mat-label>{{'Home.mobileNo' | translate}}</mat-label>
                             <input matInput formControlName="mobileNo" maxlength="10"
                                 (keypress)="validation.acceptedOnlyNumbers($event)">
                             <mat-error *ngIf="f['mobileNo']?.errors">
-                                <span *ngIf="f['mobileNo']?.hasError('required')"> Mobile No. is required</span>
+                                <span *ngIf="f['mobileNo']?.hasError('required')"> {{'Home.mobileNo_required' | translate }}</span>
                                 <span
                                     *ngIf="f['mobileNo']?.hasError('pattern') || f['mobileNo']?.hasError('minlength')">
-                                    Please enter valid Mobile No. </span>
+                                    {{'Home.mobile_pattern' | translate}} </span>
                             </mat-error>
                         </mat-form-field>
                     </div>
                     <div class="mb-3">
                         <mat-form-field class="w-100" appearance="outline">
-                            <mat-label>Email ID</mat-label>
+                            <mat-label>{{'Home.Email_Id' | translate}}</mat-label>
                             <input matInput formControlName="emailId" maxlength="100"
                                 (keypress)="validation.emailRegex($event)">
                             <mat-error *ngIf="f['emailId']?.errors">
-                                <span *ngIf="f['emailId']?.hasError('required')"> Email ID is required</span>
-                                <span *ngIf="f['emailId']?.hasError('email')"> Please enter valid Email ID
+                                <span *ngIf="f['emailId']?.hasError('required')"> {{'Home.emailId_is_required' | translate}}</span>
+                                <span *ngIf="f['emailId']?.hasError('email')"> {{'Home.emailId_pattern' | translate}}
                                 </span>
                             </mat-error>
                         </mat-form-field>
@@ -369,9 +368,8 @@
 
                     <div class="text-end">
                         <button mat-stroked-button class="btn-main-outline" type="button"
-                            (click)="onCancelRecord()">Cancel</button>
-                        <button mat-stroked-button class="btn-main ms-2" type="submit">{{isEdit ?
-                            'Update':'Submit'}}</button>
+                            (click)="onCancelRecord()">{{'Home.cancel' | translate}}</button>
+                        <button mat-stroked-button class="btn-main ms-2" type="submit">{{ (isEdit ? 'Home.update':'Home.submit') | translate}}</button>
                     </div>
                 </form>
             </div>
