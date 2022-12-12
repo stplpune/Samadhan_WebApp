@@ -88,8 +88,11 @@
         "name_is_required":"नाव आवश्यक आहे",
         "name_pattern":"कृपया वैध नाव प्रविष्ट करा",
         "mobileNo":"मोबाईल नंबर",
+        "mobileNo_required":"मोबाईल नंबर आवश्यक आहे",
         "mobile_pattern":"कृपया वैध मोबाईल क्रमांक प्रविष्ट करा.",
         "Email_Id":"ई - मेल आयडी",
+        "emailId_is_required":" ई - मेल आयडी आवश्यक आहे",
+        "emailId_pattern":"वैध ईमेल आयडी प्रविष्ट करा",
         "Taluka":"तालुका",
         "please_select_Taluka":"कृपया तालुका निवडा",
         "Village":"गाव",
@@ -111,6 +114,8 @@
         "userType":"वापरकर्ता प्रकार",
         "select_user":"कृपया वापरकर्ता प्रकार निवडा.",
         "subUserType":"उप वापरकर्ता प्रकार",
+        "select_subUserType":"कृपया उप वापरकर्ता प्रकार निवडा",
+        "please_sel_Off": "कृपया कार्यालय निवडा",
 
 
         "no_data_found":"माहिती आढळली नाही",
