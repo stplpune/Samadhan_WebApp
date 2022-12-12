@@ -4,19 +4,20 @@
             <div class="row gx-2">
                 <div class="col-sm-3">
                     <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Select Department</mat-label>
+                        <mat-label>{{'Home.select_department' |  translate}}</mat-label>
                         <mat-select formControlName="deptId"
                             (selectionChange)="clearFilter('department');filterData();getOffice(filterFrm.value.deptId)" [disabled]="dropdownDisable">
-                            <mat-option value="0">All Department</mat-option>
+                            <mat-option value="0">{{'Home.all_dept' | translate}}</mat-option>
                             <mat-option *ngFor="let department of departmentByUserArray" [value]="department.deptId">
-                                {{department.departmentName}}
+                                {{ langTypeName == 'English' ?
+                                department.departmentName : department.m_DepartmentName}}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
                 <div class="col-sm-3">
                     <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Select Office</mat-label>
+                        <mat-label>{{'Home.select_office' | translate}} </mat-label>
                         <mat-select formControlName="officeId" (selectionChange)="clearFilter('office');filterData()"
                             [disabled]='!filterFrm.value.deptId || this.loggedUserTypeId == 4'>
                             <mat-option value="0">All Office</mat-option>
@@ -28,7 +29,7 @@
                 </div>
                 <div class="col-sm-3">
                     <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Select Designation</mat-label>
+                        <mat-label>{{'Home.select_Designation' | translate}}</mat-label>
                         <mat-select formControlName="subUserTypeId" (selectionChange)="filterData()">
                             <mat-option value="0">All Designation</mat-option>
                             <mat-option *ngFor="let subUser of subUserTypeArray" [value]="subUser.subUserTypeId">
@@ -39,8 +40,8 @@
                 </div>
                 <div class="col-sm-3">
                     <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Name / Mobile No./User Name</mat-label>
-                        <input matInput placeholder="Search" formControlName="textSearch">
+                        <mat-label>{{'Home.searchUser' | translate}}</mat-label>
+                        <input matInput placeholder="{{'Home.search'| translate}}" formControlName="textSearch">
                         <button mat-icon-button matSuffix *ngIf="filterFrm.value.textSearch" matTooltip="close"
                             aria-label="tooltip" (click)="filterFrm.controls['textSearch'].setValue('')">
                             <span class="material-symbols-outlined">
@@ -105,37 +106,37 @@
         <div class="table-responsive  table-height scrollbar">
             <table mat-table [dataSource]="dataSource" class="w-100 dashboard-table">
                 <ng-container matColumnDef="srno">
-                    <th mat-header-cell *matHeaderCellDef class="srno"> Sr.No. </th>
+                    <th mat-header-cell *matHeaderCellDef class="srno"> {{'Home.sr_no' | translate}} </th>
                     <td mat-cell *matCellDef="let element; let i= index"> {{((pageNumber + 1) * 10 + i +
                         1)-20}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="name">
-                    <th mat-header-cell *matHeaderCellDef> Name </th>
+                    <th mat-header-cell *matHeaderCellDef> {{'Home.name' | translate}} </th>
                     <td mat-cell *matCellDef="let element"> {{element.name | titlecase}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="userName">
-                    <th mat-header-cell *matHeaderCellDef> User Name </th>
+                    <th mat-header-cell *matHeaderCellDef> {{'Home.userName' | translate}} </th>
                     <td mat-cell *matCellDef="let element"> {{element.userName }} </td>
                 </ng-container>
                 <ng-container matColumnDef="departmentName">
-                    <th mat-header-cell *matHeaderCellDef> DEPARTMENT </th>
+                    <th mat-header-cell *matHeaderCellDef> {{'Home.department' | translate}} </th>
                     <td mat-cell *matCellDef="let element"> {{element.departmentName ? element.departmentName : '-' }}
                     </td>
                 </ng-container>
                 <ng-container matColumnDef="officeName">
-                    <th mat-header-cell *matHeaderCellDef> OFFICE </th>
+                    <th mat-header-cell *matHeaderCellDef> {{'Home.office' | translate}} </th>
                     <td mat-cell *matCellDef="let element"> {{element.officeName ? element.officeName : '-'}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="subUserType">
-                    <th mat-header-cell *matHeaderCellDef> DESIGNATION </th>
+                    <th mat-header-cell *matHeaderCellDef> {{'Home.designation' | translate}} </th>
                     <td mat-cell *matCellDef="let element">
                         {{element.subUserType ? element.subUserType : '-'}} </td>
                 </ng-container>
                 <ng-container matColumnDef="mobileNo">
-                    <th mat-header-cell *matHeaderCellDef> Mobile No. </th>
+                    <th mat-header-cell *matHeaderCellDef> {{'Home.mobileNo' | translate}} </th>
                     <td mat-cell *matCellDef="let element"> {{element.mobileNo}} </td>
                 </ng-container>
 
@@ -208,7 +209,7 @@
                     </ng-container>   -->
 
                 <ng-container matColumnDef="action">
-                    <th mat-header-cell *matHeaderCellDef class="action text-end"> ACTION <br>
+                    <th mat-header-cell *matHeaderCellDef class="action text-end"> {{'Home.action' | translate}} <br>
                         <button [disabled]="this.selection.selected.length ==0" mat-icon-button
                             (click)="deleteUserData()">
                             <span class="material-symbols-outlined">
@@ -266,7 +267,7 @@
     <div class="col-sm-4">
         <div class="card form-card">
             <div class="card-header">
-                {{isEdit?'Update' : 'Add'}} User
+                {{ isEdit? ('Home.updateUser' | translate) : ('Home.addUser'| translate) }}
             </div>
             <div class="card-body">
                 <form [formGroup]="userFrm" #formDirective="ngForm" (ngSubmit)="onSubmit()">

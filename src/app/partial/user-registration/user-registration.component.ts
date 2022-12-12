@@ -16,6 +16,7 @@ import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, filter, Subscription } from 'rxjs';
 import { MatSort } from '@angular/material/sort';
 import { ConfirmationComponent } from '../dialogs/confirmation/confirmation.component';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-user-registration',
   templateUrl: './user-registration.component.html',
@@ -55,6 +56,8 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   loggedUserDeptID:any;
   loggedUserOffID:any;
   dropdownDisable:boolean=false;
+  langTypeName:any;
+  selectedLang:any;
 
   constructor(public commonMethod: CommonMethodService,
     public apiService: ApiService,
@@ -66,7 +69,8 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     public localStrorageData: WebStorageService,
     private fb: FormBuilder,
     private webStorage: WebStorageService,
-    private spinner: NgxSpinnerService) {
+    private spinner: NgxSpinnerService,
+    public translate: TranslateService) {
      this.data=this.localStrorageData. getLoggedInLocalstorageData().responseData;
      }
 
@@ -88,10 +92,18 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     // this.getDepartment();
     this.getDepartment(this.localStrorageData.getUserId());
     this.getSubUsertype(this.localStrorageData.getUserId());
+    this.webStorage.langNameOnChange.subscribe(message => {
+      this.langTypeName = message;
+     });
   }
 
   //#region  filter form fn Start here
 
+  translateLanguageTo(lang: any) {
+    this.selectedLang = lang;
+    sessionStorage.setItem('language', lang);
+    this.translate.use(lang);
+  }
 
 
   filterForm() {

@@ -44,6 +44,9 @@
         "department_marathi_req_val": "विभागाचे मराठी नाव आवश्यक आहे",
         "all_dept": "सर्व विभाग",
         "office":"कार्यालय",
+        "select_office":"ऑफिस निवडा",
+        "select_Designation":"पदनाम निवडा",
+        "designation":"पदनाम",
         "add_office":"ऑफिस जोडा",
         "upd_office":"ऑफिस अपडेट करा",
         "add_dept":"विभाग जोडा",
@@ -78,8 +81,10 @@
         "select_Taluka":"तालुका निवडा",
         "All_Taluka":"सर्व तालुका ",
         "searchMobile":"नाव / मोबाईल नंबर",
+        "searchUser":"नाव / मोबाईल क्रमांक / वापरकर्ता नाव",
         "updateCitizen":"नागरिक अपडेट करा ",
         "name":"नाव",
+        "userName":"वापरकर्ता नाव",
         "name_is_required":"नाव आवश्यक आहे",
         "name_pattern":"कृपया वैध नाव प्रविष्ट करा",
         "mobileNo":"मोबाईल नंबर",
@@ -100,6 +105,10 @@
         "Residential-dy":"निवासी उपजिल्हाधिकारी,",
         "Office-PhNo":"कार्यालय संपर्क क्र:",
         "search":"शोध",
+
+        "addUser":"वापरकर्ता जोडा",
+        "updateUser":"वापरकर्ता अपडेट करा ",
+
 
         "no_data_found":"माहिती आढळली नाही",
         "Download":"ॲप डाउनलोड करा",

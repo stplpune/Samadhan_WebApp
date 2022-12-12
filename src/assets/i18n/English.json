@@ -56,6 +56,9 @@
 
         
         "office": "Office",
+        "select_office":"Select Office",
+        "select_Designation":"Select Designation",
+        "designation":"DESIGNATION",
         "add_office": "Add Office",
         "upd_office": "Update Office",
         "ofiice_name": "Office Name",
@@ -82,8 +85,10 @@
         "please_select_village":"Please select Village",
         "All_Taluka": "All Taluka",
         "searchMobile": "Name / Mobile Number",
+        "searchUser":"Name / Mobile No./User Name",
         "updateCitizen":"Update Citizen",
         "name": "Name",
+        "userName":"User Name",
         "name_is_required":"Name is required",
         "name_pattern":" Please enter valid name",
         "mobileNo": "Mobile Number",
@@ -102,6 +107,9 @@
         "Residential-dy":"Residential Dy. Collector,",
         "Office-PhNo":" Office Ph. No :",
         "search":"Search",
+
+        "addUser":"Add User",
+        "updateUser":"Update User",
 
         "no_data_found":"No Data Found",
         "Download":"Download the app from",

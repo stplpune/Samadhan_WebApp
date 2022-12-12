@@ -5,6 +5,7 @@ import { UserRegistrationRoutingModule } from './user-registration-routing.modul
 import { UserRegistrationComponent } from './user-registration.component';
 import { MaterialModule } from 'src/app/shared/AngularMaterialModule/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     UserRegistrationRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    TranslateModule
   ]
 })
 export class UserRegistrationModule { }
