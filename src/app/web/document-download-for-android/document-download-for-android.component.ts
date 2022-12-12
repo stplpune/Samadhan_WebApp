@@ -61,7 +61,7 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
     let checkToDateFlag: boolean = true;
     switch (id) {
       case '1':
-        let deptHeader = ["SrNo", "Department Name", "Total","Open", "Accept", "Resolve","Reject","Partial Resolve","Transfer"];
+        let deptHeader = ["SrNo", "Department Name", "Total","Opened", "Accepted", "Resolved","Partial Resolved","Transferred"];
         let deptObjData: any = {
           'topHedingName': 'Department Report',
           'createdDate': 'Created on : ' + this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a')
@@ -78,7 +78,7 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
         break;
 
       case '2':
-        let offHeader = ['SrNo', "Department Name", "Office Name", "Total","Open", "Accept", "Resolve","Reject","Partial Resolve","Transfer"];
+        let offHeader = ['SrNo', "Department Name", "Office Name", "Total","Opened", "Accepted", "Resolved","Partial Resolved","Transferred"];
         let offObjData:any = {
           'topHedingName': 'Office Report',
           'createdDate':'Created on : ' + this.datePipe.transform(new Date(),  'dd/MM/yyyy hh:mm a')
@@ -94,7 +94,7 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
         break;
 
       case '3':
-        let talHeader = ['SrNo', "Taluka Name","Total","Open", "Accept", "Resolve","Reject","Partial Resolve","Transfer"];
+        let talHeader = ['SrNo', "Taluka Name","Total","Opened", "Acceptd", "Resolved","Partial Resolved","Transferred"];
         let talObjData:any = {
           'topHedingName': 'Taluka Report',
           'createdDate':'Created on : ' + this.datePipe.transform(new Date(),  'dd/MM/yyyy hh:mm a')
@@ -111,7 +111,7 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
         break;
 
       case '4':
-        let penHeader = ['SrNo', 'Department Name','Receive', 'Pending','ApprovedLess < 7 days','ApprovedLess 8-15 days','ApprovedLess 16-30 days','ApprovedGrt > 30 days'];
+        let penHeader = ['SrNo', 'Department Name','Received', 'Pending','ApprovedLess < 7 days','ApprovedLess 8-15 days','ApprovedLess 16-30 days','ApprovedGrt > 30 days'];
         let penObjData:any = {
           'topHedingName': 'Pendency Report',
           'createdDate': 'Created on : ' + this.datePipe.transform(new Date(),  'dd/MM/yyyy hh:mm a')
@@ -129,7 +129,7 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
 
 
       case '5':
-        let sastisfiedHeader = ['SrNo', "Department Name", "Receive", "Resolve", "Satisfy", "UnSatisfy"];
+        let sastisfiedHeader = ['SrNo', "Department Name", "Received", "Resolved", "Satisfied", "UnSatisfied"];
         let sastisfiedObjData:any = {
           'topHedingName': 'Satisfied Report',
           'createdDate':'Created on : ' + this.datePipe.transform(new Date(),  'dd/MM/yyyy hh:mm a')
