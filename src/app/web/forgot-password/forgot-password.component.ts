@@ -24,6 +24,7 @@ export class ForgotPasswordComponent implements OnInit {
   timeLeft: number = 30;
   interval: any;
   verifyMobile:any;
+  verifyUserName:any;
   constructor(private fb: FormBuilder,
     private apiService: ApiService,
     private common: CommonMethodService,
@@ -49,7 +50,7 @@ export class ForgotPasswordComponent implements OnInit {
     })
     
     this.changePassword = this.fb.group({
-      userName: ['', [Validators.required, Validators.pattern(/^[A-za-z]{5}[0-9]{5}/)]],
+      // userName: ['', [Validators.required, Validators.pattern(/^[A-za-z]{5}[0-9]{5}/)]],
       newPassword: ['', [Validators.required, Validators.pattern(this.validation.valPassword)]],
       confirmPassword: ['', [Validators.required, Validators.pattern(this.validation.valPassword)]],
       // mobileNo: ['', [Validators.required, Validators.pattern(/^[6-9][0-9]{9}$/)]]
@@ -80,6 +81,7 @@ export class ForgotPasswordComponent implements OnInit {
         if (res.statusCode == "200") {
           this.common.matSnackBar(res.statusMessage, 0)
           this.verifyMobile=res.responseData;
+          this.verifyUserName=res.responseData1;
           this.sendOTPContainer = false;
           this.verifyOTPContainer = true;
           this.startTimer();
@@ -151,7 +153,7 @@ export class ForgotPasswordComponent implements OnInit {
 
     
     let obj = {
-      "userName": formData.userName,
+      "userName": this.verifyUserName,
       "newPassword": formData.newPassword,
       "confirmPassword": formData.confirmPassword,
       "mobileNo": "",
