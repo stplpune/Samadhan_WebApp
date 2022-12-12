@@ -23,6 +23,7 @@ export class ForgotPasswordComponent implements OnInit {
   public timerFlag: boolean = true;
   timeLeft: number = 30;
   interval: any;
+  verifyMobile:any;
   constructor(private fb: FormBuilder,
     private apiService: ApiService,
     private common: CommonMethodService,
@@ -39,7 +40,7 @@ export class ForgotPasswordComponent implements OnInit {
     })
 
     this.verifyOTPForm = this.fb.group({
-      mobileNo: ['', [Validators.required, Validators.pattern(/^[6-9][0-9]{9}$/)]],
+      // mobileNo: ['', [Validators.required, Validators.pattern(/^[6-9][0-9]{9}$/)]],
       otpA: ['', Validators.required],
       otpB: ['', Validators.required],
       otpC: ['', Validators.required],
@@ -51,7 +52,7 @@ export class ForgotPasswordComponent implements OnInit {
       userName: ['', [Validators.required, Validators.pattern(/^[A-za-z]{5}[0-9]{5}/)]],
       newPassword: ['', [Validators.required, Validators.pattern(this.validation.valPassword)]],
       confirmPassword: ['', [Validators.required, Validators.pattern(this.validation.valPassword)]],
-      mobileNo: ['', [Validators.required, Validators.pattern(/^[6-9][0-9]{9}$/)]]
+      // mobileNo: ['', [Validators.required, Validators.pattern(/^[6-9][0-9]{9}$/)]]
     })
   }
 
@@ -78,6 +79,7 @@ export class ForgotPasswordComponent implements OnInit {
       this.apiService.getHttp().subscribe((res: any) => {
         if (res.statusCode == "200") {
           this.common.matSnackBar(res.statusMessage, 0)
+          this.verifyMobile=res.responseData;
           this.sendOTPContainer = false;
           this.verifyOTPContainer = true;
           this.startTimer();
@@ -92,14 +94,13 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   verifyOTP() {
-    let formData = this.verifyOTPForm.value;
     let otp = this.verifyOTPForm.value.otpA + this.verifyOTPForm.value.otpB + this.verifyOTPForm.value.otpC + this.verifyOTPForm.value.otpD + this.verifyOTPForm.value.otpE
     if (this.verifyOTPForm.invalid) {
       return;
     } else {
       let obj = {
         "id": 0,
-        "mobileNo": formData.mobileNo,
+        "mobileNo": this.verifyMobile,
         "userName": "",
         "otp":otp,
         "pageName": "",
@@ -111,7 +112,7 @@ export class ForgotPasswordComponent implements OnInit {
       this.apiService.getHttp().subscribe((res: any) => {
         if (res.statusCode == "200") {
           this.common.matSnackBar(res.statusMessage, 0)
-          this.verifyOTPForm.reset();
+          // this.verifyOTPForm.reset();
           this.changePassContainer = true;
           this.verifyOTPContainer = false;
         }
@@ -153,7 +154,7 @@ export class ForgotPasswordComponent implements OnInit {
       "userName": formData.userName,
       "newPassword": formData.newPassword,
       "confirmPassword": formData.confirmPassword,
-      "mobileNo": formData.mobileNo
+      "mobileNo": "",
     }
 
     this.apiService.setHttp('put', 'samadhan/user-registration/ForgotPassword?UserName=' + obj.userName + '&Password=' + obj.newPassword + '&NewPassword=' + obj.confirmPassword + '&MobileNo=' + obj.mobileNo, false, false, false, 'samadhanMiningService');
