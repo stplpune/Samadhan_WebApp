@@ -167,56 +167,56 @@
     <div class="col-sm-4" [class.disabled-contenct]="!isdisable">
       <div class="card form-card">
         <div class="card-header" dis>
-          Update Citizen
+         {{'Home.updateCitizen'| translate}}
         </div>
         <form [formGroup]="frmCitizen" #formDirective="ngForm" (ngSubmit)="onUpdateCitizen()">
           <div class="card-body">
             <div class="row mb-3">
               <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Name</mat-label>
+                <mat-label>{{'Home.name'| translate}}</mat-label>
                 <input matInput formControlName="name" maxlength="50"
                   (keypress)="validation.noFirstSpaceAllow($event);validation.alphabetsWithSpaces($event)">
                 <mat-error *ngIf="f['name']?.errors">
-                  <span *ngIf="f['name']?.hasError('required')"> Name is required</span>
+                  <span *ngIf="f['name']?.hasError('required')"> {{'Home.name_is_required' | translate}}</span>
                   <span *ngIf="f['name']?.hasError('pattern') || f['name']?.hasError('minlength')">
-                    Please enter Name</span>
+                     {{'Home.name_pattern' | translate}}</span>
                 </mat-error>
               </mat-form-field>
             </div>
             <div class="row mb-3">
               <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Mobile No.</mat-label>
+                <mat-label>{{'Home.mobileNo' | translate}}</mat-label>
                 <input matInput [readonly]="true" formControlName="mobileNo" [class.disabled-contenct]="true"
                   maxlength="10"
                   (keypress)="validation.noFirstSpaceAllow($event);validation.noFirstSpaceAllow($event);validation.acceptedOnlyNumbers($event)">
                 <mat-error *ngIf="f['mobileNo']?.errors">
                   <!-- <span *ngIf="f['mobileNo']?.hasError('required')"> Mobile No. is required</span> -->
                   <span *ngIf="f['mobileNo']?.hasError('pattern') || f['mobileNo']?.hasError('minlength')">
-                    Please enter valid Mobile No.</span>
+                    {{'Home.mobile_pattern' | translate}}</span>
                 </mat-error>
               </mat-form-field>
             </div>
             <div class="row mb-3">
               <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Email ID</mat-label>
+                <mat-label>{{'Home.Email_Id' | translate}}</mat-label>
                 <input matInput formControlName="emailId"
                   (keypress)="validation.noFirstSpaceAllow($event);validation.emailRegex($event)" maxlength="200"
                   maxlength="100">
                 <mat-error *ngIf="f['emailId']?.errors">
                   <span *ngIf="f['emailId']?.hasError('pattern') || f['emailId']?.hasError('minlength')">
-                    Please enter valid Email ID</span>
+                    {{'Home.pls_enter_val_off_email_id' | translate}}</span>
                 </mat-error>
               </mat-form-field>
             </div>
             <div class="row mb-3">
               <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Select Taluka</mat-label>
+                <mat-label>{{'Home.select_Taluka' | translate}}</mat-label>
                 <mat-select formControlName="talukaId"
                   (selectionChange)="getVillageName(frmCitizen.value.talukaId, false);frmCitizen.controls['villageId'].setValue('')">
                   <mat-option *ngFor="let tal of talukaArr" [value]="tal.id">{{tal.taluka}}</mat-option>
                 </mat-select>
                 <mat-error *ngIf="f['talukaId']?.errors">
-                  <span *ngIf="f['talukaId']?.hasError('required')"> Please select Taluka</span>
+                  <span *ngIf="f['talukaId']?.hasError('required')"> {{'Home.please_select_Taluka' | translate}}</span>
                   <span *ngIf="f['talukaId']?.hasError('pattern') || f['talukaId']?.hasError('minlength')">
                     Please select Taluka</span>
                 </mat-error>
@@ -224,12 +224,12 @@
             </div>
             <div class="row mb-3">
               <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Select Village</mat-label>
+                <mat-label>{{'Home.Select_village' | translate}}</mat-label>
                 <mat-select formControlName="villageId" [disabled]="!frmCitizen.value.talukaId">
                   <mat-option *ngFor="let vill of villageArr" [value]="vill.id">{{vill.village}}</mat-option>
                 </mat-select>
                 <mat-error *ngIf="f['villageId']?.errors">
-                  <span *ngIf="f['villageId']?.hasError('required')"> Please select Village</span>
+                  <span *ngIf="f['villageId']?.hasError('required')">{{'Home.please_select_village' | translate}}</span>
                   <span *ngIf="f['villageId']?.hasError('pattern') || f['villageId']?.hasError('minlength')">
                     Please select Village</span>
                 </mat-error>
@@ -238,8 +238,8 @@
             <div class="row mb-3">
               <div class="text-end">
                 <button mat-stroked-button class="btn-main-outline" type="button"
-                  (click)="onCancelRecord()">Cancel</button>
-                <button mat-stroked-button class="btn-main ms-2" type="submit">Update</button>
+                  (click)="onCancelRecord()">{{'Home.cancel' | translate}}</button>
+                <button mat-stroked-button class="btn-main ms-2" type="submit">{{'Home.update' | translate}}</button>
               </div>
             </div>
           </div>
