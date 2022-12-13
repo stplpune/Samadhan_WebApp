@@ -11,6 +11,7 @@ import { MatSort } from '@angular/material/sort';
 import { CommonMethodService } from 'src/app/core/service/common-method.service';
 import { WebStorageService } from 'src/app/core/service/web-storage.service';
 import { FormsValidationService } from 'src/app/core/service/forms-validation.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-user-right-access',
@@ -29,6 +30,8 @@ export class UserRightAccessComponent implements OnInit {
   totalRows: any;
   highlightedRow!: number;
   initialLoadFlag: boolean = true;
+  langTypeName:any;
+  selectedLang:any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -40,12 +43,22 @@ export class UserRightAccessComponent implements OnInit {
     public configService: ConfigService,
     private webStorage: WebStorageService,
     public commonMethod: CommonMethodService,
-    public commonService: CommonApiService
+    public commonService: CommonApiService,
+    public translate:TranslateService
     ) { }
 
   ngOnInit(): void {
     this.assignUserRightsForm();
     this.getUserType();
+    this.webStorage.langNameOnChange.subscribe(message => {
+      this.langTypeName = message;
+     });
+  }
+
+  translateLanguageTo(lang: any) {
+    this.selectedLang = lang;
+    sessionStorage.setItem('language', lang);
+    this.translate.use(lang);
   }
 
   getUserType() {

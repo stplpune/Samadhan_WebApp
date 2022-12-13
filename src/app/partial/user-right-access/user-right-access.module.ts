@@ -5,6 +5,7 @@ import { UserRightAccessRoutingModule } from './user-right-access-routing.module
 import { UserRightAccessComponent } from './user-right-access.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/shared/AngularMaterialModule/material.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { MaterialModule } from 'src/app/shared/AngularMaterialModule/material.mo
     UserRightAccessRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    MaterialModule
+    MaterialModule,
+    TranslateModule
   ]
 })
 export class UserRightAccessModule { }

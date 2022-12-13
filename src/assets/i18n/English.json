@@ -133,6 +133,11 @@
         "grievance_details_isrequired":"Grievance Details is required",
         "upload_document":"Upload Document",
         
+        "searchPage":"Page Name/Page URL",
+        "page_name":"Page Name",
+        "page_url":"Page URL",
+        "clear":"Clear",
+        "select":"Select",
 
         "no_data_found":"No Data Found",
         "Download":"Download the app from",
