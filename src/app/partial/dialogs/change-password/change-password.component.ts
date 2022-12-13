@@ -28,7 +28,12 @@ export class ChangePasswordComponent implements OnInit {
     private webstorageService: WebStorageService,
     private router: Router,
     private common: CommonMethodService,
-    public validation: FormsValidationService) { }
+    public validation: FormsValidationService) { 
+       dialogRef.disableClose = true;
+      dialogRef.backdropClick().subscribe(_ => {
+      dialogRef.close();
+    })
+    }
 
   ngOnInit(): void {
     this.changePasswordFrm = this.fb.group({
