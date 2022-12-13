@@ -5,6 +5,8 @@ import { ErrorHandlerService } from 'src/app/core/service/error-handler.service'
 import { CommonMethodService } from 'src/app/core/service/common-method.service'
 import { Router } from '@angular/router';
 import { FormsValidationService } from 'src/app/core/service/forms-validation.service';
+import { WebStorageService } from 'src/app/core/service/web-storage.service';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -14,13 +16,16 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   hide: boolean = true;
   loginData: any;
+  langTypeName:any;
   constructor(private fb: FormBuilder,
     private apiService: ApiService,
     private error: ErrorHandlerService,
     private common: CommonMethodService,
     private router: Router,
-    public validation: FormsValidationService
-  ) { }
+    public validation: FormsValidationService,public webStorageService:WebStorageService,public translate: TranslateService
+  ) {
+    // translate.addLangs(['English', 'Marathi']);
+   }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -28,6 +33,13 @@ export class LoginComponent implements OnInit {
       password: ['', [Validators.required, Validators.pattern(this.validation.valPassword)]],
       captcha: ['', [Validators.required, Validators.pattern(this.validation.onlyNumbers)]]
     })
+    this.webStorageService.langNameOnChange.subscribe(message => {
+      this.langTypeName = message;
+
+     });
+     let lang:any =sessionStorage.getItem('language');
+     this.translate.use(lang);
+
     this.captcha();
   }
 
