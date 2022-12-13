@@ -38,9 +38,9 @@
                       <img src="/assets/images/user.svg" class="avatar">
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdownMenuButton1">
-                      <li><a class="dropdown-item" (click)="openProfileModal()">My Profile</a></li>
-                      <li><a class="dropdown-item" (click)="openChangePasswordModal()">Change Password</a></li>
-                      <li><a class="dropdown-item"  (click)="logOut()">Logout</a></li>
+                      <li><a class="dropdown-item" (click)="openProfileModal()">{{'Home.my_profile' | translate}}</a></li>
+                      <li><a class="dropdown-item" (click)="openChangePasswordModal()">{{'Home.change_pass' | translate}}</a></li>
+                      <li><a class="dropdown-item"  (click)="logOut()">{{'Home.logout' | translate}}</a></li>
                     </ul>
                   </div>
             </div>

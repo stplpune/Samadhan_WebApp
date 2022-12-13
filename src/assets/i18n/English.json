@@ -139,6 +139,10 @@
         "clear":"Clear",
         "select":"Select",
 
+        "my_profile":"My Profile",
+        "change_pass":"Change password",
+        "logout":"Logout",
+
         "no_data_found":"No Data Found",
         "Download":"Download the app from",
         "googlePay":"Google play ",
