@@ -24,7 +24,6 @@ export class LoginComponent implements OnInit {
     private router: Router,
     public validation: FormsValidationService,public webStorageService:WebStorageService,public translate: TranslateService
   ) {
-    // translate.addLangs(['English', 'Marathi']);
    }
 
   ngOnInit(): void {

@@ -142,6 +142,16 @@
         "my_profile":"My Profile",
         "change_pass":"Change password",
         "logout":"Logout",
+        "password":"Password",
+
+        "userName_req":"Please enter User Name",
+        "userName_pattern":"Please enter valid User Name",
+        "password_req":"Please enter Password",
+        "password_pattern":"Please enter valid Password",
+        "captcha":"Enter Captcha",
+        "captcha_req":"Captcha is required",
+        "captcha_pattern":"Please enter valid Captcha",
+        "forgot_password":"Forgot Password",
 
         "no_data_found":"No Data Found",
         "Download":"Download the app from",

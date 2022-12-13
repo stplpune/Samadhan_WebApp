@@ -22,20 +22,19 @@
                     </div>
 
                     <div class="login-box">
-                        <h5 class="text-center mb-5">LOGIN</h5>
+                        <h5 class="text-center mb-5">{{'Home.login' | translate}}</h5>
                         <div class="mb-2">
                             <label class="form-label">
-                                User Name
+                               {{'Home.userName' | translate}}
                             </label>
                             <mat-form-field class="w-100" appearance="outline">
-                                <input matInput placeholder="User Name" formControlName="username" maxlength="10" autocomplete="off"
+                                <input matInput placeholder="{{'Home.userName' | translate}}" formControlName="username" maxlength="10" autocomplete="off"
                                     (keypress)="validation.noSpaces($event)" (keyup)="validation.onlyDigits($event)">
                                 <mat-error *ngIf="f['username'].errors">
-                                    <span *ngIf="f['username'].hasError('required')"> Please enter
-                                        User Name</span>
+                                    <span *ngIf="f['username'].hasError('required')"> {{'Home.userName_req' | translate}}</span>
                                 </mat-error>
                                 <mat-error *ngIf="f['username'].hasError('pattern')">
-                                    Please enter valid User Name
+                                  {{'Home.userName_pattern' | translate}}
                                 </mat-error>
                             </mat-form-field>
                         </div>
@@ -44,7 +43,7 @@
                                  {{'Home.password' | translate }}
                             </label>
                             <mat-form-field class="w-100 mb-3" appearance="outline">
-                                <input matInput [type]="hide ? 'password' : 'text'" placeholder="Password"
+                                <input matInput [type]="hide ? 'password' : 'text'" placeholder="{{'Home.password' | translate }}"
                                     formControlName="password" autocomplete="off" required
                                     (keypress)="validation.noSpaces($event)">
                                 <button type="button" mat-icon-button matSuffix (click)="togglePasswordVisibility()">
@@ -52,10 +51,10 @@
                                         {{hide==false ? 'visibility':'visibility_off'}} </span>
                                 </button>
                                 <mat-error *ngIf="f['password'].hasError('required')">
-                                    Please enter Password
+                                   {{'Home.password_req' | translate}}
                                 </mat-error>
                                 <mat-error *ngIf="f['password'].hasError('pattern')">
-                                    Please enter valid Password
+                                    {{'Home.password_pattern' | translate}}
                                 </mat-error>
                             </mat-form-field>
                         </div>
@@ -72,21 +71,21 @@
                                 </div>
                                 <div class="col-sm">
                                     <mat-form-field appearance="outline" class="w-100">
-                                        <input matInput placeholder="Enter Captcha" formControlName="captcha"
+                                        <input matInput placeholder="{{'Home.captcha' | translate}}" formControlName="captcha"
                                             maxlength="4" autocomplete="off" (keypress)="validation.noSpaces($event)">
                                         <mat-error *ngIf="f['captcha'].hasError('required')">
-                                            Captcha is required
+                                            {{'Home.captcha_req' | translate}}
                                         </mat-error>
                                         <mat-error *ngIf="f['captcha'].hasError('pattern')">
-                                            Please enter valid Captcha
+                                            {{'Home.captcha_pattern' | translate}}
                                         </mat-error>
                                     </mat-form-field>
                                 </div>
                             </div>
                         </div>
-                        <button mat-raised-button class="bg-main w-100 mb-3" type="submit">LOGIN</button>
+                        <button mat-raised-button class="bg-main w-100 mb-3" type="submit">{{'Home.login' | translate}}</button>
                         <div class="text-end">
-                            <a routerLink="../forgot-password" class="text-main">Forgot Password?</a>
+                            <a routerLink="../forgot-password" class="text-main">{{'Home.forgot_password' | translate}}?</a>
                         </div>
                     </div>
                 </form>
