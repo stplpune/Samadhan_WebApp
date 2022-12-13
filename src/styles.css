@@ -332,6 +332,6 @@ input:-webkit-autofill:active {
 }
 
 
-.cdk-overlay-pane {
+ /* .mat-select-panel-wrap{
     transform: translateX(-16px) translateY(27px) !important;
-}
+} */

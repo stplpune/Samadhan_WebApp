@@ -507,9 +507,7 @@ export class PostGrievanceComponent implements OnInit {
           this.commonMethod.matSnackBar(res.statusMessage, 0);
           this.selection.clear();
         } else {
-          if (res.statusCode != "404") {
-            this.error.handelError(res.statusMessage)
-          }
+          this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
         }
       }
     }, (error: any) => {

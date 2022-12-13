@@ -548,9 +548,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
           this.selection.clear();
           this.onCancelRecord();
         } else {
-          if (res.statusCode != "404") {
-            this.error.handelError(res.statusMessage)
-          }
+          this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
         }
       }
     }, (error: any) => {
