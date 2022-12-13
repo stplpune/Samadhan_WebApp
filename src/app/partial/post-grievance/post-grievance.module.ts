@@ -5,6 +5,7 @@ import { PostGrievanceRoutingModule } from './post-grievance-routing.module';
 import { PostGrievanceComponent } from './post-grievance.component';
 import { MaterialModule } from 'src/app/shared/AngularMaterialModule/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     PostGrievanceRoutingModule,
     MaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TranslateModule
   ]
 })
 export class PostGrievanceModule { }

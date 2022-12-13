@@ -4,36 +4,37 @@
             <div class="row gx-1 mb-2">
                 <div class="col-sm-2">
                     <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Taluka</mat-label>
+                        <mat-label>{{'Home.Taluka' | translate}}</mat-label>
                         <mat-select formControlName="talukaId"
                             (selectionChange)="clearFilter('taluka');isSelfGrievance.setValue(1);filterData();">
-                            <mat-option value="0">All Taluka</mat-option>
+                            <mat-option value="0">{{'Home.All_Taluka' | translate}}</mat-option>
                             <mat-option *ngFor="let taluka of talukaArray" [value]="taluka.id">
-                                {{taluka.taluka}}
+                                {{ langTypeName == 'English' ?
+                                taluka.taluka : taluka.m_Taluka}}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
                 <div class="col-sm-3">
                     <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Department</mat-label>
+                        <mat-label>{{'Home.department' | translate}}</mat-label>
                         <mat-select formControlName="deptId"
                             (selectionChange)="clearFilter('department');isSelfGrievance.setValue(1);filterData();" [disabled]="dropdownDisable">
-                            <mat-option value="0">All Department</mat-option>
+                            <mat-option value="0">{{'Home.all_dept' | translate}}</mat-option>
                             <mat-option *ngFor="let department of departmentArray" [value]="department.deptId">
-                                {{department.departmentName}}
+                                {{ langTypeName == 'English' ? department.departmentName : department.m_DepartmentName}}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
                 <div class="col-sm-2">
                     <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Status</mat-label>
+                        <mat-label>{{'Home.status' | translate}}</mat-label>
                         <mat-select formControlName="statusId"
                             (selectionChange)="isSelfGrievance.setValue(1);filterData()">
-                            <mat-option value="0">All Status</mat-option>
+                            <mat-option value="0">{{'Home.all_status'| translate}}</mat-option>
                             <mat-option *ngFor="let status of statusArray" [value]="status.id">
-                                {{status.name}}
+                                {{ langTypeName == 'English' ? status.name : status.m_Name}}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
@@ -41,8 +42,8 @@
                 <div class="col-sm-4">
                     <div class="mb-2">
                         <mat-form-field class="w-100" appearance="outline">
-                            <mat-label>Grievance No. / Name</mat-label>
-                            <input matInput placeholder="Search" formControlName="textSearch">
+                            <mat-label>{{'Home.searchGrievance' | translate}}</mat-label>
+                            <input matInput placeholder="{{'Home.search'| translate}}" formControlName="textSearch">
                             <button mat-icon-button matSuffix *ngIf="filterFrm.value.textSearch" matTooltip="close"
                             aria-label="tooltip" (click)="filterFrm.controls['textSearch'].setValue('')">
                             <span class="material-symbols-outlined">
@@ -57,31 +58,31 @@
                 <div class="">
                     <table mat-table [dataSource]="dataSource" class="w-100 dashboard-table">
                         <ng-container matColumnDef="srno">
-                            <th mat-header-cell *matHeaderCellDef class="srno"> Sr.No. </th>
+                            <th mat-header-cell *matHeaderCellDef class="srno"> {{'Home.sr_no' | translate}} </th>
                             <td mat-cell *matCellDef="let element;let i= index"> {{((pageNumber + 1) * 10 + i +
                                 1)-20}}</td>
                         </ng-container>
                         <ng-container matColumnDef="grievanceNo">
-                            <th mat-header-cell *matHeaderCellDef>Grievance No.</th>
+                            <th mat-header-cell *matHeaderCellDef>{{'Home.grievance_No' | translate}}.</th>
                             <td mat-cell *matCellDef="let element"><a class="text-primary"
                                     (click)="grievanceDetails(element.id)">{{element.grievanceNo}}</a></td>
                         </ng-container>
 
                         <ng-container matColumnDef="name">
-                            <th mat-header-cell *matHeaderCellDef>Name</th>
+                            <th mat-header-cell *matHeaderCellDef>{{'Home.name' | translate}}</th>
                             <td mat-cell *matCellDef="let element"> {{element.isSelfGrievance == 3 ?
                                 (element.otherCitizenName | titlecase) : element.name | titlecase}} </td>
                         </ng-container>
                         <ng-container matColumnDef="taluka">
-                            <th mat-header-cell *matHeaderCellDef> Taluka </th>
+                            <th mat-header-cell *matHeaderCellDef>{{'Home.Taluka' | translate}}  </th>
                             <td mat-cell *matCellDef="let element"> {{element.taluka}} </td>
                         </ng-container>
                         <ng-container matColumnDef="department">
-                            <th mat-header-cell *matHeaderCellDef> Department </th>
+                            <th mat-header-cell *matHeaderCellDef>{{'Home.department' | translate }} </th>
                             <td mat-cell *matCellDef="let element"> {{element.departmentName}} </td>
                         </ng-container>
                         <ng-container matColumnDef="status">
-                            <th mat-header-cell *matHeaderCellDef> STATUS </th>
+                            <th mat-header-cell *matHeaderCellDef> {{'Home.status' | translate}} </th>
                             <td mat-cell *matCellDef="let element">
                                 <span class="badge"
                                     [ngClass]="{'open': element?.status =='Open','resolved': element?.status =='Resolved', 'accepted': element?.status =='Accepted',
@@ -91,7 +92,7 @@
                             </td>
                         </ng-container>
                         <ng-container matColumnDef="action">
-                            <th mat-header-cell *matHeaderCellDef class="action"> ACTION <br>
+                            <th mat-header-cell *matHeaderCellDef class="action"> {{'Home.action' | translate}} <br>
                                 <button [disabled]="this.selection.selected.length ==0" mat-icon-button
                                     (click)="deleteData()">
                                     <span class="material-symbols-outlined">
@@ -119,7 +120,7 @@
                         </ng-container>
 
                         <tr class="mat-row p-2 w-100" *matNoDataRow col>
-                            <td class="alert alert-danger text-center m-2 mt-2" colspan="9">No Data Found!</td>
+                            <td class="alert alert-danger text-center m-2 mt-2" colspan="9">{{'Home.no_data_found'| translate}}</td>
                         </tr>
 
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -138,38 +139,36 @@
     </div>
     <div class="col-sm-4" [class.disabled-contenct]="loggedUserTypeId==3 && !ispatch">
         <div class="card form-card">
-            <div class="card-header"> {{updatedObj ? 'View Collector References' : 'Collector References'}}</div>
+            <div class="card-header"> {{ updatedObj ? ('Home.view_collector_ref' | translate) : ('Home.collector_ref'| translate)}}</div>
             <div class="card-body">
                 <form [formGroup]="postGrievanceForm" #formDirective="ngForm">
 
                     <div class="mb-3" [class.disabled-contenct]="ispatch">
                         <mat-form-field class="w-100" appearance="outline">
-                            <mat-label>Name</mat-label>
+                            <mat-label>{{'Home.name' | translate}}</mat-label>
                             <input matInput
                                 (keypress)="validation.noFirstSpaceAllow($event);validation.alphabetsWithSpaces($event)"
                                 formControlName="otherCitizenName" maxlength="50" [readonly]="ispatch">
                             <mat-error *ngIf="f['otherCitizenName']?.errors">
-                                <span *ngIf="f['otherCitizenName']?.hasError('required')"> Name is required</span>
-                                <span *ngIf="f['otherCitizenName']?.hasError('pattern')"> Enter Valid Name</span>
+                                <span *ngIf="f['otherCitizenName']?.hasError('required')"> {{'Home.name_is_required' | translate}}</span>
+                                <span *ngIf="f['otherCitizenName']?.hasError('pattern')"> {{'Home.name_pattern' | translate}}</span>
                             </mat-error>
                         </mat-form-field>
                     </div>
                     <div class="mb-3" [class.disabled-contenct]="ispatch">
                         <mat-form-field class="w-100" appearance="outline">
-                            <mat-label>Mobile Number</mat-label>
+                            <mat-label>{{'Home.mobileNo' | translate}}</mat-label>
                             <input matInput maxlength="10" (keypress)="validation.acceptedOnlyNumbers($event)"
                                 formControlName="otherCitizenMobileNo" [readonly]="ispatch">
                             <mat-error *ngIf="f['otherCitizenMobileNo']?.errors">
-                                <span *ngIf="f['otherCitizenMobileNo']?.hasError('required')"> Mobile Number is
-                                    required</span>
-                                <span *ngIf="f['otherCitizenMobileNo']?.hasError('pattern')"> Enter valid Mobile
-                                    Number</span>
+                                <span *ngIf="f['otherCitizenMobileNo']?.hasError('required')">{{'Home.mobileNo_required' | translate}}</span>
+                                <span *ngIf="f['otherCitizenMobileNo']?.hasError('pattern')"> {{'Home.mobile_pattern' | translate}}</span>
                             </mat-error>
                         </mat-form-field>
                     </div>
                     <div class="mb-3" [class.disabled-contenct]="ispatch">
                         <mat-form-field class="w-100" appearance="legacy">
-                            <mat-label>Address</mat-label>
+                            <mat-label>{{'Home.address' | translate}}</mat-label>
                             <textarea matInput rows="4" (keypress)="validation.noFirstSpaceAllow($event)"
                                 formControlName="otherCitizenAddress" maxlength="500"></textarea>
                             <mat-error *ngIf="f['otherCitizenAddress']?.errors">
@@ -180,44 +179,44 @@
                     </div>
                     <div class="mb-3" [class.disabled-contenct]="ispatch">
                         <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>District</mat-label>
+                            <mat-label>{{'Home.district' | translate}}</mat-label>
                             <mat-select formControlName="districtId" [disabled]="true">
                                 <mat-option *ngFor="let district of districtArray" [value]="district.id"
                                     [disabled]="district.value == 1">
-                                    {{district.district}}
+                                    {{ langTypeName=='English' ? district.district : district.m_District}}
                                 </mat-option>
                             </mat-select>
                             <mat-error *ngIf="f['districtId']?.errors">
-                                <span *ngIf="f['districtId']?.hasError('required')"> District is required</span>
-                            </mat-error>
+                                <span *ngIf="f['districtId']?.hasError('required')"> {{'Home.district_is_required' | translate}}</span>
+                            </mat-error> 
                         </mat-form-field>
                     </div>
                     <!-- </div> -->
                     <div class="row gx-2 mb-3">
                         <div class="col-sm-6">
                             <mat-form-field appearance="outline" class="w-100">
-                                <mat-label>Taluka</mat-label>
+                                <mat-label>{{'Home.Taluka' | translate}}</mat-label>
                                 <mat-select formControlName="talukaId" [disabled]="ispatch"
                                     (selectionChange)="getVillage(postGrievanceForm.value.talukaId);postGrievanceForm.controls['villageId'].setValue('')">
                                     <mat-option *ngFor="let taluka of talukaArray" [value]="taluka.id">
-                                        {{taluka.taluka}}
+                                        {{ langTypeName=='English' ? taluka.taluka : taluka.m_Taluka}}
                                     </mat-option>
                                 </mat-select>
                                 <mat-error *ngIf="f['talukaId']?.errors">
-                                    <span *ngIf="f['talukaId']?.hasError('required')"> Taluka is required </span>
+                                    <span *ngIf="f['talukaId']?.hasError('required')"> {{'Home.please_select_Taluka' |translate}} </span>
                                 </mat-error>
                             </mat-form-field>
                         </div>
                         <div class="col-sm-6" [class.disabled-contenct]="ispatch">
                             <mat-form-field appearance="outline" class="w-100">
-                                <mat-label>Village</mat-label>
+                                <mat-label>{{'Home.Village' | translate}}</mat-label>
                                 <mat-select formControlName="villageId" [disabled]="!postGrievanceForm.value.talukaId">
                                     <mat-option *ngFor="let village of villageArray" [value]="village.id">
-                                        {{village.village}}
+                                        {{langTypeName=='English' ? village.village : village.m_Village}}
                                     </mat-option>
                                 </mat-select>
                                 <mat-error *ngIf="f['villageId']?.errors">
-                                    <span *ngIf="f['villageId']?.hasError('required')"> Village is required</span>
+                                    <span *ngIf="f['villageId']?.hasError('required')">{{'Home.please_select_village' | translate}}</span>
                                 </mat-error>
                             </mat-form-field>
                         </div>
@@ -225,54 +224,52 @@
                     <div class="row gx-2 mb-3">
                         <div class="col-sm-6">
                             <mat-form-field appearance="outline" class="w-100">
-                                <mat-label>Department</mat-label>
+                                <mat-label>{{'Home.department' | translate}}</mat-label>
                                 <mat-select formControlName="deptId" [disabled]="ispatch"
                                     (selectionChange)="getOffice(postGrievanceForm.value.deptId);getGrievanceByDeptId(postGrievanceForm.value.deptId);postGrievanceForm.controls['officeId'].setValue('')" [disabled]="dropdownDisable">
                                     <mat-option *ngFor="let department of departmentArray" [value]="department.deptId">
-                                        {{department.departmentName}}
+                                        {{ langTypeName == 'English' ? department.departmentName : department.m_DepartmentName}}
                                     </mat-option>
                                 </mat-select>
                                 <mat-error *ngIf="f['deptId']?.errors">
-                                    <span *ngIf="f['deptId']?.hasError('required')"> Department is required</span>
+                                    <span *ngIf="f['deptId']?.hasError('required')"> {{'Home.please_sel_dep' | translate}}</span>
                                 </mat-error>
                             </mat-form-field>
                         </div>
                         <div class="col-sm-6" [class.disabled-contenct]="ispatch">
                             <mat-form-field appearance="outline" class="w-100">
-                                <mat-label>Office</mat-label>
+                                <mat-label>{{'Home.office' | translate}}</mat-label>
                                 <mat-select formControlName="officeId" [disabled]="!postGrievanceForm.value.deptId">
                                     <mat-option *ngFor="let office of officeArray" [value]="office.id">
-                                        {{office.name}}
+                                        {{ langTypeName == 'English' ? office.name :office.m_OfficeName}}
                                     </mat-option>
                                 </mat-select>
                                 <mat-error *ngIf="f['officeId']?.errors">
-                                    <span *ngIf="f['officeId']?.hasError('required')"> Office is required</span>
+                                    <span *ngIf="f['officeId']?.hasError('required')"> {{'Home.please_sel_Off'| translate}}</span>
                                 </mat-error>
                             </mat-form-field>
                         </div>
                     </div>
                     <div class="mb-1">
                         <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Nature of Grievance</mat-label>
+                            <mat-label>{{'Home.nature_of_grievance' | translate}}</mat-label>
                             <mat-select formControlName="natureGrievanceId" [disabled]="ispatch">
                                 <mat-option *ngFor="let nature of natureOfGrievance" [value]="nature.id">
-                                    {{nature.name}}
+                                    {{ langTypeName == 'English' ? nature.name : nature.m_Name}}
                                 </mat-option>
                             </mat-select>
                             <mat-error *ngIf="f['natureGrievanceId']?.errors">
-                                <span *ngIf="f['natureGrievanceId']?.hasError('required')"> Nature of Grievance is
-                                    required</span>
+                                <span *ngIf="f['natureGrievanceId']?.hasError('required')"> {{'Home.nature_of_grievance_isrequired' | translate}}</span>
                             </mat-error>
                         </mat-form-field>
                     </div>
                     <div class="mb-3">
                         <mat-form-field class="w-100" appearance="legacy">
-                            <mat-label>Grievance Details</mat-label>
+                            <mat-label>{{'Home.grievance_details' |translate}}</mat-label>
                             <textarea matInput rows="4" (keypress)="validation.noFirstSpaceAllow($event)"
                                 formControlName="grievanceDescription" maxlength="500" [readonly]="ispatch"></textarea>
                             <mat-error *ngIf="f['grievanceDescription']?.errors">
-                                <span *ngIf="f['grievanceDescription']?.hasError('required')">Grievance Details is
-                                    required</span>
+                                <span *ngIf="f['grievanceDescription']?.hasError('required')">{{'Home.grievance_details_isrequired' | translate}}</span>
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -281,7 +278,7 @@
                         <div class="row justify-content-between align-items-center">
                             <div class="col-sm" [class.disabled-contenct]="ispatch">
                                 <button mat-stroked-button type="button" class="bg-main">
-                                    <label class="px-2"><span>Upload Document</span>
+                                    <label class="px-2"><span>{{'Home.upload_document' | translate}}</span>
                                         <input type="file" style="display: none" (change)="documentUpload($event)"
                                             #fileInput>
                                     </label>
@@ -309,9 +306,9 @@
                     </div>
                     <div class="text-end mt-3">
                         <button mat-stroked-button class="btn-main-outline" type="button"
-                            (click)="onCancelRecord()">Cancel</button>
+                            (click)="onCancelRecord()">{{'Home.cancel'| translate}}</button>
                         <button mat-stroked-button class="btn-main ms-2" type="submit" *ngIf="!ispatch"
-                            (click)="onSubmitForm()">Submit</button>
+                            (click)="onSubmitForm()">{{'Home.submit'| translate}}</button>
                     </div>
                 </form>
             </div>

@@ -248,7 +248,7 @@
                 </ng-container>
 
                 <tr class="mat-row p-2 w-100" *matNoDataRow col>
-                    <td class="alert alert-danger text-center m-2 mt-2" colspan="10">No Data Found! </td>
+                    <td class="alert alert-danger text-center m-2 mt-2" colspan="10">{{'Home.no_data_found'| translate}} </td>
                 </tr>
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -277,7 +277,7 @@
                             <mat-select formControlName="userTypeId" [disabled]="this.loggedUserTypeId==4"
                                 (selectionChange)="getSubUsers(userFrm.value.userTypeId);setValidators(userFrm.value.userTypeId);changeDepFlag = false">
                                 <mat-option *ngFor="let user of usersArray" [value]="user.userTypeId">
-                                    {{user.userType}}
+                                    {{ langTypeName == 'English'? user.userType : user.m_UserType}}
                                 </mat-option>
                             </mat-select>
                             <mat-error *ngIf="f['userTypeId']?.errors">
@@ -291,7 +291,7 @@
                             <mat-label> {{'Home.subUserType'| translate}}</mat-label>
                             <mat-select formControlName="subUserTypeId" [disabled]="!userFrm.value.userTypeId">
                                 <mat-option *ngFor="let subUser of subUsersArray" [value]="subUser.subUserTypeId">
-                                    {{subUser.subUserType}}
+                                    {{  langTypeName == 'English' ? subUser.subUserType : subUser.m_SubUserType }}
                                 </mat-option>
                             </mat-select>
                             <mat-error *ngIf="f['subUserTypeId']?.errors">
@@ -306,7 +306,7 @@
                                 (selectionChange)="getOffice(userFrm.value.deptId);changeDepFlag = false" [disabled]="this.loggedUserTypeId== 3 || this.loggedUserTypeId== 4">
                                 <mat-option *ngFor="let department of departmentByUserArray"
                                     [value]="department.deptId">
-                                    {{department.departmentName}}
+                                    {{ langTypeName == 'English' ? department.departmentName :  department.m_DepartmentName}}
                                 </mat-option>
                             </mat-select>
                             <mat-error *ngIf="f['deptId']?.errors">
@@ -319,7 +319,7 @@
                             <mat-label>{{'Home.office' |translate}}</mat-label>
                             <mat-select formControlName="officeId" [disabled]="!userFrm.value.deptId || this.loggedUserTypeId == 4">
                                 <mat-option *ngFor="let office of officeArray" [value]="office.id">
-                                    {{office.name}}
+                                    {{ langTypeName == 'English' ? office.name : office.m_OfficeName}}
                                 </mat-option>
                             </mat-select>
                             <mat-error *ngIf="f['officeId']?.errors">

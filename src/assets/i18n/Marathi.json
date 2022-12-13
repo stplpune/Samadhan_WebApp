@@ -116,6 +116,27 @@
         "subUserType":"उप वापरकर्ता प्रकार",
         "select_subUserType":"कृपया उप वापरकर्ता प्रकार निवडा",
         "please_sel_Off": "कृपया कार्यालय निवडा",
+        "status":"स्थिती",
+        "all_status":"सर्व स्थिती",
+        "searchGrievance":"तक्रार क्रमांक / नाव",
+        "grievance_No":"तक्रार क्रमांक",
+        "collector_ref":"जिल्हाधिकारी संदर्भ",
+        "view_collector_ref":"जिल्हाधिकारी संदर्भ पहा",
+        "address":"पत्ता",
+        "district":"जिल्हा",
+        "district_is_required":"जिल्हा आवश्यक आहे",
+        "nature_of_grievance":"तक्रारीचे स्वरूप",
+        "nature_of_grievance_isrequired":"कृपया तक्रारीचे स्वरूप निवडा",
+        "grievance_details":"तक्रार तपशील",
+        "grievance_details_isrequired":"तक्रार तपशील आवश्यक आहे",
+        "upload_document":" दस्तऐवज अपलोड करा",
+
+        "searchPage":"पृष्ठाचे नाव/पृष्ठ यु आर एल",
+        "page_name":"पृष्ठाचे नाव",
+        "page_url":"पृष्ठ यु आर एल",
+        "clear":"साफ करा",
+        "select":"निवडा",
+
 
 
         "no_data_found":"माहिती आढळली नाही",

@@ -330,3 +330,8 @@ input:-webkit-autofill:active {
 {
     display: none !important;
 }
+
+
+.cdk-overlay-pane {
+    transform: translateX(-16px) translateY(27px) !important;
+}
