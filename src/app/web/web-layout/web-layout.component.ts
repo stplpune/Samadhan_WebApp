@@ -10,8 +10,9 @@ import { NavigationEnd, Router } from '@angular/router';
 export class WebLayoutComponent implements OnInit {
   hideHeader: boolean = true;
   hideFooter: boolean = true;
+  curtainFlag:boolean = true;
 
-  constructor(private router: Router) {
+  constructor(public router: Router) {
     if (this.router.url == '/login' || this.router.url == '/forgot-password' || this.router.url.includes('/grievance-details') || this.router.url.includes('/document-download-for-android')) {
       this.hideHeader = false;
       this.hideFooter = false;
@@ -32,4 +33,11 @@ export class WebLayoutComponent implements OnInit {
     })
   }
 
+  selCheckBox(event:any){
+    if(!event?.target.checked){
+      setTimeout(() => {
+        this.curtainFlag =  event?.target.checked ;
+      }, 850);
+    }
+  }
 }

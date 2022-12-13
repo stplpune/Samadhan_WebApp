@@ -1,4 +1,24 @@
-<div appTheme>
+
+
+<div class="curtain" *ngIf="router.url == '/home'"  [class.d-none]="router.url == '/home' && !this.curtainFlag">
+    <div class="curtain__wrapper">
+      <input type="checkbox" checked (change)="selCheckBox($event)">
+      <label for="Ford"></label>
+      <div class="curtain__panel curtain__panel--left">
+        <h1>Click to &nbsp;</h1>
+      </div>
+      <div class="curtain__content">
+        <img src="assets/images/Samadhan-color-logo.png">
+        <!-- <h2>Achievement Unlocked!</h2> -->
+      </div>
+
+      <div class="curtain__panel curtain__panel--right">
+        <h1>reveal...</h1>
+      </div>
+    </div>
+  </div>
+
+  <div appTheme  [class.d-none]="router.url == '/home' && this.curtainFlag">
     <app-web-header *ngIf="hideHeader"></app-web-header>
     <div class="home-top" [class.mt-0]="!hideHeader">
         <router-outlet></router-outlet>
