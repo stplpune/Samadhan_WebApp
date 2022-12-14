@@ -11,6 +11,7 @@ import { ErrorHandlerService } from 'src/app/core/service/error-handler.service'
 import { ExcelService } from 'src/app/core/service/excel_Pdf.service';
 import { FormsValidationService } from 'src/app/core/service/forms-validation.service';
 import { WebStorageService } from 'src/app/core/service/web-storage.service';
+import { ConfirmationComponent } from 'src/app/partial/dialogs/confirmation/confirmation.component';
 
 @Component({
   selector: 'app-document-download-for-android',
@@ -26,6 +27,7 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
   OfficerTalukaReportArray: any;
   pendencyReportArray: any;
   officeIsSatisfiedReportArray: any;
+  langTypeName:any;
 
   constructor(
     private apiService: ApiService,
@@ -50,8 +52,10 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
   ngOnInit(): void {
     // this.getOfficerDepartmentReport();
     this.getUrl(this.data[0].value);
-    console.log(this.data);
     this.docId=this.data[1].value
+    this.localStrorageData.langNameOnChange.subscribe(message => {
+      this.langTypeName = message;
+     });
   }
 
   getUrl(id: any) {
@@ -260,6 +264,7 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
       []
     );// Value Name
     this.pdf_excelService.downLoadPdf(keyPDFHeader, ValueData, objData);
+    this.getConfirmation();
   }
 
   downloadExcel(keyPDFHeader: any, objData: any, array: any) {
@@ -268,6 +273,17 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
       []
     );// Value Name
     this.pdf_excelService.generateExcel(keyPDFHeader, ValueData, objData);
+    this.getConfirmation();
+  }
+
+  getConfirmation(){
+    const dialog = this.dialog.open(ConfirmationComponent, {
+      width: '400px',
+      data: { p1: this.langTypeName=='English'? 'Your file is getting downloaded ! ':'तुमची फाईल डाउनलोड होत आहे!'},
+      disableClose: this.apiService.disableCloseFlag,
+    })
+    dialog.afterClosed().subscribe(_res => {
+    })
   }
 }
 
