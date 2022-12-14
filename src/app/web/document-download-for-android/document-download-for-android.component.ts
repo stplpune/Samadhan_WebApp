@@ -159,7 +159,8 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
         if (res.statusCode == 200) {
           this.officeDepReportArray = res.responseData.map((ele: any, index: any) => {
             ele.deptId = index + 1;
-            delete ele.isDeleted
+            delete ele.isDeleted;
+            delete ele.transfered;
             return ele
           });
 
@@ -181,7 +182,8 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
       next: (res: any) => {
         if (res.statusCode == 200) {
           this.officeOffReportArray = res.responseData.map((ele: any, index: any) => {
-            ele.deptId = index + 1; delete ele.isDeleted; delete ele.officeId
+            ele.deptId = index + 1; delete ele.isDeleted; delete ele.officeId;
+            delete ele.rejected;
             return ele
           });
           this.docId==1? this.downloadPdf(keyPDFHeader, objData, this.officeOffReportArray) :this.docId==2? this.downloadExcel(keyPDFHeader, objData, this.officeOffReportArray):'';         
@@ -203,6 +205,7 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
         if (res.statusCode == 200) {
           this.OfficerTalukaReportArray = res.responseData.map((ele: any, index: any) => {
             ele.talukaId = index + 1; delete ele.isDeleted;
+            delete ele.rejected;
             return ele
           });
           this.docId==1? this.downloadPdf(keyPDFHeader, objData, this.OfficerTalukaReportArray) :this.docId==2? this.downloadExcel(keyPDFHeader, objData, this.OfficerTalukaReportArray):'';                
@@ -225,7 +228,7 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
         if (res.statusCode == 200) {
           this.pendencyReportArray = res.responseData.map((ele: any, index: any) => {
             ele.deptId = index + 1;
-            delete ele.isDeleted
+            delete ele.isDeleted;
             return ele
           });
           this.docId==1? this.downloadPdf(keyPDFHeader, objData, this.pendencyReportArray) :this.docId==2? this.downloadExcel(keyPDFHeader, objData, this.pendencyReportArray):'';         
@@ -279,7 +282,7 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
   getConfirmation(){
     const dialog = this.dialog.open(ConfirmationComponent, {
       width: '400px',
-      data: { p1: this.langTypeName=='English'? 'Your file is getting downloaded ! ':'तुमची फाईल डाउनलोड होत आहे!'},
+      data: { p1: 'Your file is getting downloaded !'},
       disableClose: this.apiService.disableCloseFlag,
     })
     dialog.afterClosed().subscribe(_res => {
