@@ -1,5 +1,5 @@
 
-<audio preload="auto"   [autoplay] ="autoPlay">{{autoPlay}}
+<audio preload="auto"  [autoplay] ="autoPlay" id="myAudio"> {{autoPlay}}
   <source src="assets/images/claps.mp3" type="audio/mp3" >
 </audio>
 <div class="curtain" *ngIf="router.url == '/home'"  [class.d-none]="router.url == '/home' && !this.curtainFlag">
