@@ -1,8 +1,8 @@
 <div class="card-height">
-  <div class="row">
+  <div class="row g-3">
     <div class="col-sm-8">
       <form [formGroup]="filterForm">
-        <div class="row">
+        <div class="row g-3">
           <div class="col-sm-6">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>{{'Home.select_department' | translate}}</mat-label>
@@ -28,7 +28,7 @@
           </div>
         </div>
       </form>
-      <div class="">
+      <div class="table-responsive scrollbar">
         <table mat-table [dataSource]="dataSource" class="w-100 dashboard-table">
 
           <ng-container matColumnDef="srNo">
@@ -84,13 +84,11 @@
             [ngClass]="{'highlightedRow ':highlightedRow == row.grievanceTypeId}">
           </tr>
         </table>
-
-        <ng-container *ngIf="totalPages>10">
-          <mat-paginator [pageSize]="10" [length]="totalPages" (page)="pageChanged($event)" showFirstLastButtons>
-          </mat-paginator>
-        </ng-container>
-
       </div>
+      <ng-container *ngIf="totalPages>10">
+        <mat-paginator [pageSize]="10" [length]="totalPages" (page)="pageChanged($event)" showFirstLastButtons>
+        </mat-paginator>
+      </ng-container>
     </div>
     <div class="col-sm-4">
       <div class="card form-card">

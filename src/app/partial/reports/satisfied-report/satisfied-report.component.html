@@ -1,7 +1,7 @@
-    <div class="row">
+    <div class="row g-3">
         <div class="col-sm-12">
             <form [formGroup]="filterForm" #formDirective="ngForm">
-                <div class="row gx-2">
+                <div class="row g-3">
                     <div class="col-sm-2">
                         <mat-form-field appearance="outline" class="w-100">
                             <mat-label>Select Department ID</mat-label>
@@ -25,13 +25,13 @@
                             <mat-date-range-picker #picker [disabled]="false"></mat-date-range-picker>
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-auto">
+                    <div class="col col-sm-auto">
                         <button mat-stroked-button class="btn-main me-2" type="submit"
                             (click)="pageNo = 1;getOfficerIsSatisfiedReport()">Search</button>
                         <button mat-stroked-button class="btn-main-outline me-2" type="button"
                             (click)="clearFilter()">Clear</button>
                     </div>
-                    <div class="col-sm text-end">
+                    <div class="col col-sm text-end">
                         <button mat-stroked-button [matMenuTriggerFor]="menu" class="btn-main" *ngIf="officeIsSatisfiedReportArray.length!=0">Download</button>
                         <mat-menu #menu="matMenu">
                             <button mat-menu-item (click)="downloadExcel()"><i
@@ -42,7 +42,7 @@
                     </div>
                 </div>
             </form>
-            <div class="table-responsive table-height scrollbar">
+            <div class="table-responsive table-height scrollbar my-3">
                 <table mat-table [dataSource]="dataSource" class="dashboard-table w-100">
     
                     <ng-container matColumnDef="position">
