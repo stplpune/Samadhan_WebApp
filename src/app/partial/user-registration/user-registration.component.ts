@@ -409,11 +409,13 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   userBlockUnBlockModal(element: any, event: any) {
     this.highlightedRow = element.id;
     let Title: string, dialogText: string;
-    event.checked == true ? Title = 'Block User' : Title = 'Unblock User';
-    event.checked == true ? dialogText = 'Do you want to Block the user?' : dialogText = 'Do you want to Unblock the user?';
+    // event.checked == true ? Title = 'Block User' : Title = 'Unblock User';
+    event.checked == true ? (this.langTypeName=='English'? Title = 'Block User': Title ='वापरकर्त्याला ब्लॉक करा') : (this.langTypeName=='English'? Title = 'Unblock User': Title ='वापरकर्त्याला अनब्लॉक करा') 
+    // event.checked == true ? dialogText = 'Do you want to Block the user?' : dialogText = 'Do you want to Unblock the user?';
+    event.checked == true ? (this.langTypeName=='English'? dialogText = 'Do you want to Block the user?' : dialogText='तुम्ही वापरकर्त्याला ब्लॉक करू इच्छिता?')  : (this.langTypeName=='English'? dialogText = 'Do you want to Unblock the user?' : dialogText='तुम्ही वापरकर्त्याला अनब्लॉक करू इच्छिता?');
     const dialogRef = this.dialog.open(ConfirmationComponent, {
-      width: '340px',
-      data: { p1: dialogText, p2: '', cardTitle: Title, successBtnText: 'Yes', dialogIcon: 'done_outline', cancelBtnText: 'No' },
+      width: '400px',
+      data: { p1: dialogText, p2: '', cardTitle: Title, successBtnText:(this.langTypeName=='English'? 'Yes' : 'होय'), dialogIcon: 'done_outline', cancelBtnText:(this.langTypeName=='English'? 'No':'नाही')},
       disableClose: this.apiService.disableCloseFlag,
     });
     dialogRef.afterClosed().subscribe((res: any) => {
@@ -511,7 +513,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   deleteUserData() {
     const dialog = this.dialog.open(ConfirmationComponent, {
       width: '400px',
-      data: { p1: 'Are you sure you want to delete this record?', p2: '', cardTitle: 'Delete', successBtnText: 'Delete', dialogIcon: '', cancelBtnText: 'Cancel' },
+      data: { p1:this.langTypeName=='English' ? 'Are you sure you want to delete this record?' : 'तुमची खात्री आहे की तुम्ही हा रेकॉर्ड हटवू इच्छिता?', p2: '', cardTitle: this.langTypeName=='English' ? 'Delete' :'हटवा', successBtnText: this.langTypeName=='English' ? 'Delete' :'हटवा', dialogIcon: '', cancelBtnText: this.langTypeName=='English' ? 'Cancel' :'रद्द करा' },
       disableClose: this.apiService.disableCloseFlag,
     })
     dialog.afterClosed().subscribe(res => {

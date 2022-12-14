@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { DocumentDownloadForAndroidRoutingModule } from './document-download-for-android-routing.module';
 import { DocumentDownloadForAndroidComponent } from './document-download-for-android.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { DocumentDownloadForAndroidComponent } from './document-download-for-and
   ],
   imports: [
     CommonModule,
-    DocumentDownloadForAndroidRoutingModule
+    DocumentDownloadForAndroidRoutingModule,
+    TranslateModule
   ]
 })
 export class DocumentDownloadForAndroidModule { }
