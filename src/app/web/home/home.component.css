@@ -101,8 +101,15 @@
 }
 
 @media only screen and (max-width: 478px){
-    #grievance-status,
-    #samadhan-app-info {
-    padding: 14px;
+    #grievance-status
+        {
+            padding: 14px;
+        }
+    #samadhan-app-info 
+        {
+            padding: 0px 14px;
+        }
 }
+.navbar .navbar-toggler:focus {
+    box-shadow:unset !important;
 }
