@@ -38,7 +38,7 @@ export class WebLayoutComponent implements OnInit {
     if(!event?.target.checked){
       setTimeout(() => {
         this.curtainFlag =  event?.target.checked ;
-      }, 7000);
+      }, 10000);
     }
   }
 }
