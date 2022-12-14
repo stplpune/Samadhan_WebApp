@@ -1,5 +1,5 @@
 <div class="dialog-header">
-    <span>My Profile</span>
+    <span>{{'Home.my_profile' | translate}}</span>
     <!-- <button mat-icon-button (click)="closeDialog()">
         <span class="material-symbols-outlined">
             close
@@ -34,13 +34,13 @@
             </div>
             <div class="col-sm-4">
                 <mat-form-field appearance="outline" class="w-100">
-                    <mat-label>First Name</mat-label>
+                    <mat-label>{{'Home.firstName'| translate}}</mat-label>
                     <input matInput formControlName="name" maxlength="20"
                         (keypress)="validation.noFirstSpaceAllow($event);validation.alphabetsWithSpaces($event)">
                     <mat-error *ngIf="f['name']?.errors">
-                        <span *ngIf="f['name']?.hasError('required')"> Name is required</span>
+                        <span *ngIf="f['name']?.hasError('required')"> {{'Home.name_is_required'| translate}}</span>
                         <span *ngIf="f['name'].hasError('pattern')">
-                            Pelase enter valid Name</span>
+                            {{'Home.name_pattern'| translate}}</span>
                     </mat-error>
                 </mat-form-field>
             </div>
@@ -52,32 +52,32 @@
         </div> -->
             <div class="col-sm-4">
                 <mat-form-field appearance="outline" class="w-100">
-                    <mat-label>Mobile No.</mat-label>
+                    <mat-label>{{'Home.mobileNo'| translate}}</mat-label>
                     <input matInput formControlName="mobileNo" maxlength="10"
                         (keypress)="validation.acceptedOnlyNumbers($event)">
                     <mat-error *ngIf="f['mobileNo']?.errors">
-                        <span *ngIf="f['mobileNo']?.hasError('required')"> Mobile No. is required</span>
+                        <span *ngIf="f['mobileNo']?.hasError('required')"> {{'Home.mobileNo_required'| translate}}</span>
                         <span *ngIf="f['mobileNo']?.hasError('pattern') || f['mobileNo']?.hasError('minlength')">
-                            Please enter valid Mobile No. </span>
+                            {{'Home.mobile_pattern'| translate}} </span>
                     </mat-error>
                 </mat-form-field>
             </div>
             <div class="col-sm-4">
                 <mat-form-field appearance="outline" class="w-100">
-                    <mat-label>Email ID</mat-label>
+                    <mat-label>{{'Home.Email_Id'| translate}} </mat-label>
                     <input matInput formControlName="emailId" maxlength="100"
                         (keypress)="validation.alphaNumericWithSpacesAndSpecChars($event)">
                     <mat-error *ngIf="f['emailId']?.errors">
-                        <span *ngIf="f['emailId']?.hasError('required')"> Email ID is required</span>
-                        <span *ngIf="f['emailId']?.hasError('pattern')"> Please enter valid Email ID
+                        <span *ngIf="f['emailId']?.hasError('required')">{{'Home.emailId_is_required' | translate}}</span>
+                        <span *ngIf="f['emailId']?.hasError('pattern')"> {{'Home.emailId_pattern' | translate}}
                         </span>
                     </mat-error>
                 </mat-form-field>
             </div>
             <div class="col-sm-12">
                 <div class="mb-0 text-end">
-                    <button mat-stroked-button class="bg-main-light text-main me-2" (click)=" ClearAll()">Close</button>
-                    <button mat-stroked-button class="bg-main" type="submit">Update Profile</button>
+                    <button mat-stroked-button class="bg-main-light text-main me-2" (click)=" ClearAll()"> {{'Home.cancel' | translate}}</button>
+                    <button mat-stroked-button class="bg-main" type="submit">{{'Home.update_Profile' | translate}}</button>
                 </div>
             </div>
         </div>
