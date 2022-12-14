@@ -93,7 +93,8 @@
 }
 #logos .india75,
 #logos .clean-india,
-#topbar .top-content a {
+#topbar .top-content a,
+#topbar .btn-font {
     display: none;
 }
 
