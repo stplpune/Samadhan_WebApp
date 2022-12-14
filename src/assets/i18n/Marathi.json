@@ -40,7 +40,7 @@
         "cancel": "रद्द करा",
         "submit": "सबमिट करा",
         "department_req_val": "विभाग आवश्यक आहे",
-        "department_valid_val": "कृपया प्रविष्ट करा वैध विभागाचे नाव",
+        "department_valid_val": "कृपया विभागाचे वैध नाव प्रविष्ट करा ",
         "department_marathi_req_val": "विभागाचे मराठी नाव आवश्यक आहे",
         "all_dept": "सर्व विभाग",
         "office":"कार्यालय",
@@ -106,7 +106,7 @@
         "Fax-no":"फॅक्स क्र. :",
         "Email":"ईमेल :",
         "Residential-dy":"निवासी उपजिल्हाधिकारी,",
-        "search":"शोध",
+        "search":"शोधा",
 
         "addUser":"वापरकर्ता जोडा",
         "updateUser":"वापरकर्ता अपडेट करा ",
