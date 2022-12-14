@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { ApiService } from 'src/app/core/service/api.service';
 import { CommonMethodService } from 'src/app/core/service/common-method.service';
 import { ErrorHandlerService } from 'src/app/core/service/error-handler.service';
 import { FormsValidationService } from 'src/app/core/service/forms-validation.service';
+import { WebStorageService } from 'src/app/core/service/web-storage.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -25,13 +27,16 @@ export class ForgotPasswordComponent implements OnInit {
   interval: any;
   verifyMobile:any;
   verifyUserName:any;
+  langTypeName:any;
   constructor(private fb: FormBuilder,
     private apiService: ApiService,
     private common: CommonMethodService,
     private error: ErrorHandlerService,
     private router: Router,
     public validation: FormsValidationService,
-    private commomMethod:CommonMethodService
+    private commomMethod:CommonMethodService,
+    private webStorageService:WebStorageService,
+    public translate:TranslateService
   ) { }
 
   ngOnInit(): void {
@@ -55,6 +60,13 @@ export class ForgotPasswordComponent implements OnInit {
       confirmPassword: ['', [Validators.required, Validators.pattern(this.validation.valPassword)]],
       // mobileNo: ['', [Validators.required, Validators.pattern(/^[6-9][0-9]{9}$/)]]
     })
+
+    this.webStorageService.langNameOnChange.subscribe(message => {
+      this.langTypeName = message;
+
+     });
+     let lang:any =sessionStorage.getItem('language');
+     this.translate.use(lang);
   }
 
   get f() { return this.sendOTPForm.controls; }
