@@ -1,7 +1,7 @@
-  <div class="row">
+  <div class="row g-3">
     <div class="col-sm-12">
       <form [formGroup]="filterForm" #formDirective="ngForm">
-        <div class="row gx-2">
+        <div class="row g-2">
           <div class="col-sm-9">
             <div class="row">
               <div class="col-sm-3">
@@ -26,31 +26,34 @@
                   <mat-date-range-picker #picker [disabled]="false"></mat-date-range-picker>
                 </mat-form-field>
               </div>
-              <div class="col-sm-auto">
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="row">
+              <div class="col col-sm-auto">
                 <button mat-stroked-button class="btn-main me-2" type="submit"
                   (click)="pageNo = 1;getOfficerDepartmentReport()">Search</button>
                 <button mat-stroked-button class="btn-main-outline me-2" type="button"
               (click)="clearFilter()">Clear</button>
               </div>
+              <div class="col col-sm text-end">
+                <button mat-stroked-button [matMenuTriggerFor]="menu" class="btn-main" *ngIf="officeDepReportArray.length!=0">Download</button>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item  (click)="downloadExcel()">
+                    <i class="fa-solid fa-file-excel text-success me-2"></i>
+                    <span>Excel</span>
+                  </button>
+                  <button mat-menu-item  (click)="downloadPdf()">
+                    <i class="fa-solid fa-file-pdf text-danger me-2"></i>
+                    <span>Pdf</span>
+                  </button>
+                </mat-menu>
+              </div>
             </div>
-          </div>
-          <div class="col-sm-3 text-end">
-            
-            <button mat-stroked-button [matMenuTriggerFor]="menu" class="btn-main" *ngIf="officeDepReportArray.length!=0">Download</button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item  (click)="downloadExcel()">
-                <i class="fa-solid fa-file-excel text-success me-2"></i>
-                <span>Excel</span>
-              </button>
-              <button mat-menu-item  (click)="downloadPdf()">
-                <i class="fa-solid fa-file-pdf text-danger me-2"></i>
-                <span>Pdf</span>
-              </button>
-            </mat-menu>
           </div>
         </div>
       </form>
-      <div class="table-responsive  table-height scrollbar">
+      <div class="table-responsive  table-height scrollbar my-3">
         <table mat-table [dataSource]="dataSource" class="dashboard-table w-100">
 
           <ng-container matColumnDef="srNo">

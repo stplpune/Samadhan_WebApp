@@ -1,7 +1,7 @@
-<div class="row">
+<div class="row g-3">
   <div class="col-sm-12">
     <form [formGroup]="userRightFrm" (ngSubmit)="onSubmit()">
-      <div class="row gx-2">
+      <div class="row g-3">
         <div class="col-sm-3">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>{{'Home.userType' | translate}}</mat-label>
@@ -26,13 +26,13 @@
               (keypress)="validation.noSpacesAtStart($event)" maxlength="100">
           </mat-form-field>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-3 mb-3">
           <button mat-stroked-button class="btn-main me-2" type="submit">{{'Home.search' | translate}}</button>
           <button mat-stroked-button class="btn-main-outline" type="button" (click)="resetFilter()">{{'Home.cancel' | translate}}</button>
         </div>
       </div>
     </form>
-    <div class="table-height scollbar">
+    <div class="table-responsive table-height scrollbar">
       <table mat-table [dataSource]="dataSource" class="dashboard-table w-100">
         <ng-container matColumnDef="srno">
           <th mat-header-cell *matHeaderCellDef class="srno"> {{'Home.sr_no' | translate}} </th>
@@ -65,10 +65,10 @@
           [ngClass]="{'highlightedRow ':highlightedRow == row.id}">
         </tr>
       </table>
-      <ng-container *ngIf="totalRows > 10">
-        <mat-paginator [pageSize]="10" [length]="totalRows" showFirstLastButtons (page)="pageChanged($event)">
-        </mat-paginator>
-      </ng-container>
     </div>
+    <ng-container *ngIf="totalRows > 10">
+      <mat-paginator [pageSize]="10" [length]="totalRows" showFirstLastButtons (page)="pageChanged($event)">
+      </mat-paginator>
+    </ng-container>
   </div>
 </div>
