@@ -137,7 +137,7 @@ export class DepartmentReportComponent implements OnInit {
             this.officeDepReportArray.push(obj);
          });
               
-          console.log(this.officeDepReportArray);
+
           this.totalPages = res.responseData1?.pageCount;
           this.reportArray=[];
           this.spinner.hide();

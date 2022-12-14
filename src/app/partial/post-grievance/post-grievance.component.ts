@@ -398,7 +398,6 @@ export class PostGrievanceComponent implements OnInit {
   // }
 
   onSubmitForm() {
-    console.log(this.postGrievanceForm.controls)
     if (this.postGrievanceForm.invalid) {
       return
     } else if (!this.grievanceImageArray.length) {

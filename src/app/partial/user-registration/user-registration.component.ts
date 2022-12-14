@@ -347,8 +347,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   //#region  submit and update formadata  fn Start here
   onSubmit() {
     // this.spinner.show();
-    console.log(this.userFrm.controls)
-
+   
     if (this.userFrm.invalid) {
       return;
     }

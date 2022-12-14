@@ -82,7 +82,7 @@ export class SamadhanReportComponent implements OnInit {
     //   this.filterForm.controls['toDate'].setValue(new Date(this.data.toDate));
     // }
     this.getUrl();
-    console.log( this.filterForm);
+    
     
   }
 
@@ -147,7 +147,7 @@ export class SamadhanReportComponent implements OnInit {
   getReport() {
     this.spinner.show();
     let formData = this.filterForm.value;
-    console.log(formData);
+    
     formData.fromDate = formData.fromDate ? this.datePipe.transform(formData.fromDate, 'yyyy/MM/dd') : '';
     formData.toDate = formData.toDate ? this.datePipe.transform(formData.toDate, 'yyyy/MM/dd') : '';
 
@@ -164,7 +164,7 @@ export class SamadhanReportComponent implements OnInit {
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {
-          console.log(res.responseData);
+          
           // this.dataSource = new MatTableDataSource(res.responseData);
           this.reportData = res.responseData
           this.dataSource = this.reportData;
@@ -182,7 +182,7 @@ export class SamadhanReportComponent implements OnInit {
             }
             this.reportArray.push(obj);
           });
-          console.log(this.reportArray);
+       
           this.totalPages = res.responseData1.pageCount;
           this.selecteColumn();
           this.spinner.hide();
@@ -225,13 +225,13 @@ export class SamadhanReportComponent implements OnInit {
       keyPDFHeader.push(ele.header);
     })
 
-    console.log(keyPDFHeader);
+    
     let ValueData = this.reportArray.reduce(
       (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
       []
     );
 
-    console.log(ValueData);
+  
     this.objData = {
       'topHedingName': this.heading[0] + ' ' + this.heading[1],
       'createdDate': 'Created on:' + this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a')
