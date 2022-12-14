@@ -1,6 +1,6 @@
 
 <div class="dialog-header">
-    <span>Logout</span>
+    <span>{{'Home.logout'| translate}}</span>
     <!-- <button mat-icon-button (click)="closeModal('No')">
         <span class="material-symbols-outlined">
             close
@@ -11,10 +11,10 @@
     <div class="text-center">
         <i class="fa-solid fa-arrow-right-from-bracket fa-3x mb-3"></i>
 
-        <h5 class="text-main mb-3">Are You Sure?</h5>
+        <h5 class="text-main mb-3">{{'Home.sure_logout'| translate}}</h5>
         <div class="mb-0">
-            <button mat-stroked-button class="bg-main-light text-main me-2" (click)=" dialogRef.close('No')">Cancel</button>
-            <button mat-stroked-button class="bg-main" (click)=" dialogRef.close('Yes')">Logout</button>
+            <button mat-stroked-button class="bg-main-light text-main me-2" (click)=" dialogRef.close('No')">{{'Home.cancel'| translate}}</button>
+            <button mat-stroked-button class="bg-main" (click)=" dialogRef.close('Yes')">{{'Home.logout'| translate}}</button>
         </div>
     </div>
 </div>

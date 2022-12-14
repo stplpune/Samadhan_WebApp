@@ -173,6 +173,7 @@
         "confirm_pass":"Confirm Password",
         "confirm_pass_req":"Please enter Confirm Password",
         "confirm_pass_patt":"Please enter valid Confirm Password",
+        "sure_logout":"Are You Sure?",
 
         "no_data_found":"No Data Found",
         "Download":"Download the app from",
