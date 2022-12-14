@@ -49,3 +49,29 @@
     border-radius: 0.375rem;
     color: #fff;
 }
+
+.navbar>.container,
+.navbar>.container-fluid, 
+.navbar>.container-lg, 
+.navbar>.container-md, 
+.navbar>.container-sm, 
+.navbar>.container-xl, 
+.navbar>.container-xxl {
+        flex-wrap: unset; 
+        padding-right: 0px;
+    }
+@media only screen and (max-width: 478px){
+    /* .navbar>.container,
+    .navbar>.container-fluid, 
+    .navbar>.container-lg, 
+    .navbar>.container-md, 
+    .navbar>.container-sm, 
+    .navbar>.container-xl, 
+    .navbar>.container-xxl {
+            flex-wrap: unset; 
+            padding-right: 0px;
+        } */
+    .navbar-brand {
+        width: 136px ;
+    }
+}
