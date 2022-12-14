@@ -86,3 +86,15 @@
     background-color: #F5A837;
     color: #000;
 }
+
+@media only screen and (max-width: 478px){
+    #logos .samadhan-logo {
+    width: 150px;
+}
+#logos .india75,
+#logos .clean-india,
+#topbar .top-content a {
+    display: none;
+}
+
+}
