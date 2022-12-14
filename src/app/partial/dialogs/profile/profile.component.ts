@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild,ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { ApiService } from 'src/app/core/service/api.service';
 import { CommonMethodService } from 'src/app/core/service/common-method.service';
@@ -25,6 +26,8 @@ export class ProfileComponent implements OnInit {
   @ViewChild(FormGroupDirective) formGroupDirective!: FormGroupDirective;
   @ViewChild('fileInput') fileInput!: ElementRef;
   profileImg: any;
+  langTypeName:any;
+  selectedLang:any;
   constructor(
     private apiService:ApiService,
     private commonService:CommonMethodService,
@@ -34,7 +37,8 @@ export class ProfileComponent implements OnInit {
     public validation:FormsValidationService,
     private error:ErrorHandlerService,
     private uploadFilesService:FileUploadService,
-    public dialogRef: MatDialogRef<ProfileComponent>
+    public dialogRef: MatDialogRef<ProfileComponent>,
+    public translate:TranslateService
   ) { }
 
   localstorageData :any =this.localstorageService.getLoggedInLocalstorageData();
@@ -43,7 +47,16 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.defaultForm();
     this.getUserRegistration();
+    this.localstorageService.langNameOnChange.subscribe(message => {
+      this.langTypeName = message;
+     });
    
+  }
+
+  translateLanguageTo(lang: any) {
+    this.selectedLang = lang;
+    sessionStorage.setItem('language', lang);
+    this.translate.use(lang);
   }
 
   defaultForm(){

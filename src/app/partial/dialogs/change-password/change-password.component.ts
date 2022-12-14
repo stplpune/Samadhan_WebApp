@@ -8,6 +8,7 @@ import { WebStorageService } from 'src/app/core/service/web-storage.service'
 import { Router } from '@angular/router';
 import { CommonMethodService } from 'src/app/core/service/common-method.service';
 import { FormsValidationService } from 'src/app/core/service/forms-validation.service';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',
@@ -17,7 +18,9 @@ export class ChangePasswordComponent implements OnInit {
   hideCurrentPass:boolean = true;
   hideNewPass:boolean = true; 
   hideConfirmPass:boolean = true; 
-  changePasswordFrm!: FormGroup
+  changePasswordFrm!: FormGroup;
+  langTypeName:any;
+  selectedLang:any;
   @ViewChild(FormGroupDirective) formGroupDirective!: FormGroupDirective;
   localstorageData = this.webstorageService.getLoggedInLocalstorageData();
   constructor(public dialogRef: MatDialogRef<ChangePasswordComponent>,
@@ -28,7 +31,8 @@ export class ChangePasswordComponent implements OnInit {
     private webstorageService: WebStorageService,
     private router: Router,
     private common: CommonMethodService,
-    public validation: FormsValidationService) { 
+    public validation: FormsValidationService,
+    public translate:TranslateService) { 
        dialogRef.disableClose = true;
       dialogRef.backdropClick().subscribe(_ => {
       dialogRef.close();
@@ -41,6 +45,16 @@ export class ChangePasswordComponent implements OnInit {
       newPassword: ['', [Validators.required, Validators.pattern(this.validation.valPassword)]],
       confirmPassword: ['', [Validators.required, Validators.pattern(this.validation.valPassword)]],
     })
+
+    this.webstorageService.langNameOnChange.subscribe(message => {
+      this.langTypeName = message;
+     });
+  }
+
+  translateLanguageTo(lang: any) {
+    this.selectedLang = lang;
+    sessionStorage.setItem('language', lang);
+    this.translate.use(lang);
   }
 
   get f() {
