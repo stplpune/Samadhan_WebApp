@@ -46,7 +46,7 @@
     position: relative;
     width: 50%;
     height: 100vh;
-    transition: all 1s ease-out;
+    transition: all 8s ease-out;
     z-index: 2;
     background-image: url('https://media.istockphoto.com/id/172517528/photo/red-curtain.jpg?b=1&s=170667a&w=0&k=20&c=h4KDCZTMYjq7_6n61pfQ6SyYkXfwmwq_IoCE7IG4CJ4=');
     background-repeat: no-repeat;
