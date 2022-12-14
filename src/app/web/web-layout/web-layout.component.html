@@ -1,5 +1,5 @@
 
-<audio preload="auto"   [autoplay] ="autoPlay">{{autoPlay}}
+<audio preload="auto"  [autoplay] ="autoPlay" id="myAudio"> {{autoPlay}}
   <source src="assets/images/claps.mp3" type="audio/mp3" >
 </audio>
 <div class="curtain" *ngIf="router.url == '/home'"  [class.d-none]="router.url == '/home' && !this.curtainFlag">
@@ -7,7 +7,7 @@
       <input type="checkbox" checked (change)="selCheckBox($event)">
       <label for="Ford"></label>
       <div class="curtain__panel curtain__panel--left">
-        <h1>Click to &nbsp;</h1>
+        <h1>Click to&nbsp;</h1>
       </div>
       <div class="curtain__content">
         <img src="assets/images/Samadhan-color-logo.png">
@@ -15,7 +15,7 @@
       </div>
 
       <div class="curtain__panel curtain__panel--right">
-        <h1>reveal...</h1>
+        <h1>Inaugurate...</h1>
       </div>
     </div>
   </div>
