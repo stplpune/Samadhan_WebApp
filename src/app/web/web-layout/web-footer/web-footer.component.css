@@ -1,5 +1,5 @@
 #web-footer {
-    background-color: #000;
+    background-color: #474747;
     color: #fff;
     padding: 50px 50px 20px 50px;
 }
@@ -27,7 +27,7 @@
     outline: none;
     border: none !important;
     background-color: rgba(var(--main-color), var(--opacity-1));
-    color: #000;
+    color: #fff;
     width: 40px;
     height:40px;
     line-height:40px;
