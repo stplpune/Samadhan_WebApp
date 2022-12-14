@@ -91,6 +91,10 @@ export class TalukaReportComponent implements OnInit {
         return
       } 
     }
+
+    if( formData.fromDate && formData.toDate){
+      localStorage.setItem('dateRange',JSON.stringify(formData));
+    }
     
     this.OfficerTalukaReportArray=[];
     let obj = formData.TalukaId + '&userid=' + this.localStrorageData.getUserId() + '&fromDate=' + formData.fromDate + '&toDate=' + formData.toDate
@@ -138,7 +142,7 @@ export class TalukaReportComponent implements OnInit {
     });
   }
 
-  keyPDFHeader = ['SrNo', "Taluka Name","Total","Open", "Accept", "Resolve","Partial Resolve","Transfer"];
+  keyPDFHeader = ['SrNo', "Taluka Name","Total","Opened", "Accepted", "Resolved","Partial Resolved","Transferred"];
 
   downloadExcel() {
     let fromdate:any;
@@ -154,7 +158,7 @@ export class TalukaReportComponent implements OnInit {
       []
     );// Value Name
     let objData:any = {
-      'topHedingName': 'Office Taluka Report',
+      'topHedingName': 'Taluka Report',
       'createdDate':'Created on:'+ this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a')
     }
 
@@ -184,7 +188,7 @@ export class TalukaReportComponent implements OnInit {
         []
       );// Value Name
     let objData:any = {
-      'topHedingName': 'Office Taluka Report',
+      'topHedingName': 'Taluka Report',
       'createdDate':'Created on:'+ this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a')
     }
 

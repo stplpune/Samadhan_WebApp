@@ -103,7 +103,10 @@ export class DepartmentReportComponent implements OnInit {
         return
       } 
     }
-
+    if( formData.fromDate && formData.toDate){
+      localStorage.setItem('dateRange',JSON.stringify(formData));
+    }
+    
     this.officeDepReportArray=[];
     let obj = formData.searchdeptId + '&userid='+ this.userId + '&fromDate='+ formData.fromDate + '&toDate='+ formData.toDate
     this.apiService.setHttp('get','api/ShareGrievances/OfficerDepartmentReport?searchdeptId=' + obj,false,false,false,'samadhanMiningService');
@@ -186,7 +189,7 @@ export class DepartmentReportComponent implements OnInit {
       (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
       []
     );// Value Name
-    let keyPDFHeader = ["SrNo", "Department Name","Total","Open", "Accept", "Resolve","Partial Resolve","Transfer"];
+    let keyPDFHeader = ["SrNo", "Department Name","Total","Opened", "Accepted", "Resolved","Partial Resolved","Transferred"];
     
 
     let objData:any = {
@@ -214,7 +217,7 @@ export class DepartmentReportComponent implements OnInit {
     formData.fromDate = formData.fromDate ? this.datePipe.transform(formData.fromDate, 'yyyy/MM/dd') : '';
     formData.toDate = formData.toDate ? this.datePipe.transform(formData.toDate, 'yyyy/MM/dd') : '';
 
-    let keyPDFHeader = ["SrNo", "Department Name", "Total","Open", "Accept", "Resolve","Partial Resolve","Transfer"];
+    let keyPDFHeader = ["SrNo", "Department Name","Total","Opened", "Accepted", "Resolved","Partial Resolved","Transferred"];
     let ValueData = this.officeDepReportArray.reduce(
       (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
       []

@@ -1,8 +1,8 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit, Optional, Inject } from '@angular/core';
+import { Component, OnInit, Optional } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef} from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 // import { MatTableDataSource } from '@angular/material/table';
 // import { Router } from '@angular/router';
@@ -40,6 +40,7 @@ export class SamadhanReportComponent implements OnInit {
   redirectGetData:any;
   heading=new Array();
   todayDate=new Date();
+  data:any;
 
   constructor(
     private apiService: ApiService,
@@ -57,7 +58,7 @@ export class SamadhanReportComponent implements OnInit {
     private route: ActivatedRoute,
     // private router:Router,
     @Optional() public dialogRef: MatDialogRef<SamadhanReportComponent>,
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: any
+    // @Optional() @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.userId = this.localStrorageData.getUserId();
 
@@ -71,17 +72,25 @@ export class SamadhanReportComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.redirectGetData);
-    this.filterform();
-    this.getUrl();
+   let dateData:any = localStorage.getItem('dateRange');
+    this.data = JSON.parse(dateData);
+    this.data ?  this.filterform(this.data): this.filterform()
+ 
     this.getdepartment(this.userId);
+    // if(this.data){
+    //   this.filterForm.controls['fromDate'].setValue(new Date(this.data.fromDate));
+    //   this.filterForm.controls['toDate'].setValue(new Date(this.data.toDate));
+    // }
+    this.getUrl();
+    console.log( this.filterForm);
+    
   }
 
-  filterform() {
+  filterform(data?:any) {
     this.filterForm = this.fb.group({
       // searchdeptId: [0],
-      fromDate: [''],
-      toDate: ['']
+      fromDate: [ data ? new Date(data?.fromDate) : ''],
+      toDate: [data ? new Date(data?.toDate) : '']
     })
   }
 
@@ -138,6 +147,7 @@ export class SamadhanReportComponent implements OnInit {
   getReport() {
     this.spinner.show();
     let formData = this.filterForm.value;
+    console.log(formData);
     formData.fromDate = formData.fromDate ? this.datePipe.transform(formData.fromDate, 'yyyy/MM/dd') : '';
     formData.toDate = formData.toDate ? this.datePipe.transform(formData.toDate, 'yyyy/MM/dd') : '';
 
@@ -276,7 +286,9 @@ export class SamadhanReportComponent implements OnInit {
     this.filterform();
     this.getReport();
   }
-
+ngOnDestroy(): void {
+  localStorage.removeItem("dateRange");  
+}
 }
 
 

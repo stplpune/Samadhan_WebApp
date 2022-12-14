@@ -101,6 +101,10 @@ export class PendencyReportComponent implements OnInit {
         return
       } 
     }
+
+    if( formData.fromDate && formData.toDate){
+      localStorage.setItem('dateRange',JSON.stringify(formData));
+    }
     this.pendencyReportArray=[];
     let obj = formData.searchdeptId + '&userid='+ this.localStrorageData.getUserId() + '&fromDate='+ formData.fromDate + '&toDate='+ formData.toDate
     this.apiService.setHttp('get','api/ShareGrievances/OfficerPendencyReport?searchdeptId=' + obj,false,false,false,'samadhanMiningService');
@@ -168,7 +172,7 @@ export class PendencyReportComponent implements OnInit {
     formData.fromDate = formData.fromDate ? this.datePipe.transform(formData.fromDate, 'yyyy/MM/dd') : '';
     formData.toDate = formData.toDate ? this.datePipe.transform(formData.toDate, 'yyyy/MM/dd') : '';
 
-    let keyPDFHeader = ['srNo', 'departmentname','received', 'pending','ApprovedLess < 7 days','ApprovedLess 8-15 days','ApprovedLess 16-30 days','ApprovedGrt > 30 days'];
+    let keyPDFHeader = ['srNo', 'Departmentname','received', 'pending','ApprovedLess < 7 days','ApprovedLess 8-15 days','ApprovedLess 16-30 days','ApprovedGrt > 30 days'];
     let ValueData = this.pendencyReportArray.reduce(
       (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
       []

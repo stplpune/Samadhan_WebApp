@@ -123,6 +123,10 @@ export class OfficeReportComponent implements OnInit {
       } 
     }
 
+    if( formData.fromDate && formData.toDate){
+      localStorage.setItem('dateRange',JSON.stringify(formData));
+    }
+
     this.officeOffReportArray=[];
     let obj = formData.searchdeptId + '&searchofcId=' + formData.searchofcId +'&userid=' + this.localStrorageData.getUserId() + '&fromDate=' + formData.fromDate + '&toDate=' + formData.toDate
     this.apiService.setHttp('get', 'api/ShareGrievances/OfficerOfficeReport?searchdeptId=' + obj, false, false, false, 'samadhanMiningService');
@@ -144,7 +148,7 @@ export class OfficeReportComponent implements OnInit {
               'officeName':ele.officeName,
               'received':ele.received,
               'opened':ele.openn,
-              'rejected':ele.rejected,
+              // 'rejected':ele.rejected,
               'resolved':ele.resolved,
               'accepted':ele.accepted,
               'partialResloved':ele.partialResloved,
@@ -200,10 +204,10 @@ export class OfficeReportComponent implements OnInit {
       []
     );// Value Name
     let objData:any = {
-      'topHedingName': 'Office Taluka Report',
+      'topHedingName': 'Office Report',
       'createdDate':'Created on:'+this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a')
     }
-    let keyPDFHeader = ['SrNo', "Department Name", "Office Name", "Total","Open", "Accept", "Resolve","Partial Resolve","Transfer"];
+    let keyPDFHeader = ['SrNo', "Department Name", "Office Name", "Total","Opend", "Acceptd", "Resolved","Partial Resolved","Transferred"];
 
     checkFromDateFlag = formData.fromDate == '' || formData.fromDate == null || formData.fromDate == 0 || formData.fromDate == undefined ? false : true;
         checkToDateFlag =  formData.toDate == '' ||  formData.toDate == null ||  formData.toDate == 0 ||  formData.toDate == undefined ? false : true;
@@ -224,14 +228,14 @@ export class OfficeReportComponent implements OnInit {
     formData.fromDate = formData.fromDate ? this.datePipe.transform(formData.fromDate, 'yyyy/MM/dd') : '';
     formData.toDate = formData.toDate ? this.datePipe.transform(formData.toDate, 'yyyy/MM/dd') : '';
 
-    let keyPDFHeader = ['SrNo', "Department Name", "Office Name", "Total","Open", "Accept", "Resolve","Partial Resolve","Transfer"];
+    let keyPDFHeader = ['SrNo', "Department Name", "Office Name", "Total","Opend", "Acceptd", "Resolved","Partial Resolved","Transferred"];
     let ValueData =
       this.officeOffReportArray.reduce(
         (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
         []
       );// Value Name
       let objData:any = {
-        'topHedingName': 'Office Taluka Report',
+        'topHedingName': 'Office Report',
         'createdDate':'Created on:'+this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a')
       }
       
