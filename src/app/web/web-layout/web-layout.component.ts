@@ -11,7 +11,7 @@ export class WebLayoutComponent implements OnInit {
   hideHeader: boolean = true;
   hideFooter: boolean = true;
   curtainFlag:boolean = true;
-
+  autoPlay = 'false';
   constructor(public router: Router) {
     if (this.router.url == '/login' || this.router.url == '/forgot-password' || this.router.url.includes('/grievance-details') || this.router.url.includes('/document-download-for-android')) {
       this.hideHeader = false;
@@ -34,10 +34,13 @@ export class WebLayoutComponent implements OnInit {
   }
 
   selCheckBox(event:any){
+    this.autoPlay ='true';
+
+    console.log(this.autoPlay);
     if(!event?.target.checked){
       setTimeout(() => {
-        this.curtainFlag =  event?.target.checked ;
-      }, 850);
+        this.curtainFlag =  event?.target.checked ;        
+      }, 7000);
     }
   }
 }

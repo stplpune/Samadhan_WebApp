@@ -1,5 +1,7 @@
 
-
+<audio preload="auto"   [autoplay] ="autoPlay">{{autoPlay}}
+  <source src="assets/images/claps.mp3" type="audio/mp3" >
+</audio>
 <div class="curtain" *ngIf="router.url == '/home'"  [class.d-none]="router.url == '/home' && !this.curtainFlag">
     <div class="curtain__wrapper">
       <input type="checkbox" checked (change)="selCheckBox($event)">
