@@ -142,7 +142,7 @@ export class DepartmentReportComponent implements OnInit {
           this.spinner.hide();
           this.dataSource = [];
           this.reportArray=[];
-         
+          this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
           this.totalPages = 0;
         }
       },
