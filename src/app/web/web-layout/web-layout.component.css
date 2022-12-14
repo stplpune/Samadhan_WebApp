@@ -23,12 +23,13 @@
   .curtain__wrapper input[type=checkbox]+label {
     position: absolute;
     left: 50%;
-    width: 142px;
+    width: 180px;
     height: 100%;
     z-index: 999;
-    transform: translate(-50%, -50%);
-    background-image: url('https://kalashriartfoundation.com/images/rope.png');
-    background-size: contain;
+    transform: translate(-50%, 0);
+    background-image: url(https://kalashriartfoundation.com/images/rope.png);
+    background-size: 88%;
+    background-repeat: no-repeat;
   }
 
   .curtain__wrapper input[type=checkbox]:checked+label ~ div.curtain__panel--left {
