@@ -1,5 +1,5 @@
 
-<audio preload="auto" id="myAudio">
+<!-- <audio preload="auto" id="myAudio">
   <source src="assets/images/claps.mp3" type="audio/mp3" >
 </audio>
 <div class="curtain" *ngIf="router.url == '/home'"  [class.d-none]="router.url == '/home' && !this.curtainFlag">
@@ -11,16 +11,15 @@
       </div>
       <div class="curtain__content">
         <img src="assets/images/Samadhan-color-logo.png">
-        <!-- <h2>Achievement Unlocked!</h2> -->
       </div>
 
       <div class="curtain__panel curtain__panel--right">
         <h1>Inaugurate...</h1>
       </div>
     </div>
-  </div>
+  </div> -->
 
-  <div appTheme  [class.d-none]="router.url == '/home' && this.curtainFlag">
+  <div appTheme >
     <app-web-header *ngIf="hideHeader"></app-web-header>
     <div class="home-top" [class.mt-0]="!hideHeader">
         <router-outlet></router-outlet>
