@@ -23,7 +23,7 @@
   .curtain__wrapper input[type=checkbox]+label {
     position: absolute;
     left: 50%;
-    width: 180px;
+    width: 140px;
     height: 100%;
     z-index: 999;
     transform: translate(-50%, 0);
