@@ -37,6 +37,7 @@ export class LoginComponent implements OnInit {
 
      });
      let lang:any =sessionStorage.getItem('language');
+     lang= lang? lang:"English";
      this.translate.use(lang);
 
     this.captcha();
