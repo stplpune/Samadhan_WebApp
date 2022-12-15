@@ -24,7 +24,7 @@ export class ApiService {
       case 'samadhanMiningService': return 'https://samadhan-api.mahamining.com/'; break;
 
       // For Live
-      // case 'samadhanMiningService': return 'http://samadhanwebservice.samadhanosmanabad.in/'; break;
+      // case 'samadhanMiningService': return 'https://samadhanwebservice.samadhanosmanabad.in/'; break;
 
       default: return ''; break;
     }
