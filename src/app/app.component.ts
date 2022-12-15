@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { filter } from 'rxjs/operators';
-
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -34,6 +34,12 @@ export class AppComponent {
         this.titleService.setTitle(titleName)
       })
     });
+
+    if (environment.production) { // redirect
+      if (location.protocol === 'http:') {
+        window.location.href = location.href.replace('http', 'https');
+      }
+    }
   }
 
   getChild({ activatedRoute }: { activatedRoute: ActivatedRoute; }): any {
