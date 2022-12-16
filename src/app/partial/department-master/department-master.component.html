@@ -120,7 +120,7 @@
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>{{'Home.department' | translate}}</mat-label>
                 <input matInput class="text-capitalize" formControlName="departmentName" maxlength="50" 
-                  (keypress)="validation.noFirstSpaceAllow($event)">
+                  (keypress)="validation.noFirstSpaceAllow($event); validation.alphaNumericWithSpaces($event)">
                 <mat-error *ngIf="f['departmentName'].errors">
                   <span class="text-danger" *ngIf="f['departmentName'].errors?.['required']">
                     {{'Home.department_req_val' | translate}}</span>

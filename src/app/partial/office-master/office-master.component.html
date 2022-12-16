@@ -115,7 +115,7 @@
               <mat-label>{{'Home.ofiice_name' | translate}}</mat-label>
               <input matInput class="text-capitalize" formControlName="name" maxlength="200"
                 (keydown)="validation.notAllowMoreThenOneSpace($event)"
-                (keypress)="validation.removeSpaceAtBegining($event);validation.alphabetsWithSpaces($event)">
+                (keypress)="validation.removeSpaceAtBegining($event);validation.alphaNumericWithSpaces($event)">
               <mat-error *ngIf="f['name']?.errors">
                 <span *ngIf="f['name']?.hasError('required')"> {{'Home.off_name_req' | translate}}</span>
                 <!-- <span *ngIf="f['name'].hasError('pattern')"> {{'Home.pls_enter_val_office_name' | translate}}</span> -->
@@ -127,7 +127,7 @@
               <mat-label>{{'Home.ofiname_marathi' | translate}}</mat-label>
               <input matInput formControlName="m_OfficeName" maxlength="200"
                 (keydown)="validation.notAllowMoreThenOneSpace($event)"
-                (keypress)="validation.removeSpaceAtBegining($event);validation.alphabetsWithSpaces($event);validation.unicodeMarathiValidation($event)">
+                (keypress)="validation.removeSpaceAtBegining($event);validation.alphaNumericWithSpaces($event);validation.unicodeMarathiValidation($event)">
               <mat-error *ngIf="f['name']?.errors">
                 <span *ngIf="f['name']?.hasError('required')"> {{'Home.pls_enter_val_office_name_mar' |
                   translate}}</span>

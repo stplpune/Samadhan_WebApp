@@ -75,7 +75,7 @@ export class DepartmentMasterComponent implements OnInit, OnDestroy {
 //#region createDepartmentForm start
   createDepartmentForm() {
     this.frmDepartment = this.fb.group({
-      departmentName: ['',[Validators.required, Validators.pattern(this.validation.valName)],],
+      departmentName: ['',[Validators.required,]],
       m_DepartmentName: ['', [Validators.required]],
     });
 
