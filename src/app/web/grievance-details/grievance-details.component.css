@@ -11,12 +11,6 @@
     font-weight: 200;
 }
 
-@media only screen and (max-width: 478px){
-    .griev-id, .griev-data {
-        font-size: 14px !important;
-        color: #fff !important;
-    }
-}
 .bbottom{
     margin-bottom:15px;
     padding-bottom:15px;
@@ -68,4 +62,20 @@
 .transferred{
     background-color:#ffddee;
     color:#c50063;
+}
+
+@media only screen and (max-width: 478px){
+    .logo img {
+        width: 130px;
+    }
+    .card-body{
+        padding: 7px !important;
+    }
+    .griev-details-title h4{
+        font-size: 1.2rem;
+    }
+    .griev-id, .griev-data {
+        font-size: 14px !important;
+        color: #fff !important;
+    }
 }
