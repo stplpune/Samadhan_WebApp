@@ -330,7 +330,7 @@
                     <div class="mb-3">
                         <mat-form-field class="w-100" appearance="outline">
                             <mat-label>{{'Home.name' | translate}}</mat-label>
-                            <input matInput formControlName="name" maxlength="50"
+                            <input matInput class="text-capitalize" formControlName="name" maxlength="50"
                                 (keypress)="validation.noFirstSpaceAllow($event);validation.alphabetsWithSpaces($event)"
                                 maxlength="200">
                             <mat-error *ngIf="f['name']?.errors">

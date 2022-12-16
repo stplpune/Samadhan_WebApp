@@ -111,7 +111,7 @@
             <div class="mb-3">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>{{'Home.grievance_type' | translate}}</mat-label>
-                <input matInput formControlName="grievanceType" (keypress)="validation.noFirstSpaceAllow($event)"
+                <input matInput class="text-capitalize"  formControlName="grievanceType" (keypress)="validation.noFirstSpaceAllow($event)"
                   (keydown)="validation.notAllowMoreThenOneSpace($event)">
                 <mat-error *ngIf="f['grievanceType']?.errors">
                   <span *ngIf="f['grievanceType']?.hasError('required')"> {{'Home.grievance_type_is_required' |
