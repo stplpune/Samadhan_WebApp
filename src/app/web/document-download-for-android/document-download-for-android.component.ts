@@ -160,7 +160,7 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
           this.officeDepReportArray = res.responseData.map((ele: any, index: any) => {
             ele.deptId = index + 1;
             delete ele.isDeleted;
-            delete ele.transfered;
+            delete ele.rejected;
             return ele
           });
 
