@@ -55,6 +55,7 @@ transform: translateY(-0.8em) scale(.75);
 }
 .mat-dialog-container{
     padding:0 !important;
+    height: unset !important;
 }
 .mat-dialog-container .dialog-header{
     padding:15px 25px !important;
