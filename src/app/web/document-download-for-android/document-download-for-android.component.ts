@@ -276,7 +276,7 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
       []
     );// Value Name
     this.pdf_excelService.generateExcel(keyPDFHeader, ValueData, objData);
-    this.getConfirmation();
+    // this.getConfirmation();
   }
 
   getConfirmation(){
