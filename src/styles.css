@@ -341,3 +341,8 @@ input:-webkit-autofill:active {
     min-width: 100px;
 }
 }
+
+.mat-button
+{
+    min-width: unset!important;
+}
