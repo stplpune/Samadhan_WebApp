@@ -176,7 +176,7 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
 
 
   getOfficerOfficeReport(keyPDFHeader: any, objData: any) {
-    let obj = this.data[2].value + '&searchofcId' + this.data[3].value + '&userid=' + this.data[4].value + '&fromDate=' + this.data[5].value + '&toDate=' + this.data[6].value
+    let obj = this.data[2].value + '&searchofcId=' + this.data[3].value + '&userid=' + this.data[4].value + '&fromDate=' + this.data[5].value + '&toDate=' + this.data[6].value
     this.apiService.setHttp('get', 'api/ShareGrievances/OfficerOfficeReport?searchdeptId=' + obj, false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
