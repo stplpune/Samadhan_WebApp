@@ -120,11 +120,11 @@ export class PostGrievanceComponent implements OnInit {
 
   filterForm() {
     this.filterFrm = this.fb.group({
-      talukaId: [0],
+      talukaId: ["0"],
       // villageId: [0],
-      deptId: [0],
+      deptId: ["0"],
       // officeId: [0],
-      statusId: [0],
+      statusId: ["0"],
       textSearch: ['']
     })
   }
