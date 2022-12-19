@@ -40,12 +40,14 @@
                             <button mat-menu-item  (click)="downloadPdf()"> <i
                                     class="fa-solid fa-file-pdf text-danger me-2"></i><span>Pdf</span></button>
                         </mat-menu>
+                        <button (click)="print('printableArea')">PrintData</button>
                     </div>
+
                 </div>
             </form>
 
-            <div class="table-responsive table-height scrollbar my-3">
-                <table mat-table [dataSource]="dataSource" class="dashboard-table w-100">
+            <div class="table-responsive table-height scrollbar my-3" id="printableArea">
+                <table mat-table [dataSource]="dataSource" class="dashboard-table w-100" >
 
                     <ng-container matColumnDef="{{col.column}}" *ngFor="let col of columns">
                         <ng-container *ngIf="col.header=='Sr No.'">
