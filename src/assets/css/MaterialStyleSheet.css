@@ -22,7 +22,8 @@ textarea.mat-input-element,
 }
 input.mat-input-element {
     margin-top: -6.142857em;
-    height: 44px;
+    /* height: 44px; */
+    height: 50px;
     line-height: 25px;
     margin-top: -83px;
 }
@@ -86,4 +87,8 @@ transform: translateY(-0.8em) scale(.75);
 }
 .mat-date-range-input{
     margin-top: -16px;
+}
+
+.mat-form-field-label-wrapper{
+    overflow: unset!important;
 }
