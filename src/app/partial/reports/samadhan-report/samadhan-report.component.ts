@@ -2,7 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit, Optional } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
-import { MatDialog, MatDialogRef} from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 // import { MatTableDataSource } from '@angular/material/table';
 // import { Router } from '@angular/router';
@@ -30,17 +30,17 @@ export class SamadhanReportComponent implements OnInit {
   userId: any;
   urlString: any;
   columns = [{ header: "Sr No.", column: 'index', flag: true }, { header: "Grievance No.", column: 'grievanceNo', flag: true }, { header: "Name", column: 'userName', flag: true }, { header: "Department Name", column: 'deptName', flag: true },
-  { header: "Office", column: 'officeName', flag: true }, { header: "Grievance Type", column: 'grievanceType', flag: true }, { header: "Grievance Dtails", column: 'grievanceDescription', flag: true },{ header: "Status", column: 'statusName', flag: true }];
+  { header: "Office", column: 'officeName', flag: true }, { header: "Grievance Type", column: 'grievanceType', flag: true }, { header: "Grievance Dtails", column: 'grievanceDescription', flag: true }, { header: "Status", column: 'statusName', flag: true }];
   reportData = new Array();
   header = new Array();
   departmentArray = new Array();
   reportArray = new Array();
   pageNo = 1;
   objData: any;
-  redirectGetData:any;
-  heading=new Array();
-  todayDate=new Date();
-  data:any;
+  redirectGetData: any;
+  heading = new Array();
+  todayDate = new Date();
+  data: any;
 
   constructor(
     private apiService: ApiService,
@@ -65,31 +65,31 @@ export class SamadhanReportComponent implements OnInit {
     let getUrlData: any = this.route.snapshot.params?.['id'];
     if (getUrlData) {
       getUrlData = getUrlData.split('.');
-      this.redirectGetData = { 'deptId': +getUrlData[0], 'onClickflag': +getUrlData[1], 'pageFlag': +getUrlData[2],'offId': +getUrlData[3]}
+      this.redirectGetData = { 'deptId': +getUrlData[0], 'onClickflag': +getUrlData[1], 'pageFlag': +getUrlData[2], 'offId': +getUrlData[3] }
 
     }
 
   }
 
   ngOnInit(): void {
-   let dateData:any = localStorage.getItem('dateRange');
+    let dateData: any = localStorage.getItem('dateRange');
     this.data = JSON.parse(dateData);
-    this.data ?  this.filterform(this.data): this.filterform()
- 
+    this.data ? this.filterform(this.data) : this.filterform()
+
     this.getdepartment(this.userId);
     // if(this.data){
     //   this.filterForm.controls['fromDate'].setValue(new Date(this.data.fromDate));
     //   this.filterForm.controls['toDate'].setValue(new Date(this.data.toDate));
     // }
     this.getUrl();
-    
-    
+
+
   }
 
-  filterform(data?:any) {
+  filterform(data?: any) {
     this.filterForm = this.fb.group({
       // searchdeptId: [0],
-      fromDate: [ data ? new Date(data?.fromDate) : ''],
+      fromDate: [data ? new Date(data?.fromDate) : ''],
       toDate: [data ? new Date(data?.toDate) : '']
     })
   }
@@ -110,35 +110,35 @@ export class SamadhanReportComponent implements OnInit {
       case 1:
         this.url = 'samadhan/OnClickDetailReports/OnClickDepartmentRPTDetails?'
         this.urlString = 'flag=' + this.redirectGetData.onClickflag + '&searchdeptId=' + this.redirectGetData.deptId;
-        this.heading=["Department","Report"];
+        this.heading = ["Department", "Report"];
         this.getReport();
         break;
 
       case 2:
         this.url = 'samadhan/OnClickDetailReports/OnClickOfficeRPTDetails?'
         this.urlString = 'flag=' + this.redirectGetData.onClickflag + '&searchdeptId=' + this.redirectGetData.deptId + '&searchofcId=' + this.redirectGetData.offId;
-        this.heading=["Office","Report"]
+        this.heading = ["Office", "Report"]
         this.getReport();
         break;
 
       case 3:
         this.url = 'samadhan/OnClickDetailReports/OnClickTalukaRPTDetails?'
         this.urlString = 'flag=' + this.redirectGetData.onClickflag + '&searchtalukaId=' + this.redirectGetData.deptId; // this.redirectGetData.deptId is talukaId
-        this.heading=["Taluka","Report"]
+        this.heading = ["Taluka", "Report"]
         this.getReport();
         break;
 
       case 4:
         this.url = 'samadhan/OnClickDetailReports/OnClicIsSatisfiedkRPTDetails?'
-        this.urlString = 'flag=' +this.redirectGetData.onClickflag + '&searchdeptId=' + this.redirectGetData.deptId;
-        this.heading=["Satisfied","Report"]
+        this.urlString = 'flag=' + this.redirectGetData.onClickflag + '&searchdeptId=' + this.redirectGetData.deptId;
+        this.heading = ["Satisfied", "Report"]
         this.getReport();
         break;
 
       case 5:
         this.url = 'samadhan/OnClickDetailReports/OnClicPendancykRPTDetails?'
-        this.urlString =  'searchdeptId=' + this.redirectGetData.deptId + '&flag=' + this.redirectGetData.offId +'&DateFlag='+this.redirectGetData.onClickflag; //value of flag in offid ,value of date flag in onClickFlag of redirectGetData object
-        this.heading=["Pendancy","Report"]
+        this.urlString = 'searchdeptId=' + this.redirectGetData.deptId + '&flag=' + this.redirectGetData.offId + '&DateFlag=' + this.redirectGetData.onClickflag; //value of flag in offid ,value of date flag in onClickFlag of redirectGetData object
+        this.heading = ["Pendancy", "Report"]
         this.getReport();
         break;
     }
@@ -147,7 +147,7 @@ export class SamadhanReportComponent implements OnInit {
   getReport() {
     this.spinner.show();
     let formData = this.filterForm.value;
-    
+
     formData.fromDate = formData.fromDate ? this.datePipe.transform(formData.fromDate, 'yyyy/MM/dd') : '';
     formData.toDate = formData.toDate ? this.datePipe.transform(formData.toDate, 'yyyy/MM/dd') : '';
 
@@ -164,7 +164,7 @@ export class SamadhanReportComponent implements OnInit {
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {
-          
+
           // this.dataSource = new MatTableDataSource(res.responseData);
           this.reportData = res.responseData
           this.dataSource = this.reportData;
@@ -182,7 +182,7 @@ export class SamadhanReportComponent implements OnInit {
             }
             this.reportArray.push(obj);
           });
-       
+
           this.totalPages = res.responseData1.pageCount;
           this.selecteColumn();
           this.spinner.hide();
@@ -225,13 +225,13 @@ export class SamadhanReportComponent implements OnInit {
       keyPDFHeader.push(ele.header);
     })
 
-    
+
     let ValueData = this.reportArray.reduce(
       (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
       []
     );
 
-  
+
     this.objData = {
       'topHedingName': this.heading[0] + ' ' + this.heading[1],
       'createdDate': 'Created on:' + this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a')
@@ -267,7 +267,7 @@ export class SamadhanReportComponent implements OnInit {
     })
 
     this.objData = {
-      'topHedingName':this.heading[0] + ' ' + this.heading[1],
+      'topHedingName': this.heading[0] + ' ' + this.heading[1],
       'createdDate': 'Created on:' + this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a')
     }
 
@@ -282,13 +282,25 @@ export class SamadhanReportComponent implements OnInit {
     this.pdf_excelService.generateExcel(keyPDFHeader, ValueData, this.objData);
   }
 
-  clearFilter(){
+  clearFilter() {
     this.filterform();
     this.getReport();
   }
-ngOnDestroy(): void {
-  localStorage.removeItem("dateRange");  
-}
+  ngOnDestroy(): void {
+    localStorage.removeItem("dateRange");
+  }
+
+  print(divName: any) {
+
+    var printContents: any = document.getElementById(divName);
+    if (printContents) {
+      printContents = printContents.innerHTML
+      const originalContents = document.body.innerHTML;
+      document.body.innerHTML = printContents;
+      window.print();
+      document.body.innerHTML = originalContents;
+    }
+  }
 }
 
 
