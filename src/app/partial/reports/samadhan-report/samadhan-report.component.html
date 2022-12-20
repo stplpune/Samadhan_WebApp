@@ -15,39 +15,55 @@
         </div>
         <div class="col-sm-12">
             <form [formGroup]="filterForm">
-                <div class="row g-3 mb-3">
-                    <div class="col-sm-4">
+                <div class="row g-2 mb-3">
+                    <div class="col-7 col-sm-2">
                         <mat-form-field appearance="outline" class="w-100">
                             <mat-label>From Date To End Date</mat-label>
                             <mat-date-range-input [rangePicker]="picker" [max]="todayDate">
-                                <input matStartDate placeholder="Start date" formControlName="fromDate" [disabled]="true">
+                                <input matStartDate placeholder="Start date" formControlName="fromDate"
+                                    [disabled]="true">
                                 <input matEndDate placeholder="End date" formControlName="toDate" [disabled]="true">
                             </mat-date-range-input>
-                            <mat-datepicker-toggle matIconSuffix [for]="picker" [disabled]="false"></mat-datepicker-toggle>
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"
+                                [disabled]="false"></mat-datepicker-toggle>
                             <mat-date-range-picker #picker [disabled]="false"></mat-date-range-picker>
                         </mat-form-field>
                     </div>
-                    <div class="col col-sm-auto">
-                        <button mat-stroked-button class="btn-main me-2" type="submit"
-                            (click)="getReport()">Search</button>
-                        <button mat-stroked-button class="btn-main-outline me-2" type="button" (click)="clearFilter()">Clear</button>
+                    <div class="col col-sm-10">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <button mat-stroked-button class="btn-main me-2" type="submit"
+                                    (click)="getReport()">Search</button>
+                                <button mat-stroked-button class="btn-main-outline me-2" type="button"
+                                    (click)="clearFilter()">Clear
+                                </button>
+                            </div>
+                            <div>
+                                <button mat-stroked-button [matMenuTriggerFor]="menu" class="btn-main me-2"
+                                    *ngIf="reportArray.length!=0">
+                                    Download
+                                </button>
+                                <mat-menu #menu="matMenu">
+                                    <button mat-menu-item (click)="downloadExcel()"><i
+                                            class="fa-solid fa-file-excel text-success me-2"></i><span>Excel</span></button>
+                                    <button mat-menu-item (click)="downloadPdf()"> <i
+                                            class="fa-solid fa-file-pdf text-danger me-2"></i><span>Pdf</span></button>
+                                </mat-menu>
+                                <button mat-stroked-button class="btn-main" (click)="print('printableArea')">
+                                    <i class="fa-solid fa-print me-1"></i>
+                                    <span>Print</span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col col-sm text-end">
-                        <button mat-stroked-button [matMenuTriggerFor]="menu" class="btn-main" *ngIf="reportArray.length!=0">Download</button>
-                        <mat-menu #menu="matMenu">
-                            <button mat-menu-item  (click)="downloadExcel()"><i
-                                    class="fa-solid fa-file-excel text-success me-2"></i><span>Excel</span></button>
-                            <button mat-menu-item  (click)="downloadPdf()"> <i
-                                    class="fa-solid fa-file-pdf text-danger me-2"></i><span>Pdf</span></button>
-                        </mat-menu>
-                        <button (click)="print('printableArea')">PrintData</button>
+                    <div class="col-6 col-sm text-end">
                     </div>
 
                 </div>
             </form>
 
             <div class="table-responsive table-height scrollbar my-3" id="printableArea">
-                <table mat-table [dataSource]="dataSource" class="dashboard-table w-100" >
+                <table mat-table [dataSource]="dataSource" class="dashboard-table w-100">
 
                     <ng-container matColumnDef="{{col.column}}" *ngFor="let col of columns">
                         <ng-container *ngIf="col.header=='Sr No.'">
