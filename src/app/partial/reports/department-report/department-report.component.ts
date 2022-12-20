@@ -67,7 +67,7 @@ export class DepartmentReportComponent implements OnInit {
 
   filterform() {
     this.filterForm = this.fb.group({
-      searchdeptId: [0],
+      searchdeptId: ['0'],
       fromDate: [''],
       toDate: ['']
     })
@@ -129,8 +129,8 @@ export class DepartmentReportComponent implements OnInit {
             'received':ele.received,
             'opened':ele.openn,
             // 'rejected':ele.rejected,
-            'resolved':ele.resolved,
             'accepted':ele.accepted,
+            'resolved':ele.resolved,           
             'partialResloved':ele.partialResloved,
             'transfered':ele.transfered
           }

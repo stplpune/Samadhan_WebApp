@@ -59,7 +59,7 @@ export class TalukaReportComponent implements OnInit {
 
   filterform() {
     this.filterForm = this.fb.group({
-      TalukaId: [0],
+      TalukaId: ['0'],
       fromDate: [''],
       toDate: ['']
     })
@@ -118,8 +118,8 @@ export class TalukaReportComponent implements OnInit {
               'received':ele.received,
               'opened':ele.openn,
               // 'rejected':ele.rejected,
-              'resolved':ele.resolved,
               'accepted':ele.accepted,
+              'resolved':ele.resolved,            
               'partialResloved':ele.partialResloved,
               'transfered':ele.transfered
             }

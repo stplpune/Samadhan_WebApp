@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, PRIMARY_OUTLET, Router } from '@angular/router';
 import { filter, map } from 'rxjs';
+import { WebStorageService } from 'src/app/core/service/web-storage.service';
 import { SidebarService } from './sidebar/sidebar.service';
 
 @Component({
@@ -12,7 +13,8 @@ export class PartialLayoutComponent implements OnInit {
 
   breadcrumbs:any;
   selectedLang: any
-  constructor(public sidebarservice: SidebarService, private router:Router,private activatedRoute:ActivatedRoute) {  this.addBreadcrumbs();}
+  constructor(public sidebarservice: SidebarService, private router:Router,private activatedRoute:ActivatedRoute,
+    private webStorage:WebStorageService ) {  this.addBreadcrumbs();}
   toggleSidebar() {
     this.sidebarservice.setSidebarState(!this.sidebarservice.getSidebarState());
   }
@@ -27,7 +29,10 @@ export class PartialLayoutComponent implements OnInit {
     this.sidebarservice.setSidebarState(true);
   }
   ngOnInit(): void {
-    this.selectedLang = sessionStorage.getItem('language')
+    // this.selectedLang = sessionStorage.getItem('language')
+    this.webStorage.langNameOnChange.subscribe(message => {
+      this.selectedLang = message;
+     });
   }
 
   addBreadcrumbs() {

@@ -65,7 +65,7 @@ export class PendencyReportComponent implements OnInit {
 
   filterform() {
     this.filterForm = this.fb.group({
-      searchdeptId: [0],
+      searchdeptId: ['0'],
       fromDate: [''],
       toDate: ['']
          })
