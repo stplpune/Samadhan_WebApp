@@ -149,8 +149,8 @@ export class OfficeReportComponent implements OnInit {
               'received':ele.received,
               'opened':ele.openn,
               // 'rejected':ele.rejected,
-              'resolved':ele.resolved,
               'accepted':ele.accepted,
+              'resolved':ele.resolved, 
               'partialResloved':ele.partialResloved,
               'transfered':ele.transfered
             }
