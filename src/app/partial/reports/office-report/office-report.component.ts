@@ -66,8 +66,8 @@ export class OfficeReportComponent implements OnInit {
 
   filterform() {
     this.filterForm = this.fb.group({
-      searchdeptId: [0],
-      searchofcId: [0],
+      searchdeptId: ['0'],
+      searchofcId: ['0'],
       fromDate: [''],
       toDate: ['']
     })
