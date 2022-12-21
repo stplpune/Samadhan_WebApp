@@ -92,3 +92,8 @@ transform: translateY(-0.8em) scale(.75);
 .mat-form-field-label-wrapper{
     overflow: unset!important;
 }
+
+tr.mat-header-row {
+    position: sticky !important;
+    top: -1px !important;
+}
