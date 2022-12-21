@@ -18,6 +18,7 @@ export class GrievanceDetailsComponent implements OnInit {
 
   grivanceData: any;
   dataSource:any;
+  OfficerImagesData:any;
   displayedColumns=['srNo','departmentName','officeName','status', 'remark','action']
   constructor(public commonMethod: CommonMethodService,
     public apiService: ApiService,
@@ -44,7 +45,9 @@ export class GrievanceDetailsComponent implements OnInit {
       next: (res: any) => {
         if (res.statusCode == 200) {
           this.grivanceData = res.responseData;
-          this.dataSource=new MatTableDataSource(res.responseData.officerRedressalImages);
+          this.OfficerImagesData=res.responseData.officerRedressalImages;
+          console.log(this.OfficerImagesData);
+          this.dataSource=new MatTableDataSource(this.OfficerImagesData);
         } else {
           this.grivanceData = [];
           if (res.statusCode != "404") {

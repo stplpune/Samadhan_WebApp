@@ -56,7 +56,7 @@
                                             <span class="badge"
                                                 [ngClass]="{'open': grivanceData?.status =='Open','resolved': grivanceData?.status =='Resolved', 'accepted': grivanceData?.status =='Accepted',
                                                 'partial': grivanceData?.status =='Partial Resolved','rejected': grivanceData?.status =='Rejected','transferred': grivanceData?.status =='Transferred'}">
-                                                {{grivanceData.status}}
+                                                {{grivanceData?.status}}
                                             </span>
                                         </div>
 
@@ -185,8 +185,10 @@
                                         <ng-container matColumnDef="action">
                                             <th mat-header-cell *matHeaderCellDef>Action</th>
                                             <td mat-cell *matCellDef="let element"><a class="text-primary form-label"
-                                                    (click)="viewDocument(element?.docpath)"> View Documents </a></td>
-                                        </ng-container>
+                                               *ngIf="element?.docpath"    (click)="viewDocument(element?.docpath)"> View Documents </a>
+                                               <span  *ngIf="!element?.docpath">Document not Uploaded</span>
+                                            </td>
+                                        </ng-container> 
 
                                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                                         <tr mat-row *matRowDef="let row; columns: displayedColumns;">
