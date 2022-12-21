@@ -23,7 +23,7 @@
       "dom"
     ],
     "noUnusedLocals":true,
-    "noUnusedParameters": true,
+    "noUnusedParameters": true,  "noImplicitAny": false,
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

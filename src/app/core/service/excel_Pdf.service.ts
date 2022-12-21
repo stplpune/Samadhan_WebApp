@@ -5,8 +5,7 @@ import { Workbook } from 'exceljs';
 import 'jspdf-autotable';
 declare const ExcelJS: any;
 
-
-
+import * as YantramanavRegular from './Yantramanav-Regular.js';
 @Injectable({
   providedIn: 'root'
 })
@@ -17,28 +16,37 @@ export class ExcelService {
 
 
   downLoadPdf(header: any, values: any, objData: any) {
+
     let doc: any = new jsPDF();
+    doc.addFileToVFS("Yantramana.ttf", YantramanavRegular.font);
+    doc.addFont("Yantramana.ttf", "Yantramana", "normal");
+    doc.setFont("Yantramana");
     doc.autoTable(header, values, {
-      startY: 25,
+      startY:18,
       // margin: { horizontal: 7 , verticle: 10},
-      margin: { top: 25 },
+      margin: [18, 10, 10,10], //top, left, buttom, right,
+      headerStyles: {
+        font: 'Yantramana'
+      },
+      columnStyles: {
+        font: 'bold',
+      },styles: {font: "Yantramana"},
+
 
       didDrawPage: function (_data: any) {
-
         var imgWidth = 33;
         var height = 20;
-        doc.addImage('../../../../assets/images/samadhanLogo.jpeg', 'JPEG', 2, -3, imgWidth, height);
-
+        doc.addImage('../../../../assets/images/samadhanLogo.jpeg', 'JPEG',12, -3, imgWidth, height);
         doc.setFontSize(13);
         doc.text(objData.topHedingName, 100, 8, "center");
 
-        if(objData?.timePeriod != null){
-        doc.setFontSize(8);
-        doc.text(objData.timePeriod, 11, 14, "left");
+        if (objData?.timePeriod != null) {
+          doc.setFontSize(8);
+          doc.text(objData.timePeriod, 11, 14, "left");
         }
-       
-         doc.setFontSize(8);
-         doc.text(objData.createdDate, 200, 14, "right");
+
+        doc.setFontSize(8);
+        doc.text(objData.createdDate, 200, 14, "right");
 
         doc.setLineWidth(0.2);
         doc.line(12, 15, 200, 15);
@@ -55,6 +63,7 @@ export class ExcelService {
     doc.save(objData.topHedingName);
   }
 
+
   async generateExcel(keyData: any, ValueData: any, objData: any) {
 
     // Create workbook and worksheet
@@ -65,9 +74,9 @@ export class ExcelService {
     worksheet.getCell('C4').value = objData.topHedingName
     worksheet.getCell('C4').font = { name: 'Corbel', family: 3, size: 13, bold: true, };
 
-    if(objData?.timePeriod != null){
-    worksheet.getCell('C5').value = objData.timePeriod
-    worksheet.getCell('C5').font = { name: 'Corbel', family: 3, size: 13, bold: true, };
+    if (objData?.timePeriod != null) {
+      worksheet.getCell('C5').value = objData.timePeriod
+      worksheet.getCell('C5').font = { name: 'Corbel', family: 3, size: 13, bold: true, };
     }
 
     worksheet.getCell('E5').value = objData.createdDate

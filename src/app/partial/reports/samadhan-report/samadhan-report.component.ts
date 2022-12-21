@@ -30,7 +30,7 @@ export class SamadhanReportComponent implements OnInit {
   userId: any;
   urlString: any;
   columns = [{ header: "Sr No.", column: 'index', flag: true }, { header: "Grievance No.", column: 'grievanceNo', flag: true }, { header: "Name", column: 'userName', flag: true }, { header: "Department Name", column: 'deptName', flag: true },
-  { header: "Office", column: 'officeName', flag: true }, { header: "Grievance Type", column: 'grievanceType', flag: true }, { header: "Grievance Dtails", column: 'grievanceDescription', flag: true }, { header: "Status", column: 'statusName', flag: true }];
+  { header: "Grievance Type", column: 'grievanceType', flag: true }, { header: "Grievance Dtails", column: 'grievanceDescription', flag: true }, { header: "Status", column: 'statusName', flag: true }];
   reportData = new Array();
   header = new Array();
   departmentArray = new Array();
@@ -290,17 +290,7 @@ export class SamadhanReportComponent implements OnInit {
     localStorage.removeItem("dateRange");
   }
 
-  print(divName: any) {
 
-    var printContents: any = document.getElementById(divName);
-    if (printContents) {
-      printContents = printContents.innerHTML
-      const originalContents = document.body.innerHTML;
-      document.body.innerHTML = printContents;
-      window.print();
-      document.body.innerHTML = originalContents;
-    }
-  }
 }
 
 

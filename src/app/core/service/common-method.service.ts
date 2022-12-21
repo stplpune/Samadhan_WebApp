@@ -12,8 +12,8 @@ export class CommonMethodService {
   codecareerPage!: string;
   geocoder: any;
   private clock: Observable<Date>;
-  constructor(private snackBar: MatSnackBar, public location: Location, private datePipe: DatePipe, private dialog:MatDialog) 
-  { 
+  constructor(private snackBar: MatSnackBar, public location: Location, private datePipe: DatePipe, private dialog:MatDialog)
+  {
     this.clock = interval(1000).pipe(map(() => new Date()));
   }
 
@@ -25,7 +25,7 @@ export class CommonMethodService {
 
     var charsArray = "0123456789";
     var lengthOtp = 4;
-    var captcha = [];
+    var captcha:any = [];
     for (var i = 0; i < lengthOtp; i++) {
       //below code will not allow Repetition of Characters
       var index = Math.floor(Math.random() * charsArray.length + 0); //get the next character from the array
