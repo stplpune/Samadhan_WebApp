@@ -163,7 +163,7 @@ export class DashboardComponent implements OnInit {
     let series: any = chart.series.push(new am4charts.ColumnSeries());
     series.dataFields.categoryX = "category";
     series.dataFields.valueY = "value";
-    series.tooltipText = "{valueY.value}";
+    series.tooltipText = "{valueY.value}%";
     series.sequencedInterpolation = true;
     series.fillOpacity = 0;
     series.strokeOpacity = 1;
