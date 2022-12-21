@@ -53,15 +53,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col col-sm text-end">
-                        <button mat-stroked-button [matMenuTriggerFor]="menu" class="btn-main" *ngIf="reportArray.length!=0">Download</button>
-                        <mat-menu #menu="matMenu">
-                            <button mat-menu-item  (click)="downloadExcel()"><i
-                                    class="fa-solid fa-file-excel text-success me-2"></i><span>Excel</span></button>
-                            <button mat-menu-item  (click)="downloadPdf()"> <i
-                                    class="fa-solid fa-file-pdf text-danger me-2"></i><span>Pdf</span></button>
-                        </mat-menu>
-                    </div>
 
                 </div>
             </form>
