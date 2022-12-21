@@ -43,6 +43,8 @@
         "department_valid_val": "कृपया विभागाचे वैध नाव प्रविष्ट करा ",
         "department_marathi_req_val": "विभागाचे मराठी नाव आवश्यक आहे",
         "all_dept": "सर्व विभाग",
+        "all_off":"सर्व कार्यालय",
+        "all_designation":"सर्व पदनाम",
         "office":"कार्यालय",
         "select_office":"ऑफिस निवडा",
         "select_Designation":"पदनाम निवडा",
