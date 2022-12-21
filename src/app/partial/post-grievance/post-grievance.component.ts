@@ -97,7 +97,7 @@ export class PostGrievanceComponent implements OnInit {
 
   defaultForm() {
     this.postGrievanceForm = this.fb.group({
-      otherCitizenName: ['', [Validators.required, Validators.pattern(this.validation.alphabetsWithSpace)]],
+      otherCitizenName: ['', [Validators.required,]],
       otherCitizenMobileNo: ['', [Validators.required, Validators.pattern(this.validation.valMobileNo), Validators.minLength(10), Validators.maxLength(10)]],
       otherCitizenAddress: [''],
       districtId: ['', [Validators.required]],
@@ -272,13 +272,13 @@ export class PostGrievanceComponent implements OnInit {
   clearFilter(flag: any) {
     switch (flag) {
       case 'taluka':
-        this.loggedUserTypeId == 4 ? this.filterFrm.controls['deptId'].setValue(this.departmentArray[0].deptId) : this.filterFrm.controls['deptId'].setValue(0);
-        this.filterFrm.controls['statusId'].setValue(0);
+        this.loggedUserTypeId == 4 ? this.filterFrm.controls['deptId'].setValue(this.departmentArray[0].deptId) : this.filterFrm.controls['deptId'].setValue('0');
+        this.filterFrm.controls['statusId'].setValue('0');
         this.filterFrm.controls['textSearch'].setValue('');
         break;
 
       case 'department':
-        this.filterFrm.controls['statusId'].setValue(0);
+        this.filterFrm.controls['statusId'].setValue('0');
         this.filterFrm.controls['textSearch'].setValue('');
         break;
       default:

@@ -146,8 +146,8 @@
                     <div class="mb-3" [class.disabled-contenct]="ispatch">
                         <mat-form-field class="w-100" appearance="outline">
                             <mat-label>{{'Home.name' | translate}}</mat-label>
-                            <input matInput class="text-capitalize"
-                                (keypress)="validation.noFirstSpaceAllow($event);validation.alphabetsWithSpaces($event)"
+                            <input matInput class="text-capitalize" (keyup)="validation.unicodeMarathiValidation($event)"
+                                (keypress)="validation.noFirstSpaceAllow($event);validation.alphabetsWithSpaces($event);"
                                 formControlName="otherCitizenName" maxlength="50" [readonly]="ispatch">
                             <mat-error *ngIf="f['otherCitizenName']?.errors">
                                 <span *ngIf="f['otherCitizenName']?.hasError('required')"> {{'Home.name_is_required' |

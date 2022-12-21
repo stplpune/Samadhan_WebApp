@@ -20,9 +20,10 @@
                         <mat-label>{{'Home.select_office' | translate}} </mat-label>
                         <mat-select formControlName="officeId" (selectionChange)="clearFilter('office');filterData()"
                             [disabled]='!filterFrm.value.deptId || this.loggedUserTypeId == 4'>
-                            <mat-option value="0">All Office</mat-option>
+                            <mat-option value="0">{{'Home.all_off' | translate}}</mat-option>
                             <mat-option *ngFor="let office of officeArray" [value]="office.id">
-                                {{office.name}}
+                                {{ langTypeName == 'English' ?
+                                office.name : office.m_OfficeName}}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
@@ -31,9 +32,11 @@
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>{{'Home.select_Designation' | translate}}</mat-label>
                         <mat-select formControlName="subUserTypeId" (selectionChange)="filterData()">
-                            <mat-option value="0">All Designation</mat-option>
+                            <mat-option value="0">{{'Home.all_designation' | translate}}</mat-option>
                             <mat-option *ngFor="let subUser of subUserTypeArray" [value]="subUser.subUserTypeId">
-                                {{subUser.subUserType}}
+                                {{ langTypeName == 'English' ?
+                                subUser.subUserType :subUser.m_SubUserType}}
+                             
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
@@ -330,8 +333,8 @@
                     <div class="mb-3">
                         <mat-form-field class="w-100" appearance="outline">
                             <mat-label>{{'Home.name' | translate}}</mat-label>
-                            <input matInput class="text-capitalize" formControlName="name" maxlength="50"
-                                (keypress)="validation.noFirstSpaceAllow($event);validation.alphabetsWithSpaces($event)"
+                            <input matInput class="text-capitalize" formControlName="name" maxlength="50" (keyup)="validation.unicodeMarathiValidation($event)"
+                                (keypress)="validation.noFirstSpaceAllow($event);validation.alphabetsWithSpaces($event);"
                                 maxlength="200">
                             <mat-error *ngIf="f['name']?.errors">
                                 <span *ngIf="f['name']?.hasError('required')"> {{'Home.name_is_required' | translate}}</span>

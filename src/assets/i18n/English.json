@@ -45,6 +45,8 @@
         "department_valid_val": "Please enter valid department name",
         "department_marathi_req_val": "Department Marathi name is required",
         "all_dept": "All Department",
+        "all_off":"All Office",
+        "all_designation":"All Designation",
     
         "add_grievance":"Add Grievance Master",
         "upd_grievance":"Update Grievance Master",
