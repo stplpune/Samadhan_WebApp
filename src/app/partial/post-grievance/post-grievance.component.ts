@@ -97,7 +97,7 @@ export class PostGrievanceComponent implements OnInit {
 
   defaultForm() {
     this.postGrievanceForm = this.fb.group({
-      otherCitizenName: ['', [Validators.required, Validators.pattern(this.validation.alphabetsWithSpace)]],
+      otherCitizenName: ['', [Validators.required,]],
       otherCitizenMobileNo: ['', [Validators.required, Validators.pattern(this.validation.valMobileNo), Validators.minLength(10), Validators.maxLength(10)]],
       otherCitizenAddress: [''],
       districtId: ['', [Validators.required]],

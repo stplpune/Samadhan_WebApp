@@ -124,7 +124,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
       subUserTypeId: ['', [Validators.required]],
       deptId: ['', [Validators.required]],
       officeId: ['', [Validators.required]],
-      name: ['', [Validators.required, Validators.pattern(this.validation.valName)]],
+      name: ['', [Validators.required]],
       mobileNo: ['', [Validators.required, Validators.pattern(this.validation.valMobileNo), Validators.minLength(10), Validators.maxLength(10)]],
       emailId: ['', [Validators.required, Validators.email]],
     })
