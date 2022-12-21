@@ -99,8 +99,24 @@
     width: 100px;
     height: 100px;
 }
+.navbar .navbar-toggler:focus {
+    box-shadow:unset !important;
+}
+
+.carousel-indicators [data-bs-target] {
+    background-color:#b83058!important;
+}
+
+/* ---------------Media-Query-------------------- */
 
 @media only screen and (max-width: 478px){
+    #about-us {
+        padding-block: 1rem;
+    }
+    .about-text {
+        font-size: 0.90rem;
+        line-height: 1.4rem;
+    }
     #grievance-status
         {
             padding: 14px;
@@ -109,7 +125,25 @@
         {
             padding: 0px 14px;
         }
-}
-.navbar .navbar-toggler:focus {
-    box-shadow:unset !important;
+    .carousel-control-prev,
+    .carousel-control-next {
+            width: 31px;
+            height: 31px;
+            line-height: 14px;
+            background-color: rgba(0,0,0,0.5);
+            top: 33%;
+        }
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+            display: inline-block;
+            width: 1.4rem;
+            height: 1.4rem;
+        }
+    .carousel-indicators {
+            margin-bottom: -1.3rem;
+        }
+    .carousel-indicators [data-bs-target] {
+            background-color:#b83058;
+        }
+        
 }
