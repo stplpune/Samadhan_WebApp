@@ -99,3 +99,7 @@
 }
 
 }
+
+.navbar-toggler:focus {
+    box-shadow: unset!important;
+}
