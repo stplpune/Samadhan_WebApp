@@ -48,9 +48,19 @@ export class PartialLayoutComponent implements OnInit {
         this.breadcrumbs = [];
         let url = snapshot.url;
         let routeData = route.snapshot.data;
+     
         let label = routeData['breadcrumb'];
+        if(url.includes('samadhan-report')){
+          let urlData=url.split('/');
+          let pageId=urlData[2].split('.');
+          pageId[2] =='1' ?  (label[0].title='Depratment Reports',label[0].titleMarathi='विभाग अहवाल') : '';
+          pageId[2] =='2' ?  (label[0].title='Office Reports',label[0].titleMarathi='कार्यालय अहवाल') : '';
+          pageId[2] =='3' ?  (label[0].title='Taluka Reports',label[0].titleMarathi='तालुका अहवाल') : '';
+          pageId[2] =='4' ?  (label[0].title='Satisfied Reports',label[0].titleMarathi='समाधानी अहवाल') : '';
+          pageId[2] =='5' ?  (label[0].title='Pendency Reports',label[0].titleMarathi='प्रलंबित अहवाल') : '';
+        }
+        console.log(label)
         let params = snapshot.root.params;
-
         this.breadcrumbs.push({
           url: url,
           label: label,
