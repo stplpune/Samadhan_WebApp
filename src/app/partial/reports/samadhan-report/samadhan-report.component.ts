@@ -29,8 +29,8 @@ export class SamadhanReportComponent implements OnInit {
   url: any;
   userId: any;
   urlString: any;
-  columns = [{ header: "Sr No.", column: 'index', flag: true }, { header: "Grievance No.", column: 'grievanceNo', flag: true }, { header: "Name", column: 'userName', flag: true }, { header: "Department Name", column: 'deptName', flag: true },
-  { header: "Grievance Type", column: 'grievanceType', flag: true }, { header: "Grievance Dtails", column: 'grievanceDescription', flag: true }, { header: "Status", column: 'statusName', flag: true }];
+  columns = [{ header: "Sr.No.", column: 'index', flag: true }, { header: "Grievance No.", column: 'grievanceNo', flag: true }, { header: "Name", column: 'userName', flag: true }, { header: "Department Name", column: 'deptName', flag: true },
+  { header: "Grievance Type", column: 'grievanceType', flag: true }, { header: "Grievance Details", column: 'grievanceDescription', flag: true }, { header: "Status", column: 'statusName', flag: true }];
   reportData = new Array();
   header = new Array();
   departmentArray = new Array();
