@@ -119,8 +119,8 @@
                     <th mat-header-cell *matHeaderCellDef [attr.colspan]="4" class="text-center"> Action Taken </th>
                   </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="['No', 'departmentname2', 'received2', 'Pending2', 'Approved']"></tr>
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-header-row *matHeaderRowDef="['No', 'departmentname2', 'received2', 'Pending2', 'Approved'];  sticky: true"></tr>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" ></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
         </div>
