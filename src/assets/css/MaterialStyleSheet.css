@@ -98,19 +98,24 @@ tr.mat-header-row {
     top: -1px !important;
 }
 
-
 mat-date-range-input input[type="text"]{
-    color: currentColor
+    color: currentColor;
 }
 mat-date-range-input input[type="text"]:focus{
     outline:none;      
     caret-color: transparent; 
 }
-
 .mat-datepicker-content {
     display: block;
     border-radius: 4px;
     position: absolute;
     top: -18px;
     left: 14px;
+}
+
+textarea.mat-input-element {
+    padding: 4px 0 !important;
+    line-height: 21px;
+    margin: 0px!important;
+    height: 56px;
 }
