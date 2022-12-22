@@ -1,7 +1,0 @@
-input[type="text"]{
-    color: currentColor
-}
-input[type="text"]:focus{
-    outline:none;      
-    caret-color: transparent; 
-}
