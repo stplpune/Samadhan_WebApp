@@ -142,7 +142,7 @@ export class TalukaReportComponent implements OnInit {
     });
   }
 
-  keyPDFHeader = ['Sr.No.', "Taluka Name","Total","Opened", "Accepted", "Resolved","Partial Resolved","Transferred"];
+  keyPDFHeader = ['Sr.No.', "Taluka Name","Total Grievances","Open", "Accepted", "Resolved","Partial Resolved","Transferred"];
 
   downloadExcel() {
     let fromdate:any;
