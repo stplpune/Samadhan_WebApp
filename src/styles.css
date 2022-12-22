@@ -346,3 +346,7 @@ input:-webkit-autofill:active {
 {
     min-width: unset!important;
 }
+
+table {
+    border-collapse:unset!important;
+}
