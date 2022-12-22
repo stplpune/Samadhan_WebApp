@@ -97,3 +97,12 @@ tr.mat-header-row {
     position: sticky !important;
     top: -1px !important;
 }
+
+
+mat-date-range-input input[type="text"]{
+    color: currentColor
+}
+mat-date-range-input input[type="text"]:focus{
+    outline:none;      
+    caret-color: transparent; 
+}
