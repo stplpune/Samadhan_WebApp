@@ -93,10 +93,10 @@ transform: translateY(-0.8em) scale(.75);
     overflow: unset!important;
 }
 
-tr.mat-header-row {
+/* dashboard-table tr.mat-header-row {
     position: sticky !important;
     top: -1px !important;
-}
+} */
 
 mat-date-range-input input[type="text"]{
     color: currentColor;
