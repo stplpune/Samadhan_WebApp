@@ -76,7 +76,7 @@ export class SamadhanReportComponent implements OnInit {
     this.data = JSON.parse(dateData);
     this.data ? this.filterform(this.data) : this.filterform()
 
-    this.getdepartment(this.userId);
+    // this.getdepartment(this.userId);
     // if(this.data){
     //   this.filterForm.controls['fromDate'].setValue(new Date(this.data.fromDate));
     //   this.filterForm.controls['toDate'].setValue(new Date(this.data.toDate));
@@ -94,15 +94,15 @@ export class SamadhanReportComponent implements OnInit {
     })
   }
 
-  getdepartment(id: any) {
-    this.departmentArray = [];
-    this.commonService.getAllDepartmentByUserId(id).subscribe({
-      next: (response: any) => {
-        this.departmentArray.push(...response);
-      },
-      error: ((error: any) => { this.error.handelError(error.statusCode) })
-    })
-  }
+  // getdepartment(id: any) {
+  //   this.departmentArray = [];
+  //   this.commonService.getAllDepartmentByUserId(id).subscribe({
+  //     next: (response: any) => {
+  //       this.departmentArray.push(...response);
+  //     },
+  //     error: ((error: any) => { this.error.handelError(error.statusCode) })
+  //   })
+  // }
 
   getUrl() {
 
@@ -132,6 +132,11 @@ export class SamadhanReportComponent implements OnInit {
         this.url = 'samadhan/OnClickDetailReports/OnClicIsSatisfiedkRPTDetails?'
         this.urlString = 'flag=' + this.redirectGetData.onClickflag + '&searchdeptId=' + this.redirectGetData.deptId;
         this.heading = ["Satisfied", "Report"]
+
+        if(this.redirectGetData.onClickflag == 3 || this.redirectGetData.onClickflag == 4){
+          this.columns.push({ header: "Feedback Status", column: 'feedbackstatus', flag: true },{header: "Feedback Remark", column: 'feedbackRemark', flag: true})
+        }
+       
         this.getReport();
         break;
 
@@ -168,21 +173,28 @@ export class SamadhanReportComponent implements OnInit {
           // this.dataSource = new MatTableDataSource(res.responseData);
           this.reportData = res.responseData
           this.dataSource = this.reportData;
-
           this.reportData.map((ele: any, index: any) => {
             let obj = {
               'srno': index + 1,
               'grievance No': ele.grievanceNo,
               'name': ele.userName,
               'departmentName': ele.deptName,
-              'office': ele.officeName,
               'grievanceType': ele.grievanceType,
               'grievancedetails': ele.grievanceDescription,
               'status': ele.statusName
-            }
+            }        
+            
+            this.columns.find((head:any)=>{
+              if(head.header=='Feedback Status' || head.header=='Feedback Remark'){
+                obj['feedbackStatus']=ele.feedbackstatus;
+                obj['feedbackRemark']=ele.feedbackRemark;
+              }             
+          })
+         
             this.reportArray.push(obj);
           });
 
+        
           this.totalPages = res.responseData1.pageCount;
           this.selecteColumn();
           this.spinner.hide();
@@ -285,6 +297,7 @@ export class SamadhanReportComponent implements OnInit {
   clearFilter() {
     this.filterform();
     this.getReport();
+
   }
   ngOnDestroy(): void {
     localStorage.removeItem("dateRange");
