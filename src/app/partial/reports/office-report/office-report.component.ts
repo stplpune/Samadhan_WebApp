@@ -188,6 +188,8 @@ export class OfficeReportComponent implements OnInit {
     this.loggedUserTypeId == 4? this.filterForm.controls['searchofcId'].setValue(this.loggedUserOffID) : '';
     
     this.getOfficerOfficeReport();
+    this.filterForm.controls['searchdeptId'].setValue('0');
+    this.filterForm.controls['searchofcId'].setValue('0');
   }
 
   downloadExcel() {

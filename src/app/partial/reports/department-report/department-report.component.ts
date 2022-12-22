@@ -170,6 +170,7 @@ export class DepartmentReportComponent implements OnInit {
       this.filterForm.controls['searchdeptId'].setValue(0);
     }   
     this.getOfficerDepartmentReport();
+    this.filterForm.controls['searchdeptId'].setValue('0');
     
   }
 

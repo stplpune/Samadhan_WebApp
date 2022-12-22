@@ -158,6 +158,7 @@ export class PendencyReportComponent implements OnInit {
       this.filterForm.controls['searchdeptId'].setValue(0);
     }   
     this.getPendencyReport();
+    this.filterForm.controls['searchdeptId'].setValue('0');
   }
 
   downloadExcel(){

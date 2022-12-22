@@ -207,6 +207,7 @@ export class TalukaReportComponent implements OnInit {
     this.filterform();
     this.pageNo = 1;
     this.getOfficerTalukaReport();
+    this.filterForm.controls['TalukaId'].setValue('0');
   }
 
   // getDetailsReport(ele:any,eleFlag:any){

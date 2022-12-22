@@ -222,6 +222,7 @@ export class SatisfiedReportComponent implements OnInit {
       this.filterForm.controls['searchdeptId'].setValue(0);
     }   
     this.getOfficerIsSatisfiedReport();
+    this.filterForm.controls['searchdeptId'].setValue('0');
   }
 
   // getDetailsReport(ele:any,eleFlag:any){
