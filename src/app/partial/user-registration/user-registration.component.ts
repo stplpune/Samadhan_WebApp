@@ -261,6 +261,9 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   }
 
   getFilteroffice(deptNo:number){
+    if (deptNo == 0) {
+      return;
+    }
     this.filterOfficeArray=[];
     this.commonService.getOfficeByDeptId(deptNo).subscribe({
       next: (response: any) => {
