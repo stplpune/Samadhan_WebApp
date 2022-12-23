@@ -38,6 +38,8 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   usersArray = new Array();
   subUsersArray = new Array();
   departmentArray = new Array();
+  filterDepartmentArray=new Array();
+  filterOfficeArray=new Array();
   departmentByUserArray=new Array();
   officeArray = new Array();
   highlightedRow!: number;
@@ -89,7 +91,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     //  }
     this.getData();
     this.getUsers(this.localStrorageData.getUserId());
-    // this.getDepartment();
+    this.getFilterDepartment(this.localStrorageData.getUserId());
     this.getDepartment(this.localStrorageData.getUserId());
     this.getSubUsertype(this.localStrorageData.getUserId());
     this.webStorage.langNameOnChange.subscribe(message => {
@@ -177,14 +179,16 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
         this.usersArray.push(...response);
 
         if( this.loggedUserTypeId == 4){
-          this.filterFrm.controls['deptId'].setValue(this.loggedUserDeptID);
+          // this.filterFrm.controls['deptId'].setValue(this.loggedUserDeptID);
           this.userFrm.controls['userTypeId'].setValue(this.loggedUserTypeId);
-          this.userFrm.controls['deptId'].setValue(this.loggedUserDeptID);
+          // this.userFrm.controls['deptId'].setValue(this.loggedUserDeptID);
           this.getSubUsers(this.loggedUserTypeId);
           this.dropdownDisable=true;
+         }else{
+          this.changeDepFlag == true ? (this.userFrm.controls['userTypeId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.userTypeId) == false ? '' : this.updatedObj?.userTypeId),
+          this.getSubUsers(this.commonMethod.checkDataType(this.updatedObj?.userTypeId) == false ? '' : this.updatedObj?.userTypeId)) : '';
          }
-        this.changeDepFlag == true ? (this.userFrm.controls['userTypeId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.userTypeId) == false ? '' : this.updatedObj?.userTypeId),
-         this.getSubUsers(this.commonMethod.checkDataType(this.updatedObj?.userTypeId) == false ? '' : this.updatedObj?.userTypeId)) : '';
+        
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
@@ -206,7 +210,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.commonService.getAllSubUserType(userId).subscribe({
       next: (response: any) => {
         this.subUserTypeArray.push(...response);
-        // this.changeDepFlag == true ? (this.userFrm.controls['subUserTypeId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.subUserTypeId) == false ? '' : this.updatedObj?.subUserTypeId)) :this.userFrm.controls['subUserTypeId'].setValue('');
+        this.changeDepFlag == true ? (this.userFrm.controls['subUserTypeId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.subUserTypeId) == false ? '' : this.updatedObj?.subUserTypeId)) :this.userFrm.controls['subUserTypeId'].setValue('');
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
@@ -215,18 +219,23 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
 
 
   //#region  drop down department bind  fn Start here
-  // getDepartment() {
-  //   this.departmentArray = [];
-  //   this.commonService.getAllDepartment().subscribe({
-  //     next: (response: any) => {
-  //       this.departmentArray.push(...response);
-  //       this.changeDepFlag == true ? (this.userFrm.controls['deptId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.deptId) == false ? '' : this.updatedObj?.deptId),
-  //        this.getOffice(this.commonMethod.checkDataType(this.updatedObj?.deptId) == false ? '' : this.updatedObj?.deptId)) : '';
-  //     },
-  //     error: ((error: any) => { this.error.handelError(error.status) })
-  //   })
-  // }
+  getFilterDepartment(id:number) {
+    this.filterDepartmentArray = [];
+    this.commonService.getAllDepartmentByUserId(id).subscribe({
+      next: (response: any) => {
+        this.filterDepartmentArray.push(...response); 
+        if( this.loggedUserTypeId == 3 || this.loggedUserTypeId == 4){
+          this.filterFrm.controls['deptId'].setValue(this.loggedUserDeptID);
+          this.getFilteroffice(this.filterFrm.value.deptId);
+          this.dropdownDisable=true;
+         } 
+
+      },
+      error: ((error: any) => { this.error.handelError(error.status) })
+    })
+  }
   //#endregiondrop down department bind fn end here
+
 
   getDepartment(id:number) {
     this.departmentByUserArray = [];
@@ -235,13 +244,31 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
         this.departmentByUserArray.push(...response);
 
         if( this.loggedUserTypeId == 3 || this.loggedUserTypeId == 4){
-          this.filterFrm.controls['deptId'].setValue(this.loggedUserDeptID);
+          // this.filterFrm.controls['deptId'].setValue(this.loggedUserDeptID);
           this.userFrm.controls['deptId'].setValue(this.loggedUserDeptID);
           this.getOffice(this.userFrm.value.deptId);
           this.dropdownDisable=true;
          }
-        this.changeDepFlag == true ? (this.userFrm.controls['deptId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.deptId) == false ? '' : this.updatedObj?.deptId),
-         this.getOffice(this.commonMethod.checkDataType(this.updatedObj?.deptId) == false ? '' : this.updatedObj?.deptId)) : '';
+         else{
+          this.changeDepFlag == true ? (this.userFrm.controls['deptId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.deptId) == false ? '' : this.updatedObj?.deptId),
+          this.getOffice(this.commonMethod.checkDataType(this.updatedObj?.deptId) == false ? '' : this.updatedObj?.deptId)) : '';
+         }
+
+        
+      },
+      error: ((error: any) => { this.error.handelError(error.status) })
+    })
+  }
+
+  getFilteroffice(deptNo:number){
+    this.filterOfficeArray=[];
+    this.commonService.getOfficeByDeptId(deptNo).subscribe({
+      next: (response: any) => {
+        this.filterOfficeArray.push(...response); 
+        if(this.loggedUserTypeId == 4){
+          this.filterFrm.controls['officeId'].setValue(this.data.officeId);
+          this.dropdownDisable=true;
+         }   
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
@@ -258,7 +285,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
         this.officeArray.push(...response);
         
         if(this.loggedUserTypeId == 4){
-          this.filterFrm.controls['officeId'].setValue(this.data.officeId);
+          // this.filterFrm.controls['officeId'].setValue(this.data.officeId);
           this.userFrm.controls['officeId'].setValue(this.data.officeId);
           this.dropdownDisable=true;
          }
@@ -306,7 +333,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
 
     }
 
-    this.dropdownDisable=true;
+    // this.dropdownDisable=true;
   }
 
   //#region  bind table  fn Start here
@@ -489,8 +516,10 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.userFrm.controls['deptId'].setValue(this.loggedUserDeptID);
     this.userFrm.controls['officeId'].setValue(this.loggedUserOffID);
      this.dropdownDisable=true;
-   }  
-     this.selection.clear();
+   }else if(this.loggedUserTypeId == 3){
+    this.userFrm.controls['deptId'].setValue(this.loggedUserDeptID);
+   }
+      this.selection.clear();
 
   }
 
