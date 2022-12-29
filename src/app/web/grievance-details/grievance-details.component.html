@@ -218,6 +218,38 @@
                                 </div>
                             </div> -->
                             </div>
+
+                            <div class="row bbottom g-2" *ngIf="grivanceData?.feedbackResponseModel.length!=0">
+                                <div class="col-sm-2">
+                                    <div class="form-label"> Citizen Remark: </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table mat-table [dataSource]="feedbackResponse" class="dashboard-table w-100">
+                                        <ng-container matColumnDef="srNo">
+                                            <th mat-header-cell *matHeaderCellDef class="srno"> Sr.No </th>
+                                            <td mat-cell *matCellDef="let element let i= index"> {{i+1}}
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="status">
+                                            <th mat-header-cell *matHeaderCellDef>Status</th>
+                                            <td mat-cell *matCellDef="let element"> {{ element.status}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="feedbackStaus">
+                                            <th mat-header-cell *matHeaderCellDef>Feedback Staus</th>
+                                            <td mat-cell *matCellDef="let element"> {{ element.feedbackStaus}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="feedbackRemark">
+                                            <th mat-header-cell *matHeaderCellDef>Feedback Remark</th>
+                                            <td mat-cell *matCellDef="let element"> {{ element.feedbackRemark }} </td>
+                                        </ng-container>
+
+                                        <tr mat-header-row *matHeaderRowDef="feedbackDisplayedColumns"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: feedbackDisplayedColumns;">
+                                        </tr>
+                                     </table>
+                                </div>   
+                            </div>
                         </div>
 
                         <p class="note">Note -</p>

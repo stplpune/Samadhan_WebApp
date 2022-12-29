@@ -19,7 +19,10 @@ export class GrievanceDetailsComponent implements OnInit {
   grivanceData: any;
   dataSource:any;
   OfficerImagesData:any;
+  feedbackResponse:any;
   displayedColumns=['srNo','departmentName','officeName','status', 'remark','action']
+  feedbackDisplayedColumns=['srNo','status','feedbackStaus','feedbackRemark']
+
   constructor(public commonMethod: CommonMethodService,
     public apiService: ApiService,
     public error: ErrorHandlerService,
@@ -35,8 +38,7 @@ export class GrievanceDetailsComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.data);
     this.data? this.getGrievance_App(this.data.id): this.getGrievance_App(this.route.snapshot.params['id']);
-     
-   
+      
   }
 
   getGrievance_App(grievanceId: any) {
@@ -46,8 +48,8 @@ export class GrievanceDetailsComponent implements OnInit {
         if (res.statusCode == 200) {
           this.grivanceData = res.responseData;
           this.OfficerImagesData=res.responseData.officerRedressalImages;
-          console.log(this.OfficerImagesData);
           this.dataSource=new MatTableDataSource(this.OfficerImagesData);
+          this.feedbackResponse=new MatTableDataSource(res.responseData.feedbackResponseModel);
         } else {
           this.grivanceData = [];
           if (res.statusCode != "404") {
