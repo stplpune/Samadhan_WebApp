@@ -15,6 +15,7 @@ import { ErrorHandlerService } from 'src/app/core/service/error-handler.service'
 import { ExcelService } from 'src/app/core/service/excel_Pdf.service';
 import { FormsValidationService } from 'src/app/core/service/forms-validation.service';
 import { WebStorageService } from 'src/app/core/service/web-storage.service';
+import { GrievanceDetailsComponent } from 'src/app/web/grievance-details/grievance-details.component';
 
 @Component({
   selector: 'app-samadhan-report',
@@ -301,6 +302,19 @@ export class SamadhanReportComponent implements OnInit {
   }
   ngOnDestroy(): void {
     localStorage.removeItem("dateRange");
+  }
+
+  grievanceDetails(grievanceId: any) {
+    const dialogRef = this.dialog.open(GrievanceDetailsComponent, {
+      width: '100%',
+      data: {
+        id: grievanceId
+      },
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe((_result: any) => {
+      
+    });
   }
 
 
