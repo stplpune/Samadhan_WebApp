@@ -72,11 +72,12 @@ export class SamadhanReportComponent implements OnInit {
 
   }
 
+  satifiedAndUnsatifiedFlag:any;
   ngOnInit(): void {
     let dateData: any = localStorage.getItem('dateRange');
     this.data = JSON.parse(dateData);
     this.data ? this.filterform(this.data) : this.filterform()
-
+   this.satifiedAndUnsatifiedFlag = localStorage.getItem('appliedColor');
     // this.getdepartment(this.userId);
     // if(this.data){
     //   this.filterForm.controls['fromDate'].setValue(new Date(this.data.fromDate));
@@ -302,6 +303,7 @@ export class SamadhanReportComponent implements OnInit {
   }
   ngOnDestroy(): void {
     localStorage.removeItem("dateRange");
+    localStorage.removeItem('appliedColor');
   }
 
   grievanceDetails(grievanceId: any) {
