@@ -160,7 +160,7 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
           if (this.data[4].value && this.data[5].value && checkFromDateFlag && checkToDateFlag) {
             fromdate = new Date(this.data[4].value);
             todate = new Date(this.data[5].value);
-            sastisfiedObjData.timePeriod = 'From Date:' + this.datePipe.transform(fromdate, 'dd/MM/yyyy') + ' To Date: ' + this.datePipe.transform(todate, 'dd/MM/yyyy');
+            penAboveFifteenObjData.timePeriod = 'From Date:' + this.datePipe.transform(fromdate, 'dd/MM/yyyy') + ' To Date: ' + this.datePipe.transform(todate, 'dd/MM/yyyy');
           }
           this.getPendencyReportAboveFifteen(penAboveFifteenHeader,penAboveFifteenObjData);
     }
