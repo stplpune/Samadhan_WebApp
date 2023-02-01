@@ -27,6 +27,7 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
   OfficerTalukaReportArray: any;
   pendencyReportArray: any;
   officeIsSatisfiedReportArray: any;
+  penAboveFifteenArray:any;
   langTypeName:any;
 
   constructor(
@@ -147,6 +148,21 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
         }
         this.getOfficerIsSatisfiedReport(sastisfiedHeader, sastisfiedObjData);
         break;
+
+        case '6':
+          let penAboveFifteenHeader = ['SrNo', "Department Name", "Total", "Pending", ">15"];
+          let penAboveFifteenObjData:any = {
+            'topHedingName': 'Pendancy Report Above 15 Days',
+            'createdDate':'Created on : ' + this.datePipe.transform(new Date(),  'dd/MM/yyyy hh:mm a')
+          }
+          checkFromDateFlag = this.data[4].value == '' || this.data[4].value == null || this.data[4].value == 0 || this.data[4].value == undefined ? false : true;
+          checkToDateFlag = this.data[5].value == '' || this.data[5].value == null || this.data[5].value == 0 || this.data[5].value == undefined ? false : true;
+          if (this.data[4].value && this.data[5].value && checkFromDateFlag && checkToDateFlag) {
+            fromdate = new Date(this.data[4].value);
+            todate = new Date(this.data[5].value);
+            sastisfiedObjData.timePeriod = 'From Date:' + this.datePipe.transform(fromdate, 'dd/MM/yyyy') + ' To Date: ' + this.datePipe.transform(todate, 'dd/MM/yyyy');
+          }
+          this.getPendencyReportAboveFifteen(penAboveFifteenHeader,penAboveFifteenObjData);
     }
 
   }
@@ -259,6 +275,30 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
         this.error.handelError(error.status);
       },
     });
+  }
+
+ getPendencyReportAboveFifteen(keyPDFHeader: any, objData: any){
+  let obj = this.data[2].value + '&userid=' + this.data[3].value + '&fromDate=' + this.data[4].value + '&toDate=' + this.data[5].value
+    this.apiService.setHttp('get', 'api/ShareGrievances/OfficerPendencyAbove15Report?searchdeptId=' + obj, false, false, false, 'samadhanMiningService');
+    this.apiService.getHttp().subscribe({
+      next: (res: any) => {
+        if (res.statusCode == 200) {
+          this.penAboveFifteenArray = res.responseData.map((ele: any, index: any) => {
+            ele.deptId = index + 1;
+            delete ele.pendingless15;delete ele.approvedless7;delete ele.approvedless15;
+            delete ele.approvedless30;delete ele.approvedgrt30;
+            return ele
+          });
+
+        this.docId==1? this.downloadPdf(keyPDFHeader, objData, this.penAboveFifteenArray) :this.docId==2? this.downloadExcel(keyPDFHeader, objData, this.penAboveFifteenArray):'';         
+        } else {
+        }
+      },
+      error: (error: any) => {
+        this.error.handelError(error.status);
+      },
+    });
+
   }
 
   downloadPdf(keyPDFHeader: any, objData: any, array: any) {
