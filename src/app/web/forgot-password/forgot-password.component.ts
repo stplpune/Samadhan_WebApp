@@ -42,7 +42,7 @@ export class ForgotPasswordComponent implements OnInit {
   ngOnInit(): void {
     this.sendOTPForm = this.fb.group({
       // MobileNo: ['', [Validators.required, Validators.pattern(/^[6-9][0-9]{9}$/)]]
-      userName: ['', [Validators.required, Validators.pattern(/^[A-za-z]{5}[0-9]{5}/)]],
+      userName: ['', [Validators.required]],
     })
 
     this.verifyOTPForm = this.fb.group({
@@ -53,7 +53,7 @@ export class ForgotPasswordComponent implements OnInit {
       otpD: ['', Validators.required],
       otpE: ['', Validators.required],
     })
-    
+
     this.changePassword = this.fb.group({
       // userName: ['', [Validators.required, Validators.pattern(/^[A-za-z]{5}[0-9]{5}/)]],
       newPassword: ['', [Validators.required, Validators.pattern(this.validation.valPassword)]],
@@ -164,7 +164,7 @@ export class ForgotPasswordComponent implements OnInit {
       return;
     }
 
-    
+
     let obj = {
       "userName": this.verifyUserName,
       "newPassword": formData.newPassword,
