@@ -57,6 +57,16 @@
         "ofiname_marathi":"कार्यालयाचे नाव (मराठी)",
         "please_sel_dep":"कृपया विभाग निवडा",
 
+
+        "add_sub_Office":"उप कार्यालय जोडा",
+        "sub_office_name":"उप कार्यालय नाव",
+        "sub_office_name_marathi": "उप कार्यालय नाव (मराठी)",
+        "sub_office_address":"उप कार्यालय पत्ता",
+        "sub_off_email_id": " उप कार्यालय ईमेल आयडी",
+        "sub_off_designation":"उप कार्यालय प्रमुख पद",
+        "sub_off_landline":"उप कार्यालय लँडलाइन",
+
+
         "add_grievance":"तक्रार मास्टर जोडा",
         "upd_grievance":"तक्रार मास्टर अपडेट करा",
         "grievance_type":"तक्रारीचा प्रकार",

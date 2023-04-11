@@ -12,8 +12,8 @@
                 </div>
                 <div class="col-sm-6">
                     <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>{{'Home.office' | translate}} </mat-label>
-                        <input matInput placeholder="{{'Home.search' | translate}}" formControlName="name">
+                        <mat-label> Select Office </mat-label>
+                        <input matInput placeholder="Office">
                         <button mat-icon-button matSuffix>
                             <span class="material-symbols-outlined">
                                 close
@@ -58,13 +58,13 @@
     <div class="col-sm-4">
         <div class="card form-card">
             <div class="card-header">
-                Add Sub Office
+                {{'Home.add_sub_Office' | translate}}
             </div>
             <form>
                 <div class="card-body">
                     <div class="mb-3">
                         <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Select Department</mat-label>
+                            <mat-label>{{'Home.department' | translate}}</mat-label>
                             <mat-select>
                                 <mat-option value="0"></mat-option>
                             </mat-select>
@@ -72,7 +72,7 @@
                     </div>
                     <div class="mb-3">
                         <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Select Department</mat-label>
+                            <mat-label>{{'Home.office' | translate}}</mat-label>
                             <mat-select>
                                 <mat-option value="0"></mat-option>
                             </mat-select>
@@ -80,38 +80,42 @@
                     </div>
                     <div class="mb-3">
                         <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Select Department</mat-label>
-                            <mat-select>
-                                <mat-option value="0"></mat-option>
-                            </mat-select>
-                        </mat-form-field>
+                            <mat-label>{{'Home.sub_office_name' | translate}}</mat-label>
+                            <input matInput>
+                          </mat-form-field>
                     </div>
                     <div class="mb-3">
                         <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Select Department</mat-label>
-                            <mat-select>
-                                <mat-option value="0"></mat-option>
-                            </mat-select>
-                        </mat-form-field>
+                            <mat-label>{{'Home.sub_office_name_marathi' | translate}}</mat-label>
+                            <input matInput>
+                          </mat-form-field>                                               
+                    </div>
+                    <div class="mb-3"> 
+                        <mat-label>{{'Home.sub_office_address' | translate}} </mat-label>
+                        <textarea aria-label="Number" matInput  autocorrect="off" autocomplete="off"
+                           autocapitalize="off" spellcheck="off" type="text" #search></textarea>                       
+                    </div>
+                    <div class="mb-3">
+                        <mat-form-field appearance="outline" class="w-100 ">
+                            <mat-label>{{'Home.sub_off_email_id' | translate}} </mat-label>
+                            <input matInput     >
+                          </mat-form-field>                      
                     </div>
                     <div class="mb-3">
                         <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Select Department</mat-label>
-                            <mat-select>
-                                <mat-option value="0"></mat-option>
-                            </mat-select>
-                        </mat-form-field>
+                            <mat-label>{{'Home.sub_off_designation' | translate}} </mat-label>
+                            <input matInput  >                          
+                         </mat-form-field>
                     </div>
                     <div class="mb-3">
                         <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Select Department</mat-label>
-                            <mat-select>
-                                <mat-option value="0"></mat-option>
-                            </mat-select>
-                        </mat-form-field>
+                            <mat-label>{{'Home.sub_off_landline' | translate}}</mat-label>
+                            <input matInput  >                          
+                          </mat-form-field>
                     </div>
                     <div class="text-end mb-2">
-                        <button mat-stroked-button class="btn-main-outline" type="button">Cancel</button>
+                        <button mat-stroked-button class="btn-main-outline" type="button">{{'Home.cancel'
+                            | translate}}</button>
                         <button mat-stroked-button class="btn-main ms-2" type="submit">Submit</button>
                       </div>
                 </div>
