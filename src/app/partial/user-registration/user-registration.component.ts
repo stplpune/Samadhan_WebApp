@@ -42,6 +42,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   filterOfficeArray=new Array();
   departmentByUserArray=new Array();
   officeArray = new Array();
+  subOfficeArray=new Array();
   highlightedRow!: number;
   // subUserTypeArray: any[] = [{ "userTypeId": 2, "userType": "SubAdmin" }, { "userTypeId": 3, "userType": "DeptAdmin" }, { "userTypeId": 4, "userType": "HOD" },{ "userTypeId": 5, "userType": "NodalOfficer" },{ "userTypeId": 6, "userType": "Clerk" }]
   subUserTypeArray=new Array();
@@ -126,6 +127,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
       subUserTypeId: ['', [Validators.required]],
       deptId: ['', [Validators.required]],
       officeId: ['', [Validators.required]],
+      subOfficeId:['',[Validators.required]],
       name: ['', [Validators.required]],
       mobileNo: ['', [Validators.required, Validators.pattern(this.validation.valMobileNo), Validators.minLength(10), Validators.maxLength(10)]],
       emailId: ['', [Validators.required, Validators.email]],
@@ -290,15 +292,37 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
         if(this.loggedUserTypeId == 4){
           // this.filterFrm.controls['officeId'].setValue(this.data.officeId);
           this.userFrm.controls['officeId'].setValue(this.data.officeId);
+          this.getSubOffice();
           this.dropdownDisable=true;
          }
 
-        this.changeDepFlag == true ? (this.userFrm.controls['officeId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.officeId) == false ? '' : this.updatedObj?.officeId)) : '';
+        this.changeDepFlag == true ? (this.userFrm.controls['officeId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.officeId) == false ? '' : this.updatedObj?.officeId),this.getSubOffice()) : '';
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
   }
   //#endregiondrop down office bind fn end here
+
+  getSubOffice(){
+    let id=this.userFrm.value.officeId;
+    if(id!=0){
+      this.subOfficeArray = [];
+      this.commonService.getAllSubOfficeByOfficeId(id).subscribe({
+        next: (response: any) => {
+          this.subOfficeArray.push(...response);
+          
+          // if(this.loggedUserTypeId == 4){
+          //   // this.filterFrm.controls['officeId'].setValue(this.data.officeId);
+          //   this.userFrm.controls['officeId'].setValue(this.data.officeId);
+          //   this.dropdownDisable=true;
+          //  }
+  
+         this.changeDepFlag == true ? (this.userFrm.controls['subOfficeId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.subOfficeId) == false ? '' : this.updatedObj?.subOfficeId)) : '';
+        },
+        error: ((error: any) => { this.error.handelError(error.status) })
+      })
+    }
+  }
 
   
 
@@ -319,6 +343,9 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
               this.userFrm.controls['officeId'].setValue('');
               this.userFrm.controls['officeId'].clearValidators();
               this.userFrm.controls['officeId'].updateValueAndValidity();
+              this.userFrm.controls['subOfficeId'].setValue('');
+              this.userFrm.controls['subOfficeId'].clearValidators();
+              this.userFrm.controls['subOfficeId'].updateValueAndValidity();
               break;
 
        case 3:
@@ -327,22 +354,39 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
                 this.userFrm.controls['officeId'].setValue('');
                 this.userFrm.controls['officeId'].clearValidators();
                 this.userFrm.controls['officeId'].updateValueAndValidity();
+                this.userFrm.controls['subOfficeId'].setValue('');
+                this.userFrm.controls['subOfficeId'].clearValidators();
+                this.userFrm.controls['subOfficeId'].updateValueAndValidity();
                 break;
       default:
                 this.userFrm.controls["deptId"].setValidators([Validators.required]);
                 this.userFrm.controls["deptId"].updateValueAndValidity();
                 this.userFrm.controls["officeId"].setValidators([Validators.required]);
                 this.userFrm.controls["officeId"].updateValueAndValidity();
+                this.userFrm.controls["subOfficeId"].setValidators([Validators.required]);
+                this.userFrm.controls["subOfficeId"].updateValueAndValidity();
 
     }
 
     // this.dropdownDisable=true;
   }
 
+  setSubOfficeValidators(){
+    let id=this.userFrm.value.subUserTypeId;
+    if(id==9){
+      this.userFrm.controls["subOfficeId"].setValidators([Validators.required]);
+    }else{
+      this.userFrm.controls['subOfficeId'].setValue('');
+      this.userFrm.controls['subOfficeId'].clearValidators();
+    }
+    this.userFrm.controls["subOfficeId"].updateValueAndValidity();
+  }
+
   //#region  bind table  fn Start here
   getData() {
     this.spinner.show()
     let formValue = this.filterFrm.value;
+    console.log('form:-',formValue);
     let paramList: string = "?DeptId=" + formValue.deptId + "&OfficeId=" + formValue.officeId +'&SubUserTypeId='+ formValue.subUserTypeId + "&pageno=" + this.pageNumber + "&pagesize=" + 10 + '&userid=' + this.localStrorageData.getUserId();
     this.commonMethod.checkDataType(formValue.textSearch.trim()) == true ? paramList += "&Textsearch=" + formValue.textSearch : '';
     this.apiService.setHttp('get', "samadhan/user-registration/GetAll" + paramList, false, false, false, 'samadhanMiningService');
@@ -402,6 +446,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
       "password": "",
       "deptId": formData.deptId || 0,
       "officeId": formData.officeId || 0,
+      "subOfficeId": formData.subOfficeId || 0,
       "isBlock": false,
       "blockDate": new Date(),
       "blockBy": 0,

@@ -320,13 +320,27 @@
                     <div class="mb-3" *ngIf="userFrm.value.userTypeId !=2 && userFrm.value.userTypeId !=3 ">
                         <mat-form-field class="w-100" appearance="outline">
                             <mat-label>{{'Home.office' |translate}}</mat-label>
-                            <mat-select formControlName="officeId" [disabled]="!userFrm.value.deptId || this.loggedUserTypeId == 4">
+                            <mat-select formControlName="officeId" (selectionChange)="getSubOffice()"   [disabled]="!userFrm.value.deptId || this.loggedUserTypeId == 4">
                                 <mat-option *ngFor="let office of officeArray" [value]="office.id">
                                     {{ langTypeName == 'English' ? office.name : office.m_OfficeName}}
                                 </mat-option>
                             </mat-select>
                             <mat-error *ngIf="f['officeId']?.errors">
                                 <span *ngIf="f['officeId']?.hasError('required')"> {{'Home.please_sel_Off' | translate}}</span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="mb-3" *ngIf="userFrm.value.userTypeId == 6">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <!-- <mat-label>{{'Home.office' |translate}}</mat-label> -->
+                            <mat-label>Sub Office</mat-label>
+                            <mat-select formControlName="subOfficeId" [disabled]="!userFrm.value.officeId">
+                                <mat-option *ngFor="let subOffice of subOfficeArray" [value]="subOffice.id">
+                                    {{ langTypeName == 'English' ? subOffice.subOfficeName : subOffice.m_subOfficeName}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="f['subOfficeId']?.errors">
+                                <span *ngIf="f['subOfficeId']?.hasError('required')"> {{'Home.please_sel_Off' | translate}}</span>
                             </mat-error>
                         </mat-form-field>
                     </div>
