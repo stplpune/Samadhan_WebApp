@@ -57,7 +57,7 @@
         "ofiname_marathi":"कार्यालयाचे नाव (मराठी)",
         "please_sel_dep":"कृपया विभाग निवडा",
 
-
+        "all_suboff":"सर्व उप कार्यालय", 
         "add_sub_Office":"उप कार्यालय जोडा",
         "sub_office_name":"उप कार्यालय नाव",
         "sub_office_name_marathi": "उप कार्यालय नाव (मराठी)",
@@ -66,6 +66,7 @@
         "sub_off_email_id": " उप कार्यालय ईमेल आयडी",
         "sub_off_designation":"उप कार्यालय प्रमुख पद",
         "sub_off_landline":"उप कार्यालय लँडलाइन",
+        "please_sel_subOff":" कृपया उप कार्यालय निवडा",
 
 
         "add_grievance":"तक्रार मास्टर जोडा",

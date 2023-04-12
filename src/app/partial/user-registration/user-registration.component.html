@@ -30,10 +30,10 @@
                 </div>
                 <div class="col-sm-3">
                     <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Sub Office </mat-label>
+                        <mat-label>{{'Home.sub_office' | translate}} </mat-label>
                         <mat-select formControlName="subOfficeId" (selectionChange)="filterData()"
                             [disabled]='!filterFrm.value.officeId'>
-                            <mat-option value="0">All SubOffice</mat-option>
+                            <mat-option value="0">{{'Home.all_suboff' | translate}} </mat-option>
                             <mat-option *ngFor="let subOffice of filterSubOfficeArray" [value]="subOffice.id">
                                 {{ langTypeName == 'English' ?
                                 subOffice.subOfficeName : subOffice.m_subOfficeName}}
@@ -346,14 +346,14 @@
                     <div class="mb-3" *ngIf="userFrm.value.userTypeId == 6">
                         <mat-form-field class="w-100" appearance="outline">
                             <!-- <mat-label>{{'Home.office' |translate}}</mat-label> -->
-                            <mat-label>Sub Office</mat-label>
+                            <mat-label>{{'Home.sub_office' | translate}}</mat-label>
                             <mat-select formControlName="subOfficeId" [disabled]="!userFrm.value.officeId">
                                 <mat-option *ngFor="let subOffice of subOfficeArray" [value]="subOffice.id">
                                     {{ langTypeName == 'English' ? subOffice.subOfficeName : subOffice.m_subOfficeName}}
                                 </mat-option>
                             </mat-select>
                             <mat-error *ngIf="f['subOfficeId']?.errors">
-                                <span *ngIf="f['subOfficeId']?.hasError('required')"> {{'Home.please_sel_Off' | translate}}</span>
+                                <span *ngIf="f['subOfficeId']?.hasError('required')"> {{'Home.please_sel_subOff' | translate}}</span>
                             </mat-error>
                         </mat-form-field>
                     </div>
