@@ -249,7 +249,7 @@
                         <div class="col-sm-6" [class.disabled-contenct]="ispatch">
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>{{'Home.office' | translate}}</mat-label>
-                                <mat-select formControlName="officeId" [disabled]="!postGrievanceForm.value.deptId">
+                                <mat-select formControlName="officeId" [disabled]="!postGrievanceForm.value.deptId" (selectionChange)="getSubOffice()">
                                     <mat-option *ngFor="let office of officeArray" [value]="office.id">
                                         {{ langTypeName == 'English' ? office.name :office.m_OfficeName}}
                                     </mat-option>
@@ -258,6 +258,20 @@
                                     <span *ngIf="f['officeId']?.hasError('required')"> {{'Home.please_sel_Off'|
                                         translate}}</span>
                                 </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-6" [class.disabled-contenct]="ispatch">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>SubOffice</mat-label>
+                                <mat-select formControlName="subOfficeId" [disabled]="!postGrievanceForm.value.officeId">
+                                    <mat-option *ngFor="let subOffice of subOfficeArray" [value]="subOffice.id">
+                                        {{ langTypeName == 'English' ? subOffice.subOfficeName : subOffice.m_subOfficeName}}
+                                    </mat-option>
+                                </mat-select>
+                                <!-- <mat-error *ngIf="f['officeId']?.errors">
+                                    <span *ngIf="f['officeId']?.hasError('required')"> {{'Home.please_sel_Off'|
+                                        translate}}</span>
+                                </mat-error> -->
                             </mat-form-field>
                         </div>
                     </div>

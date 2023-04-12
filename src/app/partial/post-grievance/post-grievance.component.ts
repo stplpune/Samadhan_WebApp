@@ -42,6 +42,7 @@ export class PostGrievanceComponent implements OnInit {
   villageArray = new Array();
   departmentArray = new Array();
   officeArray = new Array();
+  subOfficeArray=new Array();
   statusArray = new Array();
   natureOfGrievance = new Array();
   postGrivanceData = new Array();
@@ -105,6 +106,7 @@ export class PostGrievanceComponent implements OnInit {
       villageId: ['', [Validators.required]],
       deptId: ['', [Validators.required]],
       officeId: ['', [Validators.required]],
+      subOfficeId:[''],
       natureGrievanceId: ['', [Validators.required]],
       grievanceDescription: ['', [Validators.required]]
     })
@@ -241,10 +243,28 @@ export class PostGrievanceComponent implements OnInit {
     this.commonApi.getOfficeByDeptId(deptNo).subscribe({
       next: (response: any) => {
         this.officeArray.push(...response);
-        this.ispatch == true ? (this.postGrievanceForm.controls['officeId'].setValue(this.updatedObj?.concern_OfficeId)) : '';
+        this.ispatch == true ? (this.postGrievanceForm.controls['officeId'].setValue(this.updatedObj?.concern_OfficeId),this.getSubOffice()) : '';
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
+  }
+
+  getSubOffice(){
+    let id=this.postGrievanceForm.value.officeId;
+    if(id!=0){
+      this.subOfficeArray = [];
+      this.commonApi.getAllSubOfficeByOfficeId(id).subscribe({
+        next: (response: any) => {
+          if(response.statusCode==200){
+          this.subOfficeArray.push(...response);
+          this.ispatch == true ? (this.postGrievanceForm.controls['subOfficeId'].setValue(this.updatedObj?.concern_SubOfficeId)) : '';
+          }else{
+            this.subOfficeArray = [];
+          }
+        },
+        // error: ((error: any) => { this.error.handelError(error.status) })
+      })
+    }
   }
 
   getStatus() {
@@ -419,6 +439,7 @@ export class PostGrievanceComponent implements OnInit {
         "villageId": formData.villageId,
         "concern_DeptId": formData.deptId,
         "concern_OfficeId": formData.officeId,
+        "concern_SubOfficeId":formData.subOfficeId || 0,
         "natureGrievanceId": formData.natureGrievanceId,
         "grievanceDescription": formData.grievanceDescription,
         "isSelfGrievance": 3,
