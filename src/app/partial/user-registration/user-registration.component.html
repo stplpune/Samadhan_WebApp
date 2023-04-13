@@ -6,7 +6,7 @@
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>{{'Home.select_department' |  translate}}</mat-label>
                         <mat-select formControlName="deptId" 
-                            (selectionChange)="clearFilter('department');filterData();getFilteroffice(filterFrm.value.deptId)" [disabled]="dropdownDisable">
+                            (selectionChange)="clearFilter('department');filterData();getFilteroffice(filterFrm.value.deptId)" [disabled]="this.loggedUserTypeId == 3 ||this.loggedUserTypeId == 4 || this.loggedUserTypeId == 6">
                             <mat-option value="0">{{'Home.all_dept' | translate}}</mat-option>
                             <mat-option *ngFor="let department of filterDepartmentArray" [value]="department.deptId">
                                 {{ langTypeName == 'English' ?
@@ -19,7 +19,7 @@
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>{{'Home.select_office' | translate}} </mat-label>
                         <mat-select formControlName="officeId" (selectionChange)="clearFilter('office');getFilterSubOffice();filterData()"
-                            [disabled]='!filterFrm.value.deptId || this.loggedUserTypeId == 4'>
+                            [disabled]='!filterFrm.value.deptId || this.loggedUserTypeId == 4 || this.loggedUserTypeId == 6'>
                             <mat-option value="0">{{'Home.all_off' | translate}}</mat-option>
                             <mat-option *ngFor="let office of filterOfficeArray" [value]="office.id">
                                 {{ langTypeName == 'English' ?
@@ -32,7 +32,7 @@
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>{{'Home.sub_office' | translate}} </mat-label>
                         <mat-select formControlName="subOfficeId" (selectionChange)="filterData()"
-                            [disabled]='!filterFrm.value.officeId'>
+                            [disabled]='!filterFrm.value.officeId || this.loggedUserTypeId == 6'>
                             <mat-option value="0">{{'Home.all_suboff' | translate}} </mat-option>
                             <mat-option *ngFor="let subOffice of filterSubOfficeArray" [value]="subOffice.id">
                                 {{ langTypeName == 'English' ?
@@ -44,7 +44,7 @@
                 <div class="col-sm-3">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>{{'Home.select_Designation' | translate}}</mat-label>
-                        <mat-select formControlName="subUserTypeId" (selectionChange)="filterData()">
+                        <mat-select formControlName="subUserTypeId" (selectionChange)="filterData()"  [disabled]='this.loggedUserTypeId == 6'>
                             <mat-option value="0">{{'Home.all_designation' | translate}}</mat-option>
                             <mat-option *ngFor="let subUser of subUserTypeArray" [value]="subUser.subUserTypeId">
                                 {{ langTypeName == 'English' ?
@@ -319,7 +319,7 @@
                         <mat-form-field class="w-100" appearance="outline">
                             <mat-label>{{'Home.department' | translate}}</mat-label>
                             <mat-select formControlName="deptId" 
-                                (selectionChange)="getOffice(userFrm.value.deptId);changeDepFlag = false" [disabled]="this.loggedUserTypeId== 3 || this.loggedUserTypeId== 4">
+                                (selectionChange)="getOffice(userFrm.value.deptId);changeDepFlag = false" [disabled]="this.loggedUserTypeId== 3 || this.loggedUserTypeId== 4 ||this.loggedUserTypeId == 6">
                                 <mat-option *ngFor="let department of departmentByUserArray"
                                     [value]="department.deptId">
                                     {{ langTypeName == 'English' ? department.departmentName :  department.m_DepartmentName}}
@@ -333,7 +333,7 @@
                     <div class="mb-3" *ngIf="userFrm.value.userTypeId !=2 && userFrm.value.userTypeId !=3 ">
                         <mat-form-field class="w-100" appearance="outline">
                             <mat-label>{{'Home.office' |translate}}</mat-label>
-                            <mat-select formControlName="officeId" (selectionChange)="getSubOffice()"   [disabled]="!userFrm.value.deptId || this.loggedUserTypeId == 4">
+                            <mat-select formControlName="officeId" (selectionChange)="getSubOffice()"   [disabled]="!userFrm.value.deptId || this.loggedUserTypeId == 4 || this.loggedUserTypeId == 6">
                                 <mat-option *ngFor="let office of officeArray" [value]="office.id">
                                     {{ langTypeName == 'English' ? office.name : office.m_OfficeName}}
                                 </mat-option>
@@ -347,7 +347,7 @@
                         <mat-form-field class="w-100" appearance="outline">
                             <!-- <mat-label>{{'Home.office' |translate}}</mat-label> -->
                             <mat-label>{{'Home.sub_office' | translate}}</mat-label>
-                            <mat-select formControlName="subOfficeId" [disabled]="!userFrm.value.officeId">
+                            <mat-select formControlName="subOfficeId" [disabled]="!userFrm.value.officeId || this.loggedUserTypeId == 6 ">
                                 <mat-option *ngFor="let subOffice of subOfficeArray" [value]="subOffice.id">
                                     {{ langTypeName == 'English' ? subOffice.subOfficeName : subOffice.m_SubOfficeName}}
                                 </mat-option>

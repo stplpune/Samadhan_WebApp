@@ -59,6 +59,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   loggedUserTypeId:any;
   loggedUserDeptID:any;
   loggedUserOffID:any;
+  loggedSubUserTypeID:any;
   dropdownDisable:boolean=false;
   langTypeName:any;
   selectedLang:any;
@@ -79,9 +80,11 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
      }
 
   ngOnInit(): void {
+    console.log('d:-',this.data);
     this.loggedUserTypeId= this.localStrorageData.getLoggedInLocalstorageData().responseData?.userTypeId;
    this.loggedUserDeptID= this.localStrorageData.getLoggedInLocalstorageData().responseData?.deptId;
    this.loggedUserOffID= this.localStrorageData.getLoggedInLocalstorageData().responseData?.officeId;
+   this.loggedSubUserTypeID=this.localStrorageData.getLoggedInLocalstorageData().responseData?.subUserTypeId;
    this.defaultForm();
     this.filterForm();
 
@@ -112,11 +115,11 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
 
   filterForm() {
     this.filterFrm = this.fb.group({
-      deptId: [(this.loggedUserTypeId == 3 || this.loggedUserTypeId == 4) ? this.loggedUserDeptID :'0'],
-      officeId: [this.loggedUserTypeId == 4 ? this.loggedUserOffID : '0' ],
-      subOfficeId:['0'],
+      deptId: [(this.loggedUserTypeId == 3 || this.loggedUserTypeId == 4 || this.loggedUserTypeId == 6) ? this.loggedUserDeptID :'0'],
+      officeId: [(this.loggedUserTypeId == 4 || this.loggedUserTypeId == 6 )? this.loggedUserOffID : '0' ],
+      subOfficeId:[this.loggedUserTypeId == 6 ? this.data.subOfficeId :'0'],
       textSearch: [''],
-      subUserTypeId:['0']
+      subUserTypeId:[this.loggedUserTypeId == 6 ? this.data.subUserTypeId :'0']
     })
   }
 
@@ -182,16 +185,14 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
       next: (response: any) => {
         this.usersArray.push(...response);
 
-        if( this.loggedUserTypeId == 4){
-          // this.filterFrm.controls['deptId'].setValue(this.loggedUserDeptID);
+        if( this.loggedUserTypeId == 6){   
           this.userFrm.controls['userTypeId'].setValue(this.loggedUserTypeId);
-          // this.userFrm.controls['deptId'].setValue(this.loggedUserDeptID);
           this.getSubUsers(this.loggedUserTypeId);
           this.dropdownDisable=true;
          }else{
           this.changeDepFlag == true ? (this.userFrm.controls['userTypeId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.userTypeId) == false ? '' : this.updatedObj?.userTypeId),
           this.getSubUsers(this.commonMethod.checkDataType(this.updatedObj?.userTypeId) == false ? '' : this.updatedObj?.userTypeId)) : '';
-         }
+          }
         
       },
       error: ((error: any) => { this.error.handelError(error.status) })
@@ -203,6 +204,11 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.commonService.getAllSubUser(usertypeId).subscribe({
       next: (response: any) => {
         this.subUsersArray.push(...response);
+        console.log('arr:-',this.subUsersArray);
+        if(this.loggedUserTypeId == 6){
+          this.userFrm.controls['subUserTypeId'].setValue(this.data?.subUserTypeId);
+          // this.dropdownDisable=true;
+         }
         this.changeDepFlag == true ? (this.userFrm.controls['subUserTypeId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.subUserTypeId) == false ? '' : this.updatedObj?.subUserTypeId)) :this.userFrm.controls['subUserTypeId'].setValue('');
       },
       error: ((error: any) => { this.error.handelError(error.status) })
@@ -214,7 +220,8 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.commonService.getAllSubUserType(userId).subscribe({
       next: (response: any) => {
         this.subUserTypeArray.push(...response);
-        this.changeDepFlag == true ? (this.userFrm.controls['subUserTypeId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.subUserTypeId) == false ? '' : this.updatedObj?.subUserTypeId)) :this.userFrm.controls['subUserTypeId'].setValue('');
+        
+        // this.changeDepFlag == true ? (this.userFrm.controls['subUserTypeId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.subUserTypeId) == false ? '' : this.updatedObj?.subUserTypeId)) :this.userFrm.controls['subUserTypeId'].setValue('');
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
@@ -228,7 +235,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.commonService.getAllDepartmentByUserId(id).subscribe({
       next: (response: any) => {
         this.filterDepartmentArray.push(...response); 
-        if( this.loggedUserTypeId == 3 || this.loggedUserTypeId == 4){
+        if( this.loggedUserTypeId == 3 || this.loggedUserTypeId == 4 || this.loggedUserTypeId == 6){
           this.filterFrm.controls['deptId'].setValue(this.loggedUserDeptID);
           this.getFilteroffice(this.filterFrm.value.deptId);
           this.dropdownDisable=true;
@@ -247,8 +254,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
       next: (response: any) => {
         this.departmentByUserArray.push(...response);
 
-        if( this.loggedUserTypeId == 3 || this.loggedUserTypeId == 4){
-          // this.filterFrm.controls['deptId'].setValue(this.loggedUserDeptID);
+        if( this.loggedUserTypeId == 3 || this.loggedUserTypeId == 4 || this.loggedUserTypeId == 6){
           this.userFrm.controls['deptId'].setValue(this.loggedUserDeptID);
           this.getOffice(this.userFrm.value.deptId);
           this.dropdownDisable=true;
@@ -272,8 +278,9 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.commonService.getOfficeByDeptId(deptNo).subscribe({
       next: (response: any) => {
         this.filterOfficeArray.push(...response); 
-        if(this.loggedUserTypeId == 4){
+        if(this.loggedUserTypeId == 4 || this.loggedUserTypeId == 6){
           this.filterFrm.controls['officeId'].setValue(this.data.officeId);
+          this.getFilterSubOffice();
           this.dropdownDisable=true;
          }   
       },
@@ -291,7 +298,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
       next: (response: any) => {
         this.officeArray.push(...response);
         
-        if(this.loggedUserTypeId == 4){
+        if(this.loggedUserTypeId == 4 || this.loggedUserTypeId == 6 ){
           // this.filterFrm.controls['officeId'].setValue(this.data.officeId);
           this.userFrm.controls['officeId'].setValue(this.data.officeId);
           this.getSubOffice();
@@ -313,6 +320,11 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
         next: (response: any) => {
           if(response){
           this.subOfficeArray.push(...response);
+          if(this.loggedUserTypeId == 6 ){
+            // this.filterFrm.controls['officeId'].setValue(this.data.officeId);
+            this.userFrm.controls['subOfficeId'].setValue(this.data.subOfficeId);
+            this.dropdownDisable=true;
+           }
          this.changeDepFlag == true ? (this.userFrm.controls['subOfficeId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.subOfficeId) == false ? '' : this.updatedObj?.subOfficeId)) : '';
           }else{
             this.subOfficeArray = [];
@@ -330,7 +342,11 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
       this.commonService.getAllSubOfficeByOfficeId(id).subscribe({
         next: (response: any) => {
           if(response){
-          this.filterSubOfficeArray.push(...response);  
+          this.filterSubOfficeArray.push(...response);
+          if(this.loggedUserTypeId == 6 ){
+            this.filterFrm.controls['subOfficeId'].setValue(this.data.subOfficeId);
+            this.dropdownDisable=true;
+           }  
           }else{
             this.filterSubOfficeArray = [];
           }
@@ -470,6 +486,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
       "profilePhoto": ""
     }
 
+    this.spinner.show();
     let method = this.isEdit ? 'PUT' : 'POST';
     let url = this.isEdit ? "UpdateRecord" : "AddRecord";
     this.apiService.setHttp(method, "samadhan/user-registration/" + url, false, obj, false, 'samadhanMiningService');
@@ -477,7 +494,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
       next: (res: any) => {
         if (res.statusCode == 200) { 
           this.highlightedRow = 0;
-          // this.spinner.hide();
+          //  this.spinner.hide();
           this.pageNumber=1;
           this.getData();
           this.onCancelRecord();
@@ -486,7 +503,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
         } else {
           this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
         }
-        // this.spinner.hide();
+        this.spinner.hide();
       },
       error: ((error: any) => { this.error.handelError(error.status); this.spinner.hide(); })
     })
@@ -573,13 +590,17 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   onCancelRecord() {
     this.formDirective.resetForm();
     this.isEdit = false;
-   if( this.loggedUserTypeId == 4){
-    this.userFrm.controls['userTypeId'].setValue(this.loggedUserTypeId);
+   if( this.loggedUserTypeId == 4 || this.loggedUserTypeId == 6){
+    // this.userFrm.controls['userTypeId'].setValue(this.loggedUserTypeId);
     this.userFrm.controls['deptId'].setValue(this.loggedUserDeptID);
     this.userFrm.controls['officeId'].setValue(this.loggedUserOffID);
      this.dropdownDisable=true;
    }else if(this.loggedUserTypeId == 3){
     this.userFrm.controls['deptId'].setValue(this.loggedUserDeptID);
+   }
+   if( this.loggedUserTypeId == 6){   
+    this.userFrm.controls['userTypeId'].setValue(this.loggedUserTypeId);
+    this.userFrm.controls['subOfficeId'].setValue(this.data.subOfficeId);
    }
       this.selection.clear();
 
