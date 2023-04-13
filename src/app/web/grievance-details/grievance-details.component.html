@@ -78,6 +78,13 @@
                                 <div class="col-sm-4">
                                     <div class="form-data">{{grivanceData?.officeName}}</div>
                                 </div>
+                                <div class="col-sm-2" *ngIf="grivanceData?.subOfficeName">
+                                    <div class="form-label">Sub Office: </div>
+                                </div>
+                                <div class="col-sm-4" *ngIf="grivanceData?.subOfficeName">
+                                    <div class="form-data">{{grivanceData?.subOfficeName}}</div>
+                                </div>
+                                
                                 <div class="col-sm-2">
                                     <div class="form-label">Nature of Grievance : </div>
                                 </div>
