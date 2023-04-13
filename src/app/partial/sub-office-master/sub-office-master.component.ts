@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
+import { Component, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -20,7 +20,7 @@ import { MapsAPILoader } from '@agm/core';
   templateUrl: './sub-office-master.component.html',
   styleUrls: ['./sub-office-master.component.css']
 })
-export class SubOfficeMasterComponent implements OnInit {
+export class SubOfficeMasterComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['srNo', 'departmentName', 'officeName', 'SubOfficeName', 'action'];
   dataSource: any;
   filterSubOfficeForm!: FormGroup;
@@ -73,7 +73,7 @@ export class SubOfficeMasterComponent implements OnInit {
     this.defaultAddEditForm();
     this.getDepartments(this.webStorage.getUserId());
     if (this.localData?.userTypeId == 3 || this.localData?.userTypeId == 4) {
-      // this.frmOffice.controls['deptId'].setValue(this.loggedUserDeptID);
+      this.addUpdateForm.controls['deptId'].setValue(this.localData?.deptId);
       this.filterSubOfficeForm.controls['deptId'].setValue(this.localData?.deptId);
       this.dropdownDisable = true;
     }
@@ -216,7 +216,7 @@ export class SubOfficeMasterComponent implements OnInit {
   }
 
   editSubOffice(obj: any) {
-    console.log(obj);
+    this.highlightedRow = obj.id;
     this.editObj = obj;
     this.isEdit = true;
     this.defaultAddEditForm();
@@ -436,5 +436,11 @@ export class SubOfficeMasterComponent implements OnInit {
     }
 
   }
+
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
+  }
+
 
 }
