@@ -1,6 +1,6 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -12,7 +12,8 @@ import { ErrorHandlerService } from 'src/app/core/service/error-handler.service'
 import { FormsValidationService } from 'src/app/core/service/forms-validation.service';
 import { WebStorageService } from 'src/app/core/service/web-storage.service';
 import { ConfirmationComponent } from '../dialogs/confirmation/confirmation.component';
-import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
+import { Subscription, debounceTime, distinctUntilChanged, filter } from 'rxjs';
+import { MapsAPILoader } from '@agm/core';
 
 @Component({
   selector: 'app-sub-office-master',
@@ -20,127 +21,173 @@ import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
   styleUrls: ['./sub-office-master.component.css']
 })
 export class SubOfficeMasterComponent implements OnInit {
-  displayedColumns: string[] = ['srNo', 'departmentName', 'officeName','SubOfficeName', 'action'];
+  displayedColumns: string[] = ['srNo', 'departmentName', 'officeName', 'SubOfficeName', 'action'];
   dataSource: any;
   filterSubOfficeForm!: FormGroup;
-  // loggedUserDeptID!: number;
-  // loggedUserTypeId!: number;
+  addUpdateForm!: FormGroup;
   localData: any;
   departmentArr = new Array();
   officeArray = new Array();
-  dropdownDisable:boolean = false;
+  dropdownDisable: boolean = false;
   langTypeName: any;
   pageNo = 1;
   pageSize = 10;
   totalPages: any;
   highlightedRow!: number;
   totalRows: any;
+  geocoder: any;
+  latitude: any;
+  longitude: any;
+  pinCode: any;
+  subscription!: Subscription;
 
 
+
+  // save
+  departmentArray = new Array();
+  officeArrayFormDrp = new Array();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
-
+  @ViewChild('search') searchElementRef: any;
+  @ViewChild('formDirective') formDirective!: NgForm;
 
 
   constructor(private fb: FormBuilder,
-              public webStorage: WebStorageService,
-              public commonService: CommonApiService,
-              private commonMethod: CommonMethodService,
-              public errorService: ErrorHandlerService,
-              public validation: FormsValidationService,
-              private spinner: NgxSpinnerService,
-              private apiService: ApiService,
-              private dialog: MatDialog,
-              ) { }
+    public webStorage: WebStorageService,
+    public commonService: CommonApiService,
+    private commonMethod: CommonMethodService,
+    public errorService: ErrorHandlerService,
+    public validation: FormsValidationService,
+    private spinner: NgxSpinnerService,
+    private apiService: ApiService,
+    private dialog: MatDialog,
+    private mapsAPILoader: MapsAPILoader,
+    private ngZone: NgZone,
+
+  ) { }
 
   ngOnInit(): void {
     // this.loggedUserDeptID= this.webStorage.getLoggedInLocalstorageData().responseData?.deptId;
     // this.loggedUserTypeId= this.webStorage.getLoggedInLocalstorageData().responseData?.userTypeId;
-    this.localData = this.webStorage. getLoggedInLocalstorageData().responseData;
-
-
+    this.localData = this.webStorage.getLoggedInLocalstorageData().responseData;
     this.defaultFilterForm();
+    this.defaultAddEditForm();
     this.getDepartments(this.webStorage.getUserId());
+    if (this.localData?.userTypeId == 3 || this.localData?.userTypeId == 4) {
+      // this.frmOffice.controls['deptId'].setValue(this.loggedUserDeptID);
+      this.filterSubOfficeForm.controls['deptId'].setValue(this.localData?.deptId);
+      this.dropdownDisable = true;
+    }
     this.webStorage.langNameOnChange.subscribe(message => {
       this.langTypeName = message;
-     });
-     this.searchSubOffData();
+    });
+    this.searchSubOffData();
+    this.mapApiLoader();
+
+    this.getDeptDrpforSaveForm(this.webStorage.getUserId());
   }
 
-  defaultFilterForm(){
+  defaultFilterForm() {
     this.filterSubOfficeForm = this.fb.group({
       deptId: ['0'],
       officeId: ['0'],
       subOfficeName: ['']
     });
   }
-  
+
+  defaultAddEditForm() {
+    this.addUpdateForm = this.fb.group({
+      "createdBy": this.webStorage.getUserId(),
+      "modifiedBy": this.webStorage.getUserId(),
+      "createdDate": new Date(),
+      "modifiedDate": new Date(),
+      "isDeleted": true,
+      "id": 0,
+      "deptId": ['', [Validators.required]],
+      "officeId": ['', [Validators.required]],
+      "subOfficeName": ['', [Validators.required, Validators.pattern(this.validation.valUserName) ]],
+      "address": ['', [Validators.required, Validators.pattern('^[^[ ]+|[ ][gm]+$')]],
+      "latitude": [''],
+      "longitude": [''],
+      "emailId": ['',[Validators.required, Validators.pattern(this.validation.valEmailId)]],
+      "contactPersonName": ['', [Validators.required, Validators.pattern(this.validation.valName)]],
+      "landlineNo": ['', [Validators.pattern, Validators.minLength(11), Validators.maxLength(11),]],
+      "m_SubOfficeName": ['', [Validators.required]],
+    });
+  }
+
+  get f() {
+    return this.addUpdateForm.controls;
+  }
+
+
+
   selection = new SelectionModel<any>(true, []);
 
-  getDepartments(userId: number){
+  // get dept for filters
+  getDepartments(userId: number) {
+    this.departmentArr = [];
     this.commonService.getAllDepartmentByUserId(userId).subscribe({
       next: (response: any) => {
         this.departmentArr.push(...response);
-        if(this.localData?.userTypeId == 3){       //  3 logged user userTypeId
+        if (this.localData?.userTypeId == 3) {       //  3 logged user userTypeId
           this.filterSubOfficeForm.controls['deptId'].setValue(this.localData?.deptId);
           this.getOffices(this.filterSubOfficeForm.value.deptId);
-          this.dropdownDisable=true;
+          this.dropdownDisable = true;
         }
       },
       error: ((error: any) => { this.errorService.handelError(error.status) })
     });
   }
 
-
-  getOffices(deptNo:number){
-    if (deptNo == 0) {
+  // get filter offices
+  getOffices(deptId: number) {
+    if (deptId == 0) {
       return;
     }
-    this.officeArray=[];
-    this.commonService.getOfficeByDeptId(deptNo).subscribe({
+    this.officeArray = [];
+    this.commonService.getOfficeByDeptId(deptId).subscribe({
       next: (response: any) => {
-        this.officeArray.push(...response); 
-        if(this.localData?.userTypeId == 4){
+        this.officeArray.push(...response);
+        if (this.localData?.userTypeId == 4) {
           this.filterSubOfficeForm.controls['officeId'].setValue(this.localData?.officeId);
-          this.dropdownDisable=true;
-         }   
+          this.dropdownDisable = true;
+        }
       },
       error: ((error: any) => { this.errorService.handelError(error.status) })
     });
   }
 
-    //by suboffice Search start
-    ngAfterViewInit() {
-      let formData: any = this.filterSubOfficeForm.controls['subOfficeName'].valueChanges;
-      formData.pipe(filter(() => this.filterSubOfficeForm.valid),
-        debounceTime(1000),
-        distinctUntilChanged()).subscribe(() => {
-          this.pageNo = 1;
-          this.searchSubOffData();
-          this.onCancelRecord();
-          this.totalRows > 10 && this.pageNo == 1 ? this.paginator?.firstPage() : '';
-        });
-    }
+  //by suboffice Search text
+  ngAfterViewInit() {
+    let formData: any = this.filterSubOfficeForm.controls['subOfficeName'].valueChanges;
+    formData.pipe(filter(() => this.filterSubOfficeForm.valid),
+      debounceTime(1000),
+      distinctUntilChanged()).subscribe(() => {
+        this.pageNo = 1;
+        this.searchSubOffData();
+        this.onCancelRecord();
+        this.totalRows > 10 && this.pageNo == 1 ? this.paginator?.firstPage() : '';
+      });
+  }
 
-    pageChanged(event: any){
-      this.pageNo = event.pageIndex + 1;
-      this.searchSubOffData();
-      this.onCancelRecord();
-      this.selection.clear();
-  
-    }
-  
+  pageChanged(event: any) {
+    this.pageNo = event.pageIndex + 1;
+    this.searchSubOffData();
+    this.onCancelRecord();
+    this.selection.clear();
+  }
 
-  filterData(){
+
+  filterData() {
     this.pageNo = 1;
     this.searchSubOffData();
     this.onCancelRecord();
   }
-// getAll subOffice data 
-  searchSubOffData(){
+  // getAll subOffice data 
+  searchSubOffData() {
     this.spinner.show();
     let formData = this.filterSubOfficeForm.value;
-    this.apiService.setHttp('get','samadhan/SubOffice/GetAll?pageno=' +this.pageNo+'&pagesize=' +this.pageSize+'&DeptId='+ formData.deptId+'&OfficeId='+formData.officeId +'&Name='+formData.subOfficeName,false,false,false,'samadhanMiningService');
+    this.apiService.setHttp('get', 'samadhan/SubOffice/GetAll?pageno=' + this.pageNo + '&pagesize=' + this.pageSize + '&DeptId=' + formData.deptId + '&OfficeId=' + formData.officeId + '&Name=' + formData.subOfficeName, false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {
@@ -162,35 +209,33 @@ export class SubOfficeMasterComponent implements OnInit {
         this.dataSource = [];
         this.errorService.handelError(error.status);
         this.spinner.hide();
-
       },
     });
 
 
   }
 
-  editSubOffice(obj: any){
+  editSubOffice(obj: any) {
     console.log(obj);
-    
   }
 
   //select unselect Checkbox
-  masterToggle(){
+  masterToggle() {
     this.isAllSelected() ? this.selection.clear() : this.dataSource.data.forEach((row: any) => this.selection.select(row));
   }
-    
-  isAllSelected() {
-      const numSelected = this.selection.selected.length;
-      if (this.dataSource) {
-        const numRows = this.dataSource.data.length;
-        return numSelected === numRows;
-      } else {
-        return false;
-      }
-    }
-  
 
-  deleteData(){
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    if (this.dataSource) {
+      const numRows = this.dataSource.data.length;
+      return numSelected === numRows;
+    } else {
+      return false;
+    }
+  }
+
+
+  deleteData() {
     const dialog = this.dialog.open(ConfirmationComponent, {
       width: '400px',
       data: {
@@ -214,7 +259,7 @@ export class SubOfficeMasterComponent implements OnInit {
     });
   }
 
-  deleteSubOffice(){
+  deleteSubOffice() {
     let selDelArray = this.selection.selected;
     let delArray = new Array();
     if (selDelArray.length > 0) {
@@ -251,18 +296,18 @@ export class SubOfficeMasterComponent implements OnInit {
     this.onCancelRecord();
   }
 
-  onCancelRecord(){
-    // this.formDirective.resetForm();
+  onCancelRecord() {
+    this.formDirective.resetForm();
     // this.isEdit = false;
     this.highlightedRow = 0;
-  if(this.localData?.userTypeId == 3){       //  3 logged user userTypeId
-    // this.frmOffice.controls['deptId'].setValue(this.loggedUserDeptID);
-    this.dropdownDisable=true;
-  }
-   this.selection.clear();
+    if (this.localData?.userTypeId == 3) {       //  3 logged user userTypeId
+      this.addUpdateForm.controls['deptId'].setValue(this.localData?.deptId);
+      this.dropdownDisable = true;
+    }
+    this.selection.clear();
   }
 
-  clearFilter(flag: string){
+  clearFilter(flag: string) {
     switch (flag) {
       case 'dept':
         this.filterSubOfficeForm.controls['officeId'].setValue('0');
@@ -273,13 +318,119 @@ export class SubOfficeMasterComponent implements OnInit {
         break;
       default:
     }
-    
   }
 
-}
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
+  clearForm(flag: string){
+    switch(flag){
+      case 'dept':
+        this.addUpdateForm.controls['officeId'].setValue('');
+    }
+  }
+
+  // getdeptfor save
+  getDeptDrpforSaveForm(userId: number){
+    this.departmentArray = [];
+    this.commonService.getAllDepartmentByUserId(userId).subscribe({
+      next: (response: any) => {
+        this.departmentArray.push(...response);
+        if( this.localData?.userTypeId == 3 || this.localData?.userTypeId == 4){
+          // this.filterFrm.controls['deptId'].setValue(this.loggedUserDeptID);
+          this.addUpdateForm.controls['deptId'].setValue(this.localData?.deptId);
+          this.getOfficeDrpForSave(this.addUpdateForm.value.deptId);
+          this.dropdownDisable=true;
+         }
+         else{
+          // this.changeDepFlag == true ? (this.userFrm.controls['deptId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.deptId) == false ? '' : this.updatedObj?.deptId),
+          // this.getOffice(this.commonMethod.checkDataType(this.updatedObj?.deptId) == false ? '' : this.updatedObj?.deptId)) : '';
+         }
+      },
+      error: ((error: any) => { this.errorService.handelError(error.status) })
+    })
+  }
+
+  getOfficeDrpForSave(deptId: number){
+    if (deptId == 0) {
+      return;
+    }
+    this.officeArrayFormDrp = [];
+    this.commonService.getOfficeByDeptId(deptId).subscribe({
+      next: (response: any) => {
+        this.officeArrayFormDrp.push(...response);
+        if (this.localData?.userTypeId == 4) {
+          this.filterSubOfficeForm.controls['officeId'].setValue(this.localData?.officeId);
+          this.dropdownDisable = true;
+        }
+      },
+      error: ((error: any) => { this.errorService.handelError(error.status) })
+    });
+
+  }
+
+  mapApiLoader(){
+    this.mapsAPILoader.load().then(() => {
+      this.geocoder = new google.maps.Geocoder();
+      let autocomplete = new google.maps.places.Autocomplete(
+        this.searchElementRef.nativeElement
+      );
+      autocomplete.addListener('place_changed', () => {
+        this.ngZone.run(() => {
+          let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+          if (place.geometry === undefined || place.geometry === null) {
+            return;
+          }
+          this.latitude = place.geometry.location.lat();
+          this.longitude = place.geometry.location.lng();
+          this.findAddressByCoordinates();
+        });
+      });
+    });
+
+  }
+
+  findAddressByCoordinates() {
+    this.geocoder.geocode(
+      { location: { lat: this.latitude, lng: this.longitude, } },
+      (results: any) => {
+        results[0].address_components.forEach((element: any) => {
+          this.pinCode = element.long_name;
+        });
+      });
+    this.addUpdateForm.controls['address'].setValue(this.searchElementRef.nativeElement?.value);
+  }
+
+  submitForm(){
+    if(this.addUpdateForm.invalid){
+      return
+    }else{
+      let formData = this.addUpdateForm.value;
+      formData.latitude = this.latitude.toString();
+      formData.longitude = this.longitude.toString();
+      let url = 'AddSubOfficeDetails';
+      let method = 'POST';
+      this.apiService.setHttp(method, 'samadhan/SubOffice/' + url, false, formData, false, 'samadhanMiningService');
+      this.subscription = this.apiService.getHttp().subscribe({
+        next: (res: any) => {
+          if (res.statusCode == 200) {
+            this.highlightedRow = 0;
+            // this.spinner.hide();
+            method == 'PUT' ? this.searchSubOffData() : this.pageNo = 1, this.searchSubOffData();
+            this.onCancelRecord();
+            this.selection.clear();
+            this.commonMethod.matSnackBar(res.statusMessage, 0);
+          } else {
+            this.commonMethod.checkDataType(res.statusMessage) == false ? this.errorService.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
+          }
+          // this.spinner.hide();
+        },
+        error: (error: any) => {
+          this.errorService.handelError(error.status);
+          this.spinner.hide();
+        },
+      });
+  
+
+    }
+
+  }
+
 }

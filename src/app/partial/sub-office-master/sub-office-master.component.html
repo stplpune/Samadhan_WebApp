@@ -6,12 +6,15 @@
                 <div class="col-sm-4">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>{{'Home.select_department' | translate}}</mat-label>
-                        <mat-select formControlName="deptId" (selectionChange)="clearFilter('dept'); getOffices(filterSubOfficeForm.value.deptId);filterData();" [disabled]="dropdownDisable">
-                          <mat-option value="0">{{'Home.all_dept' | translate}}</mat-option>
-                          <mat-option *ngFor="let dept of departmentArr" [value]="dept.deptId">
-                            {{ langTypeName == 'English' ? (dept.departmentName | titlecase) : dept.m_DepartmentName}} </mat-option>
+                        <mat-select formControlName="deptId"
+                            (selectionChange)="clearFilter('dept'); getOffices(filterSubOfficeForm.value.deptId);filterData();"
+                            [disabled]="dropdownDisable">
+                            <mat-option value="0">{{'Home.all_dept' | translate}}</mat-option>
+                            <mat-option *ngFor="let dept of departmentArr" [value]="dept.deptId">
+                                {{ langTypeName == 'English' ? (dept.departmentName | titlecase) : dept.m_DepartmentName}}
+                            </mat-option>
                         </mat-select>
-                      </mat-form-field>
+                    </mat-form-field>
                 </div>
                 <div class="col-sm-4">
                     <mat-form-field appearance="outline" class="w-100">
@@ -26,157 +29,215 @@
                         </mat-select>
                     </mat-form-field>
                 </div>
-
+    
                 <div class="col-sm-4">
                     <mat-form-field appearance="outline" class="w-100">
-                      <mat-label>{{'Home.sub_office_name' | translate}} </mat-label>
-                      <input matInput placeholder="{{'Home.search' | translate}}" formControlName="subOfficeName"
-                        (keypress)="validation.noFirstSpaceAllow($event)">
-                      <button mat-icon-button matSuffix *ngIf="filterSubOfficeForm.value.subOfficeName" matTooltip="close" aria-label="tooltip"
-                        (click)="filterSubOfficeForm.controls['subOfficeName'].setValue('')">
-                        <span class="material-symbols-outlined">
-                          close
-                        </span>
-                      </button>
+                        <mat-label>{{'Home.sub_office_name' | translate}} </mat-label>
+                        <input matInput placeholder="{{'Home.search' | translate}}" formControlName="subOfficeName"
+                            (keypress)="validation.noFirstSpaceAllow($event)">
+                        <button mat-icon-button matSuffix *ngIf="filterSubOfficeForm.value.subOfficeName" matTooltip="close"
+                            aria-label="tooltip" (click)="filterSubOfficeForm.controls['subOfficeName'].setValue('')">
+                            <span class="material-symbols-outlined">
+                                close
+                            </span>
+                        </button>
                     </mat-form-field>
-                  </div>
+                </div>
             </div>
         </form>
-<!-- filterform ends here -->
+        <!-- filterform ends here -->
+        <!-- table starts -->
         <div class="table-responsive">
             <table mat-table [dataSource]="dataSource" class="dashboard-table w-100">
                 <ng-container matColumnDef="srNo">
                     <th mat-header-cell *matHeaderCellDef class="srno"> {{'Home.sr_no' | translate}} </th>
                     <td mat-cell *matCellDef="let element let i= index"> {{ element.srNo }} </td>
-                  </ng-container>
-          
+                </ng-container>
+    
                 <!-- department Column -->
                 <ng-container matColumnDef="departmentName">
                     <th mat-header-cell *matHeaderCellDef class="departmentName"> {{'Home.department' | translate}} </th>
-                    <td mat-cell *matCellDef="let element"> {{ langTypeName == 'English' ? (element.departmentName | titlecase) :
-                        element.m_DepartmentName}}</td>                  
+                    <td mat-cell *matCellDef="let element"> {{ langTypeName == 'English' ? (element.departmentName |
+                        titlecase) :
+                        element.m_DepartmentName}}</td>
                 </ng-container>
-
+    
                 <!-- office Column -->
                 <ng-container matColumnDef="officeName">
                     <th mat-header-cell *matHeaderCellDef class="officeName"> {{'Home.office' | translate}} </th>
-                    <td mat-cell *matCellDef="let element"> {{ langTypeName == 'English' ? (element.officeName | titlecase) :
-                        element.m_OfficeName}}</td>                      
+                    <td mat-cell *matCellDef="let element"> {{ langTypeName == 'English' ? (element.officeName | titlecase)
+                        :
+                        element.m_OfficeName}}</td>
                 </ng-container>
-
+    
                 <!-- suboffice Column -->
                 <ng-container matColumnDef="SubOfficeName">
                     <th mat-header-cell *matHeaderCellDef class="subOfficeName"> {{'Home.sub_office' | translate}} </th>
-                    <td mat-cell *matCellDef="let element"> {{ langTypeName == 'English' ? (element.subOfficeName | titlecase) :
-                        element.m_SubOfficeName}}</td>                      
+                    <td mat-cell *matCellDef="let element"> {{ langTypeName == 'English' ? (element.subOfficeName |
+                        titlecase) :
+                        element.m_SubOfficeName}}</td>
                 </ng-container>
-                
+    
                 <!--  Action column-->
                 <ng-container matColumnDef="action">
                     <th mat-header-cell *matHeaderCellDef class="action">{{'Home.action' | translate}}<br>
-                      <button [disabled]="this.selection.selected.length ==0" mat-icon-button (click)="deleteData()">
-                        <span class="material-symbols-outlined">
-                          delete
-                        </span>
-                      </button>
-                      <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
-                        [disabled]="!totalPages">
-                        <!-- [indeterminate]="selection.hasValue() && !isAllSelected()"> -->
-                      </mat-checkbox>
-            
+                        <button [disabled]="this.selection.selected.length ==0" mat-icon-button (click)="deleteData()">
+                            <span class="material-symbols-outlined">
+                                delete
+                            </span>
+                        </button>
+                        <mat-checkbox (change)="$event ? masterToggle() : null"
+                            [checked]="selection.hasValue() && isAllSelected()" [disabled]="!totalPages">
+                            <!-- [indeterminate]="selection.hasValue() && !isAllSelected()"> -->
+                        </mat-checkbox>
+    
                     </th>
                     <td mat-cell *matCellDef="let element" class="action">
-                      <button mat-icon-button (click)="editSubOffice(element)" class="btn-edit">
-                        <span class="material-symbols-outlined">
-                          edit_square
-                        </span>
-                      </button>
-                      <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(element) : null"
-                        [checked]="selection.isSelected(element)">
-                      </mat-checkbox>
+                        <button mat-icon-button (click)="editSubOffice(element)" class="btn-edit">
+                            <span class="material-symbols-outlined">
+                                edit_square
+                            </span>
+                        </button>
+                        <mat-checkbox (click)="$event.stopPropagation()"
+                            (change)="$event ? selection.toggle(element) : null" [checked]="selection.isSelected(element)">
+                        </mat-checkbox>
                     </td>
-                  </ng-container>
-                  <tr class="mat-row p-2 w-100" *matNoDataRow col>
+                </ng-container>
+                <tr class="mat-row p-2 w-100" *matNoDataRow col>
                     <td colspan="9">
-                      <div class="alert alert-danger text-center m-2 mt-2">
-                        {{'Home.no_data_found' | translate}}
-                      </div>
+                        <div class="alert alert-danger text-center m-2 mt-2">
+                            {{'Home.no_data_found' | translate}}
+                        </div>
                     </td>
-                  </tr>
+                </tr>
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'highlightedRow ':highlightedRow == row.id}">
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                    [ngClass]="{'highlightedRow ':highlightedRow == row.id}">
                 </tr>
             </table>
         </div>
         <ng-container *ngIf="totalPages>10">
             <mat-paginator [pageSize]="10" [length]="totalPages" (page)="pageChanged($event)" showFirstLastButtons>
             </mat-paginator>
-          </ng-container>
-    </div>
+        </ng-container>
+        <!-- table ends here  -->
+        </div>
 
+
+    <!-- add form start from here  -->
     <div class="col-sm-4">
         <div class="card form-card">
             <div class="card-header">
                 {{'Home.add_sub_Office' | translate}}
             </div>
-            <form>
+            <form [formGroup]="addUpdateForm" (ngSubmit)="submitForm()" #formDirective="ngForm">
                 <div class="card-body">
                     <div class="mb-3">
                         <mat-form-field appearance="outline" class="w-100">
                             <mat-label>{{'Home.department' | translate}}</mat-label>
-                            <mat-select>
-                                <mat-option value="0"></mat-option>
+                            <mat-select formControlName="deptId"
+                                (selectionChange)="clearForm('dept'); getOfficeDrpForSave(addUpdateForm.value.deptId);"
+                                [disabled]="dropdownDisable">
+                                <mat-option *ngFor="let dept of departmentArray" [value]="dept.deptId">
+                                    {{ langTypeName == 'English' ? (dept.departmentName | titlecase) : dept.m_DepartmentName}}
+                                </mat-option>
                             </mat-select>
+                            <mat-error *ngIf="f['deptId']?.errors">
+                                <span *ngIf="f['deptId']?.hasError('required')"> {{'Home.please_sel_dep' | translate}}</span>
+                              </mat-error>
                         </mat-form-field>
                     </div>
                     <div class="mb-3">
                         <mat-form-field appearance="outline" class="w-100">
                             <mat-label>{{'Home.office' | translate}}</mat-label>
-                            <mat-select>
-                                <mat-option value="0"></mat-option>
+                            <mat-select formControlName="officeId" (selectionChange)="clearForm('office');"
+                                [disabled]='!addUpdateForm.value.deptId || this.localData?.userTypeId == 4'>
+                                <mat-option *ngFor="let office of officeArrayFormDrp" [value]="office.id">
+                                    {{ langTypeName == 'English' ?
+                                    office.name : office.m_OfficeName}}
+                                </mat-option>
                             </mat-select>
+                            <mat-error *ngIf="f['officeId']?.errors">
+                                <span *ngIf="f['officeId']?.hasError('required')"> {{'Home.please_sel_Off' | translate}}</span>
+                              </mat-error>
                         </mat-form-field>
                     </div>
                     <div class="mb-3">
                         <mat-form-field appearance="outline" class="w-100">
                             <mat-label>{{'Home.sub_office_name' | translate}}</mat-label>
-                            <input matInput>
+                            <input matInput formControlName="subOfficeName" maxlength="200" (keydown)="validation.notAllowMoreThenOneSpace($event)"
+                            (keypress)="validation.removeSpaceAtBegining($event);validation.alphaNumericWithSpaces($event)">
                           </mat-form-field>
+                          <mat-error *ngIf="f['subOfficeName']?.errors">
+                            <span *ngIf="f['subOfficeName']?.hasError('required')"> {{'Home.sub_off_name_req' | translate}}</span>
+                            <span *ngIf="f['subOfficeName'].hasError('pattern')"> {{'Home.pls_enter_val_suboffice_name' | translate}}</span>
+                          </mat-error>
                     </div>
                     <div class="mb-3">
                         <mat-form-field appearance="outline" class="w-100">
                             <mat-label>{{'Home.sub_office_name_marathi' | translate}}</mat-label>
-                            <input matInput>
-                          </mat-form-field>                                               
+                            <input matInput formControlName="m_SubOfficeName"  (keydown)="validation.notAllowMoreThenOneSpace($event)"
+                            (keypress)="validation.removeSpaceAtBegining($event);validation.alphaNumericWithSpaces($event);validation.unicodeMarathiValidation($event)">
+                            <mat-error *ngIf="f['m_SubOfficeName']?.errors">
+                                <span *ngIf="f['m_SubOfficeName']?.hasError('required')"> {{'Home.pls_enter_val_suboffice_name_mar' |
+                                  translate}}</span>
+                              </mat-error>
+                        </mat-form-field>                                               
                     </div>
                     <div class="mb-3"> 
                         <mat-label>{{'Home.sub_office_address' | translate}} </mat-label>
-                        <textarea aria-label="Number" matInput  autocorrect="off" autocomplete="off"
-                           autocapitalize="off" spellcheck="off" type="text" #search></textarea>                       
+                        <textarea aria-label="Number" matInput (keypress)="validation.noFirstSpaceAllow($event)"
+                            (keydown)="validation.notAllowMoreThenOneSpace($event)" placeholder="{{'Home.search_off_location' | translate}}"
+                            autocorrect="off" autocomplete="off" formControlName="address" autocapitalize="off" spellcheck="off" type="text"
+                            #search></textarea>
+
+                            <mat-error *ngIf="f['address']?.errors">
+                                <span *ngIf="f['address']?.hasError('required')">{{'Home.pls_enter_val_off_add' | translate}}</span>
+                                <span *ngIf="f['address'].hasError('pattern')">{{'Home.pls_enter_val_off_add_pat' | translate}}</span>
+                            </mat-error>
                     </div>
                     <div class="mb-3">
                         <mat-form-field appearance="outline" class="w-100 ">
                             <mat-label>{{'Home.sub_off_email_id' | translate}} </mat-label>
-                            <input matInput     >
-                          </mat-form-field>                      
+                            <input matInput formControlName="emailId" (keypress)="validation.emailRegex($event)" maxlength="200">
+                            <mat-error *ngIf="f['emailId']?.errors">
+                                <span *ngIf="f['emailId']?.hasError('required')">{{'Home.emailId_is_required' | translate}}</span>
+                                <span *ngIf="f['emailId'].hasError('pattern')">{{'Home.pls_enter_val_off_email_id' | translate}}</span>
+                            </mat-error>
+                        </mat-form-field>                      
                     </div>
                     <div class="mb-3">
                         <mat-form-field appearance="outline" class="w-100">
                             <mat-label>{{'Home.sub_off_designation' | translate}} </mat-label>
-                            <input matInput  >                          
+                            <input matInput  class="text-capitalize" formControlName="contactPersonName" maxlength="50"
+                            (keydown)="validation.notAllowMoreThenOneSpace($event)"
+                            (keypress)="validation.removeSpaceAtBegining($event);validation.alphabetsWithSpaces($event)">
+                          <mat-error *ngIf="f['contactPersonName']?.errors">
+                            <span *ngIf="f['contactPersonName']?.hasError('required')">{{'Home.pls_enter_val_off_designation' |
+                              translate}}</span>
+                            <span *ngIf="f['contactPersonName'].hasError('pattern')"> {{'Home.pls_enter_val_off_designation_pat' |
+                              translate}}</span>
+                          </mat-error>
+                                   
                          </mat-form-field>
                     </div>
                     <div class="mb-3">
                         <mat-form-field appearance="outline" class="w-100">
                             <mat-label>{{'Home.sub_off_landline' | translate}}</mat-label>
-                            <input matInput  >                          
-                          </mat-form-field>
+                            <input matInput formControlName="landlineNo" maxlength="11"
+                                (keypress)="validation.removeSpaceAtBegining($event);validation.acceptedOnlyNumbers($event)">
+                            <mat-error *ngIf="f['landlineNo']?.errors">
+                                <span *ngIf="f['landlineNo']?.hasError('pattern') || f['landlineNo']?.hasError('minlength')">{{'Home.pls_enter_val_off_landline'
+                                    | translate}}
+                                </span>
+                            </mat-error>
+                        </mat-form-field>
                     </div>
                     <div class="text-end mb-2">
-                        <button mat-stroked-button class="btn-main-outline" type="button">{{'Home.cancel'
+                        <button mat-stroked-button class="btn-main-outline" type="button" (click)="onCancelRecord()">{{'Home.cancel'
                             | translate}}</button>
                         <button mat-stroked-button class="btn-main ms-2" type="submit">Submit</button>
-                      </div>
+                    </div>
                 </div>
             </form>
         </div>

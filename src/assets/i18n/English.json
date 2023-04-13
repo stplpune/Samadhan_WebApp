@@ -89,6 +89,10 @@
         "sub_off_email_id": " Sub Office Email ID",
         "sub_off_designation":"Sub Office Head Designation",
         "sub_off_landline":"Sub Office Landline",
+        "sub_off_name_req" : "Sub Office Name is required",
+        "pls_enter_val_suboffice_name": "Pelase enter valid Sub Office",
+        "pls_enter_val_suboffice_name_mar":"Sub Office Marathi  Name is required ",
+
 
 
         "Select_village": "Select Village",

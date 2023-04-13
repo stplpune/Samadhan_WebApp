@@ -66,6 +66,9 @@
         "sub_off_email_id": " उप कार्यालय ईमेल आयडी",
         "sub_off_designation":"उप कार्यालय प्रमुख पद",
         "sub_off_landline":"उप कार्यालय लँडलाइन",
+        "sub_off_name_req": "उप कार्यालयाचे नाव आवश्यक आहे",
+        "pls_enter_val_suboffice_name": "वैध उप कार्यालयाचे नाव प्रविष्ट करा",
+        "pls_enter_val_suboffice_name_mar":"उप कार्यालयाचे मराठी नाव आवश्यक आहे",
 
 
         "add_grievance":"तक्रार मास्टर जोडा",
