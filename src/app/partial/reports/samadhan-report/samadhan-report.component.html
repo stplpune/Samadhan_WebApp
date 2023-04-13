@@ -68,11 +68,12 @@
                         <ng-container  *ngIf="col.header=='Grievance No.'">
                             <th mat-header-cell *matHeaderCellDef>{{col.header}}</th>
                             <td mat-cell *matCellDef="let element">
-                            <ng-container *ngIf="satifiedAndUnsatifiedFlag">
+                            <ng-container>
                                 <a class="text-primary"
                                 (click)="grievanceDetails(element.grievanceId)">{{element?.grievanceNo}}</a>
                             </ng-container>
-                            <ng-container *ngIf="!satifiedAndUnsatifiedFlag">{{element?.grievanceNo}}</ng-container>
+                            <!-- *ngIf="satifiedAndUnsatifiedFlag"
+                            <ng-container *ngIf="!satifiedAndUnsatifiedFlag">{{element?.grievanceNo}}</ng-container> -->
                             
                         </td>
                         </ng-container>
