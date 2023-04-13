@@ -57,7 +57,7 @@
         "ofiname_marathi":"कार्यालयाचे नाव (मराठी)",
         "please_sel_dep":"कृपया विभाग निवडा",
 
-
+        "all_suboff":"सर्व उप कार्यालय", 
         "add_sub_Office":"उप कार्यालय जोडा",
         "sub_office_name":"उप कार्यालय नाव",
         "sub_office_name_marathi": "उप कार्यालय नाव (मराठी)",
@@ -69,6 +69,7 @@
         "sub_off_name_req": "उप कार्यालयाचे नाव आवश्यक आहे",
         "pls_enter_val_suboffice_name": "वैध उप कार्यालयाचे नाव प्रविष्ट करा",
         "pls_enter_val_suboffice_name_mar":"उप कार्यालयाचे मराठी नाव आवश्यक आहे",
+        "please_sel_subOff":" कृपया उप कार्यालय निवडा",
 
 
         "add_grievance":"तक्रार मास्टर जोडा",

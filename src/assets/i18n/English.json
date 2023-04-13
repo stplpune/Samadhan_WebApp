@@ -81,6 +81,7 @@
         "off_landline":"Office Landline",
         "pls_enter_val_off_landline":"Please enter valid Landline No.",
 
+        "all_suboff":"All SubOffice",
         "add_sub_Office":"Add Sub Office",
         "sub_office_name":"Sub Office Name",
         "sub_office_name_marathi": "Sub Office Name (Marathi)",
@@ -93,6 +94,7 @@
         "pls_enter_val_suboffice_name": "Pelase enter valid Sub Office",
         "pls_enter_val_suboffice_name_mar":"Sub Office Marathi  Name is required ",
 
+        "please_sel_subOff":"Sub Office is required",
 
 
         "Select_village": "Select Village",
