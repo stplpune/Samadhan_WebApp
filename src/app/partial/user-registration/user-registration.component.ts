@@ -80,7 +80,6 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
      }
 
   ngOnInit(): void {
-    console.log('d:-',this.data);
     this.loggedUserTypeId= this.localStrorageData.getLoggedInLocalstorageData().responseData?.userTypeId;
    this.loggedUserDeptID= this.localStrorageData.getLoggedInLocalstorageData().responseData?.deptId;
    this.loggedUserOffID= this.localStrorageData.getLoggedInLocalstorageData().responseData?.officeId;
@@ -204,7 +203,6 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     this.commonService.getAllSubUser(usertypeId).subscribe({
       next: (response: any) => {
         this.subUsersArray.push(...response);
-        console.log('arr:-',this.subUsersArray);
         if(this.loggedUserTypeId == 6){
           this.userFrm.controls['subUserTypeId'].setValue(this.data?.subUserTypeId);
           // this.dropdownDisable=true;
@@ -416,7 +414,6 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   getData() {
     this.spinner.show()
     let formValue = this.filterFrm.value;
-    console.log('form:-',formValue);
     let paramList: string = "?DeptId=" + formValue.deptId + "&OfficeId=" + formValue.officeId +'&SubUserTypeId='+ formValue.subUserTypeId +'&SubOfficeId='+formValue.subOfficeId +"&pageno=" + this.pageNumber + "&pagesize=" + 10 + '&userid=' + this.localStrorageData.getUserId();
     this.commonMethod.checkDataType(formValue.textSearch.trim()) == true ? paramList += "&Textsearch=" + formValue.textSearch : '';
     this.apiService.setHttp('get', "samadhan/user-registration/GetAll" + paramList, false, false, false, 'samadhanMiningService');
