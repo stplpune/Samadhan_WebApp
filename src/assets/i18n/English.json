@@ -93,6 +93,9 @@
         "sub_off_name_req" : "Sub Office Name is required",
         "pls_enter_val_suboffice_name": "Pelase enter valid Sub Office",
         "pls_enter_val_suboffice_name_mar":"Sub Office Marathi  Name is required ",
+        "pls_enter_val_Sub_off_designation":"Sub Office Head Designation is required",
+        "pls_enter_val_Sub_off_designation_pat":"Pelase enter valid Sub Office Head Designation",
+        "pls_enter_val_Sub_off_add": "Sub Office Address is required",
 
         "please_sel_subOff":"Sub Office is required",
 
