@@ -262,10 +262,10 @@
                         </div>
                         <div class="col-sm-6" [class.disabled-contenct]="ispatch">
                             <mat-form-field appearance="outline" class="w-100">
-                                <mat-label>SubOffice</mat-label>
+                                <mat-label>{{'Home.sub_office' | translate}}</mat-label>
                                 <mat-select formControlName="subOfficeId" [disabled]="!postGrievanceForm.value.officeId">
                                     <mat-option *ngFor="let subOffice of subOfficeArray" [value]="subOffice.id">
-                                        {{ langTypeName == 'English' ? subOffice.subOfficeName : subOffice.m_subOfficeName}}
+                                        {{ langTypeName == 'English' ? subOffice.subOfficeName : subOffice.m_SubOfficeName}}
                                     </mat-option>
                                 </mat-select>
                                 <!-- <mat-error *ngIf="f['officeId']?.errors">

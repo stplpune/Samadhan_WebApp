@@ -255,7 +255,7 @@ export class PostGrievanceComponent implements OnInit {
       this.subOfficeArray = [];
       this.commonApi.getAllSubOfficeByOfficeId(id).subscribe({
         next: (response: any) => {
-          if(response.statusCode==200){
+          if(response){
           this.subOfficeArray.push(...response);
           this.ispatch == true ? (this.postGrievanceForm.controls['subOfficeId'].setValue(this.updatedObj?.concern_SubOfficeId)) : '';
           }else{
