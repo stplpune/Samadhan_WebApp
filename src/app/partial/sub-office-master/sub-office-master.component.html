@@ -236,7 +236,8 @@
                     <div class="text-end mb-2">
                         <button mat-stroked-button class="btn-main-outline" type="button" (click)="onCancelRecord()">{{'Home.cancel'
                             | translate}}</button>
-                        <button mat-stroked-button class="btn-main ms-2" type="submit">Submit</button>
+                        <button mat-stroked-button class="btn-main ms-2" type="submit">{{ (isEdit ? 'Home.update':'Home.submit') |
+                            translate}}</button>
                     </div>
                 </div>
             </form>

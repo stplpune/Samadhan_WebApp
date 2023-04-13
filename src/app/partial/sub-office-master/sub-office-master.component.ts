@@ -40,9 +40,9 @@ export class SubOfficeMasterComponent implements OnInit {
   longitude: any;
   pinCode: any;
   subscription!: Subscription;
-
-
-
+  editObj : any;
+  isEdit: boolean = false ;
+  placeChangeFlag: boolean = false;
   // save
   departmentArray = new Array();
   officeArrayFormDrp = new Array();
@@ -96,22 +96,22 @@ export class SubOfficeMasterComponent implements OnInit {
 
   defaultAddEditForm() {
     this.addUpdateForm = this.fb.group({
-      "createdBy": this.webStorage.getUserId(),
-      "modifiedBy": this.webStorage.getUserId(),
-      "createdDate": new Date(),
-      "modifiedDate": new Date(),
-      "isDeleted": true,
-      "id": 0,
-      "deptId": ['', [Validators.required]],
-      "officeId": ['', [Validators.required]],
-      "subOfficeName": ['', [Validators.required, Validators.pattern(this.validation.valUserName) ]],
-      "address": ['', [Validators.required, Validators.pattern('^[^[ ]+|[ ][gm]+$')]],
-      "latitude": [''],
-      "longitude": [''],
-      "emailId": ['',[Validators.required, Validators.pattern(this.validation.valEmailId)]],
-      "contactPersonName": ['', [Validators.required, Validators.pattern(this.validation.valName)]],
-      "landlineNo": ['', [Validators.pattern, Validators.minLength(11), Validators.maxLength(11),]],
-      "m_SubOfficeName": ['', [Validators.required]],
+      "createdBy": this.isEdit ?  this.editObj.createdBy : this.webStorage.getUserId(),
+      "modifiedBy": this.isEdit ?  this.editObj.modifiedBy : this.webStorage.getUserId(),
+      "createdDate": this.isEdit ?  this.editObj.createdDate : new Date(),
+      "modifiedDate": this.isEdit ?  this.editObj.modifiedDate : new Date(),
+      "isDeleted": this.isEdit ?  this.editObj.isDeleted :  true,
+      "id": this.isEdit ?  this.editObj.id : 0,
+      "deptId": [this.isEdit ?  this.editObj.deptId : '', [Validators.required]],
+      "officeId": [this.isEdit ?  this.editObj.officeId : '', [Validators.required]],
+      "subOfficeName": [this.isEdit ?  this.editObj.subOfficeName : '', [Validators.required, Validators.pattern(this.validation.valUserName) ]],
+      "address": [this.isEdit ?  this.editObj.officeAddress : '', [Validators.required, Validators.pattern('^[^[ ]+|[ ][gm]+$')]],
+      "latitude": [this.isEdit ?  this.editObj.latitude : ''],
+      "longitude": [this.isEdit ?  this.editObj.longitude : ''],
+      "emailId": [this.isEdit ?  this.editObj.officeEmailId : '',[Validators.required, Validators.pattern(this.validation.valEmailId)]],
+      "contactPersonName": [this.isEdit ?  this.editObj.contactPersonName : '', [Validators.required, Validators.pattern(this.validation.valName)]],
+      "landlineNo": [this.isEdit ?  this.editObj.landlineNo : '', [Validators.pattern, Validators.minLength(11), Validators.maxLength(11),]],
+      "m_SubOfficeName": [this.isEdit ?  this.editObj.m_SubOfficeName : '', [Validators.required]],
     });
   }
 
@@ -217,6 +217,10 @@ export class SubOfficeMasterComponent implements OnInit {
 
   editSubOffice(obj: any) {
     console.log(obj);
+    this.editObj = obj;
+    this.isEdit = true;
+    this.defaultAddEditForm();
+    this.getOfficeDrpForSave(this.editObj.deptId);
   }
 
   //select unselect Checkbox
@@ -298,7 +302,7 @@ export class SubOfficeMasterComponent implements OnInit {
 
   onCancelRecord() {
     this.formDirective.resetForm();
-    // this.isEdit = false;
+    this.isEdit = false;
     this.highlightedRow = 0;
     if (this.localData?.userTypeId == 3) {       //  3 logged user userTypeId
       this.addUpdateForm.controls['deptId'].setValue(this.localData?.deptId);
@@ -378,6 +382,8 @@ export class SubOfficeMasterComponent implements OnInit {
           if (place.geometry === undefined || place.geometry === null) {
             return;
           }
+          console.log("place chenges");
+          this.placeChangeFlag = true;
           this.latitude = place.geometry.location.lat();
           this.longitude = place.geometry.location.lng();
           this.findAddressByCoordinates();
@@ -403,10 +409,10 @@ export class SubOfficeMasterComponent implements OnInit {
       return
     }else{
       let formData = this.addUpdateForm.value;
-      formData.latitude = this.latitude.toString();
-      formData.longitude = this.longitude.toString();
-      let url = 'AddSubOfficeDetails';
-      let method = 'POST';
+      formData.latitude = (this.isEdit && !this.placeChangeFlag)  ? this.editObj.latitude : this.latitude.toString();
+      formData.longitude = (this.isEdit && !this.placeChangeFlag) ? this.editObj.longitude : this.longitude.toString();
+      let url = this.isEdit ? 'UpdateOfficeDetails' : 'AddSubOfficeDetails';
+      let method = this.isEdit ? 'PUT': 'POST';
       this.apiService.setHttp(method, 'samadhan/SubOffice/' + url, false, formData, false, 'samadhanMiningService');
       this.subscription = this.apiService.getHttp().subscribe({
         next: (res: any) => {
@@ -427,8 +433,6 @@ export class SubOfficeMasterComponent implements OnInit {
           this.spinner.hide();
         },
       });
-  
-
     }
 
   }
