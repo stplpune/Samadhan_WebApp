@@ -76,7 +76,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     private webStorage: WebStorageService,
     private spinner: NgxSpinnerService,
     public translate: TranslateService) {
-     this.data=this.localStrorageData. getLoggedInLocalstorageData().responseData;
+     this.data=this.localStrorageData.getLoggedInLocalstorageData().responseData;
      }
 
   ngOnInit(): void {
@@ -177,6 +177,16 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
 
   }
   //#endregion clear filter  fn end here
+
+  clearDropdown(flag:any){
+      switch(flag){
+        case 'department':this.userFrm.controls['officeId'].setValue('');
+                          this.userFrm.controls['subOfficeId'].setValue('');
+                          break;
+        case 'Office' :  this.userFrm.controls['subOfficeId'].setValue('');
+                          break;                 
+      }
+  }
 
   getUsers(userId:number) {
     this.usersArray = [];

@@ -319,7 +319,7 @@
                         <mat-form-field class="w-100" appearance="outline">
                             <mat-label>{{'Home.department' | translate}}</mat-label>
                             <mat-select formControlName="deptId" 
-                                (selectionChange)="getOffice(userFrm.value.deptId);changeDepFlag = false" [disabled]="this.loggedUserTypeId== 3 || this.loggedUserTypeId== 4 ||this.loggedUserTypeId == 6">
+                                (selectionChange)="clearDropdown('department');getOffice(userFrm.value.deptId);changeDepFlag = false" [disabled]="this.loggedUserTypeId== 3 || this.loggedUserTypeId== 4 ||this.loggedUserTypeId == 6">
                                 <mat-option *ngFor="let department of departmentByUserArray"
                                     [value]="department.deptId">
                                     {{ langTypeName == 'English' ? department.departmentName :  department.m_DepartmentName}}
@@ -333,7 +333,7 @@
                     <div class="mb-3" *ngIf="userFrm.value.userTypeId !=2 && userFrm.value.userTypeId !=3 ">
                         <mat-form-field class="w-100" appearance="outline">
                             <mat-label>{{'Home.office' |translate}}</mat-label>
-                            <mat-select formControlName="officeId" (selectionChange)="getSubOffice()"   [disabled]="!userFrm.value.deptId || this.loggedUserTypeId == 4 || this.loggedUserTypeId == 6">
+                            <mat-select formControlName="officeId" (selectionChange)="clearDropdown('office');getSubOffice()"   [disabled]="!userFrm.value.deptId || this.loggedUserTypeId == 4 || this.loggedUserTypeId == 6">
                                 <mat-option *ngFor="let office of officeArray" [value]="office.id">
                                     {{ langTypeName == 'English' ? office.name : office.m_OfficeName}}
                                 </mat-option>
