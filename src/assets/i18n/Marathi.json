@@ -70,7 +70,9 @@
         "pls_enter_val_suboffice_name": "वैध उप कार्यालयाचे नाव प्रविष्ट करा",
         "pls_enter_val_suboffice_name_mar":"उप कार्यालयाचे मराठी नाव आवश्यक आहे",
         "please_sel_subOff":" कृपया उप कार्यालय निवडा",
-
+        "pls_enter_val_Sub_off_designation": "उप कार्यालय प्रमुख पद आवश्यक आहे",
+        "pls_enter_val_Sub_off_designation_pat":"कृपया वैध उप कार्यालय प्रमुख पदनाम प्रविष्ट करा",
+        "pls_enter_val_Sub_off_add": "उप कार्यालय पत्ता आवश्यक आहे",
 
         "add_grievance":"तक्रार मास्टर जोडा",
         "upd_grievance":"तक्रार मास्टर अपडेट करा",
