@@ -83,6 +83,7 @@
 
         "all_suboff":"All SubOffice",
         "add_sub_Office":"Add Sub Office",
+        "upd_Sub_office": "Update Sub Office",
         "sub_office_name":"Sub Office Name",
         "sub_office_name_marathi": "Sub Office Name (Marathi)",
         "sub_office_address":"Sub Office Address",

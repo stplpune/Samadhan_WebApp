@@ -69,12 +69,16 @@ export class SubOfficeMasterComponent implements OnInit, OnDestroy {
     // this.loggedUserDeptID= this.webStorage.getLoggedInLocalstorageData().responseData?.deptId;
     // this.loggedUserTypeId= this.webStorage.getLoggedInLocalstorageData().responseData?.userTypeId;
     this.localData = this.webStorage.getLoggedInLocalstorageData().responseData;
-    this.defaultFilterForm();
+    console.log("this.localData", this.localData);
+    
     this.defaultAddEditForm();
+    this.defaultFilterForm();
     this.getDepartments(this.webStorage.getUserId());
+    this.getDeptDrpforSaveForm(this.webStorage.getUserId());
+
     if (this.localData?.userTypeId == 3 || this.localData?.userTypeId == 4) {
       this.addUpdateForm.controls['deptId'].setValue(this.localData?.deptId);
-      this.filterSubOfficeForm.controls['deptId'].setValue(this.localData?.deptId);
+      this.addUpdateForm.controls['officeId'].setValue(this.localData?.officeId);
       this.dropdownDisable = true;
     }
     this.webStorage.langNameOnChange.subscribe(message => {
@@ -83,13 +87,12 @@ export class SubOfficeMasterComponent implements OnInit, OnDestroy {
     this.searchSubOffData();
     this.mapApiLoader();
 
-    this.getDeptDrpforSaveForm(this.webStorage.getUserId());
   }
 
   defaultFilterForm() {
     this.filterSubOfficeForm = this.fb.group({
-      deptId: ['0'],
-      officeId: ['0'],
+      deptId: [(this.localData?.userTypeId == 3 || this.localData?.userTypeId == 4)? this.localData?.deptId : '0'],
+      officeId: [(this.localData?.userTypeId == 3 || this.localData?.userTypeId == 4)? this.localData?.officeId: '0' ],
       subOfficeName: ['']
     });
   }
@@ -129,8 +132,8 @@ export class SubOfficeMasterComponent implements OnInit, OnDestroy {
     this.commonService.getAllDepartmentByUserId(userId).subscribe({
       next: (response: any) => {
         this.departmentArr.push(...response);
-        if (this.localData?.userTypeId == 3) {       //  3 logged user userTypeId
-          this.filterSubOfficeForm.controls['deptId'].setValue(this.localData?.deptId);
+        if (this.localData?.userTypeId == 3 || this.localData?.userTypeId == 4) {       //  3 logged user userTypeId
+          this.filterSubOfficeForm.controls['deptId'].setValue(this.localData?.deptId);          
           this.getOffices(this.filterSubOfficeForm.value.deptId);
           this.dropdownDisable = true;
         }
@@ -141,6 +144,7 @@ export class SubOfficeMasterComponent implements OnInit, OnDestroy {
 
   // get filter offices
   getOffices(deptId: number) {
+    
     if (deptId == 0) {
       return;
     }
@@ -151,6 +155,8 @@ export class SubOfficeMasterComponent implements OnInit, OnDestroy {
         if (this.localData?.userTypeId == 4) {
           this.filterSubOfficeForm.controls['officeId'].setValue(this.localData?.officeId);
           this.dropdownDisable = true;
+          console.log("this.filterSubOfficeForm", this.filterSubOfficeForm.value.officeId);
+          
         }
       },
       error: ((error: any) => { this.errorService.handelError(error.status) })
@@ -343,10 +349,7 @@ export class SubOfficeMasterComponent implements OnInit, OnDestroy {
           this.getOfficeDrpForSave(this.addUpdateForm.value.deptId);
           this.dropdownDisable=true;
          }
-         else{
-          // this.changeDepFlag == true ? (this.userFrm.controls['deptId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.deptId) == false ? '' : this.updatedObj?.deptId),
-          // this.getOffice(this.commonMethod.checkDataType(this.updatedObj?.deptId) == false ? '' : this.updatedObj?.deptId)) : '';
-         }
+        
       },
       error: ((error: any) => { this.errorService.handelError(error.status) })
     })
@@ -361,7 +364,7 @@ export class SubOfficeMasterComponent implements OnInit, OnDestroy {
       next: (response: any) => {
         this.officeArrayFormDrp.push(...response);
         if (this.localData?.userTypeId == 4) {
-          this.filterSubOfficeForm.controls['officeId'].setValue(this.localData?.officeId);
+          this.addUpdateForm.controls['officeId'].setValue(this.localData?.officeId);
           this.dropdownDisable = true;
         }
       },

@@ -133,8 +133,10 @@
     <div class="col-sm-4">
         <div class="card form-card">
             <div class="card-header">
-                {{'Home.add_sub_Office' | translate}}
+                {{( isEdit ? 'Home.upd_Sub_office':'Home.add_sub_Office') | translate}}
             </div>
+
+           
             <form [formGroup]="addUpdateForm" (ngSubmit)="submitForm()" #formDirective="ngForm">
                 <div class="card-body">
                     <div class="mb-3">
