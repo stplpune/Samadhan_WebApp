@@ -227,8 +227,8 @@
                             <input matInput formControlName="emailId" (keypress)="validation.emailRegex($event)"
                                 maxlength="200">
                             <mat-error *ngIf="f['emailId']?.errors">
-                                <span *ngIf="f['emailId']?.hasError('required')">{{'Home.emailId_is_required' |
-                                    translate}}</span>
+                                <!-- <span *ngIf="f['emailId']?.hasError('required')">{{'Home.emailId_is_required' |
+                                    translate}}</span> -->
                                 <span *ngIf="f['emailId'].hasError('pattern')">{{'Home.pls_enter_val_off_email_id' |
                                     translate}}</span>
                             </mat-error>
