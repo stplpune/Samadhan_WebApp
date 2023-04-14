@@ -176,8 +176,8 @@
                         <mat-form-field appearance="outline" class="w-100">
                             <mat-label>{{'Home.sub_office_name' | translate}}</mat-label>
                             <input matInput formControlName="subOfficeName"
-                                (keydown)="validation.notAllowMoreThenOneSpace($event)"
-                                (keypress)="validation.removeSpaceAtBegining($event);validation.alphaNumericWithSpaces($event);">
+                                
+                                (keypress)="validation.noFirstSpaceAllow($event);validation.alphaNumericWithSpaces($event);">
                             <mat-error *ngIf="f['subOfficeName']?.errors">
                                 <span *ngIf="f['subOfficeName']?.hasError('required')">
                                     {{'Home.sub_off_name_req' |
@@ -193,12 +193,15 @@
                         <mat-form-field appearance="outline" class="w-100">
                             <mat-label>{{'Home.sub_office_name_marathi' | translate}}</mat-label>
                             <input matInput formControlName="m_SubOfficeName"
-                                (keydown)="validation.notAllowMoreThenOneSpace($event)"
-                                (keypress)="validation.removeSpaceAtBegining($event);validation.alphaNumericWithSpaces($event);validation.unicodeMarathiValidation($event)">
+                                
+                                (keypress)="validation.noFirstSpaceAllow($event);validation.removeSpaceAtBegining($event);validation.unicodeMarathiValidation($event)">
                             <mat-error *ngIf="f['m_SubOfficeName']?.errors">
                                 <span *ngIf="f['m_SubOfficeName']?.hasError('required')">
                                     {{'Home.pls_enter_val_suboffice_name_mar' |
                                     translate}}</span>
+                                    <span *ngIf="f['m_SubOfficeName']?.hasError('pattern')">
+                                        {{'Home.pls_enter_pat_suboffice_name_mar' |
+                                        translate}}</span>
                             </mat-error>
                         </mat-form-field>
                     </div>

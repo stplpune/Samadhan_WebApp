@@ -70,6 +70,7 @@
         "sub_off_name_req": "उप कार्यालयाचे नाव आवश्यक आहे",
         "pls_enter_val_suboffice_name": "वैध उप कार्यालयाचे नाव प्रविष्ट करा",
         "pls_enter_val_suboffice_name_mar":"उप कार्यालयाचे मराठी नाव आवश्यक आहे",
+        "pls_enter_pat_suboffice_name_mar" : " कृपया उप कार्यालयाचे वैध मराठी नाव प्रविष्ट करा",
         "please_sel_subOff":" कृपया उप कार्यालय निवडा",
         "pls_enter_val_Sub_off_designation": "उप कार्यालय प्रमुख पद आवश्यक आहे",
         "pls_enter_val_Sub_off_designation_pat":"कृपया वैध उप कार्यालय प्रमुख पदनाम प्रविष्ट करा",

@@ -114,7 +114,7 @@ export class SubOfficeMasterComponent implements OnInit, OnDestroy {
       "emailId": [this.isEdit ?  this.editObj.officeEmailId : '',[Validators.required, Validators.pattern(this.validation.valEmailId)]],
       "contactPersonName": [this.isEdit ?  this.editObj.contactPersonName : '', [Validators.required, Validators.pattern(this.validation.valName)]],
       "landlineNo": [this.isEdit ?  this.editObj.landlineNo : '', [Validators.pattern, Validators.minLength(11), Validators.maxLength(11),]],
-      "m_SubOfficeName": [this.isEdit ?  this.editObj.m_SubOfficeName : '', [Validators.required]],
+      "m_SubOfficeName": [this.isEdit ?  this.editObj.m_SubOfficeName : '', [Validators.required, Validators.pattern(this.validation.marathi)]],
     });
   }
 
@@ -326,10 +326,16 @@ export class SubOfficeMasterComponent implements OnInit, OnDestroy {
     this.formDirective.resetForm();
     this.isEdit = false;
     this.highlightedRow = 0;
-    if (this.localData?.userTypeId == 3) {       //  3 logged user userTypeId
+    // if (this.localData?.userTypeId == 3) {       //  3 logged user userTypeId
+    //   this.addUpdateForm.controls['deptId'].setValue(this.localData?.deptId);
+    //   this.dropdownDisable = true;
+    // }
+    if (this.localData?.userTypeId == 3 || this.localData?.userTypeId == 4) {
       this.addUpdateForm.controls['deptId'].setValue(this.localData?.deptId);
+      this.addUpdateForm.controls['officeId'].setValue(this.localData?.officeId);
       this.dropdownDisable = true;
     }
+
     this.selection.clear();
   }
 
