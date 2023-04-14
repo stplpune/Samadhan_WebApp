@@ -39,6 +39,7 @@ export class FormsValidationService {
    valPinCode = '^[1-9][0-9]{5}$';
    amountValPattern = '^(?!0+$)[0-9]{0,20}$'; // for using amount validation pattern
    latLongValPattern = '/^[-+]?[0-9]{1,7}(\.[0-9]+)?$' // for using latitude and longitude pattern
+   marathi=('^[\u0900-\u0965 ]+$');
 
 
    onlyAlphabets(event: any) {

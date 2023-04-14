@@ -127,11 +127,11 @@
               <mat-label>{{'Home.ofiname_marathi' | translate}}</mat-label>
               <input matInput formControlName="m_OfficeName" maxlength="200"
                 (keydown)="validation.notAllowMoreThenOneSpace($event)"
-                (keypress)="validation.removeSpaceAtBegining($event);validation.alphaNumericWithSpaces($event);validation.unicodeMarathiValidation($event)">
-              <mat-error *ngIf="f['name']?.errors">
-                <span *ngIf="f['name']?.hasError('required')"> {{'Home.pls_enter_val_office_name_mar' |
+                (keypress)="validation.removeSpaceAtBegining($event);validation.unicodeMarathiValidation($event)">
+              <mat-error *ngIf="f['m_OfficeName']?.errors">
+                <span *ngIf="f['m_OfficeName']?.hasError('required')"> {{'Home.pls_enter_val_office_name_mar' |
                   translate}}</span>
-                <!-- <span *ngIf="f['name'].hasError('pattern')">  {{'Home.pls_enter_val_office_name' | translate}}</span> -->
+                <span *ngIf="f['m_OfficeName'].hasError('pattern')">  {{'Home.pls_enter_val_office_name_mar_patt' | translate}}</span>
               </mat-error>
             </mat-form-field>
           </div>
