@@ -99,22 +99,22 @@ export class SubOfficeMasterComponent implements OnInit, OnDestroy {
 
   defaultAddEditForm() {
     this.addUpdateForm = this.fb.group({
-      "createdBy": this.isEdit ?  this.editObj.createdBy : this.webStorage.getUserId(),
-      "modifiedBy": this.isEdit ?  this.editObj.modifiedBy : this.webStorage.getUserId(),
-      "createdDate": this.isEdit ?  this.editObj.createdDate : new Date(),
-      "modifiedDate": this.isEdit ?  this.editObj.modifiedDate : new Date(),
-      "isDeleted": this.isEdit ?  this.editObj.isDeleted :  true,
-      "id": this.isEdit ?  this.editObj.id : 0,
-      "deptId": [this.isEdit ?  this.editObj.deptId : '', [Validators.required]],
-      "officeId": [this.isEdit ?  this.editObj.officeId : '', [Validators.required]],
-      "subOfficeName": [this.isEdit ?  this.editObj.subOfficeName : '', [Validators.required, Validators.pattern(this.validation.valUserName) ]],
-      "address": [this.isEdit ?  this.editObj.officeAddress : '', [Validators.required, Validators.pattern('^[^[ ]+|[ ][gm]+$')]],
-      "latitude": [this.isEdit ?  this.editObj.latitude : ''],
-      "longitude": [this.isEdit ?  this.editObj.longitude : ''],
-      "emailId": [this.isEdit ?  this.editObj.officeEmailId : '',[ Validators.pattern(this.validation.valEmailId)]],
-      "contactPersonName": [this.isEdit ?  this.editObj.contactPersonName : '', [Validators.required, Validators.pattern(this.validation.valName)]],
-      "landlineNo": [this.isEdit ?  this.editObj.landlineNo : '', [Validators.pattern, Validators.minLength(11), Validators.maxLength(11),]],
-      "m_SubOfficeName": [this.isEdit ?  this.editObj.m_SubOfficeName : '', [Validators.required, Validators.pattern(this.validation.marathi)]],
+      "createdBy":  this.webStorage.getUserId(),
+      "modifiedBy":  this.webStorage.getUserId(),
+      "createdDate":  new Date(),
+      "modifiedDate":  new Date(),
+      "isDeleted":  true,
+      "id":  0,
+      "deptId": ['', [Validators.required]],
+      "officeId": ['', [Validators.required]],
+      "subOfficeName": ['', [Validators.required, Validators.pattern(this.validation.valUserName) ]],
+      "address": [ '', [Validators.required, Validators.pattern('^[^[ ]+|[ ][gm]+$')]],
+      "latitude": [''],
+      "longitude": [''],
+      "emailId": [ '',[ Validators.pattern(this.validation.valEmailId)]],
+      "contactPersonName": [ '', [Validators.required, Validators.pattern(this.validation.valName)]],
+      "landlineNo": [ '', [Validators.pattern, Validators.minLength(11), Validators.maxLength(11),]],
+      "m_SubOfficeName": [ '', [Validators.required, Validators.pattern(this.validation.marathi)]],
     });
   }
 
@@ -238,7 +238,10 @@ export class SubOfficeMasterComponent implements OnInit, OnDestroy {
     });
 
     this.getDeptDrpforSaveForm(this.webStorage.getUserId());
-     if (this.localData?.userTypeId == 3 || this.localData?.userTypeId == 4) {
+    if(this.localData?.userTypeId == 3){
+      this.addUpdateForm.controls['deptId'].setValue(this.localData?.deptId);
+    }
+     if (this.localData?.userTypeId == 4) {
       this.addUpdateForm.controls['deptId'].setValue(this.localData?.deptId);
       this.addUpdateForm.controls['officeId'].setValue(this.localData?.officeId);
       this.dropdownDisable = true;
@@ -330,7 +333,11 @@ export class SubOfficeMasterComponent implements OnInit, OnDestroy {
     //   this.addUpdateForm.controls['deptId'].setValue(this.localData?.deptId);
     //   this.dropdownDisable = true;
     // }
-    if (this.localData?.userTypeId == 3 || this.localData?.userTypeId == 4) {
+
+    if(this.localData?.userTypeId == 3){
+      this.addUpdateForm.controls['deptId'].setValue(this.localData?.deptId);
+    }
+    if ( this.localData?.userTypeId == 4) {
       this.addUpdateForm.controls['deptId'].setValue(this.localData?.deptId);
       this.addUpdateForm.controls['officeId'].setValue(this.localData?.officeId);
       this.dropdownDisable = true;
