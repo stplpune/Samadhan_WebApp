@@ -619,6 +619,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
    }
    if( this.loggedUserTypeId == 6){   
     this.userFrm.controls['userTypeId'].setValue(this.loggedUserTypeId);
+    this.userFrm.controls['subUserTypeId'].setValue(this.data.subUserTypeId);
     this.userFrm.controls['subOfficeId'].setValue(this.data.subOfficeId);
    }
       this.selection.clear();
