@@ -76,11 +76,11 @@ export class SubOfficeMasterComponent implements OnInit, OnDestroy {
     this.getDepartments(this.webStorage.getUserId());
     this.getDeptDrpforSaveForm(this.webStorage.getUserId());
 
-    if (this.localData?.userTypeId == 3 || this.localData?.userTypeId == 4) {
-      this.addUpdateForm.controls['deptId'].setValue(this.localData?.deptId);
-      this.addUpdateForm.controls['officeId'].setValue(this.localData?.officeId);
-      this.dropdownDisable = true;
-    }
+    // if (this.localData?.userTypeId == 3 || this.localData?.userTypeId == 4) {
+    //   this.addUpdateForm.controls['deptId'].setValue(this.localData?.deptId);
+    //   this.addUpdateForm.controls['officeId'].setValue(this.localData?.officeId);
+    //   this.dropdownDisable = true;
+    // }
     this.webStorage.langNameOnChange.subscribe(message => {
       this.langTypeName = message;
     });
@@ -121,8 +121,6 @@ export class SubOfficeMasterComponent implements OnInit, OnDestroy {
   get f() {
     return this.addUpdateForm.controls;
   }
-
-
 
   selection = new SelectionModel<any>(true, []);
 
@@ -225,8 +223,26 @@ export class SubOfficeMasterComponent implements OnInit, OnDestroy {
     this.highlightedRow = obj.id;
     this.editObj = obj;
     this.isEdit = true;
-    this.defaultAddEditForm();
-    this.getOfficeDrpForSave(this.editObj.deptId);
+    // this.defaultAddEditForm();
+    this.addUpdateForm.patchValue({
+      // "deptId":  this.editObj.deptId,
+      // "officeId": this.editObj.officeId,
+      "subOfficeName": this.editObj.subOfficeName ,
+      "address": this.editObj.officeAddress ,
+      "latitude": this.editObj.latitude ,
+      "longitude": this.editObj.longitude,
+      "emailId": this.editObj.officeEmailId,
+      "contactPersonName": this.editObj.contactPersonName,
+      "landlineNo": this.editObj.landlineNo ,
+      "m_SubOfficeName": this.editObj.m_SubOfficeName ,
+    });
+
+    this.getDeptDrpforSaveForm(this.webStorage.getUserId());
+     if (this.localData?.userTypeId == 3 || this.localData?.userTypeId == 4) {
+      this.addUpdateForm.controls['deptId'].setValue(this.localData?.deptId);
+      this.addUpdateForm.controls['officeId'].setValue(this.localData?.officeId);
+      this.dropdownDisable = true;
+    }
   }
 
   //select unselect Checkbox
@@ -349,6 +365,10 @@ export class SubOfficeMasterComponent implements OnInit, OnDestroy {
           this.getOfficeDrpForSave(this.addUpdateForm.value.deptId);
           this.dropdownDisable=true;
          }
+         else{
+          this.isEdit ? (this.addUpdateForm.controls['deptId'].setValue(this.editObj?.deptId), this.getOfficeDrpForSave(this.addUpdateForm.value.deptId)): ''
+
+         }
         
       },
       error: ((error: any) => { this.errorService.handelError(error.status) })
@@ -366,6 +386,10 @@ export class SubOfficeMasterComponent implements OnInit, OnDestroy {
         if (this.localData?.userTypeId == 4) {
           this.addUpdateForm.controls['officeId'].setValue(this.localData?.officeId);
           this.dropdownDisable = true;
+        }
+        else{
+          this.isEdit ? this.addUpdateForm.controls['officeId'].setValue(this.editObj?.officeId): ''
+
         }
       },
       error: ((error: any) => { this.errorService.handelError(error.status) })
@@ -412,11 +436,29 @@ export class SubOfficeMasterComponent implements OnInit, OnDestroy {
       return
     }else{
       let formData = this.addUpdateForm.value;
-      formData.latitude = (this.isEdit && !this.placeChangeFlag)  ? this.editObj.latitude : this.latitude.toString();
-      formData.longitude = (this.isEdit && !this.placeChangeFlag) ? this.editObj.longitude : this.longitude.toString();
+      // formData.latitude = (this.isEdit && !this.placeChangeFlag)  ? this.editObj.latitude : this.latitude.toString();
+      // formData.longitude = (this.isEdit && !this.placeChangeFlag) ? this.editObj.longitude : this.longitude.toString();
+      let formObj = {
+        "createdBy": this.webStorage.getUserId(),
+        "modifiedBy": this.webStorage.getUserId(),
+        "createdDate": new Date(),
+        "modifiedDate": new Date(),
+        "isDeleted": true,
+        "id": this.isEdit ? this.editObj.id :  0,
+        "deptId": formData.deptId ,
+        "officeId": formData.officeId,
+        "subOfficeName": formData.subOfficeName,
+        "address": formData.address,
+        "latitude": (this.isEdit && !this.placeChangeFlag)  ? this.editObj.latitude : this.latitude.toString(),
+        "longitude": (this.isEdit && !this.placeChangeFlag) ? this.editObj.longitude : this.longitude.toString(),
+        "emailId": formData.emailId,
+        "contactPersonName": formData.contactPersonName,
+        "landlineNo": formData.landlineNo,
+        "m_SubOfficeName": formData.m_SubOfficeName
+      }
       let url = this.isEdit ? 'UpdateOfficeDetails' : 'AddSubOfficeDetails';
       let method = this.isEdit ? 'PUT': 'POST';
-      this.apiService.setHttp(method, 'samadhan/SubOffice/' + url, false, formData, false, 'samadhanMiningService');
+      this.apiService.setHttp(method, 'samadhan/SubOffice/' + url, false, formObj, false, 'samadhanMiningService');
       this.subscription = this.apiService.getHttp().subscribe({
         next: (res: any) => {
           if (res.statusCode == 200) {
@@ -437,7 +479,6 @@ export class SubOfficeMasterComponent implements OnInit, OnDestroy {
         },
       });
     }
-
   }
 
 

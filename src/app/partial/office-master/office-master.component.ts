@@ -375,7 +375,6 @@ export class OfficeMasterComponent implements OnInit, AfterViewInit, OnDestroy {
 
   //#region mapApiLoader Fun start
   mapApiLoader() {
-
     this.mapsAPILoader.load().then(() => {
       this.geocoder = new google.maps.Geocoder();
       let autocomplete = new google.maps.places.Autocomplete(

@@ -142,9 +142,9 @@
                     <div class="mb-3">
                         <mat-form-field appearance="outline" class="w-100">
                             <mat-label>{{'Home.department' | translate}}</mat-label>
-                            <mat-select formControlName="deptId"
+                            <mat-select formControlName="deptId" [disabled]="this.localData?.userTypeId == 3 || this.localData?.userTypeId == 4"
                                 (selectionChange)="clearForm('dept'); getOfficeDrpForSave(addUpdateForm.value.deptId);"
-                                [disabled]="dropdownDisable">
+                                >
                                 <mat-option *ngFor="let dept of departmentArray" [value]="dept.deptId">
                                     {{ langTypeName == 'English' ? (dept.departmentName | titlecase) :
                                     dept.m_DepartmentName}}
