@@ -76,7 +76,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
     private webStorage: WebStorageService,
     private spinner: NgxSpinnerService,
     public translate: TranslateService) {
-     this.data=this.localStrorageData. getLoggedInLocalstorageData().responseData;
+     this.data=this.localStrorageData.getLoggedInLocalstorageData().responseData;
      }
 
   ngOnInit(): void {
@@ -178,6 +178,26 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   }
   //#endregion clear filter  fn end here
 
+  clearDropdown(flag:any){
+      switch(flag){
+        case 'department':this.userFrm.controls['officeId'].setValue('');
+                          this.userFrm.controls['subOfficeId'].setValue('');
+                          break;
+        case 'Office' :  this.userFrm.controls['subOfficeId'].setValue('');
+                          break;                 
+      }
+  }
+
+  setSubOfficeValidator(id:any){
+      if(id==6){
+        this.userFrm.controls['subOfficeId'].setValidators([Validators.required])
+      }else{
+        this.userFrm.controls['subOfficeId'].clearValidators()
+        this.userFrm.controls['subOfficeId'].setValue('');   
+      }
+      this.userFrm.controls['subOfficeId'].updateValueAndValidity();
+  }
+
   getUsers(userId:number) {
     this.usersArray = [];
     this.commonService.getAllUserByUserId(userId).subscribe({
@@ -204,10 +224,12 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
       next: (response: any) => {
         this.subUsersArray.push(...response);
         if(this.loggedUserTypeId == 6){
+          console.log('id:-',this.loggedUserTypeId)
+          console.log('data:-',this.data);
           this.userFrm.controls['subUserTypeId'].setValue(this.data?.subUserTypeId);
-          // this.dropdownDisable=true;
-         }
+         }else{
         this.changeDepFlag == true ? (this.userFrm.controls['subUserTypeId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.subUserTypeId) == false ? '' : this.updatedObj?.subUserTypeId)) :this.userFrm.controls['subUserTypeId'].setValue('');
+         }
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
@@ -597,6 +619,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
    }
    if( this.loggedUserTypeId == 6){   
     this.userFrm.controls['userTypeId'].setValue(this.loggedUserTypeId);
+    this.userFrm.controls['subUserTypeId'].setValue(this.data.subUserTypeId);
     this.userFrm.controls['subOfficeId'].setValue(this.data.subOfficeId);
    }
       this.selection.clear();

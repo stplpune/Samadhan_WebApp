@@ -85,6 +85,7 @@
         "off_name_req":"कार्यालयाचे नाव आवश्यक आहे",
         "pls_enter_val_office_name":"पत्ता आवश्यक आहे",
         "pls_enter_val_office_name_mar":"कार्यालयाचे मराठी नाव आवश्यक आहे",
+        "pls_enter_val_office_name_mar_patt":"कृपया वैध कार्यालयाचे  मराठी नाव प्रविष्ट करा",
         "off_add":"कार्यालयाचा पत्ता",
         "pls_enter_val_off_add":"कार्यालयाचा पत्ता आवश्यक आहे",
         "search_off_location":"स्थान शोधा",
