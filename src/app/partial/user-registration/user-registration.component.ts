@@ -225,8 +225,6 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
       next: (response: any) => {
         this.subUsersArray.push(...response);
         if(this.loggedUserTypeId == 6){
-          console.log('id:-',this.loggedUserTypeId)
-          console.log('data:-',this.data);
           this.userFrm.controls['subUserTypeId'].setValue(this.data?.subUserTypeId);
          }else{
         this.changeDepFlag == true ? (this.userFrm.controls['subUserTypeId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.subUserTypeId) == false ? '' : this.updatedObj?.subUserTypeId)) :this.userFrm.controls['subUserTypeId'].setValue('');
