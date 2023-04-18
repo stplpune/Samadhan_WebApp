@@ -131,7 +131,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
       subUserTypeId: ['', [Validators.required]],
       deptId: ['', [Validators.required]],
       officeId: ['', [Validators.required]],
-      subOfficeId:[''],
+      subOfficeId:['',[Validators.required]],
       name: ['', [Validators.required]],
       mobileNo: ['', [Validators.required, Validators.pattern(this.validation.valMobileNo), Validators.minLength(10), Validators.maxLength(10)]],
       emailId: ['', [Validators.required, Validators.email]],
@@ -186,6 +186,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
         case 'Office' :  this.userFrm.controls['subOfficeId'].setValue('');
                           break;                 
       }
+      this.setValidators(this.userFrm.value.userTypeId);
   }
 
   setSubOfficeValidator(id:any){
@@ -395,9 +396,9 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
               this.userFrm.controls['officeId'].setValue('');
               this.userFrm.controls['officeId'].clearValidators();
               this.userFrm.controls['officeId'].updateValueAndValidity();
-              // this.userFrm.controls['subOfficeId'].setValue('');
-              // this.userFrm.controls['subOfficeId'].clearValidators();
-              // this.userFrm.controls['subOfficeId'].updateValueAndValidity();
+              this.userFrm.controls['subOfficeId'].setValue('');
+              this.userFrm.controls['subOfficeId'].clearValidators();
+              this.userFrm.controls['subOfficeId'].updateValueAndValidity();
               break;
 
        case 3:
@@ -406,19 +407,19 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
                 this.userFrm.controls['officeId'].setValue('');
                 this.userFrm.controls['officeId'].clearValidators();
                 this.userFrm.controls['officeId'].updateValueAndValidity();
-                // this.userFrm.controls['subOfficeId'].setValue('');
-                // this.userFrm.controls['subOfficeId'].clearValidators();
-                // this.userFrm.controls['subOfficeId'].updateValueAndValidity();
+                this.userFrm.controls['subOfficeId'].setValue('');
+                this.userFrm.controls['subOfficeId'].clearValidators();
+                this.userFrm.controls['subOfficeId'].updateValueAndValidity();
                 break;    
 
-      //  case 4 : this.userFrm.controls["deptId"].setValidators([Validators.required]);
-      //           this.userFrm.controls["deptId"].updateValueAndValidity();
-      //           this.userFrm.controls["officeId"].setValidators([Validators.required]);
-      //           this.userFrm.controls["officeId"].updateValueAndValidity();
-      //           this.userFrm.controls['subOfficeId'].setValue('');
-      //           this.userFrm.controls['subOfficeId'].clearValidators();
-      //           this.userFrm.controls['subOfficeId'].updateValueAndValidity();
-      //           break;                 
+       case 4 : this.userFrm.controls["deptId"].setValidators([Validators.required]);
+                this.userFrm.controls["deptId"].updateValueAndValidity();
+                this.userFrm.controls["officeId"].setValidators([Validators.required]);
+                this.userFrm.controls["officeId"].updateValueAndValidity();
+                this.userFrm.controls['subOfficeId'].setValue('');
+                this.userFrm.controls['subOfficeId'].clearValidators();
+                this.userFrm.controls['subOfficeId'].updateValueAndValidity();
+                break;                 
       default:
                 this.userFrm.controls["deptId"].setValidators([Validators.required]);
                 this.userFrm.controls["deptId"].updateValueAndValidity();
