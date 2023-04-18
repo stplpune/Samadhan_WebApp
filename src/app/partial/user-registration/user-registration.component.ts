@@ -425,8 +425,8 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
                 this.userFrm.controls["deptId"].updateValueAndValidity();
                 this.userFrm.controls["officeId"].setValidators([Validators.required]);
                 this.userFrm.controls["officeId"].updateValueAndValidity();
-                // this.userFrm.controls["subOfficeId"].setValidators([Validators.required]);
-                // this.userFrm.controls["subOfficeId"].updateValueAndValidity();
+                this.userFrm.controls["subOfficeId"].setValidators([Validators.required]);
+                this.userFrm.controls["subOfficeId"].updateValueAndValidity();
 
     }
 
