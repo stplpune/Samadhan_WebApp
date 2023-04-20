@@ -162,7 +162,7 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
 
 
   //#region  clear filter  fn Start here
-  clearFilter(flag: any) {
+  clearFilter(flag: any) {    
     switch (flag) {
       case 'department':
         this.filterFrm.controls['officeId'].setValue('0');
@@ -179,24 +179,15 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
   //#endregion clear filter  fn end here
 
   clearDropdown(flag:any){
+    this.changeDepFlag=false;
       switch(flag){
         case 'department':this.userFrm.controls['officeId'].setValue('');
                           this.userFrm.controls['subOfficeId'].setValue('');
                           break;
-        case 'Office' :  this.userFrm.controls['subOfficeId'].setValue('');
+        case 'office' :  this.userFrm.controls['subOfficeId'].setValue('');
                           break;                 
       }
       this.setValidators(this.userFrm.value.userTypeId);
-  }
-
-  setSubOfficeValidator(id:any){
-      if(id==6){
-        this.userFrm.controls['subOfficeId'].setValidators([Validators.required])
-      }else{
-        this.userFrm.controls['subOfficeId'].clearValidators()
-        this.userFrm.controls['subOfficeId'].setValue('');   
-      }
-      this.userFrm.controls['subOfficeId'].updateValueAndValidity();
   }
 
   getUsers(userId:number) {
@@ -337,19 +328,20 @@ export class UserRegistrationComponent implements OnInit, AfterViewInit, OnDestr
       this.subOfficeArray = [];
       this.commonService.getAllSubOfficeByOfficeId(id).subscribe({
         next: (response: any) => {
-          if(response){
+        //  if(response){
           this.subOfficeArray.push(...response);
           if(this.loggedUserTypeId == 6 ){
-            // this.filterFrm.controls['officeId'].setValue(this.data.officeId);
             this.userFrm.controls['subOfficeId'].setValue(this.data.subOfficeId);
-            this.dropdownDisable=true;
+           }else{
+         this.changeDepFlag == true ? (this.userFrm.controls['subOfficeId'].setValue(this.updatedObj?.subOfficeId)) : this.userFrm.controls['subOfficeId'].setValue('');
            }
-         this.changeDepFlag == true ? (this.userFrm.controls['subOfficeId'].setValue(this.commonMethod.checkDataType(this.updatedObj?.subOfficeId) == false ? '' : this.updatedObj?.subOfficeId)) : '';
-          }else{
-            this.subOfficeArray = [];
-          }
-        },
-        // error: ((error: any) => { this.error.handelError(error.status) })
+        // }
+        // else{
+        //    this.userFrm.controls['subOfficeId'].setValue('');
+        //     this.subOfficeArray = [];
+        //   }
+       },
+        // error: ((error: any) => { this.error.handelError(error.statusCode) })
       })
     }
   }

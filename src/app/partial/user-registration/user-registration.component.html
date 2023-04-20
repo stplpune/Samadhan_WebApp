@@ -291,7 +291,7 @@
                         <mat-form-field class="w-100" appearance="outline">
                             <mat-label>{{'Home.userType' | translate}}</mat-label>
                             <mat-select formControlName="userTypeId" [disabled]="this.loggedUserTypeId==6"
-                                (selectionChange)="getSubUsers(userFrm.value.userTypeId);setValidators(userFrm.value.userTypeId);setSubOfficeValidator(userFrm.value.userTypeId);changeDepFlag = false">
+                                (selectionChange)="getSubUsers(userFrm.value.userTypeId);setValidators(userFrm.value.userTypeId);changeDepFlag = false">
                                 <mat-option *ngFor="let user of usersArray" [value]="user.userTypeId">
                                     {{ langTypeName == 'English'? user.userType : user.m_UserType}}
                                 </mat-option>
