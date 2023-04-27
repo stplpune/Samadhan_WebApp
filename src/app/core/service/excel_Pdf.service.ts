@@ -17,7 +17,7 @@ export class ExcelService {
 
   downLoadPdf(header: any, values: any, objData: any) {
 
-    let doc: any = new jsPDF();
+    let doc: any = new jsPDF('l','mm', [297, 210]);
     doc.addFileToVFS("Yantramana.ttf", YantramanavRegular.font);
     doc.addFont("Yantramana.ttf", "Yantramana", "normal");
     doc.setFont("Yantramana");
@@ -38,7 +38,7 @@ export class ExcelService {
         var height = 20;
         doc.addImage('../../../../assets/images/samadhanLogo.jpeg', 'JPEG',12, -3, imgWidth, height);
         doc.setFontSize(13);
-        doc.text(objData.topHedingName, 100, 8, "center");
+        doc.text(objData.topHedingName, 150, 8, "center");
 
         if (objData?.timePeriod != null) {
           doc.setFontSize(8);
@@ -46,16 +46,16 @@ export class ExcelService {
         }
 
         doc.setFontSize(8);
-        doc.text(objData.createdDate, 200, 14, "right");
+        doc.text(objData.createdDate, 280, 14, "right");
 
         doc.setLineWidth(0.2);
-        doc.line(12, 15, 200, 15);
+        doc.line(12, 15, 280, 15);
 
         doc.setLineWidth(0.2);
-        doc.line(12, 286, 200, 286);
+        doc.line(12, 200, 280, 200);
 
         doc.setFontSize(8);
-        doc.text('Note:This is a system generated File.', 200, 290, "right");
+        doc.text('Note:This is a system generated file.', 280, 203, "right");
 
       }
     });
