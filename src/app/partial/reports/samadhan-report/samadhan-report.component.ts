@@ -66,7 +66,7 @@ export class SamadhanReportComponent implements OnInit {
     let getUrlData: any = this.route.snapshot.params?.['id'];
     if (getUrlData) {
       getUrlData = getUrlData.split('.');
-      this.redirectGetData = { 'deptId': +getUrlData[0], 'onClickflag': +getUrlData[1], 'pageFlag': +getUrlData[2], 'offId': +getUrlData[3] }
+      this.redirectGetData = { 'deptId': +getUrlData[0], 'onClickflag': +getUrlData[1], 'pageFlag': +getUrlData[2], 'offId': +getUrlData[3],'subOfficeId': + getUrlData[4] }
 
     }
 
@@ -74,6 +74,7 @@ export class SamadhanReportComponent implements OnInit {
 
   satifiedAndUnsatifiedFlag:any;
   ngOnInit(): void {
+    console.log('this.redirectGetData',this.redirectGetData)
     let dateData: any = localStorage.getItem('dateRange');
     this.data = JSON.parse(dateData);
     this.data ? this.filterform(this.data) : this.filterform()
@@ -148,6 +149,14 @@ export class SamadhanReportComponent implements OnInit {
         this.heading = ["Pendancy", "Report"]
         this.getReport();
         break;
+
+       case 6:
+        this.url = 'samadhan/OnClickDetailReports/OnClickSubOfficeRPTDetails?'
+        this.urlString = 'flag=' +this.redirectGetData.onClickflag + '&searchdeptId=' + this.redirectGetData.deptId+ '&searchofcId=' + this.redirectGetData.offId + '&searchsubofcId=' +this.redirectGetData.subOfficeId; //value of flag in offid ,value of date flag in onClickFlag of redirectGetData object
+        this.heading = ["Sub Office", "Report"];
+        // this.columns.push({ header: "Sub Office Name", column: 'subOfficeName', flag: true });
+        this.getReport();
+        break;
     }
   }
 
@@ -185,7 +194,14 @@ export class SamadhanReportComponent implements OnInit {
               'grievanceType': ele.grievanceType,
               'grievancedetails': ele.grievanceDescription,
               'status': ele.statusName
-            }        
+            }       
+            
+          //   this.columns.find((head:any)=>{
+          //     if(head.header=='Sub Office Name'){
+          //       obj['subOfficeName']=ele.subOfficeName;
+                
+          //     }             
+          // })
             
             this.columns.find((head:any)=>{
               if(head.header=='Feedback Status' || head.header=='Feedback Remark'){
