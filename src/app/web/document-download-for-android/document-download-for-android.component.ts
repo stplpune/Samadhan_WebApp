@@ -28,6 +28,7 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
   pendencyReportArray: any;
   officeIsSatisfiedReportArray: any;
   penAboveFifteenArray:any;
+  subOfficeArray:any;
   langTypeName:any;
 
   constructor(
@@ -53,7 +54,7 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
   ngOnInit(): void {
     // this.getOfficerDepartmentReport();
     this.getUrl(this.data[0].value);
-    this.docId=this.data[1].value
+    this.docId=this.data[1].value;
     this.localStrorageData.langNameOnChange.subscribe(message => {
       this.langTypeName = message;
      });
@@ -163,6 +164,24 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
             penAboveFifteenObjData.timePeriod = 'From Date:' + this.datePipe.transform(fromdate, 'dd/MM/yyyy') + ' To Date: ' + this.datePipe.transform(todate, 'dd/MM/yyyy');
           }
           this.getPendencyReportAboveFifteen(penAboveFifteenHeader,penAboveFifteenObjData);
+          break;
+         
+       case '7':
+        let subOfficeHeader = ["Sr.No.", "Department Name", "Office Name", "Sub Office Name", "Total Grievances","Open", "Accepted", "Resolved","Partial Resolved","Transferred"]; 
+        let subOfficeObjData:any = {
+          'topHedingName': 'Sub Office Report',
+          'createdDate':'Created on : ' + this.datePipe.transform(new Date(),  'dd/MM/yyyy hh:mm a')
+        }
+        
+        checkFromDateFlag = this.data[6].value == '' || this.data[6].value == null || this.data[6].value == 0 || this.data[6].value == undefined ? false : true;
+        checkToDateFlag = this.data[7].value == '' || this.data[7].value == null || this.data[7].value == 0 || this.data[7].value == undefined ? false : true;
+        if (this.data[6].value && this.data[7].value && checkFromDateFlag && checkToDateFlag) {
+          fromdate = new Date(this.data[6].value);
+          todate = new Date(this.data[7].value);
+          subOfficeObjData.timePeriod = 'From Date:' + this.datePipe.transform(fromdate, 'dd/MM/yyyy') + ' To Date: ' + this.datePipe.transform(todate, 'dd/MM/yyyy');
+        }
+        this.getSubOfficeReport(subOfficeHeader, subOfficeObjData);
+        break;
     }
 
   }
@@ -299,6 +318,29 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
       },
     });
 
+  }
+
+  getSubOfficeReport(keyPDFHeader: any, objData: any){
+    let obj = this.data[2].value + '&searchofcId=' + this.data[3].value + '&subofcId=' + this.data[4].value +'&userid=' + this.data[5].value + '&fromDate=' + this.data[6].value  + '&toDate=' + this.data[7].value;
+    this.apiService.setHttp('get', 'api/ShareGrievances/SubOfficerOfficeReport?searchdeptId=' + obj, false, false, false, 'samadhanMiningService');
+    this.apiService.getHttp().subscribe({
+      next: (res: any) => {
+        if (res.statusCode == 200) {
+          this.subOfficeArray = res.responseData.map((ele: any, index: any) => {
+            ele.deptId = index + 1;
+            delete ele.isDeleted;delete ele.rejected;
+            delete ele.officeId, delete ele.subOfficeId;
+            return ele
+          });
+
+        this.docId==1? this.downloadPdf(keyPDFHeader, objData, this.subOfficeArray) :this.docId==2? this.downloadExcel(keyPDFHeader, objData, this.subOfficeArray):'';         
+        } else {
+        }
+      },
+      error: (error: any) => {
+        this.error.handelError(error.status);
+      },
+    });
   }
 
   downloadPdf(keyPDFHeader: any, objData: any, array: any) {
