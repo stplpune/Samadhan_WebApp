@@ -212,10 +212,10 @@ export class PendingReportComponent implements OnInit {
       []
     );// Value Name
     let objData:any = {
-      'topHedingName': 'Sub Office Report',
+      'topHedingName': 'Pending Report',
       'createdDate':'Created on:'+this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a')
     }
-    let keyPDFHeader = ['Sr.No.', "Department Name", "Office Name", "Sub Office Name", "pending","pendingLess15", "pendingGreater15", "pendingGreater30"];
+    let keyPDFHeader = ['Sr.No.', "Department Name", "Office Name", "Sub Office Name", "Total Count","pendingLess15", "pendingGreater15", "pendingGreater30"];
 
     checkFromDateFlag = formData.fromDate == '' || formData.fromDate == null || formData.fromDate == 0 || formData.fromDate == undefined ? false : true;
         checkToDateFlag =  formData.toDate == '' ||  formData.toDate == null ||  formData.toDate == 0 ||  formData.toDate == undefined ? false : true;
@@ -236,14 +236,14 @@ export class PendingReportComponent implements OnInit {
     formData.fromDate = formData.fromDate ? this.datePipe.transform(formData.fromDate, 'yyyy/MM/dd') : '';
     formData.toDate = formData.toDate ? this.datePipe.transform(formData.toDate, 'yyyy/MM/dd') : '';
 
-    let keyPDFHeader = ['Sr.No.', "Department Name", "Office Name", "Sub Office Name", "pending","pendingLess15", "pendingGreater15", "pendingGreater30"];
+    let keyPDFHeader = ['Sr.No.', "Department Name", "Office Name", "Sub Office Name", "Total Count","pendingLess15", "pendingGreater15", "pendingGreater30"];
     let ValueData =
       this.pendingReportArray.reduce(
         (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
         []
       );// Value Name
       let objData:any = {
-        'topHedingName': 'Sub Office Report',
+        'topHedingName': 'Pending Report',
         'createdDate':'Created on:'+this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a')
       }
       
