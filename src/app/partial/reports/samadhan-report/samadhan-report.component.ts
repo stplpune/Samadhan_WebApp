@@ -66,7 +66,7 @@ export class SamadhanReportComponent implements OnInit {
     let getUrlData: any = this.route.snapshot.params?.['id'];
     if (getUrlData) {
       getUrlData = getUrlData.split('.');
-      this.redirectGetData = { 'deptId': +getUrlData[0], 'onClickflag': +getUrlData[1], 'pageFlag': +getUrlData[2], 'offId': +getUrlData[3],'subOfficeId': + getUrlData[4] }
+      this.redirectGetData = { 'deptId': +getUrlData[0], 'onClickflag': +getUrlData[1], 'pageFlag': +getUrlData[2], 'offId': +getUrlData[3],'subOfficeId': + getUrlData[4],'subOfficeFlag': + getUrlData[5] }
 
     }
 
@@ -157,6 +157,12 @@ export class SamadhanReportComponent implements OnInit {
         // this.columns.push({ header: "Sub Office Name", column: 'subOfficeName', flag: true });
         this.getReport();
         break;
+
+        case 7:
+          this.url = 'samadhan/OnClickDetailReports/OnClickPendingRPTDetails?'
+          this.urlString =  'searchdeptId=' + this.redirectGetData.deptId +'&searchofcId=' + this.redirectGetData.subOfficeId + '&searchsubofcId=' +this.redirectGetData.subOfficeFlag + '&flag=' +this.redirectGetData.offId + '&DateFlag=' + this.redirectGetData.onClickflag; //value of flag in offid ,value of date flag in onClickFlag of redirectGetData object
+          this.heading = ["Pending", "Report"];
+        this.getReport();
     }
   }
 

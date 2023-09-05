@@ -257,9 +257,9 @@ export class PendingReportComponent implements OnInit {
     this.pdf_excelService.downLoadPdf(keyPDFHeader, ValueData, objData);
   }
 
-  // getDetailsReport(obj:any,onClickflag:any,pageFlag:any, dateFlag:any){
-  //   this.router.navigate(['samadhan-report', obj.deptId + '.' + onClickflag + '.' + pageFlag + '.'  + dateFlag]); 
-  // }
+  getDetailsReport(obj:any,onClickflag:any,pageFlag:any, dateFlag:any){
+    this.router.navigate(['samadhan-report', obj.deptId + '.' + onClickflag + '.' + pageFlag + '.'  + dateFlag + '.' + obj.ofcId+ '.' + obj.subOfcId]); 
+  }
 
 
 }
