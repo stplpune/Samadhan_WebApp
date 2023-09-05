@@ -29,6 +29,7 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
   officeIsSatisfiedReportArray: any;
   penAboveFifteenArray:any;
   subOfficeArray:any;
+  pendingArray:any;
   langTypeName:any;
 
   constructor(
@@ -182,6 +183,23 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
         }
         this.getSubOfficeReport(subOfficeHeader, subOfficeObjData);
         break;
+
+      case '8':
+        let pendingHeader = ["Sr.No.", "Department Name", "Office Name", "Sub Office Name", "Total Count","Pending < 15 days", "Pending > 15 days", "Pending > 30 days"];
+        let pendingObjData:any = {
+          'topHedingName': 'pending Report',
+          'createdDate':'Created on : ' + this.datePipe.transform(new Date(),  'dd/MM/yyyy hh:mm a')
+        }
+
+        checkFromDateFlag = this.data[6].value == '' || this.data[6].value == null || this.data[6].value == 0 || this.data[6].value == undefined ? false : true;
+        checkToDateFlag = this.data[7].value == '' || this.data[7].value == null || this.data[7].value == 0 || this.data[7].value == undefined ? false : true;
+        if (this.data[6].value && this.data[7].value && checkFromDateFlag && checkToDateFlag) {
+          fromdate = new Date(this.data[6].value);
+          todate = new Date(this.data[7].value);
+          subOfficeObjData.timePeriod = 'From Date:' + this.datePipe.transform(fromdate, 'dd/MM/yyyy') + ' To Date: ' + this.datePipe.transform(todate, 'dd/MM/yyyy');
+        }
+        this.getPendingReport(pendingHeader, pendingObjData);
+        break;
     }
 
   }
@@ -334,6 +352,29 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
           });
 
         this.docId==1? this.downloadPdf(keyPDFHeader, objData, this.subOfficeArray) :this.docId==2? this.downloadExcel(keyPDFHeader, objData, this.subOfficeArray):'';         
+        } else {
+        }
+      },
+      error: (error: any) => {
+        this.error.handelError(error.status);
+      },
+    });
+  }
+
+  getPendingReport(keyPDFHeader: any, objData: any){
+    let obj = this.data[5].value + '&searchdeptId=' +  this.data[2].value + '&searchofcId=' + this.data[3].value + '&subofcId=' + this.data[4].value + '&fromDate=' + this.data[6].value + '&toDate=' + this.data[7].value
+    this.apiService.setHttp('get', 'api/ShareGrievances/PendingGrievanceReports?userid=' + obj, false, false, false, 'samadhanMiningService');
+    this.apiService.getHttp().subscribe({
+      next: (res: any) => {
+        if (res.statusCode == 200) {
+          this.pendingArray = res.responseData.map((ele: any, index: any) => {
+            ele.deptId = index + 1;
+            delete ele.isDeleted;delete ele.resolved;
+            delete ele.ofcId, delete ele.subOfcId;
+            return ele
+          });
+
+        this.docId==1? this.downloadPdf(keyPDFHeader, objData, this.pendingArray) :this.docId==2? this.downloadExcel(keyPDFHeader, objData, this.pendingArray):'';         
         } else {
         }
       },
