@@ -136,7 +136,7 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
 
 
       case '5':
-        let sastisfiedHeader = ['SrNo', "Department Name", "Received", "Resolved", "Satisfied", "UnSatisfied"];
+        let sastisfiedHeader = ['SrNo', "Department Name", "Received", "Resolved", "Satisfied", "UnSatisfied","Pending"];
         let sastisfiedObjData:any = {
           'topHedingName': 'Satisfied Report',
           'createdDate':'Created on : ' + this.datePipe.transform(new Date(),  'dd/MM/yyyy hh:mm a')
@@ -168,7 +168,7 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
           break;
          
        case '7':
-        let subOfficeHeader = ["Sr.No.", "Department Name", "Office Name", "Sub Office Name", "Total Grievances","Open", "Accepted", "Resolved","Partial Resolved","Transferred"]; 
+        let subOfficeHeader = ["Sr.No.", "Department Name", "Office Name", "Sub Office Name", "Total Grievances","Open", "Accepted", "Resolved","Partial Resolved","Received","Pending"]; 
         let subOfficeObjData:any = {
           'topHedingName': 'Sub Office Report',
           'createdDate':'Created on : ' + this.datePipe.transform(new Date(),  'dd/MM/yyyy hh:mm a')
