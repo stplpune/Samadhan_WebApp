@@ -23,7 +23,7 @@ import { WebStorageService } from 'src/app/core/service/web-storage.service';
 export class DepartmentReportComponent implements OnInit {
 
   filterForm!: FormGroup;
-  displayedColumns: string[] = ['srNo', 'departmentname', 'received', 'open', 'accepted', 'resolved','partialResolved','transfered'];
+  displayedColumns: string[] = ['srNo', 'departmentname', 'received', 'open', 'accepted', 'resolved','partialResolved','transfered','pending'];
   dataSource: any;
   totalPages: any;
   pageNo = 1;
@@ -132,7 +132,8 @@ export class DepartmentReportComponent implements OnInit {
             'accepted':ele.accepted,
             'resolved':ele.resolved,           
             'partialResloved':ele.partialResloved,
-            'transfered':ele.transfered
+            'transfered':ele.transfered,
+            'pending':ele.pending
           }
             this.officeDepReportArray.push(obj);
          });
@@ -190,7 +191,7 @@ export class DepartmentReportComponent implements OnInit {
       (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
       []
     );// Value Name
-    let keyPDFHeader = ["Sr.No.", "Department Name","Total Grievances","Open", "Accepted", "Resolved","Partial Resolved","Transferred"];
+    let keyPDFHeader = ["Sr.No.", "Department Name","Total Grievances","Open", "Accepted", "Resolved","Partial Resolved","Received","Pending"];
     
 
     let objData:any = {
@@ -218,7 +219,7 @@ export class DepartmentReportComponent implements OnInit {
     formData.fromDate = formData.fromDate ? this.datePipe.transform(formData.fromDate, 'yyyy/MM/dd') : '';
     formData.toDate = formData.toDate ? this.datePipe.transform(formData.toDate, 'yyyy/MM/dd') : '';
 
-    let keyPDFHeader = ["Sr.No.", "Department Name","Total Grievances","Open", "Accepted", "Resolved","Partial Resolved","Transferred"];
+    let keyPDFHeader = ["Sr.No.", "Department Name","Total Grievances","Open", "Accepted", "Resolved","Partial Resolved","Received","Pending"];
     let ValueData = this.officeDepReportArray.reduce(
       (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
       []

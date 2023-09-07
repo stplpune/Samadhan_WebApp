@@ -27,7 +27,7 @@ export class OfficeReportComponent implements OnInit {
   pageNo = 1;
   departmentArray = new Array();
   officeArray = new Array();
-  displayedColumns: string[] = ['position', 'name', 'OfficeName', 'Received','Open', 'accepted', 'resolved','partialResolved','transfered'];
+  displayedColumns: string[] = ['position', 'name', 'OfficeName', 'Received','Open', 'accepted', 'resolved','partialResolved','transfered','pending'];
   minDate = new Date();
   reportArray = new Array();
   getUrl:any;
@@ -152,7 +152,8 @@ export class OfficeReportComponent implements OnInit {
               'accepted':ele.accepted,
               'resolved':ele.resolved, 
               'partialResloved':ele.partialResloved,
-              'transfered':ele.transfered
+              'transfered':ele.transfered,
+              'pending':ele.pending
             }
               this.officeOffReportArray.push(obj);
            });
@@ -209,7 +210,7 @@ export class OfficeReportComponent implements OnInit {
       'topHedingName': 'Office Report',
       'createdDate':'Created on:'+this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a')
     }
-    let keyPDFHeader = ['Sr.No.', "Department Name", "Office Name", "Total Grievances","Open", "Accepted", "Resolved","Partial Resolved","Transferred"];
+    let keyPDFHeader = ['Sr.No.', "Department Name", "Office Name", "Total Grievances","Open", "Accepted", "Resolved","Partial Resolved","Received","Pending"];
 
     checkFromDateFlag = formData.fromDate == '' || formData.fromDate == null || formData.fromDate == 0 || formData.fromDate == undefined ? false : true;
         checkToDateFlag =  formData.toDate == '' ||  formData.toDate == null ||  formData.toDate == 0 ||  formData.toDate == undefined ? false : true;
@@ -230,7 +231,7 @@ export class OfficeReportComponent implements OnInit {
     formData.fromDate = formData.fromDate ? this.datePipe.transform(formData.fromDate, 'yyyy/MM/dd') : '';
     formData.toDate = formData.toDate ? this.datePipe.transform(formData.toDate, 'yyyy/MM/dd') : '';
 
-    let keyPDFHeader = ['Sr.No.', "Department Name", "Office Name", "Total Grievances","Open", "Accepted", "Resolved","Partial Resolved","Transferred"];
+    let keyPDFHeader = ['Sr.No.', "Department Name", "Office Name", "Total Grievances","Open", "Accepted", "Resolved","Partial Resolved","Received","Pending"];
     let ValueData =
       this.officeOffReportArray.reduce(
         (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
