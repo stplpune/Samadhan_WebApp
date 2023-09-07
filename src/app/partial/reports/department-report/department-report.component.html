@@ -78,11 +78,7 @@
                 (click)="getDetailsReport(element,1,1)">{{element.openn}}</a> </td>
           </ng-container>
 
-          <ng-container matColumnDef="pending">
-            <th mat-header-cell *matHeaderCellDef class="text-info"> Pending </th>
-            <td mat-cell *matCellDef="let element"><a class="text-info fw-bold" (click)="getDetailsReport(element,2,1)">
-                {{element.pending}} </a></td>
-                </ng-container>
+         
     
           <ng-container matColumnDef="accepted">
             <th mat-header-cell *matHeaderCellDef class="text-info"> Accepted </th>
@@ -109,6 +105,12 @@
             <th mat-header-cell *matHeaderCellDef class="text-primary"> Received </th>
             <td mat-cell *matCellDef="let element"><a class="text-primary fw-bold" (click)="getDetailsReport(element,6,1)"> {{element.transfered}} </a></td>
           </ng-container>
+
+          <ng-container matColumnDef="pending">
+            <th mat-header-cell *matHeaderCellDef class="text-info"> Pending </th>
+            <td mat-cell *matCellDef="let element"><a class="text-info fw-bold" (click)="getDetailsReport(element,8,1)">
+                {{element.pending}} </a></td>
+                </ng-container>
     
           <tr class="mat-row p-2 w-100" *matNoDataRow col>
             <td class="alert alert-danger text-center m-2 mt-2" colspan="9">No Data Found! </td>
