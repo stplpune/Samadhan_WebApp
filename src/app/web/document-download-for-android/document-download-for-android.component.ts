@@ -68,7 +68,7 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
     let checkToDateFlag: boolean = true;
     switch (id) {
       case '1':
-        let deptHeader = ["SrNo", "Department Name", "Total","Opened", "Accepted", "Resolved","Partial Resolved","Transferred"];
+        let deptHeader = ["SrNo", "Department Name", "Total","Opened", "Accepted", "Resolved","Partial Resolved","Received","Pending"];
         let deptObjData: any = {
           'topHedingName': 'Department Report',
           'createdDate': 'Created on : ' + this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a')
@@ -85,7 +85,7 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
         break;
 
       case '2':
-        let offHeader = ['SrNo', "Department Name", "Office Name", "Total","Opened", "Accepted", "Resolved","Partial Resolved","Transferred"];
+        let offHeader = ['SrNo', "Department Name", "Office Name", "Total","Opened", "Accepted", "Resolved","Partial Resolved","Received","Pending"];
         let offObjData:any = {
           'topHedingName': 'Office Report',
           'createdDate':'Created on : ' + this.datePipe.transform(new Date(),  'dd/MM/yyyy hh:mm a')
@@ -101,7 +101,7 @@ export class DocumentDownloadForAndroidComponent implements OnInit {
         break;
 
       case '3':
-        let talHeader = ['SrNo', "Taluka Name","Total","Opened", "Acceptd", "Resolved","Partial Resolved","Transferred"];
+        let talHeader = ['SrNo', "Taluka Name","Total","Opened", "Acceptd", "Resolved","Partial Resolved","Received","Pending"];
         let talObjData:any = {
           'topHedingName': 'Taluka Report',
           'createdDate':'Created on : ' + this.datePipe.transform(new Date(),  'dd/MM/yyyy hh:mm a')
