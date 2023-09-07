@@ -21,7 +21,7 @@ import { WebStorageService } from 'src/app/core/service/web-storage.service';
   styleUrls: ['./satisfied-report.component.css']
 })
 export class SatisfiedReportComponent implements OnInit {
-  displayedColumns: string[] = ['position', 'name', 'received', 'resolved', 'satisfied', 'unSatisfied'];
+  displayedColumns: string[] = ['position', 'name', 'received', 'resolved', 'satisfied', 'unSatisfied','pending'];
   filterForm!: FormGroup;
   dataSource: any;
   totalPages: any;
@@ -128,6 +128,7 @@ export class SatisfiedReportComponent implements OnInit {
               'resolved': ele.resolved,
               'satisfied': ele.satisfied,
               'unSatisfied': ele.unSatisfied,
+              'pending':ele.pending
             }
             this.officeIsSatisfiedReportArray.push(obj);
           });
@@ -166,7 +167,7 @@ export class SatisfiedReportComponent implements OnInit {
       'topHedingName': 'Satisfied Report',
       'createdDate': 'Created on:' + this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a')
     }
-    let keyPDFHeader = ['Sr.No.', "Department Name", "Received", "Resolved", "Satisfied", "UnSatisfied"];
+    let keyPDFHeader = ['Sr.No.', "Department Name", "Received", "Resolved", "Satisfied", "UnSatisfied","Pending"];
 
     checkFromDateFlag = formData.fromDate == '' || formData.fromDate == null || formData.fromDate == 0 || formData.fromDate == undefined ? false : true;
     checkToDateFlag = formData.toDate == '' || formData.toDate == null || formData.toDate == 0 || formData.toDate == undefined ? false : true;
@@ -188,7 +189,7 @@ export class SatisfiedReportComponent implements OnInit {
     formData.fromDate = formData.fromDate ? this.datePipe.transform(formData.fromDate, 'yyyy/MM/dd') : '';
     formData.toDate = formData.toDate ? this.datePipe.transform(formData.toDate, 'yyyy/MM/dd') : '';
 
-    let keyPDFHeader = ['Sr.No.', "Department Name", "Received", "Resolved", "Satisfied", "UnSatisfied"];
+    let keyPDFHeader = ['Sr.No.', "Department Name", "Received", "Resolved", "Satisfied", "UnSatisfied","Pending"];
     let ValueData =
       this.officeIsSatisfiedReportArray.reduce(
         (acc: any, obj: any) => [...acc, Object.values(obj).map((value) => value)],
