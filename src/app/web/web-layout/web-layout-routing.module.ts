@@ -12,6 +12,7 @@ const routes: Routes = [
   { path: 'contact-us', loadChildren: () => import('../../web/contact-us/contact-us.module').then(m => m.ContactUsModule),data: { breadcrumb: [{ title: 'Contact Us', active: true }]} },
   { path: 'privacy-policy', loadChildren: () => import('../../web/privacy-policy/privacy-policy.module').then(m => m.PrivacyPolicyModule) },
   { path: 'faq', loadChildren: () => import('../../web/faq/faq.module').then(m => m.FaqModule) },
+  { path: 'details-report-for-android/:id', loadChildren: () => import('../../web/details-report-for-android/details-report-for-android.module').then(m => m.DetailsReportForAndroidModule) },
 ];
 
 @NgModule({

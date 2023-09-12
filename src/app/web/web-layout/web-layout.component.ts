@@ -12,7 +12,7 @@ export class WebLayoutComponent implements OnInit {
   hideFooter: boolean = true;
   curtainFlag:boolean = true;
   constructor(public router: Router) {
-    if (this.router.url == '/login' || this.router.url == '/forgot-password' || this.router.url.includes('/grievance-details') || this.router.url.includes('/document-download-for-android')) {
+    if (this.router.url == '/login' || this.router.url == '/forgot-password' || this.router.url.includes('/grievance-details') || this.router.url.includes('/document-download-for-android') || this.router.url.includes('/details-report-for-android')) {
       this.hideHeader = false;
       this.hideFooter = false;
     }
@@ -21,7 +21,7 @@ export class WebLayoutComponent implements OnInit {
   ngOnInit(): void {
     this.router.events.subscribe((event: any) => {
       if(event instanceof NavigationEnd) {
-      if (event.url === '/login' || this.router.url == '/forgot-password' || this.router.url.includes('/grievance-details') || this.router.url.includes('/document-download-for-android') ) {
+      if (event.url === '/login' || this.router.url == '/forgot-password' || this.router.url.includes('/grievance-details') || this.router.url.includes('/document-download-for-android') || this.router.url.includes('/details-report-for-android')) {
         this.hideHeader = false;
         this.hideFooter = false;
       } else {
