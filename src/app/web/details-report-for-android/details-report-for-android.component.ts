@@ -41,7 +41,6 @@ export class DetailsReportForAndroidComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    console.log('this.data',this.data);
     this.getUrl(this.data[0].value);
     this.docId = this.data[1].value;
   }
