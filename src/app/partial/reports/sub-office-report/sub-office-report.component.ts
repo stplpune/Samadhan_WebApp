@@ -87,8 +87,8 @@ export class SubOfficeReportComponent implements OnInit {
           this.dropdownDisable=true;
         }    
       },
-      error: ((error: any) => { 
-         this.error.handelError(error.statusCode) 
+      error: (() => { 
+        this.departmentArray = [];
       })
     })
   }
@@ -106,7 +106,7 @@ export class SubOfficeReportComponent implements OnInit {
           this.dropdownDisable=true;
         }    
       },
-      error: ((error: any) => { this.error.handelError(error.status) })
+      error: (() => {  this.officeArray = [];})
     })
   }
 
@@ -119,7 +119,7 @@ export class SubOfficeReportComponent implements OnInit {
       next: (response: any) => {
         this.subOfficeArray.push(...response);
       },
-      error: ((error: any) => { this.error.handelError(error.status) })
+      error: (() => { this.subOfficeArray = [] })
     })
   }
 
