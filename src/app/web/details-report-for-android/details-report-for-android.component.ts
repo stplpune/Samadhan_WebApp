@@ -47,11 +47,23 @@ export class DetailsReportForAndroidComponent implements OnInit {
   }
 
   getUrl(id: any) {
+    let fromdate!: any;
+    let todate!: any;
+    let checkFromDateFlag: boolean = true;
+    let checkToDateFlag: boolean = true;
     switch(id){
       case '8' :
         let pendingObjData:any = {
           'topHedingName': 'Pending Report',
           'createdDate':'Created on:'+this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a')
+        }
+
+        checkFromDateFlag = this.data[8].value == '' || this.data[8].value == null || this.data[8].value == 0 || this.data[8].value == undefined ? false : true;
+        checkToDateFlag = this.data[9].value == '' || this.data[9].value == null || this.data[9].value == 0 || this.data[9].value == undefined ? false : true;
+        if (this.data[8].value && this.data[9].value && checkFromDateFlag && checkToDateFlag) {
+          fromdate = new Date(this.data[8].value);
+          todate = new Date(this.data[9].value);
+          pendingObjData.timePeriod = 'From Date:' + this.datePipe.transform(fromdate, 'dd/MM/yyyy') + ' To Date: ' + this.datePipe.transform(todate, 'dd/MM/yyyy');
         }
         let pendingHeader = ["Sr.No.","Grievance No.","Name", "Department Name", "Office Name", "Sub Office Name", "Grievance Type","Grievance Details", "Status"];
         this.getOnclickPendingReport(pendingObjData, pendingHeader);
@@ -64,7 +76,7 @@ export class DetailsReportForAndroidComponent implements OnInit {
 
   getOnclickPendingReport(objData: any, keyPDFHeader: any,) {
     this.pendingReportArray=[];
-    let obj = 'searchdeptId=' + this.data[2].value  +'&searchofcId=' + this.data[3].value + '&searchsubofcId=' + this.data[4].value + '&userid=' + this.data[5].value  + '&flag=' + this.data[6].value  + '&DateFlag=' + this.data[7].value; 
+    let obj = 'searchdeptId=' + this.data[2].value  +'&searchofcId=' + this.data[3].value + '&searchsubofcId=' + this.data[4].value + '&userid=' + this.data[5].value  + '&flag=' + this.data[6].value  + '&DateFlag=' + this.data[7].value +'&fromDate=' + this.data[8].value  +'&toDate='+ this.data[9].value;
     this.apiService.setHttp('get', 'samadhan/OnClickDetailReports/OnClickPendingRPTDetails?' + obj, false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
