@@ -17,26 +17,26 @@ export class ExcelService {
 
   downLoadPdf(header: any, values: any, objData: any) {
 
-    let doc: any = new jsPDF('l','mm', [297, 210]);
+    let doc: any = new jsPDF('l', 'mm', [297, 210]);
     doc.addFileToVFS("Yantramana.ttf", YantramanavRegular.font);
     doc.addFont("Yantramana.ttf", "Yantramana", "normal");
     doc.setFont("Yantramana");
     doc.autoTable(header, values, {
-      startY:18,
+      startY: 18,
       // margin: { horizontal: 7 , verticle: 10},
-      margin: [18, 10, 10,10], //top, left, buttom, right,
+      margin: [18, 10, 10, 10], //top, left, buttom, right,
       headerStyles: {
         font: 'Yantramana'
       },
       columnStyles: {
         font: 'bold',
-      },styles: {font: "Yantramana"},
+      }, styles: { font: "Yantramana" },
 
 
       didDrawPage: function (_data: any) {
         var imgWidth = 33;
         var height = 20;
-        doc.addImage('../../../../assets/images/samadhanLogo.jpeg', 'JPEG',12, -3, imgWidth, height);
+        doc.addImage('../../../../assets/images/samadhanLogo.png', 'PNG', 12, -3, imgWidth, height);
         doc.setFontSize(13);
         doc.text(objData.topHedingName, 150, 8, "center");
 
@@ -82,7 +82,7 @@ export class ExcelService {
     worksheet.getCell('E5').value = objData.createdDate
     worksheet.getCell('E5').font = { name: 'Corbel', family: 3, size: 12, bold: true, };
 
-    const response = await fetch('../../../../assets/images/samadhanLogo.jpeg');
+    const response = await fetch('../../../../assets/images/samadhanLogo.png');
     const buffer = await response.arrayBuffer();
     const imageId1 = workbook.addImage({
       buffer: buffer, extension: 'jpeg',
