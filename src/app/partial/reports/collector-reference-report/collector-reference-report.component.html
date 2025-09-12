@@ -1,0 +1,63 @@
+<p>collector-reference-report works!</p>
+<div class="row g-3">
+     <div class="col-sm-12">
+        <form [formGroup]="filterForm" #formDirective="ngForm">
+             <div class="row g-3">
+                <div class="col-sm-2">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Select Department</mat-label>
+                        <mat-select formControlName="searchdeptId"
+                            (selectionChange)="getOffice(filterForm.value.searchdeptId)">
+                            <mat-option value="0">All Department</mat-option>
+                            <mat-option *ngFor="let department of departmentArray" [value]="department.id">
+                                {{department.departmentName}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-2">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Select Office</mat-label>
+                        <mat-select formControlName="searchofcId" (selectionChange)="getSubOffice(filterForm.value.searchofcId)"  >
+                            <mat-option value="0">All Office</mat-option>
+                            <mat-option *ngFor="let office of officeArray" [value]="office.id">
+                                {{office.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-2">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Select SubOffice</mat-label>
+                        <mat-select formControlName="subofcId" [disabled]='!filterForm.value.searchofcId'   >
+                            <mat-option value="0">All Sub Office</mat-option>
+                            <mat-option *ngFor="let subOffice of subOfficeArray" [value]="subOffice.id">
+                                {{subOffice.subOfficeName}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>From Date to End Date</mat-label>
+                        <mat-date-range-input [rangePicker]="picker" [max]="todayDate">
+                            <input matStartDate placeholder="Start date" formControlName="fromDate"  (click)="picker.open()" (keydown)="false" autocomplete="off">
+                            <input matEndDate placeholder="End date" formControlName="toDate" (click)="picker.open()" (keydown)="false">
+                        </mat-date-range-input>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker" [disabled]="false"></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker [disabled]="false"></mat-date-range-picker>
+                    </mat-form-field>
+                </div>
+                <div class="col col-sm-auto">
+                    <button mat-stroked-button class="btn-main me-2" type="submit"
+                        (click)="pageNo = 1;">Search</button>
+                    <button mat-stroked-button class="btn-main-outline me-2" type="button"
+                        (click)="clearFilter()">Clear</button>
+                </div>
+             </div>
+
+        </form>
+
+     </div>
+
+</div>

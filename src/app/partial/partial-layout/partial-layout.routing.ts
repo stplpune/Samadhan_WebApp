@@ -20,6 +20,7 @@ export const PartialLayoutRoutes: Routes = [
   { path: 'pendency-report', loadChildren: () => import('../../partial/reports/pendency-report/pendency-report.module').then(m => m.PendencyReportModule), data: { breadcrumb: [{ title: 'Pendency Reports',titleMarathi: 'प्रलंबित अहवाल', active: true }]}, canActivate: [ExpenseGuard] },
   { path: 'grievance-details/:id', loadChildren: () => import('../../web/grievance-details/grievance-details.module').then(m => m.GrievanceDetailsModule), data: { title: 'Grievance Details' }, canActivate: [ExpenseGuard]  },
   { path: 'pending-report', loadChildren: () => import('../../partial/reports/pending-report/pending-report.module').then(m => m.PendingReportModule),data: { breadcrumb: [{ title: 'Pending Reports',titleMarathi: 'प्रलंबित अहवाल', active: true }]}, canActivate: [ExpenseGuard] },
+  { path: 'collector-reference-report', loadChildren: () => import('../../partial/reports/collector-reference-report/collector-reference-report.module').then(m => m.CollectorReferenceReportModule),data: { breadcrumb: [{ title: 'Collector Reference Reports',titleMarathi: 'जिल्हाधिकारी संदर्भ अहवाल', active: true }]} },
 
   { path: 'samadhan-report/:id', loadChildren: () => import('../../partial/reports/samadhan-report/samadhan-report.module').then(m => m.SamadhanReportModule),data: { breadcrumb: [{ title: '', titleMarathi: '',active: true }]}, canActivate: [ExpenseGuard]  },
 ];
