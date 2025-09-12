@@ -195,6 +195,9 @@
         "OR": "किंवा",
         "Dr-Tanajirao-Sawant": "माननीय डॉ.तानाजीराव सावंत",
         "Guardian-Minister": "पालकमंत्री, धाराशिव",
-        "post-grievance": "तक्रार कशी पोस्ट करायची?"
+        "post-grievance": "तक्रार कशी पोस्ट करायची?",
+        "acceptedGrievance": "स्वीकारलेली तक्रार",
+        "receivedGrievanceFromOtherOffices": "इतर कार्यालयांकडून मिळालेल्या तक्रारी",
+        "pendingGrievance": "प्रलंबित तक्रार"
     }
 }

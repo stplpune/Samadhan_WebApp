@@ -1,9 +1,14 @@
 
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ApiService } from 'src/app/core/service/api.service';
 import { CommonApiService } from 'src/app/core/service/common-api.service';
 import { ErrorHandlerService } from 'src/app/core/service/error-handler.service';
-
+import { WebStorageService } from 'src/app/core/service/web-storage.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { CommonMethodService } from 'src/app/core/service/common-method.service';
+import { MatPaginator } from '@angular/material/paginator';
 @Component({
   selector: 'app-collector-reference-report',
   templateUrl: './collector-reference-report.component.html',
@@ -17,19 +22,32 @@ export class CollectorReferenceReportComponent implements OnInit {
   subOfficeArray = new Array();
   todayDate = new Date();
   pageNo = 1;
+  displayedColumns: string[] = ['srNo', 'departmentName', 'officeName', 'subOfficeName', 'totalReceivedGrievance', 'acceptedGrievance', 'resolvedGrievance', 'receivedGrievanceFromOtherOffices', 'pendingGrievance'];
+  dataSource: any;
+  langTypeName!: string;
+  totalPages!: number;
+  pageSize = 10;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild('formDirective') formDirective!: NgForm;
+
   constructor(
     private fb: FormBuilder,
     private commonService: CommonApiService,
     public error: ErrorHandlerService,
-  ) { }
+    private webStorage: WebStorageService,
+    private spinner: NgxSpinnerService,
+    private apiService: ApiService,
+    private commonMethod: CommonMethodService) { }
 
   ngOnInit(): void {
     this.filterform();
     this.getDepartment();
     this.getTaluka(1);
+    this.getData();
+    this.webStorage.langNameOnChange.subscribe(message => {
+      this.langTypeName = message;
+    });
   }
-
 
   filterform() {
     this.filterForm = this.fb.group({
@@ -38,7 +56,7 @@ export class CollectorReferenceReportComponent implements OnInit {
       subofcId: ['0'],
       fromDate: [''],
       toDate: ['']
-    })
+    });
   }
 
   getTaluka(distId: number) {
@@ -92,8 +110,43 @@ export class CollectorReferenceReportComponent implements OnInit {
     })
   }
 
-  clearFilter() {
-    this.formDirective.resetForm();
+  getData() {
+    this.spinner.show()
+    let formData = this.filterForm.value;
+    this.apiService.setHttp('get', 'samadhan/Reports/CollectorReferenceReport?UserId=' + this.webStorage.getUserId() + '&TextSearch=&TalukaId=0&VillageId=0&DeptId=' + (formData?.searchdeptId || 0) + '&OfficeId=' + (formData?.searchofcId || 0) + '&StatusId=0&fromDate=' + formData?.fromDate + '&toDate=' + formData?.toDate + '&pageno=' + this.pageNo + '&pagesize=' + this.pageSize, false, false, false, 'samadhanMiningService');
+    this.apiService.getHttp().subscribe({
+      next: (res: any) => {
+        if (res?.statusCode == '200') {
+          let dataSet = res?.responseData;
+          this.dataSource = new MatTableDataSource(dataSet);
+          this.totalPages = res?.responseData1?.pageCount;
+          this.pageNo == 1 ? this.paginator?.firstPage() : '';
+          this.spinner.hide();
+        } else {
+          this.spinner.hide();
+          this.dataSource = [];
+          this.totalPages = 0;
+          if (res.statusCode != 404) {
+            this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
+          }
+        }
+      },
+      error: (error: any) => {
+        this.dataSource = [];
+        this.error.handelError(error.status);
+        this.spinner.hide();
+      },
+    });
   }
 
-}
+  clearFilter() {
+    this.filterform();
+    this.getData();
+    this.officeArray = [];
+  }
+
+  pageChanged(event: any) {
+    this.pageNo = event.pageIndex + 1;
+    this.clearFilter();
+  }
+} 

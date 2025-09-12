@@ -5,6 +5,8 @@ import { CollectorReferenceReportRoutingModule } from './collector-reference-rep
 import { CollectorReferenceReportComponent } from './collector-reference-report.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/shared/AngularMaterialModule/material.module';
+import { MatTableModule } from '@angular/material/table';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -15,7 +17,9 @@ import { MaterialModule } from 'src/app/shared/AngularMaterialModule/material.mo
     CommonModule,
     CollectorReferenceReportRoutingModule,
     ReactiveFormsModule,
-    MaterialModule
+    MaterialModule,
+    MatTableModule,
+    TranslateModule
   ]
 })
 export class CollectorReferenceReportModule { }

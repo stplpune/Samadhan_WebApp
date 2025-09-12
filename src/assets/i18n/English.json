@@ -195,6 +195,9 @@
         "OR": "or",
         "Dr-Tanajirao-Sawant": "Hon'ble Dr.Tanajirao Sawant",
         "Guardian-Minister": "Guardian Minister, Dharashiv",
-        "post-grievance": "How to Post Grievance?"
+        "post-grievance": "How to Post Grievance?",
+        "acceptedGrievance": "Accepted Grievance",
+        "receivedGrievanceFromOtherOffices": "Received Grievance From Other Offices",
+        "pendingGrievance": "Pending Grievance"
     }
 }
