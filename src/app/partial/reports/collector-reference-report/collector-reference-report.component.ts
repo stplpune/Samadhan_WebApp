@@ -134,7 +134,7 @@ export class CollectorReferenceReportComponent implements OnInit {
         return
       }
     }
-    this.apiService.setHttp('get', 'samadhan/Reports/CollectorReferenceReport?UserId=' + this.webStorage.getUserId() + '&TextSearch=&TalukaId=0&VillageId=0&DeptId=' + (formData?.searchdeptId || 0) + '&OfficeId=' + (formData?.searchofcId || 0) + '&StatusId=0&fromDate=' + formData?.fromDate + '&toDate=' + formData?.toDate + '&pageno=' + this.pageNo + '&pagesize=0', false, false, false, 'samadhanMiningService');
+    this.apiService.setHttp('get', 'api/ShareGrievances/CollectorReferenceReport?UserId=' + this.webStorage.getUserId() + '&TextSearch=&TalukaId=0&VillageId=0&DeptId=' + (formData?.searchdeptId || 0) + '&OfficeId=' + (formData?.searchofcId || 0) + '&StatusId=0&fromDate=' + formData?.fromDate + '&toDate=' + formData?.toDate + '&pageno=' + this.pageNo + '&pagesize=0', false, false, false, 'samadhanMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res?.statusCode == '200') {
