@@ -108,7 +108,7 @@
                     <td mat-cell *matCellDef="let element"><a class="text-warning" (click)="getDetailsReport(element,4,8)"> {{element.partialResolved}} </a></td>
                 </ng-container>
         <ng-container matColumnDef="receivedGrievanceFromOtherOffices">
-            <th mat-header-cell *matHeaderCellDef>Received</th>
+            <th mat-header-cell *matHeaderCellDef>Received/Transferred</th>
             <td mat-cell *matCellDef="let element"><a class="text-primary fw-bold"  (click)="getDetailsReport(element,6,8)"> {{(element?.receivedAndTransferred )}} </a>  </td>
         </ng-container>
         <ng-container matColumnDef="pendingGrievance">
