@@ -52,12 +52,14 @@ export class PartialLayoutComponent implements OnInit {
         let label = routeData['breadcrumb'];
         if(url.includes('samadhan-report')){
           let urlData=url.split('/');
+          console.log('urlData-',urlData);
           let pageId=urlData[2].split('.');
           pageId[2] =='1' ?  (label[0].title='Department Reports',label[0].titleMarathi='विभाग अहवाल') : '';
           pageId[2] =='2' ?  (label[0].title='Office Reports',label[0].titleMarathi='कार्यालय अहवाल') : '';
           pageId[2] =='3' ?  (label[0].title='Taluka Reports',label[0].titleMarathi='तालुका अहवाल') : '';
           pageId[2] =='4' ?  (label[0].title='Satisfied Reports',label[0].titleMarathi='समाधानी अहवाल') : '';
           pageId[2] =='5' ?  (label[0].title='Pendency Reports',label[0].titleMarathi='प्रलंबित अहवाल') : '';
+          pageId[2] =='8' ?  (label[0].title='Collector Reference Reports',label[0].titleMarathi='जिल्हाधिकारी संदर्भ अहवाल') : '';
         }
         console.log(label)
         let params = snapshot.root.params;

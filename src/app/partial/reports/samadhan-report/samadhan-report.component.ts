@@ -163,6 +163,13 @@ export class SamadhanReportComponent implements OnInit {
           this.urlString =  'searchdeptId=' + this.redirectGetData.deptId +'&searchofcId=' + this.redirectGetData.subOfficeId + '&searchsubofcId=' +this.redirectGetData.subOfficeFlag + '&flag=' +this.redirectGetData.offId + '&DateFlag=' + this.redirectGetData.onClickflag; //value of flag in offid ,value of date flag in onClickFlag of redirectGetData object
           this.heading = ["Pending", "Report"];
         this.getReport();
+         break;
+
+         case 8:
+          this.url = 'samadhan/OnClickDetailReports/OnClickCollectorReferenceRPTDetails?'
+          this.urlString = 'flag=' +this.redirectGetData.onClickflag + '&searchdeptId=' + this.redirectGetData.deptId +'&searchofcId=' + this.redirectGetData.offId + '&searchsubofcId=' +this.redirectGetData.subOfficeId  
+          this.heading = ["Collector Reference", "Report"];
+        this.getReport();
     }
   }
 

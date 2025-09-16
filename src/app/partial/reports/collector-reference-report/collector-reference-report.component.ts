@@ -11,6 +11,7 @@ import { CommonMethodService } from 'src/app/core/service/common-method.service'
 import { MatPaginator } from '@angular/material/paginator';
 import { DatePipe } from '@angular/common';
 import { ExcelService } from 'src/app/core/service/excel_Pdf.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-collector-reference-report',
   templateUrl: './collector-reference-report.component.html',
@@ -43,7 +44,9 @@ export class CollectorReferenceReportComponent implements OnInit {
     private apiService: ApiService,
     private commonMethod: CommonMethodService,
     private datePipe: DatePipe,
-    private pdf_excelService: ExcelService) { }
+    private pdf_excelService: ExcelService,
+   private router:Router
+  ) { }
 
   ngOnInit(): void {
     this.filterform();
@@ -246,5 +249,9 @@ export class CollectorReferenceReportComponent implements OnInit {
       objData.timePeriod = 'From Date:' + this.datePipe.transform(fromdate, 'dd/MM/yyyy') + ' To Date: ' + this.datePipe.transform(todate, 'dd/MM/yyyy');
     }
     this.pdf_excelService.downLoadPdf(keyPDFHeader, ValueData, objData);
+  }
+
+    getDetailsReport(obj:any,onClickflag:any,pageFlag:any){
+    this.router.navigate(['samadhan-report', obj.concern_DeptId + '.' + onClickflag + '.' + pageFlag + '.' + obj.concern_OfficeId + '.' + obj.concern_SubOfficeId ]); 
   }
 } 
