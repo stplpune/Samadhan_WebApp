@@ -13,6 +13,7 @@ const routes: Routes = [
   { path: 'privacy-policy', loadChildren: () => import('../../web/privacy-policy/privacy-policy.module').then(m => m.PrivacyPolicyModule) },
   { path: 'faq', loadChildren: () => import('../../web/faq/faq.module').then(m => m.FaqModule) },
   { path: 'details-report-for-android/:id', loadChildren: () => import('../../web/details-report-for-android/details-report-for-android.module').then(m => m.DetailsReportForAndroidModule) },
+  { path: 'safety-standard', loadChildren: () => import('../../web/safety-standard/safety-standard.module').then(m => m.SafetyStandardModule) },
 ];
 
 @NgModule({
